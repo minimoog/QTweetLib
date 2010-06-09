@@ -10,10 +10,12 @@ HEADERS += QtwitterLib_global.h \
     oauth.h \
     signalwaiter.h \
     oauthtwitter.h \
-    qtwitteruser.h
+    qtwitteruser.h \
+    qtwitterstatus.h
 
 SOURCES += \
     oauth.cpp \
     signalwaiter.cpp \
     oauthtwitter.cpp \
-    qtwitteruser.cpp
+    qtwitteruser.cpp \
+    qtwitterstatus.cpp
