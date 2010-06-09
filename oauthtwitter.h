@@ -18,17 +18,37 @@
  * Contact e-mail: Antonie Jovanoski <minimoog77_at_gmail.com>
  */
 
-#ifndef QTWITTERLIB_GLOBAL_H
-#define QTWITTERLIB_GLOBAL_H
+/*
+ * TODO: Error notification and detection
+ */
 
-#include <QtCore/qglobal.h>
+#ifndef OAUTHTWITTER_H
+#define OAUTHTWITTER_H
 
-#if defined(QTWITTERLIB_LIBRARY)
-#  define QTWITTERLIBSHARED_EXPORT Q_DECL_EXPORT
-#else
-#  define QTWITTERLIBSHARED_EXPORT Q_DECL_IMPORT
-#endif
+#include "oauth.h"
 
-#define AUTH_HEADER "Authorization"
+class QNetworkAccessManager;
 
-#endif // QTWITTERLIB_GLOBAL_H
+/*!
+    OAuth Twitter authorization class
+ */
+class QTWITTERLIBSHARED_EXPORT OAuthTwitter : public OAuth
+{
+	Q_OBJECT
+    Q_PROPERTY(QNetworkAccessManager* networkAccessManager
+               READ networkAccessManager
+               WRITE setNetworkAccessManager)
+public:
+	OAuthTwitter(QObject *parent = 0);
+	void setNetworkAccessManager(QNetworkAccessManager* netManager);
+	QNetworkAccessManager* networkAccessManager() const;
+    void authorizeXAuth(const QString& username, const QString& password);
+
+private slots:
+	void error();
+
+private:
+	QNetworkAccessManager *m_netManager;
+};	
+
+#endif //OAUTHTWITTER_H
