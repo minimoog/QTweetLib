@@ -6,4 +6,8 @@ TEMPLATE = lib
 
 DEFINES += QTWITTERLIB_LIBRARY
 
-HEADERS += QtwitterLib_global.h
+HEADERS += QtwitterLib_global.h \
+    oauth.h
+
+SOURCES += \
+    oauth.cpp

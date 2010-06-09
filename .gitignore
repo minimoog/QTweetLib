@@ -1,2 +1,5 @@
 
 QtwitterLib.pro.user
+*.pdb
+debug/*
+Makefile*
