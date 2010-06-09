@@ -7,7 +7,9 @@ TEMPLATE = lib
 DEFINES += QTWITTERLIB_LIBRARY
 
 HEADERS += QtwitterLib_global.h \
-    oauth.h
+    oauth.h \
+    signalwaiter.h
 
 SOURCES += \
-    oauth.cpp
+    oauth.cpp \
+    signalwaiter.cpp
