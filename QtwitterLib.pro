@@ -13,7 +13,8 @@ HEADERS += QtwitterLib_global.h \
     qtwitteruser.h \
     qtwitterstatus.h \
     qtwitternetbase.h \
-    qtwitterhometimeline.h
+    qtwitterhometimeline.h \
+    qtwitterfriendstimeline.h
 
 SOURCES += \
     oauth.cpp \
@@ -22,4 +23,5 @@ SOURCES += \
     qtwitteruser.cpp \
     qtwitterstatus.cpp \
     qtwitternetbase.cpp \
-    qtwitterhometimeline.cpp
+    qtwitterhometimeline.cpp \
+    qtwitterfriendstimeline.cpp
