@@ -32,6 +32,12 @@ class QTWITTERLIBSHARED_EXPORT QtwitterNetBase : public QObject
 {
     Q_OBJECT
 public:
+    enum ResponseType {
+        Xml = 0x01,
+        JSON = 0x02
+    };
+    Q_DECLARE_FLAGS(ResponseTypes, ResponseType)
+
     QtwitterNetBase(QObject *parent = 0);
     QtwitterNetBase(OAuthTwitter *oauthTwitter, QObject *parent = 0);
 
