@@ -39,14 +39,10 @@ public:
                int page = 0,
                bool skipuser = false,
                bool includeEntities = false);
-    QByteArray response() const;
 
 private slots:
     void reply();
     void error();
-
-private:
-    QByteArray m_response;
 };
 
 #endif // QTWITTERHOMETIMELINE_H

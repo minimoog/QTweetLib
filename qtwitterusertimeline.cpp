@@ -20,35 +20,43 @@
 
 #include <QNetworkRequest>
 #include <QNetworkReply>
-#include "qtwitterfriendstimeline.h"
+#include "qtwitterusertimeline.h"
 
-QtwitterFriendsTimeline::QtwitterFriendsTimeline(QObject *parent) :
+QtwitterUserTimeline::QtwitterUserTimeline(QObject *parent) :
     QtwitterNetBase(parent)
 {
 }
 
-QtwitterFriendsTimeline::QtwitterFriendsTimeline(OAuthTwitter *oauthTwitter, QObject *parent) :
+QtwitterUserTimeline::QtwitterUserTimeline(OAuthTwitter *oauthTwitter, QObject *parent) :
         QtwitterNetBase(oauthTwitter, parent)
 {
 }
 
-void QtwitterFriendsTimeline::fetch(ResponseType respType,
-                                    qint64 sinceid,
-                                    qint64 maxid,
-                                    int count,
-                                    int page,
-                                    bool skipUser,
-                                    bool includeRts,
-                                    bool includeEntities)
+void QtwitterUserTimeline::fetch(ResponseType respType,
+                                 qint64 userid,
+                                 const QString &screenName,
+                                 qint64 sinceid,
+                                 qint64 maxid,
+                                 int count,
+                                 int page,
+                                 bool skipUser,
+                                 bool includeRts,
+                                 bool includeEntities)
 {
     Q_ASSERT(oauthTwitter() != 0);
 
     QUrl url;
 
     if (respType == QtwitterNetBase::JSON)
-        url.setUrl("http://api.twitter.com/1/statuses/friends_timeline.json");
+        url.setUrl("http://api.twitter.com/1/statuses/user_timeline.json");
     else
-        url.setUrl("http://api.twitter.com/1/statuses/friends_timeline.xml");
+        url.setUrl("http://api.twitter.com/1/statuses/user_timeline.xml");
+
+    if (userid != 0)
+        url.addQueryItem("user_id", QString::number(userid));
+
+    if (!screenName.isEmpty())
+        url.addQueryItem("screen_name", screenName);
 
     if (sinceid != 0)
         url.addQueryItem("since_id", QString::number(sinceid));
@@ -81,7 +89,8 @@ void QtwitterFriendsTimeline::fetch(ResponseType respType,
     connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(error()));
 }
 
-void QtwitterFriendsTimeline::reply()
+
+void QtwitterUserTimeline::reply()
 {
     QNetworkReply *reply = qobject_cast<QNetworkReply*>(sender());
 
@@ -93,7 +102,7 @@ void QtwitterFriendsTimeline::reply()
     }
 }
 
-void QtwitterFriendsTimeline::error()
+void QtwitterUserTimeline::error()
 {
     // ### TODO
 }

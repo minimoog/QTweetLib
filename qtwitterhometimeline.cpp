@@ -89,11 +89,6 @@ void QtwitterHomeTimeline::reply()
     }
 }
 
-QByteArray QtwitterHomeTimeline::response() const
-{
-    return m_response;
-}
-
 void QtwitterHomeTimeline::error()
 {
     // ### TODO: Better error detection

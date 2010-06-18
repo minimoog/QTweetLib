@@ -57,3 +57,7 @@ OAuthTwitter* QtwitterNetBase::oauthTwitter() const
     return m_oauthTwitter;
 }
 
+QByteArray QtwitterNetBase::response() const
+{
+    return m_response;
+}

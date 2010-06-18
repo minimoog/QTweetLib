@@ -44,11 +44,14 @@ public:
     void setOAuthTwitter(OAuthTwitter* oauthTwitter);
     OAuthTwitter* oauthTwitter() const;
 
-    virtual QByteArray response() const = 0;
+    virtual QByteArray response() const;
 
 signals:
     void finished(const QByteArray& response);
     void networkError(const QString& errorString);
+
+protected:
+    QByteArray m_response;
 
 private:
     OAuthTwitter *m_oauthTwitter;

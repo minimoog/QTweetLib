@@ -18,19 +18,20 @@
  * Contact e-mail: Antonie Jovanoski <minimoog77_at_gmail.com>
  */
 
-#ifndef QTWITTERFRIENDSTIMELINE_H
-#define QTWITTERFRIENDSTIMELINE_H
+#ifndef QTWITTERUSERTIMELINE_H
+#define QTWITTERUSERTIMELINE_H
 
-#include "QtwitterLib_global.h"
 #include "qtwitternetbase.h"
 
-class QTWITTERLIBSHARED_EXPORT QtwitterFriendsTimeline : public QtwitterNetBase
+class QTWITTERLIBSHARED_EXPORT QtwitterUserTimeline : public QtwitterNetBase
 {
     Q_OBJECT
 public:
-    QtwitterFriendsTimeline(QObject *parent = 0);
-    QtwitterFriendsTimeline(OAuthTwitter *oauthTwitter, QObject *parent = 0);
+    QtwitterUserTimeline(QObject *parent = 0);
+    QtwitterUserTimeline(OAuthTwitter *oauthTwitter, QObject *parent = 0);
     void fetch(ResponseType respType = QtwitterNetBase::JSON,
+               qint64 userid = 0,
+               const QString& screenName = QString(),
                qint64 sinceid = 0,
                qint64 maxid = 0,
                int count = 0,
@@ -44,4 +45,4 @@ private slots:
     void error();
 };
 
-#endif // QTWITTERFRIENDSTIMELINE_H
+#endif // QTWITTERUSERTIMELINE_H
