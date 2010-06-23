@@ -19,7 +19,8 @@ HEADERS += QtwitterLib_global.h \
     qtwittermentions.h \
     qtwitterretweetbyme.h \
     qtwitterretweettome.h \
-    qtwitterretweetsofme.h
+    qtwitterretweetsofme.h \
+    qtwitterstatusshow.h
 
 SOURCES += \
     oauth.cpp \
@@ -34,4 +35,5 @@ SOURCES += \
     qtwittermentions.cpp \
     qtwitterretweetbyme.cpp \
     qtwitterretweettome.cpp \
-    qtwitterretweetsofme.cpp
+    qtwitterretweetsofme.cpp \
+    qtwitterstatusshow.cpp
