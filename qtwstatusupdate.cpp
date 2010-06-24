@@ -75,6 +75,9 @@ void QTwStatusUpdate::post(const QString &status,
     //build status post array
     QByteArray statusPost = urlQuery.toEncoded(QUrl::RemoveScheme | QUrl::RemoveAuthority | QUrl::RemovePath);
 
+    //remove '?'
+    statusPost.remove(0, 1);
+
     QNetworkReply *reply = oauthTwitter()->networkAccessManager()->post(req, statusPost);
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
     connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(error()));
