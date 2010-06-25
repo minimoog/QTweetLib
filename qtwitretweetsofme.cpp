@@ -20,34 +20,28 @@
 
 #include <QNetworkRequest>
 #include <QNetworkReply>
-#include "qtwittermentions.h"
+#include "qtwitretweetsofme.h"
 
-QtwitterMentions::QtwitterMentions(QObject *parent) :
-    QtwitterNetBase(parent)
+QTwitRetweetsOfMe::QTwitRetweetsOfMe(QObject *parent) :
+    QTwitNetBase(parent)
 {
 }
 
-QtwitterMentions::QtwitterMentions(OAuthTwitter *oauthTwitter, QObject *parent) :
-        QtwitterNetBase(oauthTwitter, parent)
+QTwitRetweetsOfMe::QTwitRetweetsOfMe(OAuthTwitter *oauthTwitter, QObject *parent) :
+        QTwitNetBase(oauthTwitter, parent)
 {
 }
 
-void QtwitterMentions::fetch(ResponseType respType,
-                             qint64 sinceid,
-                             qint64 maxid,
-                             int count,
-                             int page,
-                             bool includeRts,
-                             bool includeEntities)
+void QTwitRetweetsOfMe::fetch(ResponseType respType, qint64 sinceid, qint64 maxid, int count, int page)
 {
     Q_ASSERT(oauthTwitter() != 0);
 
     QUrl url;
 
-    if (respType == QtwitterNetBase::JSON)
-        url.setUrl("http://api.twitter.com/1/statuses/mentions.json");
+    if (respType == QTwitNetBase::JSON)
+        url.setUrl("http://api.twitter.com/1/statuses/retweets_of_me.json");
     else
-        url.setUrl("http://api.twitter.com/1/statuses/mentions.xml");
+        url.setUrl("http://api.twitter.com/1/statuses/retweets_of_me.xml");
 
     if (sinceid != 0)
         url.addQueryItem("since_id", QString::number(sinceid));
@@ -61,12 +55,6 @@ void QtwitterMentions::fetch(ResponseType respType,
     if (page != 0)
         url.addQueryItem("page", QString::number(page));
 
-    if (includeRts)
-        url.addQueryItem("include_rts", "true");
-
-    if (includeEntities)
-        url.addQueryItem("include_entities", "true");
-
     QNetworkRequest req(url);
 
     QByteArray oauthHeader = oauthTwitter()->generateAuthorizationHeader(url, OAuth::GET);
@@ -77,7 +65,7 @@ void QtwitterMentions::fetch(ResponseType respType,
     connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(error()));
 }
 
-void QtwitterMentions::reply()
+void QTwitRetweetsOfMe::reply()
 {
     QNetworkReply *reply = qobject_cast<QNetworkReply*>(sender());
 
@@ -89,7 +77,7 @@ void QtwitterMentions::reply()
     }
 }
 
-void QtwitterMentions::error()
+void QTwitRetweetsOfMe::error()
 {
-    // ### TODO:
+    // ### TODO
 }

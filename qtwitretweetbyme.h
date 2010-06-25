@@ -18,43 +18,26 @@
  * Contact e-mail: Antonie Jovanoski <minimoog77_at_gmail.com>
  */
 
-#ifndef QTWITTERNETBASE_H
-#define QTWITTERNETBASE_H
+#ifndef QTWITRETWEETBYME_H
+#define QTWITRETWEETBYME_H
 
-#include <QObject>
-#include <QByteArray>
-#include "oauthtwitter.h"
+#include "qtwitnetbase.h"
 
-/*!
-    Base class for Twitter API classes
- */
-class QTWITTERLIBSHARED_EXPORT QtwitterNetBase : public QObject
+class QTWITLIBSHARED_EXPORT QTwitRetweetByMe : public QTwitNetBase
 {
     Q_OBJECT
 public:
-    enum ResponseType {
-        Xml = 0x01,
-        JSON = 0x02
-    };
-    Q_DECLARE_FLAGS(ResponseTypes, ResponseType)
+    QTwitRetweetByMe(QObject *parent = 0);
+    QTwitRetweetByMe(OAuthTwitter *oauthTwitter, QObject *parent = 0);
+    void fetch(ResponseType respType = QTwitNetBase::JSON,
+               qint64 sinceid = 0,
+               qint64 maxid = 0,
+               int count = 0,
+               int page = 0);
 
-    QtwitterNetBase(QObject *parent = 0);
-    QtwitterNetBase(OAuthTwitter *oauthTwitter, QObject *parent = 0);
-
-    void setOAuthTwitter(OAuthTwitter* oauthTwitter);
-    OAuthTwitter* oauthTwitter() const;
-
-    virtual QByteArray response() const;
-
-signals:
-    void finished(const QByteArray& response);
-    void networkError(const QString& errorString);
-
-protected:
-    QByteArray m_response;
-
-private:
-    OAuthTwitter *m_oauthTwitter;
+private slots:
+    void reply();
+    void error();
 };
 
-#endif // QTWITTERNETBASE_H
+#endif // QTWITRETWEETBYME_H

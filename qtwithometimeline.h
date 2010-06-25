@@ -18,46 +18,31 @@
  * Contact e-mail: Antonie Jovanoski <minimoog77_at_gmail.com>
  */
 
-#include "qtwitternetbase.h"
+#ifndef QTWITHOMETIMELINE_H
+#define QTWITHOMETIMELINE_H
+
+#include "qtwitnetbase.h"
 
 /*!
-    Constructor
- */
-QtwitterNetBase::QtwitterNetBase(QObject *parent) :
-    QObject(parent), m_oauthTwitter(0)
+    Fetches user home timeline
+*/
+class QTWITLIBSHARED_EXPORT QTwitHomeTimeline : public QTwitNetBase
 {
-}
+    Q_OBJECT
+public:
+    QTwitHomeTimeline(QObject *parent = 0);
+    QTwitHomeTimeline(OAuthTwitter *oauthTwitter, QObject *parent = 0);
+    void fetch(ResponseType respType = QTwitNetBase::JSON,
+               qint64 sinceid = 0,
+               qint64 maxid = 0,
+               int count = 0,
+               int page = 0,
+               bool skipuser = false,
+               bool includeEntities = false);
 
-/*!
-    Constructor
-    \param oauthTwitter OAuth Twitter
-    \param parent QObject parent
- */
-QtwitterNetBase::QtwitterNetBase(OAuthTwitter *oauthTwitter, QObject *parent) :
-        QObject(parent), m_oauthTwitter(oauthTwitter)
-{
+private slots:
+    void reply();
+    void error();
+};
 
-}
-
-/*!
-    Sets OAuth Twitter authorization
-    \param oauthTwitter OAuth Twitter
- */
-void QtwitterNetBase::setOAuthTwitter(OAuthTwitter *oauthTwitter)
-{
-    m_oauthTwitter = oauthTwitter;
-}
-
-/*!
-    Gets OAuth Twitter authorization
-    \return OAuth Twitter
- */
-OAuthTwitter* QtwitterNetBase::oauthTwitter() const
-{
-    return m_oauthTwitter;
-}
-
-QByteArray QtwitterNetBase::response() const
-{
-    return m_response;
-}
+#endif // QTWITTERHOMETIMELINE_H

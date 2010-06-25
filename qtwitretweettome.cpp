@@ -18,30 +18,34 @@
  * Contact e-mail: Antonie Jovanoski <minimoog77_at_gmail.com>
  */
 
-#include <QNetworkRequest>
 #include <QNetworkReply>
-#include "qtwitterretweetsofme.h"
+#include <QNetworkRequest>
+#include "qtwitretweettome.h"
 
-QtwitterRetweetsOfMe::QtwitterRetweetsOfMe(QObject *parent) :
-    QtwitterNetBase(parent)
+QTwitRetweetToMe::QTwitRetweetToMe(QObject *parent) :
+    QTwitNetBase(parent)
 {
 }
 
-QtwitterRetweetsOfMe::QtwitterRetweetsOfMe(OAuthTwitter *oauthTwitter, QObject *parent) :
-        QtwitterNetBase(oauthTwitter, parent)
+QTwitRetweetToMe::QTwitRetweetToMe(OAuthTwitter *oauthTwitter, QObject *parent) :
+    QTwitNetBase(oauthTwitter, parent)
 {
 }
 
-void QtwitterRetweetsOfMe::fetch(ResponseType respType, qint64 sinceid, qint64 maxid, int count, int page)
+void QTwitRetweetToMe::fetch(ResponseType respType,
+                                qint64 sinceid,
+                                qint64 maxid,
+                                int count,
+                                int page)
 {
     Q_ASSERT(oauthTwitter() != 0);
 
     QUrl url;
 
-    if (respType == QtwitterNetBase::JSON)
-        url.setUrl("http://api.twitter.com/1/statuses/retweets_of_me.json");
+    if (respType == QTwitNetBase::JSON)
+        url.setUrl("http://api.twitter.com/1/statuses/retweeted_to_me.json");
     else
-        url.setUrl("http://api.twitter.com/1/statuses/retweets_of_me.xml");
+        url.setUrl("http://api.twitter.com/1/statuses/retweeted_to_me.xml");
 
     if (sinceid != 0)
         url.addQueryItem("since_id", QString::number(sinceid));
@@ -65,19 +69,19 @@ void QtwitterRetweetsOfMe::fetch(ResponseType respType, qint64 sinceid, qint64 m
     connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(error()));
 }
 
-void QtwitterRetweetsOfMe::reply()
+void QTwitRetweetToMe::reply()
 {
     QNetworkReply *reply = qobject_cast<QNetworkReply*>(sender());
 
     if (reply) {
-        m_response = reply->readAll();
+         m_response = reply->readAll();
         emit finished(m_response);
 
         reply->deleteLater();
     }
 }
 
-void QtwitterRetweetsOfMe::error()
+void QTwitRetweetToMe::error()
 {
-    // ### TODO
+    // ### TODO:
 }

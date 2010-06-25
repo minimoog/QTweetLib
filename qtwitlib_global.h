@@ -18,32 +18,17 @@
  * Contact e-mail: Antonie Jovanoski <minimoog77_at_gmail.com>
  */
 
-#ifndef QTWITTERUSER_H
-#define QTWITTERUSER_H
+#ifndef QTWITLIB_GLOBAL_H
+#define QTWITLIB_GLOBAL_H
 
-#include <QSharedDataPointer>
+#include <QtCore/qglobal.h>
 
-class QtwitterUserData;
+#if defined(QTWITLIB_LIBRARY)
+#  define QTWITLIBSHARED_EXPORT Q_DECL_EXPORT
+#else
+#  define QTWITLIBSHARED_EXPORT Q_DECL_IMPORT
+#endif
 
-class QtwitterUser
-{
-public:
-    QtwitterUser();
-    QtwitterUser(const QtwitterUser &);
-    QtwitterUser &operator=(const QtwitterUser &);
-    ~QtwitterUser();
+#define AUTH_HEADER "Authorization"
 
-    void setId(qint64 id);
-    qint64 id() const;
-    void setName(const QString& name);
-    QString name() const;
-    void setScreenName(const QString& screenName);
-    QString screenName() const;
-    void setprofileImageUrl(const QString& url);
-    QString profileImageUrl() const;
-
-private:
-    QSharedDataPointer<QtwitterUserData> data;
-};
-
-#endif // QTWITTERUSER_H
+#endif // QTWITLIB_GLOBAL_H

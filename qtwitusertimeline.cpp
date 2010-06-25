@@ -20,19 +20,19 @@
 
 #include <QNetworkRequest>
 #include <QNetworkReply>
-#include "qtwitterusertimeline.h"
+#include "qtwitusertimeline.h"
 
-QtwitterUserTimeline::QtwitterUserTimeline(QObject *parent) :
-    QtwitterNetBase(parent)
+QTwitUserTimeline::QTwitUserTimeline(QObject *parent) :
+    QTwitNetBase(parent)
 {
 }
 
-QtwitterUserTimeline::QtwitterUserTimeline(OAuthTwitter *oauthTwitter, QObject *parent) :
-        QtwitterNetBase(oauthTwitter, parent)
+QTwitUserTimeline::QTwitUserTimeline(OAuthTwitter *oauthTwitter, QObject *parent) :
+        QTwitNetBase(oauthTwitter, parent)
 {
 }
 
-void QtwitterUserTimeline::fetch(ResponseType respType,
+void QTwitUserTimeline::fetch(ResponseType respType,
                                  qint64 userid,
                                  const QString &screenName,
                                  qint64 sinceid,
@@ -47,7 +47,7 @@ void QtwitterUserTimeline::fetch(ResponseType respType,
 
     QUrl url;
 
-    if (respType == QtwitterNetBase::JSON)
+    if (respType == QTwitNetBase::JSON)
         url.setUrl("http://api.twitter.com/1/statuses/user_timeline.json");
     else
         url.setUrl("http://api.twitter.com/1/statuses/user_timeline.xml");
@@ -90,7 +90,7 @@ void QtwitterUserTimeline::fetch(ResponseType respType,
 }
 
 
-void QtwitterUserTimeline::reply()
+void QTwitUserTimeline::reply()
 {
     QNetworkReply *reply = qobject_cast<QNetworkReply*>(sender());
 
@@ -102,7 +102,7 @@ void QtwitterUserTimeline::reply()
     }
 }
 
-void QtwitterUserTimeline::error()
+void QTwitUserTimeline::error()
 {
     // ### TODO
 }

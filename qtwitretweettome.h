@@ -18,31 +18,26 @@
  * Contact e-mail: Antonie Jovanoski <minimoog77_at_gmail.com>
  */
 
-#ifndef QTWITTERHOMETIMELINE_H
-#define QTWITTERHOMETIMELINE_H
+#ifndef QTWITRETWEETTOME_H
+#define QTWITRETWEETTOME_H
 
-#include "qtwitternetbase.h"
+#include "qtwitnetbase.h"
 
-/*!
-    Fetches user home timeline
-*/
-class QTWITTERLIBSHARED_EXPORT QtwitterHomeTimeline : public QtwitterNetBase
+class QTWITLIBSHARED_EXPORT QTwitRetweetToMe : public QTwitNetBase
 {
     Q_OBJECT
 public:
-    QtwitterHomeTimeline(QObject *parent = 0);
-    QtwitterHomeTimeline(OAuthTwitter *oauthTwitter, QObject *parent = 0);
-    void fetch(ResponseType respType = QtwitterNetBase::JSON,
-               qint64 sinceid = 0,
-               qint64 maxid = 0,
-               int count = 0,
-               int page = 0,
-               bool skipuser = false,
-               bool includeEntities = false);
+    QTwitRetweetToMe(QObject *parent = 0);
+    QTwitRetweetToMe(OAuthTwitter *oauthTwitter, QObject *parent = 0);
+    void fetch(ResponseType respType,
+               qint64 sinceid,
+               qint64 maxid,
+               int count,
+               int page);
 
 private slots:
     void reply();
     void error();
 };
 
-#endif // QTWITTERHOMETIMELINE_H
+#endif // QTWITRETWEETTOME_H

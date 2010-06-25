@@ -20,44 +20,30 @@
 
 #include <QNetworkReply>
 #include <QNetworkRequest>
-#include "qtwitterretweettome.h"
+#include "qtwitstatusshow.h"
 
-QtwitterRetweetToMe::QtwitterRetweetToMe(QObject *parent) :
-    QtwitterNetBase(parent)
+QTwitStatusShow::QTwitStatusShow(QObject *parent) :
+    QTwitNetBase(parent)
 {
 }
 
-QtwitterRetweetToMe::QtwitterRetweetToMe(OAuthTwitter *oauthTwitter, QObject *parent) :
-    QtwitterNetBase(oauthTwitter, parent)
+QTwitStatusShow::QTwitStatusShow(OAuthTwitter *oauthTwitter, QObject *parent) :
+        QTwitNetBase(oauthTwitter, parent)
 {
 }
 
-void QtwitterRetweetToMe::fetch(ResponseType respType,
-                                qint64 sinceid,
-                                qint64 maxid,
-                                int count,
-                                int page)
+void QTwitStatusShow::fetch(qint64 id, ResponseType respType)
 {
     Q_ASSERT(oauthTwitter() != 0);
 
     QUrl url;
 
-    if (respType == QtwitterNetBase::JSON)
-        url.setUrl("http://api.twitter.com/1/statuses/retweeted_to_me.json");
+    if (respType == QTwitNetBase::JSON)
+        url.setUrl("http://api.twitter.com/1/statuses/show.json");
     else
-        url.setUrl("http://api.twitter.com/1/statuses/retweeted_to_me.xml");
+        url.setUrl("http://api.twitter.com/1/statuses/show.xml");
 
-    if (sinceid != 0)
-        url.addQueryItem("since_id", QString::number(sinceid));
-
-    if (maxid != 0)
-        url.addQueryItem("max_id", QString::number(maxid));
-
-    if (count != 0)
-        url.addQueryItem("count", QString::number(count));
-
-    if (page != 0)
-        url.addQueryItem("page", QString::number(page));
+    url.addQueryItem("id", QString::number(id));
 
     QNetworkRequest req(url);
 
@@ -69,19 +55,19 @@ void QtwitterRetweetToMe::fetch(ResponseType respType,
     connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(error()));
 }
 
-void QtwitterRetweetToMe::reply()
+void QTwitStatusShow::reply()
 {
     QNetworkReply *reply = qobject_cast<QNetworkReply*>(sender());
 
     if (reply) {
-         m_response = reply->readAll();
+        m_response = reply->readAll();
         emit finished(m_response);
 
         reply->deleteLater();
     }
 }
 
-void QtwitterRetweetToMe::error()
+void QTwitStatusShow::error()
 {
-    // ### TODO:
+    // ### TODO
 }

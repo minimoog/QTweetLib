@@ -20,19 +20,19 @@
 
 #include <QNetworkRequest>
 #include <QNetworkReply>
-#include "qtwstatusupdate.h"
+#include "qtwitstatusupdate.h"
 
-QTwStatusUpdate::QTwStatusUpdate(QObject *parent) :
-    QtwitterNetBase(parent)
+QTwitStatusUpdate::QTwitStatusUpdate(QObject *parent) :
+    QTwitNetBase(parent)
 {
 }
 
-QTwStatusUpdate::QTwStatusUpdate(OAuthTwitter *oauthTwitter, QObject *parent) :
-        QtwitterNetBase(oauthTwitter, parent)
+QTwitStatusUpdate::QTwitStatusUpdate(OAuthTwitter *oauthTwitter, QObject *parent) :
+        QTwitNetBase(oauthTwitter, parent)
 {
 }
 
-void QTwStatusUpdate::post(const QString &status,
+void QTwitStatusUpdate::post(const QString &status,
                            qint64 inReplyToStatus,
                            qreal latitude,
                            qreal longitude,
@@ -44,7 +44,7 @@ void QTwStatusUpdate::post(const QString &status,
 
     QUrl url;
 
-    if (respType == QtwitterNetBase::JSON)
+    if (respType == QTwitNetBase::JSON)
         url.setUrl("http://api.twitter.com/1/statuses/update.json");
     else
         url.setUrl("http://api.twitter.com/1/statuses/update.xml");
@@ -83,7 +83,7 @@ void QTwStatusUpdate::post(const QString &status,
     connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(error()));
 }
 
-void QTwStatusUpdate::reply()
+void QTwitStatusUpdate::reply()
 {
     QNetworkReply *reply = qobject_cast<QNetworkReply*>(sender());
 
@@ -95,7 +95,7 @@ void QTwStatusUpdate::reply()
     }
 }
 
-void QTwStatusUpdate::error()
+void QTwitStatusUpdate::error()
 {
     // ### TODO:
 }

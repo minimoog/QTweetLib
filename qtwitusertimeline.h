@@ -18,22 +18,25 @@
  * Contact e-mail: Antonie Jovanoski <minimoog77_at_gmail.com>
  */
 
-#ifndef QTWITTERMENTIONS_H
-#define QTWITTERMENTIONS_H
+#ifndef QTWITUSERTIMELINE_H
+#define QTWITUSERTIMELINE_H
 
-#include "qtwitternetbase.h"
+#include "qtwitnetbase.h"
 
-class QtwitterMentions : public QtwitterNetBase
+class QTWITLIBSHARED_EXPORT QTwitUserTimeline : public QTwitNetBase
 {
     Q_OBJECT
 public:
-    QtwitterMentions(QObject *parent = 0);
-    QtwitterMentions(OAuthTwitter *oauthTwitter, QObject *parent = 0);
-    void fetch(ResponseType restType = QtwitterNetBase::JSON,
+    QTwitUserTimeline(QObject *parent = 0);
+    QTwitUserTimeline(OAuthTwitter *oauthTwitter, QObject *parent = 0);
+    void fetch(ResponseType respType = QTwitNetBase::JSON,
+               qint64 userid = 0,
+               const QString& screenName = QString(),
                qint64 sinceid = 0,
                qint64 maxid = 0,
                int count = 0,
                int page = 0,
+               bool skipUser = false,
                bool includeRts = false,
                bool includeEntities = false);
 
@@ -42,4 +45,4 @@ private slots:
     void error();
 };
 
-#endif // QTWITTERMENTIONS_H
+#endif // QTWITTERUSERTIMELINE_H

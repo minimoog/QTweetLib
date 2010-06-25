@@ -18,31 +18,22 @@
  * Contact e-mail: Antonie Jovanoski <minimoog77_at_gmail.com>
  */
 
-#ifndef QTWITTERUSERTIMELINE_H
-#define QTWITTERUSERTIMELINE_H
+#ifndef QTWITSTATUSSHOW_H
+#define QTWITSTATUSSHOW_H
 
-#include "qtwitternetbase.h"
+#include "qtwitnetbase.h"
 
-class QTWITTERLIBSHARED_EXPORT QtwitterUserTimeline : public QtwitterNetBase
+class QTWITLIBSHARED_EXPORT QTwitStatusShow : public QTwitNetBase
 {
     Q_OBJECT
 public:
-    QtwitterUserTimeline(QObject *parent = 0);
-    QtwitterUserTimeline(OAuthTwitter *oauthTwitter, QObject *parent = 0);
-    void fetch(ResponseType respType = QtwitterNetBase::JSON,
-               qint64 userid = 0,
-               const QString& screenName = QString(),
-               qint64 sinceid = 0,
-               qint64 maxid = 0,
-               int count = 0,
-               int page = 0,
-               bool skipUser = false,
-               bool includeRts = false,
-               bool includeEntities = false);
+    QTwitStatusShow(QObject *parent = 0);
+    QTwitStatusShow(OAuthTwitter *oauthTwitter, QObject *parent = 0);
+    void fetch(qint64 id, ResponseType respType = QTwitNetBase::JSON);
 
 private slots:
     void reply();
     void error();
 };
 
-#endif // QTWITTERUSERTIMELINE_H
+#endif // QTWITSTATUSSHOW_H

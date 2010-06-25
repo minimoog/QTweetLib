@@ -18,17 +18,46 @@
  * Contact e-mail: Antonie Jovanoski <minimoog77_at_gmail.com>
  */
 
-#ifndef QTWITTERLIB_GLOBAL_H
-#define QTWITTERLIB_GLOBAL_H
+#include "qtwitnetbase.h"
 
-#include <QtCore/qglobal.h>
+/*!
+    Constructor
+ */
+QTwitNetBase::QTwitNetBase(QObject *parent) :
+    QObject(parent), m_oauthTwitter(0)
+{
+}
 
-#if defined(QTWITTERLIB_LIBRARY)
-#  define QTWITTERLIBSHARED_EXPORT Q_DECL_EXPORT
-#else
-#  define QTWITTERLIBSHARED_EXPORT Q_DECL_IMPORT
-#endif
+/*!
+    Constructor
+    \param oauthTwitter OAuth Twitter
+    \param parent QObject parent
+ */
+QTwitNetBase::QTwitNetBase(OAuthTwitter *oauthTwitter, QObject *parent) :
+        QObject(parent), m_oauthTwitter(oauthTwitter)
+{
 
-#define AUTH_HEADER "Authorization"
+}
 
-#endif // QTWITTERLIB_GLOBAL_H
+/*!
+    Sets OAuth Twitter authorization
+    \param oauthTwitter OAuth Twitter
+ */
+void QTwitNetBase::setOAuthTwitter(OAuthTwitter *oauthTwitter)
+{
+    m_oauthTwitter = oauthTwitter;
+}
+
+/*!
+    Gets OAuth Twitter authorization
+    \return OAuth Twitter
+ */
+OAuthTwitter* QTwitNetBase::oauthTwitter() const
+{
+    return m_oauthTwitter;
+}
+
+QByteArray QTwitNetBase::response() const
+{
+    return m_response;
+}

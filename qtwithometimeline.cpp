@@ -20,35 +20,34 @@
 
 #include <QNetworkRequest>
 #include <QNetworkReply>
-#include "qtwitterfriendstimeline.h"
+#include "qtwithometimeline.h"
 
-QtwitterFriendsTimeline::QtwitterFriendsTimeline(QObject *parent) :
-    QtwitterNetBase(parent)
+QTwitHomeTimeline::QTwitHomeTimeline(QObject *parent) :
+    QTwitNetBase(parent)
 {
 }
 
-QtwitterFriendsTimeline::QtwitterFriendsTimeline(OAuthTwitter *oauthTwitter, QObject *parent) :
-        QtwitterNetBase(oauthTwitter, parent)
+QTwitHomeTimeline::QTwitHomeTimeline(OAuthTwitter *oauthTwitter, QObject *parent) :
+        QTwitNetBase(oauthTwitter, parent)
 {
 }
 
-void QtwitterFriendsTimeline::fetch(ResponseType respType,
-                                    qint64 sinceid,
-                                    qint64 maxid,
-                                    int count,
-                                    int page,
-                                    bool skipUser,
-                                    bool includeRts,
-                                    bool includeEntities)
+void QTwitHomeTimeline::fetch(ResponseType respType,
+                                 qint64 sinceid,
+                                 qint64 maxid,
+                                 int count,
+                                 int page,
+                                 bool skipuser,
+                                 bool includeEntities)
 {
     Q_ASSERT(oauthTwitter() != 0);
 
     QUrl url;
 
-    if (respType == QtwitterNetBase::JSON)
-        url.setUrl("http://api.twitter.com/1/statuses/friends_timeline.json");
+    if (respType == QTwitNetBase::JSON)
+        url.setUrl("http://api.twitter.com/1/statuses/home_timeline.json");
     else
-        url.setUrl("http://api.twitter.com/1/statuses/friends_timeline.xml");
+        url.setUrl("http://api.twitter.com/1/statuses/home_timeline.xml");
 
     if (sinceid != 0)
         url.addQueryItem("since_id", QString::number(sinceid));
@@ -62,11 +61,8 @@ void QtwitterFriendsTimeline::fetch(ResponseType respType,
     if (page != 0)
         url.addQueryItem("page", QString::number(page));
 
-    if (skipUser)
+    if (skipuser)
         url.addQueryItem("skip_user", "true");
-
-    if (includeRts)
-        url.addQueryItem("include_rts", "true");
 
     if (includeEntities)
         url.addQueryItem("include_entities", "true");
@@ -81,19 +77,20 @@ void QtwitterFriendsTimeline::fetch(ResponseType respType,
     connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(error()));
 }
 
-void QtwitterFriendsTimeline::reply()
+void QTwitHomeTimeline::reply()
 {
     QNetworkReply *reply = qobject_cast<QNetworkReply*>(sender());
 
     if (reply) {
-        m_response = reply->readAll();
+         m_response = reply->readAll();
         emit finished(m_response);
 
         reply->deleteLater();
     }
 }
 
-void QtwitterFriendsTimeline::error()
+void QTwitHomeTimeline::error()
 {
-    // ### TODO
+    // ### TODO: Better error detection
+    qCritical("Home Timeline error");
 }

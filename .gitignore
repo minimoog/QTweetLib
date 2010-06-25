@@ -3,3 +3,5 @@ QtwitterLib.pro.user
 *.pdb
 debug/*
 Makefile*
+QTwitLib.pro.user
+release/*

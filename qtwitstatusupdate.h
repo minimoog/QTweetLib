@@ -18,22 +18,28 @@
  * Contact e-mail: Antonie Jovanoski <minimoog77_at_gmail.com>
  */
 
-#ifndef QTWITTERSTATUSSHOW_H
-#define QTWITTERSTATUSSHOW_H
+#ifndef QTWITSTATUSUPDATE_H
+#define QTWITSTATUSUPDATE_H
 
-#include "qtwitternetbase.h"
+#include "qtwitnetbase.h"
 
-class QTWITTERLIBSHARED_EXPORT QtwitterStatusShow : public QtwitterNetBase
+class QTWITLIBSHARED_EXPORT QTwitStatusUpdate : public QTwitNetBase
 {
     Q_OBJECT
 public:
-    QtwitterStatusShow(QObject *parent = 0);
-    QtwitterStatusShow(OAuthTwitter *oauthTwitter, QObject *parent = 0);
-    void fetch(qint64 id, ResponseType respType = QtwitterNetBase::JSON);
+    QTwitStatusUpdate(QObject *parent = 0);
+    QTwitStatusUpdate(OAuthTwitter *oauthTwitter, QObject *parent = 0);
+    void post(const QString& status,
+              qint64 inReplyToStatus = 0,
+              qreal latitude = 0,
+              qreal longitude = 0,
+              const QString& placeid = QString(),
+              bool displayCoordinates = false,
+              ResponseType respType = QTwitNetBase::JSON);
 
 private slots:
     void reply();
     void error();
 };
 
-#endif // QTWITTERSTATUSSHOW_H
+#endif // QTWITSTATUSUPDATE_H

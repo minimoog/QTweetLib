@@ -18,32 +18,58 @@
  * Contact e-mail: Antonie Jovanoski <minimoog77_at_gmail.com>
  */
 
-#include <QNetworkReply>
 #include <QNetworkRequest>
-#include "qtwitterstatusshow.h"
+#include <QNetworkReply>
+#include "qtwitfriendstimeline.h"
 
-QtwitterStatusShow::QtwitterStatusShow(QObject *parent) :
-    QtwitterNetBase(parent)
+QTwitFriendsTimeline::QTwitFriendsTimeline(QObject *parent) :
+    QTwitNetBase(parent)
 {
 }
 
-QtwitterStatusShow::QtwitterStatusShow(OAuthTwitter *oauthTwitter, QObject *parent) :
-        QtwitterNetBase(oauthTwitter, parent)
+QTwitFriendsTimeline::QTwitFriendsTimeline(OAuthTwitter *oauthTwitter, QObject *parent) :
+        QTwitNetBase(oauthTwitter, parent)
 {
 }
 
-void QtwitterStatusShow::fetch(qint64 id, ResponseType respType)
+void QTwitFriendsTimeline::fetch(ResponseType respType,
+                                    qint64 sinceid,
+                                    qint64 maxid,
+                                    int count,
+                                    int page,
+                                    bool skipUser,
+                                    bool includeRts,
+                                    bool includeEntities)
 {
     Q_ASSERT(oauthTwitter() != 0);
 
     QUrl url;
 
-    if (respType == QtwitterNetBase::JSON)
-        url.setUrl("http://api.twitter.com/1/statuses/show.json");
+    if (respType == QTwitNetBase::JSON)
+        url.setUrl("http://api.twitter.com/1/statuses/friends_timeline.json");
     else
-        url.setUrl("http://api.twitter.com/1/statuses/show.xml");
+        url.setUrl("http://api.twitter.com/1/statuses/friends_timeline.xml");
 
-    url.addQueryItem("id", QString::number(id));
+    if (sinceid != 0)
+        url.addQueryItem("since_id", QString::number(sinceid));
+
+    if (maxid != 0)
+        url.addQueryItem("max_id", QString::number(maxid));
+
+    if (count != 0)
+        url.addQueryItem("count", QString::number(count));
+
+    if (page != 0)
+        url.addQueryItem("page", QString::number(page));
+
+    if (skipUser)
+        url.addQueryItem("skip_user", "true");
+
+    if (includeRts)
+        url.addQueryItem("include_rts", "true");
+
+    if (includeEntities)
+        url.addQueryItem("include_entities", "true");
 
     QNetworkRequest req(url);
 
@@ -55,7 +81,7 @@ void QtwitterStatusShow::fetch(qint64 id, ResponseType respType)
     connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(error()));
 }
 
-void QtwitterStatusShow::reply()
+void QTwitFriendsTimeline::reply()
 {
     QNetworkReply *reply = qobject_cast<QNetworkReply*>(sender());
 
@@ -67,7 +93,7 @@ void QtwitterStatusShow::reply()
     }
 }
 
-void QtwitterStatusShow::error()
+void QTwitFriendsTimeline::error()
 {
     // ### TODO
 }
