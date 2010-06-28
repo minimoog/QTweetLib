@@ -26,7 +26,7 @@
 #include <QUrl>
 #include <openssl/hmac.h>
 #include <openssl/evp.h>
-#include "qtwitlib_global.h"
+#include "qtweetlib_global.h"
 
 typedef unsigned char * (*FPHMAC)(const EVP_MD *, const void *, int,
 		                        const unsigned char *, size_t, unsigned char *,
@@ -39,7 +39,7 @@ class QByteArray;
 /*! \class OAuth
     \brief Base OAuth class
  */
-class QTWITLIBSHARED_EXPORT OAuth : public QObject
+class QTWEETLIBSHARED_EXPORT OAuth : public QObject
 {
 	Q_OBJECT
     Q_ENUMS(HttpMethod)

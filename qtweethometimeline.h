@@ -18,28 +18,31 @@
  * Contact e-mail: Antonie Jovanoski <minimoog77_at_gmail.com>
  */
 
-#ifndef QTWITSTATUSUPDATE_H
-#define QTWITSTATUSUPDATE_H
+#ifndef QTWEETHOMETIMELINE_H
+#define QTWEETHOMETIMELINE_H
 
-#include "qtwitnetbase.h"
+#include "qtweetnetbase.h"
 
-class QTWITLIBSHARED_EXPORT QTwitStatusUpdate : public QTwitNetBase
+/*!
+    Fetches user home timeline
+*/
+class QTWEETLIBSHARED_EXPORT QTweetHomeTimeline : public QTweetNetBase
 {
     Q_OBJECT
 public:
-    QTwitStatusUpdate(QObject *parent = 0);
-    QTwitStatusUpdate(OAuthTwitter *oauthTwitter, QObject *parent = 0);
-    void post(const QString& status,
-              qint64 inReplyToStatus = 0,
-              qreal latitude = 0,
-              qreal longitude = 0,
-              const QString& placeid = QString(),
-              bool displayCoordinates = false,
-              ResponseType respType = QTwitNetBase::JSON);
+    QTweetHomeTimeline(QObject *parent = 0);
+    QTweetHomeTimeline(OAuthTwitter *oauthTwitter, QObject *parent = 0);
+    void fetch(ResponseType respType = QTweetNetBase::JSON,
+               qint64 sinceid = 0,
+               qint64 maxid = 0,
+               int count = 0,
+               int page = 0,
+               bool skipuser = false,
+               bool includeEntities = false);
 
 private slots:
     void reply();
     void error();
 };
 
-#endif // QTWITSTATUSUPDATE_H
+#endif // QTWEETHOMETIMELINE_H

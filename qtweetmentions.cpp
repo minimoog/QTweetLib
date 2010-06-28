@@ -18,32 +18,54 @@
  * Contact e-mail: Antonie Jovanoski <minimoog77_at_gmail.com>
  */
 
-#include <QNetworkReply>
 #include <QNetworkRequest>
-#include "qtwitstatusshow.h"
+#include <QNetworkReply>
+#include "qtweetmentions.h"
 
-QTwitStatusShow::QTwitStatusShow(QObject *parent) :
-    QTwitNetBase(parent)
+QTweetMentions::QTweetMentions(QObject *parent) :
+    QTweetNetBase(parent)
 {
 }
 
-QTwitStatusShow::QTwitStatusShow(OAuthTwitter *oauthTwitter, QObject *parent) :
-        QTwitNetBase(oauthTwitter, parent)
+QTweetMentions::QTweetMentions(OAuthTwitter *oauthTwitter, QObject *parent) :
+        QTweetNetBase(oauthTwitter, parent)
 {
 }
 
-void QTwitStatusShow::fetch(qint64 id, ResponseType respType)
+void QTweetMentions::fetch(ResponseType respType,
+                             qint64 sinceid,
+                             qint64 maxid,
+                             int count,
+                             int page,
+                             bool includeRts,
+                             bool includeEntities)
 {
     Q_ASSERT(oauthTwitter() != 0);
 
     QUrl url;
 
-    if (respType == QTwitNetBase::JSON)
-        url.setUrl("http://api.twitter.com/1/statuses/show.json");
+    if (respType == QTweetNetBase::JSON)
+        url.setUrl("http://api.twitter.com/1/statuses/mentions.json");
     else
-        url.setUrl("http://api.twitter.com/1/statuses/show.xml");
+        url.setUrl("http://api.twitter.com/1/statuses/mentions.xml");
 
-    url.addQueryItem("id", QString::number(id));
+    if (sinceid != 0)
+        url.addQueryItem("since_id", QString::number(sinceid));
+
+    if (maxid != 0)
+        url.addQueryItem("max_id", QString::number(maxid));
+
+    if (count != 0)
+        url.addQueryItem("count", QString::number(count));
+
+    if (page != 0)
+        url.addQueryItem("page", QString::number(page));
+
+    if (includeRts)
+        url.addQueryItem("include_rts", "true");
+
+    if (includeEntities)
+        url.addQueryItem("include_entities", "true");
 
     QNetworkRequest req(url);
 
@@ -55,7 +77,7 @@ void QTwitStatusShow::fetch(qint64 id, ResponseType respType)
     connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(error()));
 }
 
-void QTwitStatusShow::reply()
+void QTweetMentions::reply()
 {
     QNetworkReply *reply = qobject_cast<QNetworkReply*>(sender());
 
@@ -67,7 +89,7 @@ void QTwitStatusShow::reply()
     }
 }
 
-void QTwitStatusShow::error()
+void QTweetMentions::error()
 {
-    // ### TODO
+    // ### TODO:
 }

@@ -20,19 +20,19 @@
 
 #include <QNetworkReply>
 #include <QNetworkRequest>
-#include "qtwitretweettome.h"
+#include "qtweetretweettome.h"
 
-QTwitRetweetToMe::QTwitRetweetToMe(QObject *parent) :
-    QTwitNetBase(parent)
+QTweetRetweetToMe::QTweetRetweetToMe(QObject *parent) :
+    QTweetNetBase(parent)
 {
 }
 
-QTwitRetweetToMe::QTwitRetweetToMe(OAuthTwitter *oauthTwitter, QObject *parent) :
-    QTwitNetBase(oauthTwitter, parent)
+QTweetRetweetToMe::QTweetRetweetToMe(OAuthTwitter *oauthTwitter, QObject *parent) :
+    QTweetNetBase(oauthTwitter, parent)
 {
 }
 
-void QTwitRetweetToMe::fetch(ResponseType respType,
+void QTweetRetweetToMe::fetch(ResponseType respType,
                                 qint64 sinceid,
                                 qint64 maxid,
                                 int count,
@@ -42,7 +42,7 @@ void QTwitRetweetToMe::fetch(ResponseType respType,
 
     QUrl url;
 
-    if (respType == QTwitNetBase::JSON)
+    if (respType == QTweetNetBase::JSON)
         url.setUrl("http://api.twitter.com/1/statuses/retweeted_to_me.json");
     else
         url.setUrl("http://api.twitter.com/1/statuses/retweeted_to_me.xml");
@@ -69,7 +69,7 @@ void QTwitRetweetToMe::fetch(ResponseType respType,
     connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(error()));
 }
 
-void QTwitRetweetToMe::reply()
+void QTweetRetweetToMe::reply()
 {
     QNetworkReply *reply = qobject_cast<QNetworkReply*>(sender());
 
@@ -81,7 +81,7 @@ void QTwitRetweetToMe::reply()
     }
 }
 
-void QTwitRetweetToMe::error()
+void QTweetRetweetToMe::error()
 {
     // ### TODO:
 }

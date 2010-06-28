@@ -18,32 +18,28 @@
  * Contact e-mail: Antonie Jovanoski <minimoog77_at_gmail.com>
  */
 
-#ifndef QTWITUSER_H
-#define QTWITUSER_H
+#ifndef QTWEETSTATUSUPDATE_H
+#define QTWEETSTATUSUPDATE_H
 
-#include <QSharedDataPointer>
+#include "qtweetnetbase.h"
 
-class QTwitUserData;
-
-class QTwitUser
+class QTWEETLIBSHARED_EXPORT QTweetStatusUpdate : public QTweetNetBase
 {
+    Q_OBJECT
 public:
-    QTwitUser();
-    QTwitUser(const QTwitUser &);
-    QTwitUser &operator=(const QTwitUser &);
-    ~QTwitUser();
+    QTweetStatusUpdate(QObject *parent = 0);
+    QTweetStatusUpdate(OAuthTwitter *oauthTwitter, QObject *parent = 0);
+    void post(const QString& status,
+              qint64 inReplyToStatus = 0,
+              qreal latitude = 0,
+              qreal longitude = 0,
+              const QString& placeid = QString(),
+              bool displayCoordinates = false,
+              ResponseType respType = QTweetNetBase::JSON);
 
-    void setId(qint64 id);
-    qint64 id() const;
-    void setName(const QString& name);
-    QString name() const;
-    void setScreenName(const QString& screenName);
-    QString screenName() const;
-    void setprofileImageUrl(const QString& url);
-    QString profileImageUrl() const;
-
-private:
-    QSharedDataPointer<QTwitUserData> data;
+private slots:
+    void reply();
+    void error();
 };
 
-#endif // QTWITUSER_H
+#endif // QTWEETSTATUSUPDATE_H

@@ -18,14 +18,14 @@
  * Contact e-mail: Antonie Jovanoski <minimoog77_at_gmail.com>
  */
 
-#include "qtwitstatus.h"
+#include "qtweetstatus.h"
 #include <QString>
 #include <QSharedData>
-#include "qtwituser.h"
+#include "qtweetuser.h"
 
-class QTwitStatusData : public QSharedData {
+class QTweetStatusData : public QSharedData {
 public:
-    QTwitStatusData() : id(0), inReplyToStatusId(0), inReplyToUserId(0) {}
+    QTweetStatusData() : id(0), inReplyToStatusId(0), inReplyToUserId(0) {}
 
     QString createdAt;  // ### TODO: Use QDateTime
     qint64 id;
@@ -36,94 +36,94 @@ public:
     qint64 inReplyToUserId;
     bool favorited;     //
     QString inReplyToScreenName;
-    QTwitUser user;
+    QTweetUser user;
 };
 
-QTwitStatus::QTwitStatus() : data(new QTwitStatusData)
+QTweetStatus::QTweetStatus() : data(new QTweetStatusData)
 {
 }
 
-QTwitStatus::QTwitStatus(const QTwitStatus &rhs) : data(rhs.data)
+QTweetStatus::QTweetStatus(const QTweetStatus &rhs) : data(rhs.data)
 {
 }
 
-QTwitStatus &QTwitStatus::operator=(const QTwitStatus &rhs)
+QTweetStatus &QTweetStatus::operator=(const QTweetStatus &rhs)
 {
     if (this != &rhs)
         data.operator=(rhs.data);
     return *this;
 }
 
-QTwitStatus::~QTwitStatus()
+QTweetStatus::~QTweetStatus()
 {
 }
 
-void QTwitStatus::setId(qint64 id)
+void QTweetStatus::setId(qint64 id)
 {
     data->id = id;
 }
 
-qint64 QTwitStatus::id() const
+qint64 QTweetStatus::id() const
 {
     return data->id;
 }
 
-void QTwitStatus::setText(const QString &text)
+void QTweetStatus::setText(const QString &text)
 {
     data->text = text;
 }
 
-QString QTwitStatus::text() const
+QString QTweetStatus::text() const
 {
     return data->text;
 }
 
-void QTwitStatus::setSource(const QString &source)
+void QTweetStatus::setSource(const QString &source)
 {
     data->source = source;
 }
 
-QString QTwitStatus::source() const
+QString QTweetStatus::source() const
 {
     return data->source;
 }
 
-void QTwitStatus::setInReplyToStatusId(qint64 id)
+void QTweetStatus::setInReplyToStatusId(qint64 id)
 {
     data->inReplyToStatusId = id;
 }
 
-qint64 QTwitStatus::inReplyToStatusId() const
+qint64 QTweetStatus::inReplyToStatusId() const
 {
     return data->inReplyToStatusId;
 }
 
-void QTwitStatus::setInReplyToUserId(qint64 id)
+void QTweetStatus::setInReplyToUserId(qint64 id)
 {
     data->inReplyToUserId = id;
 }
 
-qint64 QTwitStatus::inReplyToUserId() const
+qint64 QTweetStatus::inReplyToUserId() const
 {
     return data->inReplyToUserId;
 }
 
-void QTwitStatus::setInReplyToScreenName(const QString &screenName)
+void QTweetStatus::setInReplyToScreenName(const QString &screenName)
 {
     data->inReplyToScreenName = screenName;
 }
 
-QString QTwitStatus::inReplyToScreenName() const
+QString QTweetStatus::inReplyToScreenName() const
 {
     return data->inReplyToScreenName;
 }
 
-void QTwitStatus::setUser(const QTwitUser &user)
+void QTweetStatus::setUser(const QTweetUser &user)
 {
     data->user = user;
 }
 
-QTwitUser QTwitStatus::user() const
+QTweetUser QTweetStatus::user() const
 {
     return data->user;
 }

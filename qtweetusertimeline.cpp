@@ -20,34 +20,43 @@
 
 #include <QNetworkRequest>
 #include <QNetworkReply>
-#include "qtwitmentions.h"
+#include "qtweetusertimeline.h"
 
-QTwitMentions::QTwitMentions(QObject *parent) :
-    QTwitNetBase(parent)
+QTweetUserTimeline::QTweetUserTimeline(QObject *parent) :
+    QTweetNetBase(parent)
 {
 }
 
-QTwitMentions::QTwitMentions(OAuthTwitter *oauthTwitter, QObject *parent) :
-        QTwitNetBase(oauthTwitter, parent)
+QTweetUserTimeline::QTweetUserTimeline(OAuthTwitter *oauthTwitter, QObject *parent) :
+        QTweetNetBase(oauthTwitter, parent)
 {
 }
 
-void QTwitMentions::fetch(ResponseType respType,
-                             qint64 sinceid,
-                             qint64 maxid,
-                             int count,
-                             int page,
-                             bool includeRts,
-                             bool includeEntities)
+void QTweetUserTimeline::fetch(ResponseType respType,
+                                 qint64 userid,
+                                 const QString &screenName,
+                                 qint64 sinceid,
+                                 qint64 maxid,
+                                 int count,
+                                 int page,
+                                 bool skipUser,
+                                 bool includeRts,
+                                 bool includeEntities)
 {
     Q_ASSERT(oauthTwitter() != 0);
 
     QUrl url;
 
-    if (respType == QTwitNetBase::JSON)
-        url.setUrl("http://api.twitter.com/1/statuses/mentions.json");
+    if (respType == QTweetNetBase::JSON)
+        url.setUrl("http://api.twitter.com/1/statuses/user_timeline.json");
     else
-        url.setUrl("http://api.twitter.com/1/statuses/mentions.xml");
+        url.setUrl("http://api.twitter.com/1/statuses/user_timeline.xml");
+
+    if (userid != 0)
+        url.addQueryItem("user_id", QString::number(userid));
+
+    if (!screenName.isEmpty())
+        url.addQueryItem("screen_name", screenName);
 
     if (sinceid != 0)
         url.addQueryItem("since_id", QString::number(sinceid));
@@ -60,6 +69,9 @@ void QTwitMentions::fetch(ResponseType respType,
 
     if (page != 0)
         url.addQueryItem("page", QString::number(page));
+
+    if (skipUser)
+        url.addQueryItem("skip_user", "true");
 
     if (includeRts)
         url.addQueryItem("include_rts", "true");
@@ -77,7 +89,8 @@ void QTwitMentions::fetch(ResponseType respType,
     connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(error()));
 }
 
-void QTwitMentions::reply()
+
+void QTweetUserTimeline::reply()
 {
     QNetworkReply *reply = qobject_cast<QNetworkReply*>(sender());
 
@@ -89,7 +102,7 @@ void QTwitMentions::reply()
     }
 }
 
-void QTwitMentions::error()
+void QTweetUserTimeline::error()
 {
-    // ### TODO:
+    // ### TODO
 }

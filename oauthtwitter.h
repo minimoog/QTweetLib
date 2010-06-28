@@ -32,7 +32,7 @@ class QNetworkAccessManager;
 /*!
     OAuth Twitter authorization class
  */
-class QTWITLIBSHARED_EXPORT OAuthTwitter : public OAuth
+class QTWEETLIBSHARED_EXPORT OAuthTwitter : public OAuth
 {
 	Q_OBJECT
     Q_PROPERTY(QNetworkAccessManager* networkAccessManager

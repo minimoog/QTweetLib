@@ -18,46 +18,32 @@
  * Contact e-mail: Antonie Jovanoski <minimoog77_at_gmail.com>
  */
 
-#include <QNetworkRequest>
 #include <QNetworkReply>
-#include "qtwitretweetbyme.h"
+#include <QNetworkRequest>
+#include "qtweetstatusshow.h"
 
-QTwitRetweetByMe::QTwitRetweetByMe(QObject *parent) :
-    QTwitNetBase(parent)
+QTweetStatusShow::QTweetStatusShow(QObject *parent) :
+    QTweetNetBase(parent)
 {
 }
 
-QTwitRetweetByMe::QTwitRetweetByMe(OAuthTwitter *oauthTwitter, QObject *parent) :
-        QTwitNetBase(oauthTwitter, parent)
+QTweetStatusShow::QTweetStatusShow(OAuthTwitter *oauthTwitter, QObject *parent) :
+        QTweetNetBase(oauthTwitter, parent)
 {
 }
 
-void QTwitRetweetByMe::fetch(ResponseType respType,
-                                qint64 sinceid,
-                                qint64 maxid,
-                                int count,
-                                int page)
+void QTweetStatusShow::fetch(qint64 id, ResponseType respType)
 {
     Q_ASSERT(oauthTwitter() != 0);
 
     QUrl url;
 
-    if (respType == QTwitNetBase::JSON)
-        url.setUrl("http://api.twitter.com/1/statuses/retweeted_by_me.json");
+    if (respType == QTweetNetBase::JSON)
+        url.setUrl("http://api.twitter.com/1/statuses/show.json");
     else
-        url.setUrl("http://api.twitter.com/1/statuses/retweeted_by_me.xml");
+        url.setUrl("http://api.twitter.com/1/statuses/show.xml");
 
-    if (sinceid != 0)
-        url.addQueryItem("since_id", QString::number(sinceid));
-
-    if (maxid != 0)
-        url.addQueryItem("max_id", QString::number(maxid));
-
-    if (count != 0)
-        url.addQueryItem("count", QString::number(count));
-
-    if (page != 0)
-        url.addQueryItem("page", QString::number(page));
+    url.addQueryItem("id", QString::number(id));
 
     QNetworkRequest req(url);
 
@@ -69,19 +55,19 @@ void QTwitRetweetByMe::fetch(ResponseType respType,
     connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(error()));
 }
 
-void QTwitRetweetByMe::reply()
+void QTweetStatusShow::reply()
 {
     QNetworkReply *reply = qobject_cast<QNetworkReply*>(sender());
 
     if (reply) {
-         m_response = reply->readAll();
+        m_response = reply->readAll();
         emit finished(m_response);
 
         reply->deleteLater();
     }
 }
 
-void QTwitRetweetByMe::error()
+void QTweetStatusShow::error()
 {
     // ### TODO
 }

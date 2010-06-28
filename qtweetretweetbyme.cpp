@@ -20,28 +20,32 @@
 
 #include <QNetworkRequest>
 #include <QNetworkReply>
-#include "qtwitretweetsofme.h"
+#include "qtweetretweetbyme.h"
 
-QTwitRetweetsOfMe::QTwitRetweetsOfMe(QObject *parent) :
-    QTwitNetBase(parent)
+QTweetRetweetByMe::QTweetRetweetByMe(QObject *parent) :
+    QTweetNetBase(parent)
 {
 }
 
-QTwitRetweetsOfMe::QTwitRetweetsOfMe(OAuthTwitter *oauthTwitter, QObject *parent) :
-        QTwitNetBase(oauthTwitter, parent)
+QTweetRetweetByMe::QTweetRetweetByMe(OAuthTwitter *oauthTwitter, QObject *parent) :
+        QTweetNetBase(oauthTwitter, parent)
 {
 }
 
-void QTwitRetweetsOfMe::fetch(ResponseType respType, qint64 sinceid, qint64 maxid, int count, int page)
+void QTweetRetweetByMe::fetch(ResponseType respType,
+                                qint64 sinceid,
+                                qint64 maxid,
+                                int count,
+                                int page)
 {
     Q_ASSERT(oauthTwitter() != 0);
 
     QUrl url;
 
-    if (respType == QTwitNetBase::JSON)
-        url.setUrl("http://api.twitter.com/1/statuses/retweets_of_me.json");
+    if (respType == QTweetNetBase::JSON)
+        url.setUrl("http://api.twitter.com/1/statuses/retweeted_by_me.json");
     else
-        url.setUrl("http://api.twitter.com/1/statuses/retweets_of_me.xml");
+        url.setUrl("http://api.twitter.com/1/statuses/retweeted_by_me.xml");
 
     if (sinceid != 0)
         url.addQueryItem("since_id", QString::number(sinceid));
@@ -65,19 +69,19 @@ void QTwitRetweetsOfMe::fetch(ResponseType respType, qint64 sinceid, qint64 maxi
     connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(error()));
 }
 
-void QTwitRetweetsOfMe::reply()
+void QTweetRetweetByMe::reply()
 {
     QNetworkReply *reply = qobject_cast<QNetworkReply*>(sender());
 
     if (reply) {
-        m_response = reply->readAll();
+         m_response = reply->readAll();
         emit finished(m_response);
 
         reply->deleteLater();
     }
 }
 
-void QTwitRetweetsOfMe::error()
+void QTweetRetweetByMe::error()
 {
     // ### TODO
 }

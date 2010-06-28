@@ -20,35 +20,28 @@
 
 #include <QNetworkRequest>
 #include <QNetworkReply>
-#include "qtwitfriendstimeline.h"
+#include "qtweetretweetsofme.h"
 
-QTwitFriendsTimeline::QTwitFriendsTimeline(QObject *parent) :
-    QTwitNetBase(parent)
+QTweetRetweetsOfMe::QTweetRetweetsOfMe(QObject *parent) :
+    QTweetNetBase(parent)
 {
 }
 
-QTwitFriendsTimeline::QTwitFriendsTimeline(OAuthTwitter *oauthTwitter, QObject *parent) :
-        QTwitNetBase(oauthTwitter, parent)
+QTweetRetweetsOfMe::QTweetRetweetsOfMe(OAuthTwitter *oauthTwitter, QObject *parent) :
+        QTweetNetBase(oauthTwitter, parent)
 {
 }
 
-void QTwitFriendsTimeline::fetch(ResponseType respType,
-                                    qint64 sinceid,
-                                    qint64 maxid,
-                                    int count,
-                                    int page,
-                                    bool skipUser,
-                                    bool includeRts,
-                                    bool includeEntities)
+void QTweetRetweetsOfMe::fetch(ResponseType respType, qint64 sinceid, qint64 maxid, int count, int page)
 {
     Q_ASSERT(oauthTwitter() != 0);
 
     QUrl url;
 
-    if (respType == QTwitNetBase::JSON)
-        url.setUrl("http://api.twitter.com/1/statuses/friends_timeline.json");
+    if (respType == QTweetNetBase::JSON)
+        url.setUrl("http://api.twitter.com/1/statuses/retweets_of_me.json");
     else
-        url.setUrl("http://api.twitter.com/1/statuses/friends_timeline.xml");
+        url.setUrl("http://api.twitter.com/1/statuses/retweets_of_me.xml");
 
     if (sinceid != 0)
         url.addQueryItem("since_id", QString::number(sinceid));
@@ -62,15 +55,6 @@ void QTwitFriendsTimeline::fetch(ResponseType respType,
     if (page != 0)
         url.addQueryItem("page", QString::number(page));
 
-    if (skipUser)
-        url.addQueryItem("skip_user", "true");
-
-    if (includeRts)
-        url.addQueryItem("include_rts", "true");
-
-    if (includeEntities)
-        url.addQueryItem("include_entities", "true");
-
     QNetworkRequest req(url);
 
     QByteArray oauthHeader = oauthTwitter()->generateAuthorizationHeader(url, OAuth::GET);
@@ -81,7 +65,7 @@ void QTwitFriendsTimeline::fetch(ResponseType respType,
     connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(error()));
 }
 
-void QTwitFriendsTimeline::reply()
+void QTweetRetweetsOfMe::reply()
 {
     QNetworkReply *reply = qobject_cast<QNetworkReply*>(sender());
 
@@ -93,7 +77,7 @@ void QTwitFriendsTimeline::reply()
     }
 }
 
-void QTwitFriendsTimeline::error()
+void QTweetRetweetsOfMe::error()
 {
     // ### TODO
 }

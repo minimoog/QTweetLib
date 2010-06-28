@@ -18,28 +18,22 @@
  * Contact e-mail: Antonie Jovanoski <minimoog77_at_gmail.com>
  */
 
-#ifndef QTWITMENTIONS_H
-#define QTWITMENTIONS_H
+#ifndef QTWEETSTATUSSHOW_H
+#define QTWEETSTATUSSHOW_H
 
-#include "qtwitnetbase.h"
+#include "qtweetnetbase.h"
 
-class QTWITLIBSHARED_EXPORT QTwitMentions : public QTwitNetBase
+class QTWEETLIBSHARED_EXPORT QTweetStatusShow : public QTweetNetBase
 {
     Q_OBJECT
 public:
-    QTwitMentions(QObject *parent = 0);
-    QTwitMentions(OAuthTwitter *oauthTwitter, QObject *parent = 0);
-    void fetch(ResponseType restType = QTwitNetBase::JSON,
-               qint64 sinceid = 0,
-               qint64 maxid = 0,
-               int count = 0,
-               int page = 0,
-               bool includeRts = false,
-               bool includeEntities = false);
+    QTweetStatusShow(QObject *parent = 0);
+    QTweetStatusShow(OAuthTwitter *oauthTwitter, QObject *parent = 0);
+    void fetch(qint64 id, ResponseType respType = QTweetNetBase::JSON);
 
 private slots:
     void reply();
     void error();
 };
 
-#endif // QTWITMENTIONS_H
+#endif // QTWEETSTATUSSHOW_H

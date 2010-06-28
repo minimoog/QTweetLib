@@ -18,26 +18,17 @@
  * Contact e-mail: Antonie Jovanoski <minimoog77_at_gmail.com>
  */
 
-#ifndef QTWITRETWEETTOME_H
-#define QTWITRETWEETTOME_H
+#ifndef QTWEETLIB_GLOBAL_H
+#define QTWEETLIB_GLOBAL_H
 
-#include "qtwitnetbase.h"
+#include <QtCore/qglobal.h>
 
-class QTWITLIBSHARED_EXPORT QTwitRetweetToMe : public QTwitNetBase
-{
-    Q_OBJECT
-public:
-    QTwitRetweetToMe(QObject *parent = 0);
-    QTwitRetweetToMe(OAuthTwitter *oauthTwitter, QObject *parent = 0);
-    void fetch(ResponseType respType,
-               qint64 sinceid,
-               qint64 maxid,
-               int count,
-               int page);
+#if defined(QTWEETLIB_LIBRARY)
+#  define QTWEETLIBSHARED_EXPORT Q_DECL_EXPORT
+#else
+#  define QTWEETLIBSHARED_EXPORT Q_DECL_IMPORT
+#endif
 
-private slots:
-    void reply();
-    void error();
-};
+#define AUTH_HEADER "Authorization"
 
-#endif // QTWITRETWEETTOME_H
+#endif // QTWEETLIB_GLOBAL_H

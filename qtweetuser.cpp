@@ -18,13 +18,13 @@
  * Contact e-mail: Antonie Jovanoski <minimoog77_at_gmail.com>
  */
 
-#include "qtwituser.h"
+#include "qtweetuser.h"
 #include <QSharedData>
 #include <QColor>
 
-class QTwitUserData : public QSharedData {
+class QTweetUserData : public QSharedData {
 public:
-    QTwitUserData() : id(0) {}
+    QTweetUserData() : id(0) {}
 
     qint64 id;
     QString name;
@@ -56,61 +56,61 @@ public:
     bool contributors_enabled;          //
 };
 
-QTwitUser::QTwitUser() : data(new QTwitUserData)
+QTweetUser::QTweetUser() : data(new QTweetUserData)
 {
 }
 
-QTwitUser::QTwitUser(const QTwitUser &rhs) : data(rhs.data)
+QTweetUser::QTweetUser(const QTweetUser &rhs) : data(rhs.data)
 {
 }
 
-QTwitUser &QTwitUser::operator=(const QTwitUser &rhs)
+QTweetUser &QTweetUser::operator=(const QTweetUser &rhs)
 {
     if (this != &rhs)
         data.operator=(rhs.data);
     return *this;
 }
 
-QTwitUser::~QTwitUser()
+QTweetUser::~QTweetUser()
 {
 }
 
-void QTwitUser::setId(qint64 id)
+void QTweetUser::setId(qint64 id)
 {
     data->id = id;
 }
 
-qint64 QTwitUser::id() const
+qint64 QTweetUser::id() const
 {
     return data->id;
 }
 
-void QTwitUser::setName(const QString &name)
+void QTweetUser::setName(const QString &name)
 {
     data->name = name;
 }
 
-QString QTwitUser::name() const
+QString QTweetUser::name() const
 {
     return data->name;
 }
 
-void QTwitUser::setScreenName(const QString &screenName)
+void QTweetUser::setScreenName(const QString &screenName)
 {
     data->screenName = screenName;
 }
 
-QString QTwitUser::screenName() const
+QString QTweetUser::screenName() const
 {
     return data->screenName;
 }
 
-void QTwitUser::setprofileImageUrl(const QString &url)
+void QTweetUser::setprofileImageUrl(const QString &url)
 {
     data->profileImageUrl = url;
 }
 
-QString QTwitUser::profileImageUrl() const
+QString QTweetUser::profileImageUrl() const
 {
     return data->profileImageUrl;
 }

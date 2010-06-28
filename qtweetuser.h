@@ -18,26 +18,32 @@
  * Contact e-mail: Antonie Jovanoski <minimoog77_at_gmail.com>
  */
 
-#ifndef QTWITRETWEETBYME_H
-#define QTWITRETWEETBYME_H
+#ifndef QTWEETUSER_H
+#define QTWEETUSER_H
 
-#include "qtwitnetbase.h"
+#include <QSharedDataPointer>
 
-class QTWITLIBSHARED_EXPORT QTwitRetweetByMe : public QTwitNetBase
+class QTweetUserData;
+
+class QTweetUser
 {
-    Q_OBJECT
 public:
-    QTwitRetweetByMe(QObject *parent = 0);
-    QTwitRetweetByMe(OAuthTwitter *oauthTwitter, QObject *parent = 0);
-    void fetch(ResponseType respType = QTwitNetBase::JSON,
-               qint64 sinceid = 0,
-               qint64 maxid = 0,
-               int count = 0,
-               int page = 0);
+    QTweetUser();
+    QTweetUser(const QTweetUser &);
+    QTweetUser &operator=(const QTweetUser &);
+    ~QTweetUser();
 
-private slots:
-    void reply();
-    void error();
+    void setId(qint64 id);
+    qint64 id() const;
+    void setName(const QString& name);
+    QString name() const;
+    void setScreenName(const QString& screenName);
+    QString screenName() const;
+    void setprofileImageUrl(const QString& url);
+    QString profileImageUrl() const;
+
+private:
+    QSharedDataPointer<QTweetUserData> data;
 };
 
-#endif // QTWITRETWEETBYME_H
+#endif // QTWEETUSER_H

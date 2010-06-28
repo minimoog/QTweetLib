@@ -20,19 +20,19 @@
 
 #include <QNetworkRequest>
 #include <QNetworkReply>
-#include "qtwithometimeline.h"
+#include "qtweethometimeline.h"
 
-QTwitHomeTimeline::QTwitHomeTimeline(QObject *parent) :
-    QTwitNetBase(parent)
+QTweetHomeTimeline::QTweetHomeTimeline(QObject *parent) :
+    QTweetNetBase(parent)
 {
 }
 
-QTwitHomeTimeline::QTwitHomeTimeline(OAuthTwitter *oauthTwitter, QObject *parent) :
-        QTwitNetBase(oauthTwitter, parent)
+QTweetHomeTimeline::QTweetHomeTimeline(OAuthTwitter *oauthTwitter, QObject *parent) :
+        QTweetNetBase(oauthTwitter, parent)
 {
 }
 
-void QTwitHomeTimeline::fetch(ResponseType respType,
+void QTweetHomeTimeline::fetch(ResponseType respType,
                                  qint64 sinceid,
                                  qint64 maxid,
                                  int count,
@@ -44,7 +44,7 @@ void QTwitHomeTimeline::fetch(ResponseType respType,
 
     QUrl url;
 
-    if (respType == QTwitNetBase::JSON)
+    if (respType == QTweetNetBase::JSON)
         url.setUrl("http://api.twitter.com/1/statuses/home_timeline.json");
     else
         url.setUrl("http://api.twitter.com/1/statuses/home_timeline.xml");
@@ -77,7 +77,7 @@ void QTwitHomeTimeline::fetch(ResponseType respType,
     connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(error()));
 }
 
-void QTwitHomeTimeline::reply()
+void QTweetHomeTimeline::reply()
 {
     QNetworkReply *reply = qobject_cast<QNetworkReply*>(sender());
 
@@ -89,7 +89,7 @@ void QTwitHomeTimeline::reply()
     }
 }
 
-void QTwitHomeTimeline::error()
+void QTweetHomeTimeline::error()
 {
     // ### TODO: Better error detection
     qCritical("Home Timeline error");

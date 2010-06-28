@@ -18,17 +18,29 @@
  * Contact e-mail: Antonie Jovanoski <minimoog77_at_gmail.com>
  */
 
-#ifndef QTWITLIB_GLOBAL_H
-#define QTWITLIB_GLOBAL_H
+#ifndef QTWEETFRIENDSTIMELINE_H
+#define QTWEETFRIENDSTIMELINE_H
 
-#include <QtCore/qglobal.h>
+#include "qtweetnetbase.h"
 
-#if defined(QTWITLIB_LIBRARY)
-#  define QTWITLIBSHARED_EXPORT Q_DECL_EXPORT
-#else
-#  define QTWITLIBSHARED_EXPORT Q_DECL_IMPORT
-#endif
+class QTWEETLIBSHARED_EXPORT QTweetFriendsTimeline : public QTweetNetBase
+{
+    Q_OBJECT
+public:
+    QTweetFriendsTimeline(QObject *parent = 0);
+    QTweetFriendsTimeline(OAuthTwitter *oauthTwitter, QObject *parent = 0);
+    void fetch(ResponseType respType = QTweetNetBase::JSON,
+               qint64 sinceid = 0,
+               qint64 maxid = 0,
+               int count = 0,
+               int page = 0,
+               bool skipUser = false,
+               bool includeRts = false,
+               bool includeEntities = false);
 
-#define AUTH_HEADER "Authorization"
+private slots:
+    void reply();
+    void error();
+};
 
-#endif // QTWITLIB_GLOBAL_H
+#endif // QTWEETTERFRIENDSTIMELINE_H

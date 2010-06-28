@@ -18,21 +18,21 @@
  * Contact e-mail: Antonie Jovanoski <minimoog77_at_gmail.com>
  */
 
-#ifndef QTWITSTATUS_H
-#define QTWITSTATUS_H
+#ifndef QTWEETSTATUS_H
+#define QTWEETSTATUS_H
 
 #include <QSharedDataPointer>
 
-class QTwitStatusData;
-class QTwitUser;
+class QTweetStatusData;
+class QTweetUser;
 
-class QTwitStatus
+class QTweetStatus
 {
 public:
-    QTwitStatus();
-    QTwitStatus(const QTwitStatus &);
-    QTwitStatus &operator=(const QTwitStatus &);
-    ~QTwitStatus();
+    QTweetStatus();
+    QTweetStatus(const QTweetStatus &);
+    QTweetStatus &operator=(const QTweetStatus &);
+    ~QTweetStatus();
 
     void setId(qint64 id);
     qint64 id() const;
@@ -46,11 +46,11 @@ public:
     qint64 inReplyToUserId() const;
     void setInReplyToScreenName(const QString& screenName);
     QString inReplyToScreenName() const;
-    void setUser(const QTwitUser& user);
-    QTwitUser user() const;
+    void setUser(const QTweetUser& user);
+    QTweetUser user() const;
 
 private:
-    QSharedDataPointer<QTwitStatusData> data;
+    QSharedDataPointer<QTweetStatusData> data;
 };
 
-#endif // QTWITSTATUS_H
+#endif // QTWEETSTATUS_H

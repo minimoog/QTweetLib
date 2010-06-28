@@ -5,3 +5,4 @@ debug/*
 Makefile*
 QTwitLib.pro.user
 release/*
+QTweetLib.pro.user

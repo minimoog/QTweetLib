@@ -26,12 +26,12 @@
 #define SIGNALWAITER_H
 
 #include <QObject>
-#include "qtwitlib_global.h"
+#include "qtweetlib_global.h"
 
 class QEventLoop;
 class QTimer;
 
-class QTWITLIBSHARED_EXPORT SignalWaiter : public QObject
+class QTWEETLIBSHARED_EXPORT SignalWaiter : public QObject
 {
     Q_OBJECT
 public:
