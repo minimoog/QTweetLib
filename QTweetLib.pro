@@ -24,7 +24,8 @@ HEADERS += \
     qtweetuser.h \
     qtweetusertimeline.h \
     qtweetstatusdestroy.h \
-    qtweetstatusretweet.h
+    qtweetstatusretweet.h \
+    qtweetstatusretweets.h
 
 SOURCES += \
     oauth.cpp \
@@ -43,4 +44,5 @@ SOURCES += \
     qtweetuser.cpp \
     qtweetusertimeline.cpp \
     qtweetstatusdestroy.cpp \
-    qtweetstatusretweet.cpp
+    qtweetstatusretweet.cpp \
+    qtweetstatusretweets.cpp
