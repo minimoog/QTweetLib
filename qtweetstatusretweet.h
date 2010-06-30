@@ -18,22 +18,21 @@
  * Contact e-mail: Antonie Jovanoski <minimoog77_at_gmail.com>
  */
 
-#ifndef QTWEETSTATUSDESTROY_H
-#define QTWEETSTATUSDESTROY_H
+#ifndef QTWEETSTATUSRETWEET_H
+#define QTWEETSTATUSRETWEET_H
 
 #include "qtweetnetbase.h"
 
-class QTWEETLIBSHARED_EXPORT QTweetStatusDestroy : public QTweetNetBase
+class QTWEETLIBSHARED_EXPORT QTweetStatusRetweet : public QTweetNetBase
 {
     Q_OBJECT
 public:
-    QTweetStatusDestroy(QObject *parent = 0);
-    QTweetStatusDestroy(OAuthTwitter* oauthTwitter, QObject *parent = 0);
-    void destroy(qint64 id, ResponseType respType = QTweetNetBase::JSON);
-
-private slots:
+    QTweetStatusRetweet(QObject *parent = 0);
+    QTweetStatusRetweet(OAuthTwitter *oauthTwitter, QObject *parent = 0);
+    void retweet(qint64 id, ResponseType respType = QTweetNetBase::JSON);
+private:
     void reply();
     void error();
 };
 
-#endif // QTWEETSTATUSDESTROY_H
+#endif // QTWEETSTATUSRETWEET_H
