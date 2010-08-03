@@ -7,3 +7,6 @@ QTwitLib.pro.user
 release/*
 QTweetLib.pro.user
 QTweetLib.pro.user.*
+exampletest/debug/*
+exampletest/ui_*.h
+exampletest/exampletest.pro.user
