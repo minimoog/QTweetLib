@@ -24,9 +24,9 @@
 #include <QtCore/qglobal.h>
 
 #if defined(QTWEETLIB_LIBRARY)
-#  define QTWEETLIBSHARED_EXPORT Q_DECL_EXPORT
+#  define QTWEETLIBSHARED_EXPORT /* Q_DECL_EXPORT */
 #else
-#  define QTWEETLIBSHARED_EXPORT Q_DECL_IMPORT
+#  define QTWEETLIBSHARED_EXPORT /* Q_DECL_IMPORT */
 #endif
 
 #define AUTH_HEADER "Authorization"
