@@ -21,6 +21,7 @@
 #include <QNetworkAccessManager>
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "qtweetfriendstimeline.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -56,4 +57,58 @@ void MainWindow::on_authenticateButton_clicked()
 
     ui->tokenLabel->setText(m_oauthtwitter->oauthToken());
     ui->tokenSecretLabel->setText(m_oauthtwitter->oauthTokenSecret());
+}
+
+void MainWindow::on_fetchFTPushButton_clicked()
+{
+    QTweetFriendsTimeline *friendsTimeline = new QTweetFriendsTimeline(m_oauthtwitter, this);
+    connect(friendsTimeline, SIGNAL(finished(QByteArray)), this, SLOT(finishedFriendsTimeline(QByteArray)));
+
+    QTweetNetBase::ResponseType respType;
+
+    if (ui->typeFTComboBox->currentText() == "JSON")
+        respType = QTweetNetBase::JSON;
+    else
+        respType = QTweetNetBase::Xml;
+
+    bool skipUser;
+
+    if (ui->skipUserFTComboBox->currentText() == "false")
+        skipUser = false;
+    else
+        skipUser = true;
+
+    bool includeRts;
+
+    if (ui->includeRtsFTComboBox->currentText() == "false")
+        includeRts = false;
+    else
+        includeRts = true;
+
+    bool includeEntities;
+
+    if (ui->includeEntitiesFTComboBox->currentText() == "false")
+        includeEntities = false;
+    else
+        includeEntities = true;
+
+    friendsTimeline->fetch(respType,
+                           ui->sinceidFTLineEdit->text().toLongLong(),
+                           ui->maxidFTLineEdit->text().toLongLong(),
+                           ui->countFTLineEdit->text().toInt(),
+                           ui->pageFTLineEdit->text().toInt(),
+                           skipUser,
+                           includeRts,
+                           includeEntities);
+}
+
+void MainWindow::finishedFriendsTimeline(const QByteArray& response)
+{
+    QTweetFriendsTimeline *friendsTimeline = qobject_cast<QTweetFriendsTimeline*>(sender());
+
+    if (friendsTimeline) {
+        friendsTimeline->deleteLater();
+    }
+
+    ui->responseFTTextBrowser->setPlainText(response);
 }

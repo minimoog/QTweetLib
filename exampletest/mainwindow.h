@@ -42,8 +42,9 @@ protected:
     void changeEvent(QEvent *e);
 
 private slots:
-
     void on_authenticateButton_clicked();
+    void on_fetchFTPushButton_clicked();
+    void finishedFriendsTimeline(const QByteArray& response);
 
 private:
     Ui::MainWindow *ui;
