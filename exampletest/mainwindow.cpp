@@ -22,15 +22,19 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "qtweetfriendstimeline.h"
+#include "qtweetuserstream.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
-    m_oauthtwitter(new OAuthTwitter(this))
+    m_oauthtwitter(new OAuthTwitter(this)),
+    m_userstream(new QTweetUserStream(this))
+
 {
     ui->setupUi(this);
 
     m_oauthtwitter->setNetworkAccessManager(new QNetworkAccessManager(this));
+    m_userstream->setNetworkAccessManager(m_oauthtwitter->networkAccessManager());
 }
 
 MainWindow::~MainWindow()
@@ -111,4 +115,18 @@ void MainWindow::finishedFriendsTimeline(const QByteArray& response)
     }
 
     ui->responseFTTextBrowser->setPlainText(response);
+}
+
+void MainWindow::on_startUserStreamButton_clicked()
+{
+    m_userstream->setUsername(ui->usernameUserStreamLineEdit->text());
+    m_userstream->setPassword(ui->passwordUserStreamLineEdit->text());
+
+    m_userstream->startFetching();
+    connect(m_userstream, SIGNAL(stream(QByteArray)), this, SLOT(streamResponse(QByteArray)));
+}
+
+void MainWindow::streamResponse(const QByteArray &response)
+{
+    ui->responseUserStreamTextEdit->appendPlainText(response);
 }

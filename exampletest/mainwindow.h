@@ -29,6 +29,7 @@ namespace Ui {
 }
 
 class OAuthTwitter;
+class QTweetUserStream;
 
 class MainWindow : public QMainWindow
 {
@@ -45,11 +46,15 @@ private slots:
     void on_authenticateButton_clicked();
     void on_fetchFTPushButton_clicked();
     void finishedFriendsTimeline(const QByteArray& response);
+    void streamResponse(const QByteArray& response);
+
+    void on_startUserStreamButton_clicked();
 
 private:
     Ui::MainWindow *ui;
 
     OAuthTwitter *m_oauthtwitter;
+    QTweetUserStream *m_userstream;
 };
 
 #endif // MAINWINDOW_H

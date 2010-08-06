@@ -10,3 +10,9 @@ QTweetLib.pro.user.*
 exampletest/debug/*
 exampletest/ui_*.h
 exampletest/exampletest.pro.user
+exampletest/*.sdf
+exampletest/*.sln
+exampletest/*.suo
+exampletest/*.vcxproj
+exampletest/*.vcxproj.*
+exampletest/ipch/*

@@ -33,7 +33,8 @@ SOURCES += main.cpp\
     ../qtweetfriendstimeline.cpp \
     ../qtweetdirectmessages.cpp \
     ../oauthtwitter.cpp \
-    ../oauth.cpp
+    ../oauth.cpp \
+    ../qtweetuserstream.cpp
 
 HEADERS  += mainwindow.h \
     ../signalwaiter.h \
@@ -57,7 +58,8 @@ HEADERS  += mainwindow.h \
     ../qtweetfriendstimeline.h \
     ../qtweetdirectmessages.h \
     ../oauthtwitter.h \
-    ../oauth.h
+    ../oauth.h \
+    ../qtweetuserstream.h
 
 
 FORMS    += mainwindow.ui

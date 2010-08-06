@@ -28,7 +28,8 @@ HEADERS += \
     qtweetstatusretweets.h \
     qtweetusershow.h \
     qtweetuserlookup.h \
-    qtweetdirectmessages.h
+    qtweetdirectmessages.h \
+    qtweetuserstream.h
 
 SOURCES += \
     oauth.cpp \
@@ -51,4 +52,5 @@ SOURCES += \
     qtweetstatusretweets.cpp \
     qtweetusershow.cpp \
     qtweetuserlookup.cpp \
-    qtweetdirectmessages.cpp
+    qtweetdirectmessages.cpp \
+    qtweetuserstream.cpp
