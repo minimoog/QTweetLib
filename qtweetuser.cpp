@@ -19,100 +19,51 @@
  */
 
 #include "qtweetuser.h"
-#include <QSharedData>
 #include <QColor>
 
-class QTweetUserData : public QSharedData {
-public:
-    QTweetUserData() : id(0) {}
-
-    qint64 id;
-    QString name;
-    QString screenName;
-    QString location;                   //
-    QString description;                //
-    QString profileImageUrl;
-    QString url;                        //
-    bool protected_r;                   //
-    int followersCount;                 //
-    QColor profileBackgroundColor;      //
-    QColor profileTextColor;            //
-    QColor profileLinkColor;            //
-    QColor profileSidebarFillColor;     //
-    QColor profileSidebarBorderColor;   //
-    int friendsCount;                   //
-    QString createdAt; // ### TODO: Use QDateTime
-    int favouritesCount;                //
-    int utcOffset;                      //
-    QString timeZone;                   //
-    QString profileBackgroundImageUrl;  //
-    bool profileBackgroundTile;         //
-    bool notifications;                 //
-    bool geoEnabled;                    //
-    bool verified;                      //
-    bool following;                     //
-    int statusesCount;                  //
-    QString lang;                       //
-    bool contributors_enabled;          //
-};
-
-QTweetUser::QTweetUser() : data(new QTweetUserData)
+QTweetUser::QTweetUser()
 {
 }
 
-QTweetUser::QTweetUser(const QTweetUser &rhs) : data(rhs.data)
-{
-}
-
-QTweetUser &QTweetUser::operator=(const QTweetUser &rhs)
-{
-    if (this != &rhs)
-        data.operator=(rhs.data);
-    return *this;
-}
-
-QTweetUser::~QTweetUser()
-{
-}
 
 void QTweetUser::setId(qint64 id)
 {
-    data->id = id;
+    m_userInfo.insert(QTweetUser::Id, id);
 }
 
 qint64 QTweetUser::id() const
 {
-    return data->id;
+    return m_userInfo.value(QTweetUser::Id).toLongLong();
 }
 
 void QTweetUser::setName(const QString &name)
 {
-    data->name = name;
+    m_userInfo.insert(QTweetUser::Name, name);
 }
 
 QString QTweetUser::name() const
 {
-    return data->name;
+    return m_userInfo.value(QTweetUser::Name).toString();
 }
 
 void QTweetUser::setScreenName(const QString &screenName)
 {
-    data->screenName = screenName;
+    m_userInfo.insert(QTweetUser::ScreenName, screenName);
 }
 
 QString QTweetUser::screenName() const
 {
-    return data->screenName;
+    return m_userInfo.value(QTweetUser::ScreenName).toString();
 }
 
 void QTweetUser::setprofileImageUrl(const QString &url)
 {
-    data->profileImageUrl = url;
+    m_userInfo.insert(QTweetUser::ProfileImageUrl, url);
 }
 
 QString QTweetUser::profileImageUrl() const
 {
-    return data->profileImageUrl;
+    return m_userInfo.value(QTweetUser::ProfileImageUrl).toString();
 }
 
 

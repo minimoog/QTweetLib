@@ -21,17 +21,44 @@
 #ifndef QTWEETUSER_H
 #define QTWEETUSER_H
 
-#include <QSharedDataPointer>
-
-class QTweetUserData;
+#include <QVariant>
+#include <QHash>
 
 class QTweetUser
 {
 public:
     QTweetUser();
-    QTweetUser(const QTweetUser &);
-    QTweetUser &operator=(const QTweetUser &);
-    ~QTweetUser();
+
+    enum TypeInfo {
+        Id,
+        Name,
+        ScreenName,
+        Location,
+        Description,
+        ProfileImageUrl,
+        Url,
+        Protected,
+        FollowersCount,
+        ProfileBackgroundColor,
+        ProfileTextColor,
+        ProfileLinkColor,
+        ProfileSidebarFillColor,
+        ProfileSidebarBorderColor,
+        FriendsCount,
+        CreatedAt,
+        FavouritesCount,
+        UtcOffset,
+        TimeZone,
+        ProfileBackgroundImageUrl,
+        ProfileBackgroundTile,
+        Notifications,
+        GeoEnabled,
+        Verified,
+        Following,
+        StatusesCount,
+        Lang,
+        ContributorsEnabled
+    };
 
     void setId(qint64 id);
     qint64 id() const;
@@ -43,7 +70,7 @@ public:
     QString profileImageUrl() const;
 
 private:
-    QSharedDataPointer<QTweetUserData> data;
+    QHash<int, QVariant> m_userInfo;
 };
 
 #endif // QTWEETUSER_H
