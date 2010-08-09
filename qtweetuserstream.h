@@ -26,6 +26,7 @@
 
 class QNetworkAccessManager;
 class QAuthenticator;
+class QTimer;
 
 class QTweetUserStream : public QObject
 {
@@ -36,12 +37,12 @@ public:
     QNetworkAccessManager* networkAccessManager() const;
     void setUsername(const QString& username);
     void setPassword(const QString& password);
-    void startFetching();
 
 signals:
     void stream(const QByteArray& );
 
 public slots:
+    void startFetching();
 
 private slots:
     void authRequired(QNetworkReply* reply, QAuthenticator* authenticator);
@@ -52,6 +53,7 @@ private slots:
 private:
     QNetworkAccessManager *m_netManager;
     QNetworkReply *m_reply;
+    QTimer *m_backofftimer;
     QString m_username;
     QString m_password;
     QByteArray m_cashedResponse;

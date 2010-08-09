@@ -23,13 +23,16 @@
 #include <QNetworkReply>
 #include <QNetworkRequest>
 #include <QAuthenticator>
+#include <QTimer>
 #include "qtweetuserstream.h"
 
 #define TWITTER_USERSTREAM_URL "https://betastream.twitter.com/2b/user.json"
 
 QTweetUserStream::QTweetUserStream(QObject *parent) :
-    QObject(parent), m_netManager(0), m_reply(0)
+    QObject(parent), m_netManager(0), m_reply(0), m_backofftimer(new QTimer(this))
 {
+    m_backofftimer->setSingleShot(true);
+    connect(m_backofftimer, SIGNAL(timeout()), this, SLOT(startFetching()));
 }
 
 void QTweetUserStream::setNetworkAccessManager(QNetworkAccessManager *netManager)
@@ -62,11 +65,54 @@ void QTweetUserStream::authRequired(QNetworkReply *reply, QAuthenticator *authen
 
 void QTweetUserStream::replyError(QNetworkReply::NetworkError code)
 {
+    qDebug() << "Reply error: " << code;
 
+    m_reply->deleteLater();
+    m_reply = 0;
+
+    // ### TODO: determine network error codes, assumptions here
+
+    if (code < 200) {
+        //linear backoff
+        if (m_backofftimer->interval() < 250) {
+            m_backofftimer->setInterval(250);
+        } else {
+            int nextLinInterval = m_backofftimer->interval() + 250;
+
+            if (nextLinInterval > 16000)    //cap
+                nextLinInterval = 16000;
+
+            m_backofftimer->setInterval(nextLinInterval);
+        }
+
+        m_backofftimer->start();
+        return;
+    }
+
+    if (code > 200) {
+        //exp. backoff
+        if (m_backofftimer->interval() < 10000) {
+            m_backofftimer->setInterval(10000);
+        } else {
+            int nextExpInterval = 2 * m_backofftimer->interval();
+
+            if (nextExpInterval > 240000)
+                nextExpInterval = 240000;
+
+            m_backofftimer->setInterval(240000);
+        }
+
+        m_backofftimer->start();
+    }
 }
 
 void QTweetUserStream::startFetching()
 {
+    if (m_reply != 0) {
+        m_reply->abort();
+        m_reply = 0;
+    }
+
     QNetworkRequest req;
     req.setUrl(QUrl(TWITTER_USERSTREAM_URL));
 
@@ -81,12 +127,16 @@ void QTweetUserStream::replyFinished()
     m_reply->deleteLater();
     m_reply = 0;
 
-    // ### Reconnect:
+    //Reconnect
+    startFetching();
 }
 
 void QTweetUserStream::replyReadyRead()
 {
     QByteArray response = m_reply->readAll();
+
+    //reset timer
+    m_backofftimer->setInterval(0);
 
     //split to response to delimited and not delimited part
     int lastCarrReturn = response.lastIndexOf('\r');
