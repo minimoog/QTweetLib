@@ -21,18 +21,32 @@
 #ifndef QTWEETSTATUS_H
 #define QTWEETSTATUS_H
 
-#include <QSharedDataPointer>
+#include <QVariant>
+#include <QHash>
 
-class QTweetStatusData;
 class QTweetUser;
 
 class QTweetStatus
 {
 public:
     QTweetStatus();
-    QTweetStatus(const QTweetStatus &);
-    QTweetStatus &operator=(const QTweetStatus &);
-    ~QTweetStatus();
+
+    enum TypeInfo {
+        Contributors,
+        Coordinates,
+        CreatedAt,
+        Favorited,
+        Geo,
+        Id,
+        InReplyToScreenName,
+        InReplyToStatusId,
+        InReplyToUserId,
+        Place,
+        Source,
+        Text,
+        Truncated,
+        User,
+    };
 
     void setId(qint64 id);
     qint64 id() const;
@@ -50,7 +64,7 @@ public:
     QTweetUser user() const;
 
 private:
-    QSharedDataPointer<QTweetStatusData> data;
+    QHash<int, QVariant> m_statusInfo;
 };
 
 #endif // QTWEETSTATUS_H

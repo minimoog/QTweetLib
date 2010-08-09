@@ -19,111 +19,83 @@
  */
 
 #include "qtweetstatus.h"
-#include <QString>
-#include <QSharedData>
 #include "qtweetuser.h"
 
-class QTweetStatusData : public QSharedData {
-public:
-    QTweetStatusData() : id(0), inReplyToStatusId(0), inReplyToUserId(0) {}
-
-    QString createdAt;  // ### TODO: Use QDateTime
-    qint64 id;
-    QString text;
-    QString source;
-    bool truncated;     //
-    qint64 inReplyToStatusId;
-    qint64 inReplyToUserId;
-    bool favorited;     //
-    QString inReplyToScreenName;
-    QTweetUser user;
-};
-
-QTweetStatus::QTweetStatus() : data(new QTweetStatusData)
-{
-}
-
-QTweetStatus::QTweetStatus(const QTweetStatus &rhs) : data(rhs.data)
-{
-}
-
-QTweetStatus &QTweetStatus::operator=(const QTweetStatus &rhs)
-{
-    if (this != &rhs)
-        data.operator=(rhs.data);
-    return *this;
-}
-
-QTweetStatus::~QTweetStatus()
+QTweetStatus::QTweetStatus()
 {
 }
 
 void QTweetStatus::setId(qint64 id)
 {
-    data->id = id;
+    m_statusInfo.insert(QTweetStatus::Id, id);
 }
 
 qint64 QTweetStatus::id() const
 {
-    return data->id;
+    return m_statusInfo.value(QTweetStatus::Id).toLongLong();
 }
 
 void QTweetStatus::setText(const QString &text)
 {
-    data->text = text;
+    m_statusInfo.insert(QTweetStatus::Text, text);
 }
 
 QString QTweetStatus::text() const
 {
-    return data->text;
+    return m_statusInfo.value(QTweetStatus::Text).toString();
 }
 
 void QTweetStatus::setSource(const QString &source)
 {
-    data->source = source;
+    m_statusInfo.insert(QTweetStatus::Source, source);
 }
 
 QString QTweetStatus::source() const
 {
-    return data->source;
+    return m_statusInfo.value(QTweetStatus::Source).toString();
 }
 
 void QTweetStatus::setInReplyToStatusId(qint64 id)
 {
-    data->inReplyToStatusId = id;
+    m_statusInfo.insert(QTweetStatus::InReplyToStatusId, id);
 }
 
 qint64 QTweetStatus::inReplyToStatusId() const
 {
-    return data->inReplyToStatusId;
+    return m_statusInfo.value(QTweetStatus::InReplyToStatusId).toLongLong();
 }
 
 void QTweetStatus::setInReplyToUserId(qint64 id)
 {
-    data->inReplyToUserId = id;
+    m_statusInfo.insert(QTweetStatus::InReplyToUserId, id);
 }
 
 qint64 QTweetStatus::inReplyToUserId() const
 {
-    return data->inReplyToUserId;
+    return m_statusInfo.value(QTweetStatus::InReplyToUserId).toLongLong();
 }
 
 void QTweetStatus::setInReplyToScreenName(const QString &screenName)
 {
-    data->inReplyToScreenName = screenName;
+    m_statusInfo.insert(QTweetStatus::InReplyToScreenName, screenName);
 }
 
 QString QTweetStatus::inReplyToScreenName() const
 {
-    return data->inReplyToScreenName;
+    return m_statusInfo.value(QTweetStatus::InReplyToScreenName).toString();
 }
 
 void QTweetStatus::setUser(const QTweetUser &user)
 {
-    data->user = user;
+    QVariant userVariant;
+    userVariant.setValue(user);
+
+    m_statusInfo.insert(QTweetStatus::User, userVariant);
 }
 
 QTweetUser QTweetStatus::user() const
 {
-    return data->user;
+    QVariant user = m_statusInfo.value(QTweetStatus::User);
+
+    return user.value<QTweetUser>();
 }

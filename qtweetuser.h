@@ -73,4 +73,6 @@ private:
     QHash<int, QVariant> m_userInfo;
 };
 
+Q_DECLARE_METATYPE(QTweetUser)
+
 #endif // QTWEETUSER_H
