@@ -29,7 +29,20 @@ HEADERS += \
     qtweetusershow.h \
     qtweetuserlookup.h \
     qtweetdirectmessages.h \
-    qtweetuserstream.h
+    qtweetuserstream.h \
+    qjson/stack.hh \
+    qjson/serializerrunnable.h \
+    qjson/serializer.h \
+    qjson/qobjecthelper.h \
+    qjson/qjson_export.h \
+    qjson/qjson_debug.h \
+    qjson/position.hh \
+    qjson/parserrunnable.h \
+    qjson/parser_p.h \
+    qjson/parser.h \
+    qjson/location.hh \
+    qjson/json_scanner.h \
+    qjson/json_parser.hh
 
 SOURCES += \
     oauth.cpp \
@@ -53,4 +66,14 @@ SOURCES += \
     qtweetusershow.cpp \
     qtweetuserlookup.cpp \
     qtweetdirectmessages.cpp \
-    qtweetuserstream.cpp
+    qtweetuserstream.cpp \
+    qjson/serializerrunnable.cpp \
+    qjson/serializer.cpp \
+    qjson/qobjecthelper.cpp \
+    qjson/parserrunnable.cpp \
+    qjson/parser.cpp \
+    qjson/json_scanner.cpp \
+    qjson/json_parser.cc
+
+OTHER_FILES += \
+    qjson/json_parser.yy
