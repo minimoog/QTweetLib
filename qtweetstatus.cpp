@@ -99,3 +99,18 @@ QTweetUser QTweetStatus::user() const
 
     return user.value<QTweetUser>();
 }
+
+void QTweetStatus::setRetweetedStatus(const QTweetStatus &status)
+{
+    QVariant rtStatus;
+    rtStatus.setValue(status);
+
+    m_statusInfo.insert(QTweetStatus::RetweetedStatus, rtStatus);
+}
+
+QTweetStatus QTweetStatus::retweetedStatus() const
+{
+    QVariant rtStatus = m_statusInfo.value(QTweetStatus::RetweetedStatus);
+
+    return rtStatus.value<QTweetStatus>();
+}

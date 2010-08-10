@@ -42,6 +42,7 @@ public:
         InReplyToStatusId,
         InReplyToUserId,
         Place,
+        RetweetedStatus,
         Source,
         Text,
         Truncated,
@@ -62,9 +63,13 @@ public:
     QString inReplyToScreenName() const;
     void setUser(const QTweetUser& user);
     QTweetUser user() const;
+    void setRetweetedStatus(const QTweetStatus& status);
+    QTweetStatus retweetedStatus() const;
 
 private:
     QHash<int, QVariant> m_statusInfo;
 };
+
+Q_DECLARE_METATYPE(QTweetStatus)
 
 #endif // QTWEETSTATUS_H
