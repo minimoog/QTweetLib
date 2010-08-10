@@ -67,9 +67,6 @@ void QTweetUserStream::replyError(QNetworkReply::NetworkError code)
 {
     qDebug() << "Reply error: " << code;
 
-    m_reply->deleteLater();
-    m_reply = 0;
-
     // ### TODO: determine network error codes, assumptions here
 
     if (code < 200) {
@@ -110,6 +107,7 @@ void QTweetUserStream::startFetching()
 {
     if (m_reply != 0) {
         m_reply->abort();
+        m_reply->deleteLater();
         m_reply = 0;
     }
 
@@ -119,16 +117,22 @@ void QTweetUserStream::startFetching()
     m_reply = m_netManager->get(req);
     connect(m_reply, SIGNAL(finished()), this, SLOT(replyFinished()));
     connect(m_reply, SIGNAL(readyRead()), this, SLOT(replyReadyRead()));
+    connect(m_reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(replyError(QNetworkReply::NetworkError)));
 }
 
 void QTweetUserStream::replyFinished()
 {
-    qDebug() << "Reply Finished";
-    m_reply->deleteLater();
-    m_reply = 0;
+    if (!m_reply->error()) { //no error, reconnect
 
-    //Reconnect
-    startFetching();
+        //sligh delay for reconnect
+        m_backofftimer->setInterval(250);
+        m_backofftimer->start();
+        m_reply->deleteLater();
+        m_reply = 0;
+    } else {    //error, delete QNetworkReply
+        m_reply->deleteLater();
+        m_reply = 0;
+    }
 }
 
 void QTweetUserStream::replyReadyRead()
