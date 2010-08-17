@@ -27,6 +27,7 @@
 class QNetworkAccessManager;
 class QAuthenticator;
 class QTimer;
+class QTweetStatus;
 
 class QTweetUserStream : public QObject
 {
@@ -40,6 +41,7 @@ public:
 
 signals:
     void stream(const QByteArray& );
+    void parsedStatusesStream(const QTweetStatus& status);
 
 public slots:
     void startFetching();
@@ -49,8 +51,11 @@ private slots:
     void replyError(QNetworkReply::NetworkError code);
     void replyFinished();
     void replyReadyRead();
+    void parsingFinished(const QVariant& json, bool ok, const QString& errorMsg);
 
 private:
+    void parseStream(const QByteArray& );
+
     QNetworkAccessManager *m_netManager;
     QNetworkReply *m_reply;
     QTimer *m_backofftimer;

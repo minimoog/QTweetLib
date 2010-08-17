@@ -24,7 +24,11 @@
 #include <QNetworkRequest>
 #include <QAuthenticator>
 #include <QTimer>
+#include <QThreadPool>
 #include "qtweetuserstream.h"
+#include "qtweetstatus.h"
+#include "qtweetuser.h"
+#include "qjson/parserrunnable.h"
 
 #define TWITTER_USERSTREAM_URL "https://betastream.twitter.com/2b/user.json"
 
@@ -153,15 +157,59 @@ void QTweetUserStream::replyReadyRead()
     QList<QByteArray> elements = leftDelimitedPart.split('\r');
 
     for (int i = 0; i < elements.size(); ++i) {
-
-        QByteArray test = elements.at(i);
-
-        if (elements.at(i) != QByteArray(1, '\n'))
+        if (elements.at(i) != QByteArray(1, '\n')) {
             emit stream(elements.at(i));
+            parseStream(elements.at(i));
+        }
     }
 
     if (rightNotDelimitedPart != QByteArray(1, '\n'))
         m_cashedResponse = rightNotDelimitedPart;
     else
         m_cashedResponse.clear();
+}
+
+void QTweetUserStream::parseStream(const QByteArray& data)
+{
+    QJson::ParserRunnable *jsonParser = new QJson::ParserRunnable();
+    jsonParser->setData(data);
+    connect(jsonParser, SIGNAL(parsingFinished(QVariant,bool,QString)),
+        this, SLOT(parsingFinished(QVariant,bool,QString)));
+
+    QThreadPool::globalInstance()->start(jsonParser);
+}
+
+void QTweetUserStream::parsingFinished(const QVariant &json, bool ok, const QString &errorMsg)
+{
+    if (!ok) {
+        qDebug() << "JSON parsing error: " << errorMsg;
+        return;
+    }
+
+    QVariantMap result = json.toMap();
+
+    //find it what stream element is
+    if (result.contains("friends")) {    //friends element
+        // ### TODO: parsing friends id list
+    } else if (result.contains("text")) {  //status element
+        QTweetStatus status;
+
+        status.setId(result["id"].toLongLong());
+        status.setText(result["text"].toString());
+        status.setSource(result["source"].toString());
+        status.setInReplyToStatusId(result["in_reply_to_status_id"].toLongLong());
+        status.setInReplyToUserId(result["in_reply_to_user_id"].toLongLong());
+        status.setInReplyToScreenName(result["in_reply_to_screen_name"].toString());
+
+        QTweetUser user;
+
+        QVariantMap userResult = result["user"].toMap();
+
+        user.setId(userResult["id"].toLongLong());
+        user.setName(userResult["name"].toString());
+        user.setScreenName(userResult["screen_name"].toString());
+        user.setprofileImageUrl(userResult["profile_image_url"].toString());
+
+        emit parsedStatusesStream(status);
+    }
 }
