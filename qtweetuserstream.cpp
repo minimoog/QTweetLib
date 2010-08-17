@@ -212,6 +212,30 @@ void QTweetUserStream::parsingFinished(const QVariant &json, bool ok, const QStr
 
         status.setUser(user);
 
+        if (result.contains("retweeted_status")) {
+            QTweetStatus rtStatus;
+            QVariantMap rtResult = result["retweeted_status"].toMap();
+
+            rtStatus.setId(rtResult["id"].toLongLong());
+            rtStatus.setText(rtResult["text"].toString());
+            rtStatus.setSource(rtResult["source"].toString());
+            rtStatus.setInReplyToStatusId(rtResult["in_reply_to_status_id"].toLongLong());
+            rtStatus.setInReplyToUserId(rtResult["in_reply_to_user_id"].toLongLong());
+            rtStatus.setInReplyToScreenName(rtResult["in_reply_to_screen_name"].toString());
+
+            QTweetUser rtUser;
+            QVariantMap rtUserResult = rtResult["user"].toMap();
+
+            rtUser.setId(rtUserResult["id"].toLongLong());
+            rtUser.setName(rtUserResult["name"].toString());
+            rtUser.setScreenName(rtUserResult["screen_name"].toString());
+            rtUser.setprofileImageUrl(rtUserResult["profile_image_url"].toString());
+
+            rtStatus.setUser(rtUser);
+
+            status.setRetweetedStatus(rtStatus);
+        }
+
         emit parsedStatusesStream(status);
     }
 }

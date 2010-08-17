@@ -140,5 +140,13 @@ void MainWindow::streamStatuses(const QTweetStatus &status)
     ui->responseUserStreamTextEdit->appendPlainText("name: " + status.user().name());
     ui->responseUserStreamTextEdit->appendPlainText("screen name: " + status.user().screenName());
     ui->responseUserStreamTextEdit->appendPlainText("avatar: " + status.user().profileImageUrl());
+
+    if (status.retweetedStatus().id() != 0) {
+        ui->responseUserStreamTextEdit->appendPlainText("Retweeted Status: ");
+        ui->responseUserStreamTextEdit->appendPlainText("\tid: " + QString::number(status.retweetedStatus().id()));
+        ui->responseUserStreamTextEdit->appendPlainText("\tuserid: " + QString::number(status.retweetedStatus().id()));
+        ui->responseUserStreamTextEdit->appendPlainText("\tname: " + status.retweetedStatus().user().name());
+        ui->responseUserStreamTextEdit->appendPlainText("\tscreen name: " + status.retweetedStatus().user().screenName());
+    }
     ui->responseUserStreamTextEdit->appendPlainText("------------------------------------------------------");
 }
