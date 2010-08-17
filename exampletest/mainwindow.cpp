@@ -23,6 +23,8 @@
 #include "ui_mainwindow.h"
 #include "qtweetfriendstimeline.h"
 #include "qtweetuserstream.h"
+#include "qtweetstatus.h"
+#include "qtweetuser.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -123,10 +125,20 @@ void MainWindow::on_startUserStreamButton_clicked()
     m_userstream->setPassword(ui->passwordUserStreamLineEdit->text());
 
     m_userstream->startFetching();
-    connect(m_userstream, SIGNAL(stream(QByteArray)), this, SLOT(streamResponse(QByteArray)));
+    connect(m_userstream, SIGNAL(parsedStatusesStream(QTweetStatus)), this, SLOT(streamStatuses(QTweetStatus)));
 }
 
-void MainWindow::streamResponse(const QByteArray &response)
+void MainWindow::streamStatuses(const QTweetStatus &status)
 {
-    ui->responseUserStreamTextEdit->appendPlainText(response);
+    ui->responseUserStreamTextEdit->appendPlainText("id: " + QString::number(status.id()));
+    ui->responseUserStreamTextEdit->appendPlainText("text: " + status.text());
+    ui->responseUserStreamTextEdit->appendPlainText("source: " + status.source());
+    ui->responseUserStreamTextEdit->appendPlainText("in reply to status id: " + QString::number(status.inReplyToStatusId()));
+    ui->responseUserStreamTextEdit->appendPlainText("in reply to userid: " + QString::number(status.inReplyToUserId()));
+    ui->responseUserStreamTextEdit->appendPlainText("in reply to screen name: " + status.inReplyToScreenName());
+    ui->responseUserStreamTextEdit->appendPlainText("userid: " + QString::number(status.user().id()));
+    ui->responseUserStreamTextEdit->appendPlainText("name: " + status.user().name());
+    ui->responseUserStreamTextEdit->appendPlainText("screen name: " + status.user().screenName());
+    ui->responseUserStreamTextEdit->appendPlainText("avatar: " + status.user().profileImageUrl());
+    ui->responseUserStreamTextEdit->appendPlainText("------------------------------------------------------");
 }

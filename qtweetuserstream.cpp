@@ -210,6 +210,8 @@ void QTweetUserStream::parsingFinished(const QVariant &json, bool ok, const QStr
         user.setScreenName(userResult["screen_name"].toString());
         user.setprofileImageUrl(userResult["profile_image_url"].toString());
 
+        status.setUser(user);
+
         emit parsedStatusesStream(status);
     }
 }
