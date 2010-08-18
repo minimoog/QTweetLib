@@ -17,3 +17,4 @@ exampletest/*.vcxproj
 exampletest/*.vcxproj.*
 exampletest/ipch/*
 *.opensdf
+exampletest/exampletest.pro.user.*
