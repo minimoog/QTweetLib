@@ -24,6 +24,9 @@
 #include <QStringList>
 #include "qtweetnetbase.h"
 
+/*!
+    Class for fetching up to 100 users and theirs most recent status
+ */
 class QTWEETLIBSHARED_EXPORT QTweetUserLookup : public QTweetNetBase
 {
     Q_OBJECT

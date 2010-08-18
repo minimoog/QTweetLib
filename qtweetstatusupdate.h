@@ -23,6 +23,9 @@
 
 #include "qtweetnetbase.h"
 
+/*!
+    Class for updating user status (posting tweet)
+ */
 class QTWEETLIBSHARED_EXPORT QTweetStatusUpdate : public QTweetNetBase
 {
     Q_OBJECT

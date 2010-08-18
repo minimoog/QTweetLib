@@ -107,6 +107,9 @@ void QTweetUserStream::replyError(QNetworkReply::NetworkError code)
     }
 }
 
+/*!
+    Starts fetching user stream
+ */
 void QTweetUserStream::startFetching()
 {
     if (m_reply != 0) {

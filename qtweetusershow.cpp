@@ -32,6 +32,14 @@ QTweetUserShow::QTweetUserShow(OAuthTwitter *oauthTwitter, QObject *parent) :
 {
 }
 
+/*!
+    Starts fetching
+    \param id User ID
+    \param userid User ID
+    \param screenName User screen name
+    \param respType Response type
+    \remarks Async
+ */
 void QTweetUserShow::fetch(qint64 id, qint64 userid, const QString &screenName, ResponseType respType)
 {
     Q_ASSERT(oauthTwitter() != 0);
@@ -51,6 +59,9 @@ void QTweetUserShow::fetch(qint64 id, qint64 userid, const QString &screenName, 
 
     if (!screenName.isEmpty())
         url.addQueryItem("screen_name", screenName);
+
+    // ### TODO: Remove id parameter
+    // ### TODO: Add include_entities parameter
 
     QNetworkRequest req(url);
 

@@ -29,6 +29,9 @@ class QAuthenticator;
 class QTimer;
 class QTweetStatus;
 
+/*!
+    Class for fetching user stream
+ */
 class QTweetUserStream : public QObject
 {
     Q_OBJECT
@@ -40,7 +43,14 @@ public:
     void setPassword(const QString& password);
 
 signals:
+    /*!
+        Emits stream elements
+     */
     void stream(const QByteArray& );
+
+    /*!
+        Emits tweets (parsed) elements
+     */
     void parsedStatusesStream(const QTweetStatus& status);
 
 public slots:

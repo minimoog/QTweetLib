@@ -32,6 +32,15 @@ QTweetRetweetsOfMe::QTweetRetweetsOfMe(OAuthTwitter *oauthTwitter, QObject *pare
 {
 }
 
+/*!
+    Starts fetching
+    \param respType Response type
+    \param sinceid Fetches tweets with ID greater (more recent) then sinceid
+    \param maxid Fetches tweets with ID less (older) then maxid
+    \param count Number of tweets to fetch (up to 200)
+    \param page Page number
+    \remarks Async
+ */
 void QTweetRetweetsOfMe::fetch(ResponseType respType, qint64 sinceid, qint64 maxid, int count, int page)
 {
     Q_ASSERT(oauthTwitter() != 0);
@@ -54,6 +63,9 @@ void QTweetRetweetsOfMe::fetch(ResponseType respType, qint64 sinceid, qint64 max
 
     if (page != 0)
         url.addQueryItem("page", QString::number(page));
+
+    // ### TODO: Add trim_user parameter
+    // ### TODO: Add include_entities parameter
 
     QNetworkRequest req(url);
 

@@ -23,6 +23,9 @@
 
 #include "qtweetnetbase.h"
 
+/*!
+    Class for retweeting tweet
+ */
 class QTWEETLIBSHARED_EXPORT QTweetStatusRetweet : public QTweetNetBase
 {
     Q_OBJECT

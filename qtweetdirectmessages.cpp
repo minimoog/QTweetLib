@@ -32,6 +32,15 @@ QTweetDirectMessages::QTweetDirectMessages(OAuthTwitter *oauthTwitter, QObject *
 {
 }
 
+/*!
+    Start fetching direct messages
+    \param respType Type of response (XML, JSON)
+    \param sinceid Fetch DM newer then sinceid
+    \param maxid Fetch DM older then maxid
+    \param count Number of DM to fetch (up to 200)
+    \param page Page number
+    \remarks Asynhronous signal
+ */
 void QTweetDirectMessages::fetch(ResponseType respType, qint64 sinceid, qint64 maxid, int count, int page)
 {
     Q_ASSERT(oauthTwitter() != 0);

@@ -32,6 +32,20 @@ QTweetUserTimeline::QTweetUserTimeline(OAuthTwitter *oauthTwitter, QObject *pare
 {
 }
 
+/*!
+    Starts fetching
+    \param respType Response type
+    \param userid User ID
+    \param screenName User screen name
+    \param sinceid Fetches tweets with ID greater (more recent) then sinceid
+    \param maxid Fetches tweets with ID less (older) then maxid
+    \param count Number of tweets to fetch (up to 200)
+    \param page Page number
+    \param skipUser True to include only status authors numerical ID
+    \param includeRts Timeline contains native retweets if true
+    \param includeEntities Each tweet include node "entities"
+    \remarks Async
+ */
 void QTweetUserTimeline::fetch(ResponseType respType,
                                  qint64 userid,
                                  const QString &screenName,
@@ -78,6 +92,8 @@ void QTweetUserTimeline::fetch(ResponseType respType,
 
     if (includeEntities)
         url.addQueryItem("include_entities", "true");
+
+    // ### TODO: Change parameter skip_user to trim_user
 
     QNetworkRequest req(url);
 

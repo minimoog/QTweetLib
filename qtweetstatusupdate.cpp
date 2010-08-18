@@ -32,6 +32,17 @@ QTweetStatusUpdate::QTweetStatusUpdate(OAuthTwitter *oauthTwitter, QObject *pare
 {
 }
 
+/*!
+    Posts a tweet
+    \param status Text of the status update
+    \param inReplyToStatus ID of a existing tweet is in reply to
+    \param latitude Latitude
+    \param longitude Longitude
+    \param placeid A place in the world (use reverse geocoding)
+    \param displayCoordinates Whether or not to put a exact coordinates a tweet has been sent from
+    \param respType Response type
+    \remarks Async
+ */
 void QTweetStatusUpdate::post(const QString &status,
                            qint64 inReplyToStatus,
                            qreal latitude,
@@ -67,6 +78,9 @@ void QTweetStatusUpdate::post(const QString &status,
 
     if (displayCoordinates)
         urlQuery.addQueryItem("display_coordinates", "true");
+
+    // ### TODO: Add trim_user parameter
+    // ### TODO: Add include_entities parameter
 
     QByteArray oauthHeader = oauthTwitter()->generateAuthorizationHeader(urlQuery, OAuth::POST);
     QNetworkRequest req(url);

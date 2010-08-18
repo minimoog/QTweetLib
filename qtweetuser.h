@@ -24,6 +24,9 @@
 #include <QVariant>
 #include <QHash>
 
+/*!
+    Class for storing user info
+ */
 class QTweetUser
 {
 public:

@@ -32,6 +32,17 @@ QTweetHomeTimeline::QTweetHomeTimeline(OAuthTwitter *oauthTwitter, QObject *pare
 {
 }
 
+/*!
+    Start fetching home timeline
+    \param respType Response type
+    \param sinceid Fetches tweets with ID greater (more recent) then sinceid
+    \param maxid Fetches tweets with ID less (older) then maxid
+    \param count Number of tweets to fetch (up to 200)
+    \param page Page number
+    \param skipUser True to include only status authors numerical ID
+    \param includeEntities True to include a node called "entities"
+    \remarks Async
+ */
 void QTweetHomeTimeline::fetch(ResponseType respType,
                                  qint64 sinceid,
                                  qint64 maxid,

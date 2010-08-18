@@ -23,6 +23,9 @@
 
 #include "qtweetnetbase.h"
 
+/*!
+    Class for fetching direct messages
+ */
 class QTWEETLIBSHARED_EXPORT QTweetDirectMessages : public QTweetNetBase
 {
     Q_OBJECT

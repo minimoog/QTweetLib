@@ -48,7 +48,15 @@ public:
     virtual QByteArray response() const;
 
 signals:
+    /*!
+        Emited when fetching is finished
+        \param response Contains the response
+     */
     void finished(const QByteArray& response);
+
+    /*!
+        Emited when there is a network error
+     */
     void networkError(const QString& errorString);
 
 protected:

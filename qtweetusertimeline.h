@@ -23,6 +23,9 @@
 
 #include "qtweetnetbase.h"
 
+/*!
+    Class for fetching tweets posted by user or other users
+ */
 class QTWEETLIBSHARED_EXPORT QTweetUserTimeline : public QTweetNetBase
 {
     Q_OBJECT

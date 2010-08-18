@@ -32,6 +32,12 @@ QTweetStatusShow::QTweetStatusShow(OAuthTwitter *oauthTwitter, QObject *parent) 
 {
 }
 
+/*!
+    Starts fetching
+    \param id Tweet ID
+    \param respType Response type
+    \remarks Async
+ */
 void QTweetStatusShow::fetch(qint64 id, ResponseType respType)
 {
     Q_ASSERT(oauthTwitter() != 0);
@@ -44,6 +50,9 @@ void QTweetStatusShow::fetch(qint64 id, ResponseType respType)
         url.setUrl("http://api.twitter.com/1/statuses/show.xml");
 
     url.addQueryItem("id", QString::number(id));
+
+    // ### TODO: Add trim_user parameter
+    // ### TODO: Add include_entities parameter
 
     QNetworkRequest req(url);
 

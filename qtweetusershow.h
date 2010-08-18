@@ -23,6 +23,9 @@
 
 #include "qtweetnetbase.h"
 
+/*!
+    Class for fetching extended information for given user
+ */
 class QTWEETLIBSHARED_EXPORT QTweetUserShow : public QTweetNetBase
 {
     Q_OBJECT

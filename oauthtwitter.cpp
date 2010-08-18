@@ -57,6 +57,11 @@ QNetworkAccessManager* OAuthTwitter::networkAccessManager() const
 	return m_netManager;
 }
 
+/*!
+    Gets oauth tokens using XAuth method
+    \param username username
+    \param password password
+ */
 void OAuthTwitter::authorizeXAuth(const QString &username, const QString &password)
 {
     Q_ASSERT(m_netManager != 0);

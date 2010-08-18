@@ -32,6 +32,13 @@ QTweetUserLookup::QTweetUserLookup(OAuthTwitter *oauthTwitter, QObject *parent) 
 {
 }
 
+/*!
+    Startw fetching
+    \param useridList List of user IDs
+    \param screenNameLit List of screen names
+    \param respType Response type
+    \remarks Async
+ */
 void QTweetUserLookup::fetch(const QList<qint64> &useridList,
                              const QStringList &screenNameList,
                              ResponseType respType)
@@ -66,6 +73,8 @@ void QTweetUserLookup::fetch(const QList<qint64> &useridList,
 
         url.addQueryItem("screen_name", scrnString);
     }
+
+    // ### TODO: Add include_entities parameter
 
     QNetworkRequest req(url);
 

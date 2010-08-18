@@ -23,6 +23,9 @@
 
 #include "qtweetnetbase.h"
 
+/*!
+    Fetches mentions (up to 800)
+ */
 class QTWEETLIBSHARED_EXPORT QTweetMentions : public QTweetNetBase
 {
     Q_OBJECT

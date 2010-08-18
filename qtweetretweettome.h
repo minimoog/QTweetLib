@@ -23,6 +23,9 @@
 
 #include "qtweetnetbase.h"
 
+/*!
+    Class for fetching retweets posted by users that user follow
+ */
 class QTWEETLIBSHARED_EXPORT QTweetRetweetToMe : public QTweetNetBase
 {
     Q_OBJECT

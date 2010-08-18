@@ -23,6 +23,9 @@
 
 #include "qtweetnetbase.h"
 
+/*!
+    Class for fetching single tweet
+ */
 class QTWEETLIBSHARED_EXPORT QTweetStatusShow : public QTweetNetBase
 {
     Q_OBJECT

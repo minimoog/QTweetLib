@@ -26,6 +26,9 @@
 
 class QTweetUser;
 
+/*!
+    Stores tweet info
+ */
 class QTweetStatus
 {
 public:

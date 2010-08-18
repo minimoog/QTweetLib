@@ -32,6 +32,13 @@ QTweetStatusRetweets::QTweetStatusRetweets(OAuthTwitter *oauthTwitter, QObject *
 {
 }
 
+/*!
+    Start fetching
+    \param id Tweet ID
+    \param count Numbers of retweets to fetch
+    \param respType Response type
+    \remarks Async
+ */
 void QTweetStatusRetweets::fetch(qint64 id, int count, ResponseType respType)
 {
     Q_ASSERT(oauthTwitter() != 0);
@@ -47,6 +54,9 @@ void QTweetStatusRetweets::fetch(qint64 id, int count, ResponseType respType)
 
     if (count != 0)
         url.addQueryItem("count", QString::number(count));
+
+    // ### TODO: Add trim_user parameter
+    // ### TODO: Add include_entities parameter
 
     QNetworkRequest req(url);
 

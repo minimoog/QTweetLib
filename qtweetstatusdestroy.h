@@ -23,6 +23,9 @@
 
 #include "qtweetnetbase.h"
 
+/*!
+    Class for destroying specified tweet (user must be author of tweet)
+ */
 class QTWEETLIBSHARED_EXPORT QTweetStatusDestroy : public QTweetNetBase
 {
     Q_OBJECT

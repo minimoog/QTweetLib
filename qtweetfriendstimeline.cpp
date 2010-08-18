@@ -32,6 +32,18 @@ QTweetFriendsTimeline::QTweetFriendsTimeline(OAuthTwitter *oauthTwitter, QObject
 {
 }
 
+/*!
+    Starts fetching friends timeline
+    \param respType Response type
+    \param sinceid Fetch tweets newer then sinceid
+    \param maxid Fetch tweets older then maxid
+    \param count Number of tweet to fetch (up to 200)
+    \param page Page Number (starts from 1)
+    \param skipUser Don't show user info in timeline (only id)
+    \param includeRts Timeline contains native retweets if true
+    \param includeEntities Each tweet include node "entities"
+    \remarks Async
+ */
 void QTweetFriendsTimeline::fetch(ResponseType respType,
                                     qint64 sinceid,
                                     qint64 maxid,

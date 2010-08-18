@@ -23,6 +23,9 @@
 
 #include "qtweetnetbase.h"
 
+/*!
+    Class for fetching twitter friends timeline
+ */
 class QTWEETLIBSHARED_EXPORT QTweetFriendsTimeline : public QTweetNetBase
 {
     Q_OBJECT
