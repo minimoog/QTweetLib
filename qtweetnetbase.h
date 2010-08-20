@@ -26,6 +26,8 @@
 #include "oauthtwitter.h"
 #include "qtweetlib_global.h"
 
+class QTweetStatus;
+
 /*!
     Base class for Twitter API classes
  */
@@ -45,6 +47,9 @@ public:
     void setOAuthTwitter(OAuthTwitter* oauthTwitter);
     OAuthTwitter* oauthTwitter() const;
 
+    void setJsonParsingEnabled(bool enable);
+    bool isJsonParsingEnabled() const;
+
     virtual QByteArray response() const;
 
 signals:
@@ -60,10 +65,13 @@ signals:
     void networkError(const QString& errorString);
 
 protected:
+    QList<QTweetStatus> variantToStatusList(const QVariant& fromParser);
+
     QByteArray m_response;
 
 private:
     OAuthTwitter *m_oauthTwitter;
+    bool m_jsonParsingEnabled;
 };
 
 #endif // QTWEETNETBASE_H

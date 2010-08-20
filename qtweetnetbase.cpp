@@ -19,6 +19,8 @@
  */
 
 #include "qtweetnetbase.h"
+#include "qtweetstatus.h"
+#include "qtweetuser.h"
 
 /*!
     Constructor
@@ -60,4 +62,50 @@ OAuthTwitter* QTweetNetBase::oauthTwitter() const
 QByteArray QTweetNetBase::response() const
 {
     return m_response;
+}
+
+void QTweetNetBase::setJsonParsingEnabled(bool enable)
+{
+    m_jsonParsingEnabled = enable;
+}
+
+bool QTweetNetBase::isJsonParsingEnabled() const
+{
+    return m_jsonParsingEnabled;
+}
+
+QList<QTweetStatus> QTweetNetBase::variantToStatusList(const QVariant &fromParser)
+{
+    QList<QTweetStatus> statuses;
+
+    QList<QVariant> listStatus = fromParser.toList();
+
+    foreach (const QVariant& status, listStatus) {
+        QTweetStatus tweetStatus;
+
+        QVariantMap statusMap = status.toMap();
+
+        tweetStatus.setId(statusMap["id"].toLongLong());
+        tweetStatus.setText(statusMap["text"].toString());
+        tweetStatus.setSource(statusMap["source"].toString());
+        tweetStatus.setInReplyToStatusId(statusMap["in_reply_to_status_id"].toLongLong());
+        tweetStatus.setInReplyToUserId(statusMap["in_reply_to_user_id"].toLongLong());
+        tweetStatus.setInReplyToScreenName(statusMap["in_reply_to_screen_name"].toString());
+
+        // ### TODO: Parsing native retweets
+
+        QTweetUser user;
+
+        QVariantMap userMap = statusMap["user"].toMap();
+
+        user.setId(userMap["id"].toLongLong());
+        user.setName(userMap["name"].toString());
+        user.setScreenName(userMap["screen_name"].toString());
+        user.setprofileImageUrl(userMap["profile_image_url"].toString());
+
+        tweetStatus.setUser(user);
+
+        statuses.append(tweetStatus);
+    }
+    return statuses;
 }

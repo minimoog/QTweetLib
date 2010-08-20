@@ -18,9 +18,13 @@
  * Contact e-mail: Antonie Jovanoski <minimoog77_at_gmail.com>
  */
 
+#include <QtDebug>
 #include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QThreadPool>
 #include "qtweetfriendstimeline.h"
+#include "qtweetstatus.h"
+#include "qjson/parserrunnable.h"
 
 QTweetFriendsTimeline::QTweetFriendsTimeline(QObject *parent) :
     QTweetNetBase(parent)
@@ -102,7 +106,32 @@ void QTweetFriendsTimeline::reply()
         emit finished(m_response);
 
         reply->deleteLater();
+
+        if (isJsonParsingEnabled())
+            parseResponse();
     }
+}
+
+void QTweetFriendsTimeline::parseResponse()
+{
+    QJson::ParserRunnable *jsonParser = new QJson::ParserRunnable;
+    jsonParser->setData(m_response);
+    connect(jsonParser, SIGNAL(parsingFinished(QVariant,bool,QString)),
+            this, SLOT(parsingFinished(QVariant,bool,QString)));
+
+    QThreadPool::globalInstance()->start(jsonParser);
+}
+
+void QTweetFriendsTimeline::parsingFinished(const QVariant &json, bool ok, const QString &errorMsg)
+{
+    if (!ok) {
+        qDebug() << "JSON Parsing error: " << errorMsg;
+        return;
+    }
+
+    QList<QTweetStatus> statusList = variantToStatusList(json);
+
+    emit parsedResponseFinished(statusList);
 }
 
 void QTweetFriendsTimeline::error()

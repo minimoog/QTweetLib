@@ -23,6 +23,8 @@
 
 #include "qtweetnetbase.h"
 
+class QTweetStatus;
+
 /*!
     Class for fetching twitter friends timeline
  */
@@ -41,9 +43,16 @@ public:
                bool includeRts = false,
                bool includeEntities = false);
 
+signals:
+    void parsedResponseFinished(const QList<QTweetStatus>& response);
+
 private slots:
     void reply();
     void error();
+    void parsingFinished(const QVariant& json, bool ok, const QString& errorMsg);
+
+private:
+    void parseResponse();
 };
 
 #endif // QTWEETTERFRIENDSTIMELINE_H
