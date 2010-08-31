@@ -18,9 +18,11 @@
  * Contact e-mail: Antonie Jovanoski <minimoog77_at_gmail.com>
  */
 
+#include <QtDebug>
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include "qtweetusertimeline.h"
+#include "qtweetstatus.h"
 
 QTweetUserTimeline::QTweetUserTimeline(QObject *parent) :
     QTweetNetBase(parent)
@@ -115,6 +117,20 @@ void QTweetUserTimeline::reply()
         emit finished(m_response);
 
         reply->deleteLater();
+
+        if (isJsonParsingEnabled())
+            parseJson(m_response);
+    }
+}
+
+void QTweetUserTimeline::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
+{
+    if (ok) {
+        QList<QTweetStatus> statuses = variantToStatusList(json);
+
+        emit parsedStatuses(statuses);
+    } else {
+        qDebug() << "JSON parser error: " << errorMsg;
     }
 }
 

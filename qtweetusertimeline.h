@@ -23,6 +23,8 @@
 
 #include "qtweetnetbase.h"
 
+class QTweetStatus;
+
 /*!
     Class for fetching tweets posted by user or other users
  */
@@ -42,6 +44,13 @@ public:
                bool skipUser = false,
                bool includeRts = false,
                bool includeEntities = false);
+
+signals:
+    /*! Emited when json is parsed to status list */
+    void parsedStatuses(const QList<QTweetStatus>& statuses);
+
+protected slots:
+    void parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg);
 
 private slots:
     void reply();

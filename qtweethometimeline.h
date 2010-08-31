@@ -40,6 +40,13 @@ public:
                bool skipuser = false,
                bool includeEntities = false);
 
+signals:
+    /*! Emited when json is parsed to status list */
+    void parsedStatuses(const QList<QTweetStatus>& statuses);
+
+protected slots:
+    void parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg);
+
 private slots:
     void reply();
     void error();

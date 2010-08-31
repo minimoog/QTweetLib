@@ -23,6 +23,7 @@
 
 #include <QObject>
 #include <QByteArray>
+#include <QtDebug>
 #include "oauthtwitter.h"
 #include "qtweetlib_global.h"
 
@@ -64,8 +65,12 @@ signals:
      */
     void networkError(const QString& errorString);
 
+protected slots:
+    virtual void parsingJsonFinished(const QVariant& json, bool ok, const QString& errorMsg);
+
 protected:
     QList<QTweetStatus> variantToStatusList(const QVariant& fromParser);
+    void parseJson(const QByteArray& jsonData);
 
     QByteArray m_response;
 

@@ -108,30 +108,19 @@ void QTweetFriendsTimeline::reply()
         reply->deleteLater();
 
         if (isJsonParsingEnabled())
-            parseResponse();
+            parseJson(m_response);
     }
 }
 
-void QTweetFriendsTimeline::parseResponse()
+void QTweetFriendsTimeline::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
 {
-    QJson::ParserRunnable *jsonParser = new QJson::ParserRunnable;
-    jsonParser->setData(m_response);
-    connect(jsonParser, SIGNAL(parsingFinished(QVariant,bool,QString)),
-            this, SLOT(parsingFinished(QVariant,bool,QString)));
+    if (ok) {
+        QList<QTweetStatus> statuses = variantToStatusList(json);
 
-    QThreadPool::globalInstance()->start(jsonParser);
-}
-
-void QTweetFriendsTimeline::parsingFinished(const QVariant &json, bool ok, const QString &errorMsg)
-{
-    if (!ok) {
-        qDebug() << "JSON Parsing error: " << errorMsg;
-        return;
+        emit parsedStatuses(statuses);
+    } else {
+        qDebug() << "JSON Parser error: " << errorMsg;
     }
-
-    QList<QTweetStatus> statusList = variantToStatusList(json);
-
-    emit parsedResponseFinished(statusList);
 }
 
 void QTweetFriendsTimeline::error()

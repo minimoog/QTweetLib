@@ -21,6 +21,7 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include "qtweetretweetsofme.h"
+#include "qtweetstatus.h"
 
 QTweetRetweetsOfMe::QTweetRetweetsOfMe(QObject *parent) :
     QTweetNetBase(parent)
@@ -86,6 +87,20 @@ void QTweetRetweetsOfMe::reply()
         emit finished(m_response);
 
         reply->deleteLater();
+
+        if (isJsonParsingEnabled())
+            parseJson(m_response);
+    }
+}
+
+void QTweetRetweetsOfMe::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
+{
+    if (ok) {
+        QList<QTweetStatus> statuses = variantToStatusList(json);
+
+        emit parsedStatuses(statuses);
+    } else {
+        qDebug() << "JSON parser error: " << errorMsg;
     }
 }
 

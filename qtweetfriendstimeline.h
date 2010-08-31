@@ -44,15 +44,16 @@ public:
                bool includeEntities = false);
 
 signals:
-    void parsedResponseFinished(const QList<QTweetStatus>& response);
+    /*! Emited when json is parsed to status list */
+    void parsedStatuses(const QList<QTweetStatus>& statuses);
+
+protected slots:
+    void parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg);
 
 private slots:
     void reply();
     void error();
-    void parsingFinished(const QVariant& json, bool ok, const QString& errorMsg);
 
-private:
-    void parseResponse();
 };
 
 #endif // QTWEETTERFRIENDSTIMELINE_H

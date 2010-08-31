@@ -38,6 +38,14 @@ public:
                int count = 0,
                int page = 0);
 
+
+signals:
+    /*! Emited when json is parsed to status list */
+    void parsedStatuses(const QList<QTweetStatus>& statuses);
+
+protected slots:
+    void parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg);
+
 private slots:
     void reply();
     void error();

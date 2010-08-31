@@ -18,9 +18,11 @@
  * Contact e-mail: Antonie Jovanoski <minimoog77_at_gmail.com>
  */
 
+#include <QThreadPool>
 #include "qtweetnetbase.h"
 #include "qtweetstatus.h"
 #include "qtweetuser.h"
+#include "qjson/parserrunnable.h"
 
 /*!
     Constructor
@@ -74,11 +76,29 @@ bool QTweetNetBase::isJsonParsingEnabled() const
     return m_jsonParsingEnabled;
 }
 
+void QTweetNetBase::parseJson(const QByteArray &jsonData)
+{
+    QJson::ParserRunnable *jsonParser = new QJson::ParserRunnable;
+    jsonParser->setData(jsonData);
+
+    connect(jsonParser, SIGNAL(parsingFinished(QVariant,bool,QString)),
+            this, SLOT(parsingJsonFinished(QVariant,bool,QString)));
+
+    QThreadPool::globalInstance()->start(jsonParser);
+}
+
+void QTweetNetBase::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
+{
+    // ### TODO: Make this method abstract
+}
+
 QList<QTweetStatus> QTweetNetBase::variantToStatusList(const QVariant &fromParser)
 {
     QList<QTweetStatus> statuses;
 
     QList<QVariant> listStatus = fromParser.toList();
+
+    // ### TODO: Parsing when user info is trimmed
 
     foreach (const QVariant& status, listStatus) {
         QTweetStatus tweetStatus;
