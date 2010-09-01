@@ -39,9 +39,15 @@ QTweetDirectMessages::QTweetDirectMessages(OAuthTwitter *oauthTwitter, QObject *
     \param maxid Fetch DM older then maxid
     \param count Number of DM to fetch (up to 200)
     \param page Page number
+    \param includeEntities When true each tweet will include a node called "entities"
     \remarks Asynhronous signal
  */
-void QTweetDirectMessages::fetch(ResponseType respType, qint64 sinceid, qint64 maxid, int count, int page)
+void QTweetDirectMessages::fetch(ResponseType respType,
+                                 qint64 sinceid,
+                                 qint64 maxid,
+                                 int count,
+                                 int page,
+                                 bool includeEntities)
 {
     Q_ASSERT(oauthTwitter() != 0);
 
@@ -63,6 +69,9 @@ void QTweetDirectMessages::fetch(ResponseType respType, qint64 sinceid, qint64 m
 
     if (page != 0)
         url.addQueryItem("page", QString::number(page));
+
+    if (includeEntities)
+        url.addQueryItem("include_entities", "true");
 
     QNetworkRequest req(url);
 

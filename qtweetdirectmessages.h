@@ -36,7 +36,8 @@ public:
                qint64 sinceid = 0,
                qint64 maxid = 0,
                int count = 0,
-               int page = 0);
+               int page = 0,
+               bool includeEntities = false);
 
 private slots:
     void reply();

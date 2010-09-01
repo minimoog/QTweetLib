@@ -41,7 +41,8 @@ SOURCES += main.cpp\
     ../qjson/parserrunnable.cpp \
     ../qjson/parser.cpp \
     ../qjson/json_scanner.cpp \
-    ../qjson/json_parser.cc
+    ../qjson/json_parser.cc \
+    ../qtweetdmstatus.cpp
 
 HEADERS  += mainwindow.h \
     ../signalwaiter.h \
@@ -79,7 +80,8 @@ HEADERS  += mainwindow.h \
     ../qjson/parser.h \
     ../qjson/location.hh \
     ../qjson/json_scanner.h \
-    ../qjson/json_parser.hh
+    ../qjson/json_parser.hh \
+    ../qtweetdmstatus.h
 
 
 FORMS    += mainwindow.ui
