@@ -69,8 +69,32 @@ public:
     QString name() const;
     void setScreenName(const QString& screenName);
     QString screenName() const;
+    void setLocation(const QString& location);
+    QString location() const;
     void setprofileImageUrl(const QString& url);
     QString profileImageUrl() const;
+    void setUrl(const QString& url);
+    QString url() const;
+    void setProtected(bool isProtected);
+    bool isProtected() const;
+    void setFollowersCount(int count);
+    int followersCount() const;
+    void setFriendsCount(int count);
+    int friendsCount() const;
+    void setFavouritesCount(int count);
+    int favouritesCount() const;
+    void setUtcOffset(int sec);
+    int utcOffset() const;
+    void setTimezone(const QString& timezone);
+    QString timezone() const;
+    void setGeoEnabled(bool isGeoEnabled);
+    bool isGeoEnabled() const;
+    void setVerified(bool verified);
+    bool isVerified() const;
+    void setFollowing(bool following);
+    bool isFollowing() const;
+    void setStatusesCount(int count);
+    int statusesCount() const;
 
 private:
     QHash<int, QVariant> m_userInfo;
