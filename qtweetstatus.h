@@ -56,6 +56,8 @@ public:
     qint64 id() const;
     void setText(const QString& text);
     QString text() const;
+    void setCreatedAt(const QString& twitterDate);
+    QDateTime createdAt() const;
     void setSource(const QString& source);
     QString source() const;
     void setInReplyToStatusId(qint64 id);
@@ -68,6 +70,8 @@ public:
     QTweetUser user() const;
     void setRetweetedStatus(const QTweetStatus& status);
     QTweetStatus retweetedStatus() const;
+    void setPlace(const QString& place);
+    QString place() const;
 
 private:
     QHash<int, QVariant> m_statusInfo;

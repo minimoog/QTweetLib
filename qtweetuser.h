@@ -81,6 +81,8 @@ public:
     int followersCount() const;
     void setFriendsCount(int count);
     int friendsCount() const;
+    void setCreatedAt(const QString& twitterDate);
+    QDateTime createdAt() const;
     void setFavouritesCount(int count);
     int favouritesCount() const;
     void setUtcOffset(int sec);
@@ -95,6 +97,8 @@ public:
     bool isFollowing() const;
     void setStatusesCount(int count);
     int statusesCount() const;
+
+    static QDateTime twitterDateToQDateTime(const QString& twitterDate);
 
 private:
     QHash<int, QVariant> m_userInfo;

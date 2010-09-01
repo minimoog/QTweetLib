@@ -18,13 +18,12 @@
  * Contact e-mail: Antonie Jovanoski <minimoog77_at_gmail.com>
  */
 
+#include <QDateTime>
 #include "qtweetuser.h"
-#include <QColor>
 
 QTweetUser::QTweetUser()
 {
 }
-
 
 void QTweetUser::setId(qint64 id)
 {
@@ -116,6 +115,18 @@ int QTweetUser::friendsCount() const
     return m_userInfo.value(QTweetUser::FriendsCount).toInt();
 }
 
+void QTweetUser::setCreatedAt(const QString &twitterDate)
+{
+    QDateTime datetime = twitterDateToQDateTime(twitterDate);
+
+    m_userInfo.insert(QTweetUser::CreatedAt, datetime);
+}
+
+QDateTime QTweetUser::createdAt() const
+{
+    return m_userInfo.value(QTweetUser::CreatedAt).toDateTime();
+}
+
 void QTweetUser::setFavouritesCount(int count)
 {
     m_userInfo.insert(QTweetUser::FavouritesCount, count);
@@ -184,4 +195,19 @@ void QTweetUser::setStatusesCount(int count)
 int QTweetUser::statusesCount() const
 {
     return m_userInfo.value(QTweetUser::StatusesCount).toInt();
+}
+
+QDateTime QTweetUser::twitterDateToQDateTime(const QString &twitterDate)
+{
+    //Twitter Date Format: 'Wed Sep 01 11:27:25 +0000 2010'  UTC
+    QString dateString = twitterDate.left(10) + twitterDate.right(4);
+    QString timeString = twitterDate.mid(11, 8);
+
+    QDate date = QDate::fromString(dateString);
+    QTime time = QTime::fromString(timeString);
+
+    if (date.isValid() && time.isValid())
+        return QDateTime(date, time, Qt::UTC);
+    else
+        return QDateTime();
 }

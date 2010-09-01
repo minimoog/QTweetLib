@@ -18,6 +18,7 @@
  * Contact e-mail: Antonie Jovanoski <minimoog77_at_gmail.com>
  */
 
+#include <QDateTime>
 #include "qtweetstatus.h"
 #include "qtweetuser.h"
 
@@ -43,6 +44,18 @@ void QTweetStatus::setText(const QString &text)
 QString QTweetStatus::text() const
 {
     return m_statusInfo.value(QTweetStatus::Text).toString();
+}
+
+void QTweetStatus::setCreatedAt(const QString &twitterDate)
+{
+    QDateTime datetime = QTweetUser::twitterDateToQDateTime(twitterDate);
+
+    m_statusInfo.insert(QTweetStatus::CreatedAt, datetime);
+}
+
+QDateTime QTweetStatus::createdAt() const
+{
+    return m_statusInfo.value(QTweetStatus::CreatedAt).toDateTime();
 }
 
 void QTweetStatus::setSource(const QString &source)
@@ -113,4 +126,14 @@ QTweetStatus QTweetStatus::retweetedStatus() const
     QVariant rtStatus = m_statusInfo.value(QTweetStatus::RetweetedStatus);
 
     return rtStatus.value<QTweetStatus>();
+}
+
+void QTweetStatus::setPlace(const QString &place)
+{
+    m_statusInfo.insert(QTweetStatus::Place, place);
+}
+
+QString QTweetStatus::place() const
+{
+    return m_statusInfo.value(QTweetStatus::Place).toString();
 }
