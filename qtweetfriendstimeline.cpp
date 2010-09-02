@@ -119,7 +119,7 @@ void QTweetFriendsTimeline::parsingJsonFinished(const QVariant &json, bool ok, c
 
         emit parsedStatuses(statuses);
     } else {
-        qDebug() << "JSON Parser error: " << errorMsg;
+        qDebug() << "QTweetFriendsTimeline JSON Parser error: " << errorMsg;
     }
 }
 

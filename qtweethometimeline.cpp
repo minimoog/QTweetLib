@@ -114,7 +114,7 @@ void QTweetHomeTimeline::parsingJsonFinished(const QVariant &json, bool ok, cons
 
         emit parsedStatuses(statuses);
     } else {
-        qDebug() << "JSON parser error: " << errorMsg;
+        qDebug() << "QTweetHomeTimeline JSON parser error: " << errorMsg;
     }
 }
 

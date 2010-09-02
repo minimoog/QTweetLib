@@ -113,7 +113,7 @@ void QTweetMentions::parsingJsonFinished(const QVariant &json, bool ok, const QS
 
         emit parsedStatuses(statuses);
     } else {
-        qDebug() << "JSON parser error: " << errorMsg;
+        qDebug() << "QTweetMentions JSON parser error: " << errorMsg;
     }
 }
 
