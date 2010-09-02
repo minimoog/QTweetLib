@@ -21,6 +21,7 @@
 #include <QNetworkReply>
 #include <QNetworkRequest>
 #include "qtweetstatusshow.h"
+#include "qtweetstatus.h"
 
 QTweetStatusShow::QTweetStatusShow(QObject *parent) :
     QTweetNetBase(parent)
@@ -38,7 +39,7 @@ QTweetStatusShow::QTweetStatusShow(OAuthTwitter *oauthTwitter, QObject *parent) 
     \param respType Response type
     \remarks Async
  */
-void QTweetStatusShow::fetch(qint64 id, ResponseType respType)
+void QTweetStatusShow::fetch(qint64 id, ResponseType respType, bool trimUser, bool includeEntities)
 {
     Q_ASSERT(oauthTwitter() != 0);
 
@@ -51,8 +52,11 @@ void QTweetStatusShow::fetch(qint64 id, ResponseType respType)
 
     url.addQueryItem("id", QString::number(id));
 
-    // ### TODO: Add trim_user parameter
-    // ### TODO: Add include_entities parameter
+    if (trimUser)
+        url.addQueryItem("trim_user", "true");
+
+    if (includeEntities)
+        url.addQueryItem("include_entities", "true");
 
     QNetworkRequest req(url);
 
@@ -72,7 +76,21 @@ void QTweetStatusShow::reply()
         m_response = reply->readAll();
         emit finished(m_response);
 
+        if (isJsonParsingEnabled())
+            parseJson(m_response);
+
         reply->deleteLater();
+    }
+}
+
+void QTweetStatusShow::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
+{
+    if (ok) {
+        QTweetStatus status = variantMapToStatus(json.toMap());
+
+        emit parsedStatus(status);
+    } else {
+        qDebug() << "QTweetStatusShow JSON parser error: " << errorMsg;
     }
 }
 
