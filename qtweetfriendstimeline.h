@@ -39,7 +39,7 @@ public:
                qint64 maxid = 0,
                int count = 0,
                int page = 0,
-               bool skipUser = false,
+               bool trimUser = false,
                bool includeRts = false,
                bool includeEntities = false);
 

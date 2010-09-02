@@ -53,7 +53,7 @@ void QTweetFriendsTimeline::fetch(ResponseType respType,
                                     qint64 maxid,
                                     int count,
                                     int page,
-                                    bool skipUser,
+                                    bool trimUser,
                                     bool includeRts,
                                     bool includeEntities)
 {
@@ -78,8 +78,8 @@ void QTweetFriendsTimeline::fetch(ResponseType respType,
     if (page != 0)
         url.addQueryItem("page", QString::number(page));
 
-    if (skipUser)
-        url.addQueryItem("skip_user", "true");
+    if (trimUser)
+        url.addQueryItem("trim_user", "true");
 
     if (includeRts)
         url.addQueryItem("include_rts", "true");

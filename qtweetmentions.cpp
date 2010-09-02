@@ -49,6 +49,7 @@ void QTweetMentions::fetch(ResponseType respType,
                              qint64 maxid,
                              int count,
                              int page,
+                             bool trimUser,
                              bool includeRts,
                              bool includeEntities)
 {
@@ -73,13 +74,14 @@ void QTweetMentions::fetch(ResponseType respType,
     if (page != 0)
         url.addQueryItem("page", QString::number(page));
 
+    if (trimUser)
+        url.addQueryItem("trim_user", "true");
+
     if (includeRts)
         url.addQueryItem("include_rts", "true");
 
     if (includeEntities)
         url.addQueryItem("include_entities", "true");
-
-    // ### TODO: Include trim_user
 
     QNetworkRequest req(url);
 

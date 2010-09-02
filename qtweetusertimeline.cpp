@@ -55,7 +55,7 @@ void QTweetUserTimeline::fetch(ResponseType respType,
                                  qint64 maxid,
                                  int count,
                                  int page,
-                                 bool skipUser,
+                                 bool trimUser,
                                  bool includeRts,
                                  bool includeEntities)
 {
@@ -86,16 +86,14 @@ void QTweetUserTimeline::fetch(ResponseType respType,
     if (page != 0)
         url.addQueryItem("page", QString::number(page));
 
-    if (skipUser)
-        url.addQueryItem("skip_user", "true");
+    if (trimUser)
+        url.addQueryItem("trim_user", "true");
 
     if (includeRts)
         url.addQueryItem("include_rts", "true");
 
     if (includeEntities)
         url.addQueryItem("include_entities", "true");
-
-    // ### TODO: Change parameter skip_user to trim_user
 
     QNetworkRequest req(url);
 
@@ -130,7 +128,7 @@ void QTweetUserTimeline::parsingJsonFinished(const QVariant &json, bool ok, cons
 
         emit parsedStatuses(statuses);
     } else {
-        qDebug() << "JSON parser error: " << errorMsg;
+        qDebug() << "QTweetUserTimeline JSON parser error: " << errorMsg;
     }
 }
 

@@ -46,7 +46,9 @@ void QTweetRetweetToMe::fetch(ResponseType respType,
                                 qint64 sinceid,
                                 qint64 maxid,
                                 int count,
-                                int page)
+                                int page,
+                                bool trimUser,
+                                bool includeEntities)
 {
     Q_ASSERT(oauthTwitter() != 0);
 
@@ -69,8 +71,11 @@ void QTweetRetweetToMe::fetch(ResponseType respType,
     if (page != 0)
         url.addQueryItem("page", QString::number(page));
 
-    // ### TODO Add trim_user parameter
-    // ### TODO Add include_entities parameter
+    if (trimUser)
+        url.addQueryItem("trim_user", "true");
+
+    if (includeEntities)
+        url.addQueryItem("include_entities", "true");
 
     QNetworkRequest req(url);
 

@@ -42,7 +42,13 @@ QTweetRetweetsOfMe::QTweetRetweetsOfMe(OAuthTwitter *oauthTwitter, QObject *pare
     \param page Page number
     \remarks Async
  */
-void QTweetRetweetsOfMe::fetch(ResponseType respType, qint64 sinceid, qint64 maxid, int count, int page)
+void QTweetRetweetsOfMe::fetch(ResponseType respType,
+                               qint64 sinceid,
+                               qint64 maxid,
+                               int count,
+                               int page,
+                               bool trimUser,
+                               bool includeEntities)
 {
     Q_ASSERT(oauthTwitter() != 0);
 
@@ -65,8 +71,11 @@ void QTweetRetweetsOfMe::fetch(ResponseType respType, qint64 sinceid, qint64 max
     if (page != 0)
         url.addQueryItem("page", QString::number(page));
 
-    // ### TODO: Add trim_user parameter
-    // ### TODO: Add include_entities parameter
+    if (trimUser)
+        url.addQueryItem("trim_user", "true");
+
+    if (includeEntities)
+        url.addQueryItem("include_entities", "true");
 
     QNetworkRequest req(url);
 
