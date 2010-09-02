@@ -21,6 +21,7 @@
 #include <QThreadPool>
 #include "qtweetnetbase.h"
 #include "qtweetstatus.h"
+#include "qtweetdmstatus.h"
 #include "qtweetuser.h"
 #include "qjson/parserrunnable.h"
 
@@ -114,18 +115,75 @@ QList<QTweetStatus> QTweetNetBase::variantToStatusList(const QVariant &fromParse
 
         // ### TODO: Parsing native retweets
 
-        QTweetUser user;
-
         QVariantMap userMap = statusMap["user"].toMap();
 
-        user.setId(userMap["id"].toLongLong());
-        user.setName(userMap["name"].toString());
-        user.setScreenName(userMap["screen_name"].toString());
-        user.setprofileImageUrl(userMap["profile_image_url"].toString());
+        QTweetUser user = variantMapToUserInfo(userMap);
 
         tweetStatus.setUser(user);
 
         statuses.append(tweetStatus);
     }
     return statuses;
+}
+
+QList<QTweetDMStatus> QTweetNetBase::variantToDirectMessagesList(const QVariant &fromParser)
+{
+    QList<QTweetDMStatus> directMessages;
+
+    QList<QVariant> listMessages = fromParser.toList();
+
+    foreach (const QVariant& message, listMessages) {
+        QTweetDMStatus dmStatus;
+
+        QVariantMap dmMap = message.toMap();
+
+        dmStatus.setCreatedAt(dmMap["created_at"].toString());
+        dmStatus.setSenderScreenName(dmMap["sender_screen_name"].toString());
+
+        QVariantMap senderMap = dmMap["sender"].toMap();
+        QTweetUser sender = variantMapToUserInfo(senderMap);
+
+        dmStatus.setSender(sender);
+
+        dmStatus.setText(dmMap["text"].toString());
+        dmStatus.setRecipientScreenName(dmMap["recipient_screen_name"].toString());
+        dmStatus.setId(dmMap["id"].toLongLong());
+
+        QVariantMap recipientMap = dmMap["recipient"].toMap();
+        QTweetUser recipient = variantMapToUserInfo(recipientMap);
+
+        dmStatus.setRecipient(recipient);
+
+        dmStatus.setRecipientId(dmMap["recipient_id"].toLongLong());
+        dmStatus.setSenderId(dmMap["sender_id"].toLongLong());
+
+        directMessages.append(dmStatus);
+    }
+    return directMessages;
+}
+
+QTweetUser QTweetNetBase::variantMapToUserInfo(const QVariantMap &var)
+{
+    QTweetUser userInfo;
+
+    userInfo.setName(var["name"].toString());
+    userInfo.setLocation(var["location"].toString());
+    userInfo.setprofileImageUrl(var["profile_image_url"].toString());
+    userInfo.setCreatedAt(var["created_at"].toString());
+    userInfo.setFavouritesCount(var["favourites_count"].toInt());
+    userInfo.setUrl(var["url"].toString());
+    userInfo.setUtcOffset(var["utc_offset"].toInt());
+    userInfo.setId(var["id"].toLongLong());
+    userInfo.setProtected(var["protected"].toBool());
+    userInfo.setFollowersCount(var["followers_count"].toInt());
+    userInfo.setVerified(var["verified"].toBool());
+    userInfo.setGeoEnabled(var["geo_enabled"].toBool());
+    userInfo.setDescription(var["description"].toString());
+    userInfo.setTimezone(var["time_zone"].toString());
+    userInfo.setFriendsCount(var["friends_count"].toInt());
+    userInfo.setStatusesCount(var["statuses_count"].toInt());
+    userInfo.setScreenName(var["screen_name"].toString());
+    userInfo.setFollowing(var["following"].toBool());
+
+    return userInfo;
 }

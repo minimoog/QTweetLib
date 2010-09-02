@@ -23,6 +23,8 @@
 
 #include "qtweetnetbase.h"
 
+class QTweetDMStatus;
+
 /*!
     Class for fetching direct messages
  */
@@ -38,6 +40,13 @@ public:
                int count = 0,
                int page = 0,
                bool includeEntities = false);
+
+signals:
+    /*! Emited when json is parsed to direct messages list */
+    void parsedDirectMessages(const QList<QTweetDMStatus>& messages);
+
+protected slots:
+    void parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg);
 
 private slots:
     void reply();

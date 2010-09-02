@@ -21,6 +21,7 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include "qtweetdirectmessages.h"
+#include "qtweetdmstatus.h"
 
 QTweetDirectMessages::QTweetDirectMessages(QObject *parent) :
     QTweetNetBase(parent)
@@ -40,7 +41,7 @@ QTweetDirectMessages::QTweetDirectMessages(OAuthTwitter *oauthTwitter, QObject *
     \param count Number of DM to fetch (up to 200)
     \param page Page number
     \param includeEntities When true each tweet will include a node called "entities"
-    \remarks Asynhronous signal
+    \remarks Asynhronous
  */
 void QTweetDirectMessages::fetch(ResponseType respType,
                                  qint64 sinceid,
@@ -91,7 +92,21 @@ void QTweetDirectMessages::reply()
          m_response = reply->readAll();
         emit finished(m_response);
 
+        if (isJsonParsingEnabled())
+            parseJson(m_response);
+
         reply->deleteLater();
+    }
+}
+
+void QTweetDirectMessages::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
+{
+    if (ok) {
+        QList<QTweetDMStatus> directMessages = variantToDirectMessagesList(json);
+
+        emit parsedDirectMessages(directMessages);
+    } else {
+        qDebug() << "QTweetDirectMessages JSON parser error: " << errorMsg;
     }
 }
 

@@ -22,12 +22,15 @@
 #define QTWEETNETBASE_H
 
 #include <QObject>
+#include <QVariantMap>
 #include <QByteArray>
 #include <QtDebug>
 #include "oauthtwitter.h"
 #include "qtweetlib_global.h"
 
 class QTweetStatus;
+class QTweetUser;
+class QTweetDMStatus;
 
 /*!
     Base class for Twitter API classes
@@ -70,6 +73,8 @@ protected slots:
 
 protected:
     QList<QTweetStatus> variantToStatusList(const QVariant& fromParser);
+    QList<QTweetDMStatus> variantToDirectMessagesList(const QVariant& fromParser);
+    QTweetUser variantMapToUserInfo(const QVariantMap& var);
     void parseJson(const QByteArray& jsonData);
 
     QByteArray m_response;
