@@ -128,12 +128,12 @@ QTweetStatus QTweetStatus::retweetedStatus() const
     return rtStatus.value<QTweetStatus>();
 }
 
-void QTweetStatus::setPlace(const QString &place)
-{
-    m_statusInfo.insert(QTweetStatus::Place, place);
-}
+//void QTweetStatus::setPlace(const QString &place)
+//{
+//    m_statusInfo.insert(QTweetStatus::Place, place);
+//}
 
-QString QTweetStatus::place() const
-{
-    return m_statusInfo.value(QTweetStatus::Place).toString();
-}
+//QString QTweetStatus::place() const
+//{
+//    return m_statusInfo.value(QTweetStatus::Place).toString();
+//}

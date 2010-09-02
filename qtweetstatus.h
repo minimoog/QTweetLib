@@ -70,8 +70,8 @@ public:
     QTweetUser user() const;
     void setRetweetedStatus(const QTweetStatus& status);
     QTweetStatus retweetedStatus() const;
-    void setPlace(const QString& place);
-    QString place() const;
+    //void setPlace(const QString& place);
+    //QString place() const;
 
 private:
     QHash<int, QVariant> m_statusInfo;
