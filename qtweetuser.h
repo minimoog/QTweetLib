@@ -71,6 +71,8 @@ public:
     QString screenName() const;
     void setLocation(const QString& location);
     QString location() const;
+    void setDescription(const QString& desc);
+    QString description() const;
     void setprofileImageUrl(const QString& url);
     QString profileImageUrl() const;
     void setUrl(const QString& url);

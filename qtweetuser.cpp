@@ -65,6 +65,16 @@ QString QTweetUser::location() const
     return m_userInfo.value(QTweetUser::Location).toString();
 }
 
+void QTweetUser::setDescription(const QString &desc)
+{
+    m_userInfo.insert(QTweetUser::Description, desc);
+}
+
+QString QTweetUser::description() const
+{
+    return m_userInfo.value(QTweetUser::Description).toString();
+}
+
 void QTweetUser::setprofileImageUrl(const QString &url)
 {
     m_userInfo.insert(QTweetUser::ProfileImageUrl, url);
