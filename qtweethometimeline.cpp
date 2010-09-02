@@ -52,7 +52,7 @@ void QTweetHomeTimeline::fetch(ResponseType respType,
                                  qint64 maxid,
                                  int count,
                                  int page,
-                                 bool skipuser,
+                                 bool trimUser,
                                  bool includeEntities)
 {
     Q_ASSERT(oauthTwitter() != 0);
@@ -76,8 +76,8 @@ void QTweetHomeTimeline::fetch(ResponseType respType,
     if (page != 0)
         url.addQueryItem("page", QString::number(page));
 
-    if (skipuser)
-        url.addQueryItem("skip_user", "true");
+    if (trimUser)
+        url.addQueryItem("trim_user", "true");
 
     if (includeEntities)
         url.addQueryItem("include_entities", "true");

@@ -102,28 +102,37 @@ QList<QTweetStatus> QTweetNetBase::variantToStatusList(const QVariant &fromParse
     // ### TODO: Parsing when user info is trimmed
 
     foreach (const QVariant& status, listStatus) {
-        QTweetStatus tweetStatus;
-
         QVariantMap statusMap = status.toMap();
 
-        tweetStatus.setId(statusMap["id"].toLongLong());
-        tweetStatus.setText(statusMap["text"].toString());
-        tweetStatus.setSource(statusMap["source"].toString());
-        tweetStatus.setInReplyToStatusId(statusMap["in_reply_to_status_id"].toLongLong());
-        tweetStatus.setInReplyToUserId(statusMap["in_reply_to_user_id"].toLongLong());
-        tweetStatus.setInReplyToScreenName(statusMap["in_reply_to_screen_name"].toString());
+        QTweetStatus tweetStatus = variantMapToStatus(statusMap);
 
         // ### TODO: Parsing native retweets
 
         QVariantMap userMap = statusMap["user"].toMap();
 
-        QTweetUser user = variantMapToUserInfo(userMap);
-
-        tweetStatus.setUser(user);
-
         statuses.append(tweetStatus);
     }
     return statuses;
+}
+
+QTweetStatus QTweetNetBase::variantMapToStatus(const QVariantMap &var)
+{
+    QTweetStatus status;
+
+    status.setCreatedAt(var["created_at"].toString());
+    status.setText(var["text"].toString());
+    status.setId(var["id"].toLongLong());
+    status.setInReplyToUserId(var["in_reply_to_user_id"].toLongLong());
+    status.setInReplyToScreenName(var["in_reply_to_screen_name"].toString());
+
+    QVariantMap userMap = var["user"].toMap();
+    QTweetUser user = variantMapToUserInfo(userMap);
+
+    status.setUser(user);
+    status.setSource(var["source"].toString());
+    status.setInReplyToStatusId(var["in_reply_to_status_id"].toLongLong());
+
+    return status;
 }
 
 QList<QTweetDMStatus> QTweetNetBase::variantToDirectMessagesList(const QVariant &fromParser)
