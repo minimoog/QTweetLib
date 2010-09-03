@@ -210,7 +210,7 @@ int QTweetUser::statusesCount() const
 QDateTime QTweetUser::twitterDateToQDateTime(const QString &twitterDate)
 {
     //Twitter Date Format: 'Wed Sep 01 11:27:25 +0000 2010'  UTC
-    QString dateString = twitterDate.left(10) + twitterDate.right(4);
+    QString dateString = twitterDate.left(11) + twitterDate.right(4);
     QString timeString = twitterDate.mid(11, 8);
 
     QDate date = QDate::fromString(dateString);
