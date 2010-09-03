@@ -106,8 +106,6 @@ QList<QTweetStatus> QTweetNetBase::variantToStatusList(const QVariant &fromParse
 
         QTweetStatus tweetStatus = variantMapToStatus(statusMap);
 
-        // ### TODO: Parsing native retweets
-
         statuses.append(tweetStatus);
     }
     return statuses;

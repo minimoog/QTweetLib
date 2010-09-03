@@ -21,6 +21,7 @@
 #include <QNetworkReply>
 #include <QNetworkRequest>
 #include "qtweetstatusretweet.h"
+#include "qtweetstatus.h"
 
 QTweetStatusRetweet::QTweetStatusRetweet(QObject *parent) :
     QTweetNetBase(parent)
@@ -38,7 +39,10 @@ QTweetStatusRetweet::QTweetStatusRetweet(OAuthTwitter *oauthTwitter, QObject *pa
     \param respType Response type
     \remarks Async
  */
-void QTweetStatusRetweet::retweet(qint64 id, ResponseType respType)
+void QTweetStatusRetweet::retweet(qint64 id,
+                                  bool trimUser,
+                                  bool includeEntities,
+                                  ResponseType respType)
 {
     Q_ASSERT(oauthTwitter() != 0);
 
@@ -49,8 +53,11 @@ void QTweetStatusRetweet::retweet(qint64 id, ResponseType respType)
     else
         url.setUrl(QString("http://api.twitter.com/1/statuses/retweet/%1.xml").arg(id));
 
-    // ### TODO: Add trim_user parameter
-    // ### TODO: Add include_entities parameter
+    if (trimUser)
+        url.addQueryItem("trim_user", "true");
+
+    if (includeEntities)
+        url.addQueryItem("include_entities", "true");
 
     QNetworkRequest req(url);
 
@@ -70,7 +77,21 @@ void QTweetStatusRetweet::reply()
          m_response = reply->readAll();
         emit finished(m_response);
 
+        if (isJsonParsingEnabled())
+            parseJson(m_response);
+
         reply->deleteLater();
+    }
+}
+
+void QTweetStatusRetweet::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
+{
+    if (ok) {
+        QTweetStatus status = variantMapToStatus(json.toMap());
+
+        emit postedRetweet(status);
+    } else {
+        qDebug() << "QTweetStatusRetweet JSON parser error: " << errorMsg;
     }
 }
 

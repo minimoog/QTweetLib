@@ -32,7 +32,17 @@ class QTWEETLIBSHARED_EXPORT QTweetStatusRetweet : public QTweetNetBase
 public:
     QTweetStatusRetweet(QObject *parent = 0);
     QTweetStatusRetweet(OAuthTwitter *oauthTwitter, QObject *parent = 0);
-    void retweet(qint64 id, ResponseType respType = QTweetNetBase::JSON);
+    void retweet(qint64 id,
+                 bool trimUser = false,
+                 bool includeEntities = false,
+                 ResponseType respType = QTweetNetBase::JSON);
+
+signals:
+    void postedRetweet(const QTweetStatus& status);
+
+protected slots:
+    void parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg);
+
 private:
     void reply();
     void error();
