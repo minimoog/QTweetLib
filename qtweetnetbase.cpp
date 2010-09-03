@@ -108,8 +108,6 @@ QList<QTweetStatus> QTweetNetBase::variantToStatusList(const QVariant &fromParse
 
         // ### TODO: Parsing native retweets
 
-        QVariantMap userMap = statusMap["user"].toMap();
-
         statuses.append(tweetStatus);
     }
     return statuses;
@@ -131,6 +129,15 @@ QTweetStatus QTweetNetBase::variantMapToStatus(const QVariantMap &var)
     status.setUser(user);
     status.setSource(var["source"].toString());
     status.setInReplyToStatusId(var["in_reply_to_status_id"].toLongLong());
+
+    //check if contains native retweet
+    if (var.contains("retweeted_status")) {
+        QVariantMap retweetMap = var["retweeted_status"].toMap();
+
+        QTweetStatus rtStatus = variantMapToStatus(retweetMap);
+
+        status.setRetweetedStatus(rtStatus);
+    }
 
     return status;
 }
