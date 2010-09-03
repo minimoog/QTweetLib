@@ -38,7 +38,10 @@ QTweetStatusDestroy::QTweetStatusDestroy(OAuthTwitter *oauthTwitter, QObject *pa
     \param respType Response type
     \remarks Async
  */
-void QTweetStatusDestroy::destroy(qint64 id, ResponseType respType)
+void QTweetStatusDestroy::destroy(qint64 id,
+                                  bool trimUser,
+                                  bool includeEntities,
+                                  ResponseType respType)
 {
     Q_ASSERT(oauthTwitter() != 0);
 
@@ -51,8 +54,11 @@ void QTweetStatusDestroy::destroy(qint64 id, ResponseType respType)
 
     url.addQueryItem("id", QString::number(id));
 
-    // ### TODO: Add trim_user parameter
-    // ### TODO: Add include_entities parameter
+    if (trimUser)
+        url.addQueryItem("trim_user", "true");
+
+    if (includeEntities)
+        url.addQueryItem("include_entities", "true");
 
     QNetworkRequest req(url);
 

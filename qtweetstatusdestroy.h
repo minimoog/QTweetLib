@@ -32,7 +32,10 @@ class QTWEETLIBSHARED_EXPORT QTweetStatusDestroy : public QTweetNetBase
 public:
     QTweetStatusDestroy(QObject *parent = 0);
     QTweetStatusDestroy(OAuthTwitter* oauthTwitter, QObject *parent = 0);
-    void destroy(qint64 id, ResponseType respType = QTweetNetBase::JSON);
+    void destroy(qint64 id,
+                 bool trimUser = false,
+                 bool includeEntities = false,
+                 ResponseType respType = QTweetNetBase::JSON);
 
 private slots:
     void reply();
