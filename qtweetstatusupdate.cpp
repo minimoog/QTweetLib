@@ -44,12 +44,14 @@ QTweetStatusUpdate::QTweetStatusUpdate(OAuthTwitter *oauthTwitter, QObject *pare
     \remarks Async
  */
 void QTweetStatusUpdate::post(const QString &status,
-                           qint64 inReplyToStatus,
-                           qreal latitude,
-                           qreal longitude,
-                           const QString &placeid,
-                           bool displayCoordinates,
-                           ResponseType respType)
+                              qint64 inReplyToStatus,
+                              qreal latitude,
+                              qreal longitude,
+                              const QString &placeid,
+                              bool displayCoordinates,
+                              bool trimUser,
+                              bool includeEntities,
+                              ResponseType respType)
 {
     Q_ASSERT(oauthTwitter() != 0);
 
@@ -79,8 +81,11 @@ void QTweetStatusUpdate::post(const QString &status,
     if (displayCoordinates)
         urlQuery.addQueryItem("display_coordinates", "true");
 
-    // ### TODO: Add trim_user parameter
-    // ### TODO: Add include_entities parameter
+    if (trimUser)
+        urlQuery.addQueryItem("trim_user", "true");
+
+    if (includeEntities)
+        urlQuery.addQueryItem("include_entities", "true");
 
     QByteArray oauthHeader = oauthTwitter()->generateAuthorizationHeader(urlQuery, OAuth::POST);
     QNetworkRequest req(url);
@@ -105,7 +110,21 @@ void QTweetStatusUpdate::reply()
          m_response = reply->readAll();
         emit finished(m_response);
 
+        if (isJsonParsingEnabled())
+            parseJson(m_response);
+
         reply->deleteLater();
+    }
+}
+
+void QTweetStatusUpdate::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
+{
+    if (ok) {
+        QTweetStatus status = variantMapToStatus(json.toMap());
+
+        emit postedStatus(status);
+    } else {
+        qDebug() << "QTweetStatusUpdate JSON parser error: " << errorMsg;
     }
 }
 

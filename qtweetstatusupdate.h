@@ -38,7 +38,15 @@ public:
               qreal longitude = 0,
               const QString& placeid = QString(),
               bool displayCoordinates = false,
+              bool trimUser = false,
+              bool includeEntities = false,
               ResponseType respType = QTweetNetBase::JSON);
+
+signals:
+    void postedStatus(const QTweetStatus& status);
+
+protected slots:
+    void parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg);
 
 private slots:
     void reply();
