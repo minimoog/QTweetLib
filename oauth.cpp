@@ -59,7 +59,7 @@ static QByteArray generateNonce()
 	return nonce;
 }
 
-#ifdef Q_WS_WIN
+#ifdef Q_OS_WIN
 /*!
     Constructor
     \param parent Parent QObject
@@ -82,7 +82,7 @@ OAuth::OAuth(QObject *parent) : QObject(parent), m_libraryOpenssl("libeay32", pa
         qDebug() << "Error resolving symbol EVP_sha1";
     }
 }
-#elif Q_WS_X11
+#else
 OAuth::OAuth(QObject *parent) : QObject(parent), m_libraryOpenssl("crypto", parent)
 {
     QDateTime current = QDateTime::currentDateTime();
