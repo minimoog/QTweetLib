@@ -20,11 +20,55 @@
 
 #include <QDateTime>
 #include <QtAlgorithms>
+#include <QCryptographicHash>
 #include <QtDebug>
 #include "oauth.h"
 
 #define CONSUMER_KEY ""
 #define CONSUMER_SECRET ""
+
+static QByteArray hmacSha1(const QByteArray& message, const QByteArray& key)
+{
+    QByteArray normKey;
+
+    if (key.size() > 64) {
+        normKey = QCryptographicHash::hash(key, QCryptographicHash::Sha1);
+    } else {
+        normKey = key; // no need for zero padding ipad and opad are filled with zeros
+    }
+
+    unsigned char* K = (unsigned char *)normKey.constData();
+
+    unsigned char ipad[65];
+    unsigned char opad[65];
+
+    memset(ipad, 0, 65);
+    memset(opad, 0, 65);
+
+    memcpy(ipad, K, normKey.size());
+    memcpy(opad, K, normKey.size());
+
+    for (int i = 0; i < 64; ++i) {
+        ipad[i] ^= 0x36;
+        opad[i] ^= 0x5c;
+    }
+
+    QByteArray context;
+    context.append((const char *)ipad, 64);
+    context.append(message);
+
+    QByteArray sha1 = QCryptographicHash::hash(context, QCryptographicHash::Sha1);
+
+    context.clear();
+    context.append((const char *)opad, 64);
+    context.append(sha1);
+
+    sha1.clear();
+
+    sha1 = QCryptographicHash::hash(context, QCryptographicHash::Sha1);
+
+    return sha1;
+}
 
 /*!
     Generates time stamp
@@ -59,52 +103,15 @@ static QByteArray generateNonce()
 	return nonce;
 }
 
-#ifdef Q_OS_WIN
 /*!
     Constructor
     \param parent Parent QObject
 */
-OAuth::OAuth(QObject *parent) : QObject(parent), m_libraryOpenssl("libeay32", parent)
+OAuth::OAuth(QObject *parent) : QObject(parent)
 {
 	QDateTime current = QDateTime::currentDateTime();
 	qsrand(current.toTime_t());
-
-    //fetch function pointers
-    HMAC_fp = (FPHMAC)m_libraryOpenssl.resolve("HMAC");
-
-    if (!HMAC_fp) {
-        qDebug() << "Error resolving symbol HMAC";
-    }
-
-    EVP_sha1_fp = (FPEVPSHA1)m_libraryOpenssl.resolve("EVP_sha1");
-
-    if (!EVP_sha1_fp) {
-        qDebug() << "Error resolving symbol EVP_sha1";
-    }
 }
-#else
-OAuth::OAuth(QObject *parent) : QObject(parent), m_libraryOpenssl("crypto", parent)
-{
-    QDateTime current = QDateTime::currentDateTime();
-	qsrand(current.toTime_t());
-
-    if (!m_libraryOpenssl.isLoaded())
-        qDebug() << "Error loading libcrypto library";
-
-    //fetch function pointers
-    HMAC_fp = (FPHMAC)m_libraryOpenssl.resolve("HMAC");
-
-    if (!HMAC_fp) {
-        qDebug() << "Error resolving symbol HMAC";
-    }
-
-    EVP_sha1_fp = (FPEVPSHA1)m_libraryOpenssl.resolve("EVP_sha1");
-
-    if (!EVP_sha1_fp) {
-        qDebug() << "Error resolving symbol EVP_sha1";
-    }
-}
-#endif
 
 /*!
     Parses oauth_token and oauth_token_secret from response of the service provider
@@ -176,18 +183,18 @@ QByteArray OAuth::generateSignatureHMACSHA1(const QByteArray& signatureBase)
 	//OAuth spec. 9.2 http://oauth.net/core/1.0/#anchor16
 	QByteArray key = QByteArray(CONSUMER_SECRET) + '&' + m_oauthTokenSecret;
 
-	unsigned char digest[EVP_MAX_MD_SIZE];
-	unsigned int digestLen = 0;
+    //unsigned char digest[EVP_MAX_MD_SIZE];
+    //unsigned int digestLen = 0;
 
-    HMAC_fp(EVP_sha1_fp(), 
-		key.constData(), 
-		key.size(), 
-		(const unsigned char*)signatureBase.constData(), 
-		signatureBase.size(), 
-		digest, 
-		&digestLen);
+    //HMAC_fp(EVP_sha1_fp(),
+    //	key.constData(),
+    //	key.size(),
+    //	(const unsigned char*)signatureBase.constData(),
+    //	signatureBase.size(),
+    //	digest,
+    //	&digestLen);
 
-	QByteArray result((const char *)digest, digestLen);
+    QByteArray result = hmacSha1(signatureBase, key);
 	QByteArray resultBE64 = result.toBase64();
 	QByteArray resultPE = resultBE64.toPercentEncoding();
 	return resultPE;

@@ -22,17 +22,8 @@
 #define OAUTH_H
 
 #include <QObject>
-#include <QLibrary>
 #include <QUrl>
-#include <openssl/hmac.h>
-#include <openssl/evp.h>
 #include "qtweetlib_global.h"
-
-typedef unsigned char * (*FPHMAC)(const EVP_MD *, const void *, int,
-		                        const unsigned char *, size_t, unsigned char *,
-		                        unsigned int *);
-
-typedef const EVP_MD * (*FPEVPSHA1)(void);
 
 class QByteArray;
 
@@ -64,12 +55,7 @@ private:
 	QByteArray generateSignatureBase(const QUrl& url, HttpMethod method, const QByteArray& timestamp, const QByteArray& nonce);
 
 	QByteArray m_oauthToken;
-	QByteArray m_oauthTokenSecret;
-
-    //dynamic linking and function pointers
-    QLibrary m_libraryOpenssl;
-    FPHMAC HMAC_fp;
-    FPEVPSHA1 EVP_sha1_fp;
+    QByteArray m_oauthTokenSecret;
 };
 
 #endif //OAUTH_H
