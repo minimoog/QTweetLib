@@ -23,6 +23,7 @@
 
 #include <QObject>
 #include <QNetworkReply>
+#include "qtweetlib_global.h"
 
 class QNetworkAccessManager;
 class QAuthenticator;
@@ -32,7 +33,7 @@ class QTweetStatus;
 /*!
     Class for fetching user stream
  */
-class QTweetUserStream : public QObject
+class QTWEETLIBSHARED_EXPORT QTweetUserStream : public QObject
 {
     Q_OBJECT
 public:

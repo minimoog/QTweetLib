@@ -18,3 +18,12 @@ exampletest/*.vcxproj.*
 exampletest/ipch/*
 *.opensdf
 exampletest/exampletest.pro.user.*
+lib/*.exe
+lib/*.dll
+lib/*.exp
+lib/*.ilk
+lib/*.lib
+lib/*.prl
+qjson/debug
+scr/debug
+src/debug

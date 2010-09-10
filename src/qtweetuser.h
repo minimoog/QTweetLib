@@ -23,11 +23,12 @@
 
 #include <QVariant>
 #include <QHash>
+#include "qtweetlib_global.h"
 
 /*!
     Class for storing user info
  */
-class QTweetUser
+class QTWEETLIBSHARED_EXPORT QTweetUser
 {
 public:
     QTweetUser();

@@ -23,13 +23,14 @@
 
 #include <QVariant>
 #include <QHash>
+#include "qtweetlib_global.h"
 
 class QTweetUser;
 
 /*!
     Stores direct message info
  */
-class QTweetDMStatus
+class QTWEETLIBSHARED_EXPORT QTweetDMStatus
 {
 public:
     QTweetDMStatus();

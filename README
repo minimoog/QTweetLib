@@ -1,0 +1,5 @@
+- Supports only XAuth protocol (if there is need for PIN based OAuth I will include it)
+- OAuth tokens must be set in oauth.cpp line 27 and 28 to work properly
+- Uses QJson library by Flavio Castelli for parsing JSON responses
+- JSON parsing is done in multithreaded way using QThreadPool
+- User Streams support is not completed (fetches responses correctly, JSON parsing is not full implemented)
