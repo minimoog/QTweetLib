@@ -21,6 +21,7 @@
 #include <QNetworkReply>
 #include <QNetworkRequest>
 #include "qtweetusershow.h"
+#include "qtweetuser.h"
 
 QTweetUserShow::QTweetUserShow(QObject *parent) :
     QTweetNetBase(parent)
@@ -81,7 +82,21 @@ void QTweetUserShow::reply()
          m_response = reply->readAll();
         emit finished(m_response);
 
+        if (isJsonParsingEnabled())
+            parseJson(m_response);
+
         reply->deleteLater();
+    }
+}
+
+void QTweetUserShow::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
+{
+    if (ok) {
+        QTweetUser userInfo = variantMapToUserInfo(json.toMap());
+
+        emit parsedUserInfo(userInfo);
+    } else {
+        qDebug() << "QTweetUserShow Json parser error: " << errorMsg;
     }
 }
 

@@ -36,6 +36,14 @@ public:
                qint64 userid = 0,
                const QString& screenName = QString(),
                ResponseType respType = QTweetNetBase::JSON);
+
+signals:
+    /*! Emited when json is parsed to user info */
+    void parsedUserInfo(const QTweetUser& userInfo);
+
+protected slots:
+    void parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg);
+
 private slots:
     void reply();
     void error();

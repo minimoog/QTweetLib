@@ -199,5 +199,14 @@ QTweetUser QTweetNetBase::variantMapToUserInfo(const QVariantMap &var)
     userInfo.setScreenName(var["screen_name"].toString());
     userInfo.setFollowing(var["following"].toBool());
 
+    //check if contains status
+    if (var.contains("status")) {
+        QVariantMap statusMap = var["status"].toMap();
+
+        QTweetStatus status = variantMapToStatus(var);
+
+        userInfo.setStatus(status);
+    }
+
     return userInfo;
 }
