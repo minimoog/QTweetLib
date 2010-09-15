@@ -76,6 +76,7 @@ protected:
     QList<QTweetDMStatus> variantToDirectMessagesList(const QVariant& fromParser);
     QTweetUser variantMapToUserInfo(const QVariantMap& var);
     QTweetStatus variantMapToStatus(const QVariantMap& var);
+    QList<QTweetUser> variantToUserInfoList(const QVariant& fromParser);
     void parseJson(const QByteArray& jsonData);
 
     QByteArray m_response;

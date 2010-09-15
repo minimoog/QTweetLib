@@ -210,3 +210,18 @@ QTweetUser QTweetNetBase::variantMapToUserInfo(const QVariantMap &var)
 
     return userInfo;
 }
+
+QList<QTweetUser> QTweetNetBase::variantToUserInfoList(const QVariant &fromParser)
+{
+    QList<QTweetUser> users;
+
+    QList<QVariant> listUsers = fromParser.toList();
+
+    foreach (const QVariant& user, listUsers) {
+        QTweetUser userInfo = variantMapToUserInfo(user.toMap());
+
+        users.append(userInfo);
+    }
+
+    return users;
+}
