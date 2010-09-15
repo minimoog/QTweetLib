@@ -25,6 +25,8 @@
 #include <QHash>
 #include "qtweetlib_global.h"
 
+class QTweetStatus;
+
 /*!
     Class for storing user info
  */
@@ -61,7 +63,9 @@ public:
         Following,
         StatusesCount,
         Lang,
-        ContributorsEnabled
+        ContributorsEnabled,
+        // Twitter API sometimes returns user info with included last status
+        Status
     };
 
     void setId(qint64 id);
@@ -100,6 +104,8 @@ public:
     bool isFollowing() const;
     void setStatusesCount(int count);
     int statusesCount() const;
+    void setStatus(const QTweetStatus& lastStatus);
+    QTweetStatus status() const;
 
     static QDateTime twitterDateToQDateTime(const QString& twitterDate);
 

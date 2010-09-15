@@ -20,6 +20,7 @@
 
 #include <QDateTime>
 #include "qtweetuser.h"
+#include "qtweetstatus.h"
 
 QTweetUser::QTweetUser()
 {
@@ -205,6 +206,21 @@ void QTweetUser::setStatusesCount(int count)
 int QTweetUser::statusesCount() const
 {
     return m_userInfo.value(QTweetUser::StatusesCount).toInt();
+}
+
+void QTweetUser::setStatus(const QTweetStatus &lastStatus)
+{
+    QVariant statusVariant;
+    statusVariant.setValue(lastStatus);
+
+    m_userInfo.insert(QTweetUser::Status, statusVariant);
+}
+
+QTweetStatus QTweetUser::status() const
+{
+    QVariant status = m_userInfo.value(QTweetUser::Status);
+
+    return status.value<QTweetStatus>();
 }
 
 QDateTime QTweetUser::twitterDateToQDateTime(const QString &twitterDate)
