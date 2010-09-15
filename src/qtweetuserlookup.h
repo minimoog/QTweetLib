@@ -24,6 +24,8 @@
 #include <QStringList>
 #include "qtweetnetbase.h"
 
+class QTweetUser;
+
 /*!
     Class for fetching up to 100 users and theirs most recent status
  */
@@ -36,6 +38,13 @@ public:
     void fetch(const QList<qint64>& useridList = QList<qint64>(),
                const QStringList& screenNameList = QStringList(),
                ResponseType respType = QTweetNetBase::JSON);
+
+signals:
+    /*! Emited when json is parsed */
+    void parsedUserInfoList(const QList<QTweetUser>& userInfoList);
+
+protected slots:
+    void parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg);
 
 private slots:
     void reply();

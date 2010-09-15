@@ -21,6 +21,7 @@
 #include <QNetworkReply>
 #include <QNetworkRequest>
 #include "qtweetuserlookup.h"
+#include "qtweetuser.h"
 
 QTweetUserLookup::QTweetUserLookup(QObject *parent) :
     QTweetNetBase(parent)
@@ -94,7 +95,21 @@ void QTweetUserLookup::reply()
          m_response = reply->readAll();
         emit finished(m_response);
 
+        if (isJsonParsingEnabled())
+            parseJson(m_response);
+
         reply->deleteLater();
+    }
+}
+
+void QTweetUserLookup::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
+{
+    if (ok) {
+        QList<QTweetUser> userInfoList = variantToUserInfoList(json);
+
+        emit parsedUserInfoList(userInfoList);
+    } else {
+        qDebug() << "QTweetUserLookup json parser error: " << errorMsg;
     }
 }
 
