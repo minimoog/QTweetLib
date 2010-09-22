@@ -38,7 +38,6 @@ public:
                  ResponseType respType = QTweetNetBase::JSON);
 
 private slots:
-    void reply();
     void error();
 };
 

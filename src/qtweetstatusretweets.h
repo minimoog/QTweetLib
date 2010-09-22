@@ -33,8 +33,8 @@ public:
     QTweetStatusRetweets(QObject *parent = 0);
     QTweetStatusRetweets(OAuthTwitter *oauthTwitter, QObject *parent = 0);
     void fetch(qint64 id, int count = 0, ResponseType respType = QTweetNetBase::JSON);
+
 private slots:
-    void reply();
     void error();
 };
 

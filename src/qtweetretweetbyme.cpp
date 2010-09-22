@@ -87,21 +87,6 @@ void QTweetRetweetByMe::fetch(ResponseType respType,
     connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(error()));
 }
 
-void QTweetRetweetByMe::reply()
-{
-    QNetworkReply *reply = qobject_cast<QNetworkReply*>(sender());
-
-    if (reply) {
-         m_response = reply->readAll();
-        emit finished(m_response);
-
-        reply->deleteLater();
-
-        if (isJsonParsingEnabled())
-            parseJson(m_response);
-    }
-}
-
 void QTweetRetweetByMe::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
 {
     if (ok) {

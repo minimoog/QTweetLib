@@ -78,22 +78,6 @@ void QTweetUserSearch::search(const QString &query,
     connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(error()));
 }
 
-void QTweetUserSearch::reply()
-{
-    // ### TODO: Move this method in QTweetNetBase
-    QNetworkReply *reply = qobject_cast<QNetworkReply*>(sender());
-
-    if (reply) {
-         m_response = reply->readAll();
-        emit finished(m_response);
-
-        if (isJsonParsingEnabled())
-            parseJson(m_response);
-
-        reply->deleteLater();
-    }
-}
-
 void QTweetUserSearch::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
 {
     if (ok) {

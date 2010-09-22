@@ -68,18 +68,6 @@ void QTweetStatusRetweets::fetch(qint64 id, int count, ResponseType respType)
     connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(error()));
 }
 
-void QTweetStatusRetweets::reply()
-{
-    QNetworkReply *reply = qobject_cast<QNetworkReply*>(sender());
-
-    if (reply) {
-         m_response = reply->readAll();
-        emit finished(m_response);
-
-        reply->deleteLater();
-    }
-}
-
 void QTweetStatusRetweets::error()
 {
     // ### TODO:

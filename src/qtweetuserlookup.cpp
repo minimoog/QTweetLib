@@ -87,21 +87,6 @@ void QTweetUserLookup::fetch(const QList<qint64> &useridList,
     connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(error()));
 }
 
-void QTweetUserLookup::reply()
-{
-    QNetworkReply *reply = qobject_cast<QNetworkReply*>(sender());
-
-    if (reply) {
-         m_response = reply->readAll();
-        emit finished(m_response);
-
-        if (isJsonParsingEnabled())
-            parseJson(m_response);
-
-        reply->deleteLater();
-    }
-}
-
 void QTweetUserLookup::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
 {
     if (ok) {

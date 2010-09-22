@@ -47,7 +47,6 @@ protected slots:
     void parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg);
 
 private slots:
-    void reply();
     void error();
 };
 

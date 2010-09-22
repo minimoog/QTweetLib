@@ -70,18 +70,6 @@ void QTweetStatusDestroy::destroy(qint64 id,
     connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(error()));
 }
 
-void QTweetStatusDestroy::reply()
-{
-    QNetworkReply *reply = qobject_cast<QNetworkReply*>(sender());
-
-    if (reply) {
-         m_response = reply->readAll();
-        emit finished(m_response);
-
-        reply->deleteLater();
-    }
-}
-
 void QTweetStatusDestroy::error()
 {
     // ### TODO:

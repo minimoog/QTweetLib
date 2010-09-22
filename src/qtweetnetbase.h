@@ -70,6 +70,7 @@ signals:
 
 protected slots:
     virtual void parsingJsonFinished(const QVariant& json, bool ok, const QString& errorMsg);
+    virtual void reply();
 
 protected:
     QList<QTweetStatus> variantToStatusList(const QVariant& fromParser);

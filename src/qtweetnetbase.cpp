@@ -19,6 +19,7 @@
  */
 
 #include <QThreadPool>
+#include <QNetworkReply>
 #include "qtweetnetbase.h"
 #include "qtweetstatus.h"
 #include "qtweetdmstatus.h"
@@ -91,6 +92,21 @@ void QTweetNetBase::parseJson(const QByteArray &jsonData)
 void QTweetNetBase::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
 {
     // ### TODO: Make this method abstract
+}
+
+void QTweetNetBase::reply()
+{
+    QNetworkReply *reply = qobject_cast<QNetworkReply*>(sender());
+
+    if (reply) {
+         m_response = reply->readAll();
+        emit finished(m_response);
+
+        if (isJsonParsingEnabled())
+            parseJson(m_response);
+
+        reply->deleteLater();
+    }
 }
 
 QList<QTweetStatus> QTweetNetBase::variantToStatusList(const QVariant &fromParser)
