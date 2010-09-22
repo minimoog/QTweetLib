@@ -39,7 +39,8 @@ HEADERS += \
     qtweetdmstatus.h \
     qtweetusersearch.h \
     qtweetuserstatusesfriends.h \
-    qtweetuserstatusesfollowers.h
+    qtweetuserstatusesfollowers.h \
+    qtweetlist.h
 
 SOURCES += \
     oauth.cpp \
@@ -67,4 +68,5 @@ SOURCES += \
     qtweetdmstatus.cpp \
     qtweetusersearch.cpp \
     qtweetuserstatusesfriends.cpp \
-    qtweetuserstatusesfollowers.cpp
+    qtweetuserstatusesfollowers.cpp \
+    qtweetlist.cpp
