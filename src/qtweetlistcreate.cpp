@@ -36,6 +36,13 @@ QTweetListCreate::QTweetListCreate(OAuthTwitter *oauthTwitter, QObject *parent) 
 {
 }
 
+/*! Creates list
+    \param user user id
+    \param name The name of the list
+    \param mode true for public list, false for private list
+    \param description The description to give the list.
+    \param respType Response type json or xml
+ */
 void QTweetListCreate::create(qint64 user,
                               const QString &name,
                               bool mode,

@@ -23,6 +23,9 @@
 
 #include "qtweetnetbase.h"
 
+/*!
+    Creates a new list for the authenticated user.
+ */
 class QTWEETLIBSHARED_EXPORT QTweetListCreate : public QTweetNetBase
 {
     Q_OBJECT
@@ -36,6 +39,7 @@ public:
                 ResponseType respType = QTweetNetBase::JSON);
 
 signals:
+    /*! Emits parsed list */
     void parsedList(const QTweetList& list);
 
 protected slots:
