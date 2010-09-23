@@ -24,6 +24,7 @@
 #include "qtweetstatus.h"
 #include "qtweetdmstatus.h"
 #include "qtweetuser.h"
+#include "qtweetlist.h"
 #include "qjson/parserrunnable.h"
 
 /*!
@@ -240,4 +241,29 @@ QList<QTweetUser> QTweetNetBase::variantToUserInfoList(const QVariant &fromParse
     }
 
     return users;
+}
+
+QTweetList QTweetNetBase::variantMapToTweetList(const QVariantMap &var)
+{
+    QTweetList list;
+
+    list.setMode(var["mode"].toString());
+    list.setDescription(var["description"].toString());
+    list.setFollowing(var["following"].toBool());
+    list.setMemberCount(var["member_count"].toInt());
+    list.setFullName(var["full_name"].toString());
+    list.setSubscriberCount(var["subscriber_count"].toInt());
+    list.setSlug(var["slug"].toString());
+    list.setName(var["name"].toString());
+    list.setId(var["id"].toLongLong());
+    list.setUri(var["uri"].toString());
+
+    if (var.contains("user")) {
+        QVariantMap userMap = var["user"].toMap();
+
+        QTweetUser user = variantMapToUserInfo(userMap);
+
+        list.setUser(user);
+    }
+    return list;
 }
