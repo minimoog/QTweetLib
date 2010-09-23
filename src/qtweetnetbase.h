@@ -80,6 +80,7 @@ protected:
     QTweetStatus variantMapToStatus(const QVariantMap& var);
     QTweetList variantMapToTweetList(const QVariantMap& var);
     QList<QTweetUser> variantToUserInfoList(const QVariant& fromParser);
+    QList<QTweetList> variantToTweetLists(const QVariant& var);
 
     void parseJson(const QByteArray& jsonData);
 

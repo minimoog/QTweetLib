@@ -267,3 +267,18 @@ QTweetList QTweetNetBase::variantMapToTweetList(const QVariantMap &var)
     }
     return list;
 }
+
+QList<QTweetList> QTweetNetBase::variantToTweetLists(const QVariant &var)
+{
+    QList<QTweetList> lists;
+
+    QList<QVariant> varLists = var.toList();
+
+    foreach (const QVariant& varlist, varLists) {
+        QTweetList tweetlist = variantMapToTweetList(varlist.toMap());
+
+        lists.append(tweetlist);
+    }
+
+    return lists;
+}
