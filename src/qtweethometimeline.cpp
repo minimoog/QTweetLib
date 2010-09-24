@@ -21,8 +21,6 @@
 #include <QtDebug>
 #include <QNetworkRequest>
 #include <QNetworkReply>
-#include <QThreadPool>
-#include "qjson/parserrunnable.h"
 #include "qtweethometimeline.h"
 #include "qtweetstatus.h"
 

@@ -1,0 +1,106 @@
+/* Copyright (c) 2010, Antonie Jovanoski
+ *
+ * All rights reserved.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Contact e-mail: Antonie Jovanoski <minimoog77_at_gmail.com>
+ */
+
+#include <QtDebug>
+#include <QNetworkReply>
+#include <QNetworkRequest>
+#include "qtweetliststatuses.h"
+#include "qtweetstatus.h"
+
+QTweetListStatuses::QTweetListStatuses(QObject *parent) :
+    QTweetNetBase(parent)
+{
+}
+
+QTweetListStatuses::QTweetListStatuses(OAuthTwitter *oauthTwitter, QObject *parent) :
+        QTweetNetBase(oauthTwitter, parent)
+{
+}
+
+/*!
+    \param user User id
+    \param list List id
+    \param sinceid Returns results with an ID greater than (that is, more recent than) the specified ID.
+    \param maxid Returns results with an ID less than (that is, older than) or equal to the specified ID.
+    \param perPage Specifies how many tweets per page
+    \param page    Specifies the page of results to retrieve.
+    \param includeEntities When set to true each tweet will include a node called "entities,".
+    \param respType Response type json or xml
+  */
+void QTweetListStatuses::fetch(qint64 user,
+                               qint64 list,
+                               qint64 sinceid,
+                               qint64 maxid,
+                               int perPage,
+                               int page,
+                               bool includeEntities,
+                               ResponseType respType)
+{
+    Q_ASSERT(oauthTwitter() != 0);
+
+    QString urlString = QString("http://api.twitter.com/1/%1/lists/%2/statuses.").arg(user).arg(list);
+
+    QUrl url;
+
+    if (respType == QTweetNetBase::JSON)
+        url.setUrl(urlString + "json");
+    else
+        url.setUrl(urlString + "xml");
+
+    if (sinceid != 0)
+        url.addQueryItem("since_id", QString::number(sinceid));
+
+    if (maxid != 0)
+        url.addQueryItem("max_id", QString::number(maxid));
+
+    if (perPage != 0)
+        url.addQueryItem("per_page", QString::number(perPage));
+
+    if (page != 0)
+        url.addQueryItem("page", QString::number(page));
+
+    if (includeEntities)
+        url.addQueryItem("include_entities", "true");
+
+    QNetworkRequest req(url);
+
+    QByteArray oauthHeader = oauthTwitter()->generateAuthorizationHeader(url, OAuth::GET);
+    req.setRawHeader(AUTH_HEADER, oauthHeader);
+
+    QNetworkReply *reply = oauthTwitter()->networkAccessManager()->get(req);
+    connect(reply, SIGNAL(finished()), this, SLOT(reply()));
+    connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(error()));
+}
+
+void QTweetListStatuses::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
+{
+    if (ok) {
+        QList<QTweetStatus> statuses = variantToStatusList(json);
+
+        emit parsedStatuses(statuses);
+    } else {
+        qDebug() << "QTweetListStatuses json parser error: " << errorMsg;
+    }
+}
+
+void QTweetListStatuses::error()
+{
+    // ### TODO
+}
