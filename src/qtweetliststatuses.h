@@ -26,7 +26,7 @@
 /*!
     Fetches tweet timeline for members of the specified list.
  */
-class QTweetListStatuses : public QTweetNetBase
+class QTWEETLIBSHARED_EXPORT QTweetListStatuses : public QTweetNetBase
 {
     Q_OBJECT
 public:

@@ -18,33 +18,30 @@
  * Contact e-mail: Antonie Jovanoski <minimoog77_at_gmail.com>
  */
 
-#ifndef QTWEETLISTMEMBERSHIPS_H
-#define QTWEETLISTMEMBERSHIPS_H
+#ifndef QTWEETLISTADDMEMBER_H
+#define QTWEETLISTADDMEMBER_H
 
 #include "qtweetnetbase.h"
 
 /*!
-    Fetches the lists the specified user has been added to.
+    Add a member to a list.
+    The authenticated user must own the list to be able to add members to it.
+    Lists are limited to having 500 members.
  */
-class QTWEETLIBSHARED_EXPORT QTweetListMemberships : public QTweetNetBase
+class QTWEETLIBSHARED_EXPORT QTweetListAddMember : public QTweetNetBase
 {
     Q_OBJECT
 public:
-    QTweetListMemberships(QObject *parent = 0);
-    QTweetListMemberships(OAuthTwitter *oauthTwitter, QObject *parent = 0);
-    void fetch(qint64 id,
-               const QString& cursor = QString(),
-               ResponseType respType = QTweetNetBase::JSON);
+    QTweetListAddMember(QObject *parent = 0);
+    QTweetListAddMember(OAuthTwitter *oauthTwitter, QObject *parent = 0);
+    void add(qint64 user,
+             qint64 list,
+             qint64 memberid,
+             ResponseType respType = QTweetNetBase::JSON);
 
 signals:
-    /*! Emited when json parsing is finished
-        \param lists Lists
-        \param nextCursor Cursor for next page, "0" if there is no next page
-        \param prevCursor Cursor for prev page, "0" if there is no prev page
-     */
-    void parsedList(const QList<QTweetList>& lists,
-                    const QString& nextCursor,
-                    const QString& prevCursor);
+    /*! Emits parsed list in which user was added */
+    void parsedList(const QTweetList& list);
 
 protected slots:
     void parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg);
@@ -53,4 +50,4 @@ private slots:
     void error();
 };
 
-#endif // QTWEETLISTMEMBERSHIPS_H
+#endif // QTWEETLISTADDMEMBER_H

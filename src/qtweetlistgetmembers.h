@@ -26,7 +26,7 @@
 /*!
     Gets the members of the specified list.
  */
-class QTweetListGetMembers : public QTweetNetBase
+class QTWEETLIBSHARED_EXPORT QTweetListGetMembers : public QTweetNetBase
 {
     Q_OBJECT
 public:

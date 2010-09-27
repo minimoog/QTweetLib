@@ -26,7 +26,7 @@
 /*!
     Fetch the lists the specified user follows.
  */
-class QTweetListSubscriptions : public QTweetNetBase
+class QTWEETLIBSHARED_EXPORT QTweetListSubscriptions : public QTweetNetBase
 {
     Q_OBJECT
 public:
