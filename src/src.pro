@@ -53,7 +53,8 @@ HEADERS += \
     qtweetlistaddmember.h \
     qtweetlistdeletemember.h \
     qtweetlistsubscribers.h \
-    qtweetlistsubscribe.h
+    qtweetlistsubscribe.h \
+    qtweetlistunsubscribe.h
 
 SOURCES += \
     oauth.cpp \
@@ -95,4 +96,5 @@ SOURCES += \
     qtweetlistaddmember.cpp \
     qtweetlistdeletemember.cpp \
     qtweetlistsubscribers.cpp \
-    qtweetlistsubscribe.cpp
+    qtweetlistsubscribe.cpp \
+    qtweetlistunsubscribe.cpp
