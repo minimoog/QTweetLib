@@ -18,27 +18,30 @@
  * Contact e-mail: Antonie Jovanoski <minimoog77_at_gmail.com>
  */
 
-#ifndef QTWEETLISTUNSUBSCRIBE_H
-#define QTWEETLISTUNSUBSCRIBE_H
+#ifndef QTWEETDIRECTMESSAGESSENT_H
+#define QTWEETDIRECTMESSAGESSENT_H
 
 #include "qtweetnetbase.h"
 
 /*!
-    Unsubscribes the authenticated user form the specified list.
+    Fetches direct messages sent by the authenticating user.
  */
-class QTWEETLIBSHARED_EXPORT QTweetListUnsubscribe : public QTweetNetBase
+class QTWEETLIBSHARED_EXPORT QTweetDirectMessagesSent : public QTweetNetBase
 {
     Q_OBJECT
 public:
-    QTweetListUnsubscribe(QObject *parent = 0);
-    QTweetListUnsubscribe(OAuthTwitter *oauthTwitter, QObject *parent = 0);
-    void unsubscribe(qint64 user,
-                     qint64 list,
-                     ResponseType respType = QTweetNetBase::JSON);
+    QTweetDirectMessagesSent(QObject *parent = 0);
+    QTweetDirectMessagesSent(OAuthTwitter *oauthTwitter, QObject *parent = 0);
+    void fetch(qint64 sinceid = 0,
+               qint64 maxid = 0,
+               int count = 0,
+               int page = 0,
+               bool includeEntities = false,
+               ResponseType respType = QTweetNetBase::JSON);
 
 signals:
-    /*! Emits parsed list from which user was unsubscribed */
-    void parsedList(const QTweetList& list);
+    /*! Emits parsed direct messages list */
+    void parsedDirectMessages(const QList<QTweetDMStatus>& messages);
 
 protected slots:
     void parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg);
@@ -47,4 +50,4 @@ private slots:
     void error();
 };
 
-#endif // QTWEETLISTUNSUBSCRIBE_H
+#endif // QTWEETDIRECTMESSAGESSENT_H
