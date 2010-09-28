@@ -55,7 +55,8 @@ HEADERS += \
     qtweetlistsubscribers.h \
     qtweetlistsubscribe.h \
     qtweetlistunsubscribe.h \
-    qtweetdirectmessagessent.h
+    qtweetdirectmessagessent.h \
+    qtweetdirectmessagenew.h
 
 SOURCES += \
     oauth.cpp \
@@ -99,4 +100,5 @@ SOURCES += \
     qtweetlistsubscribers.cpp \
     qtweetlistsubscribe.cpp \
     qtweetlistunsubscribe.cpp \
-    qtweetdirectmessagessent.cpp
+    qtweetdirectmessagessent.cpp \
+    qtweetdirectmessagenew.cpp

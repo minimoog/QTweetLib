@@ -76,6 +76,7 @@ protected slots:
 protected:
     QList<QTweetStatus> variantToStatusList(const QVariant& fromParser);
     QList<QTweetDMStatus> variantToDirectMessagesList(const QVariant& fromParser);
+    QTweetDMStatus variantMapToDirectMessage(const QVariantMap& var);
     QTweetUser variantMapToUserInfo(const QVariantMap& var);
     QTweetStatus variantMapToStatus(const QVariantMap& var);
     QTweetList variantMapToTweetList(const QVariantMap& var);

@@ -164,33 +164,38 @@ QList<QTweetDMStatus> QTweetNetBase::variantToDirectMessagesList(const QVariant 
     QList<QVariant> listMessages = fromParser.toList();
 
     foreach (const QVariant& message, listMessages) {
-        QTweetDMStatus dmStatus;
-
-        QVariantMap dmMap = message.toMap();
-
-        dmStatus.setCreatedAt(dmMap["created_at"].toString());
-        dmStatus.setSenderScreenName(dmMap["sender_screen_name"].toString());
-
-        QVariantMap senderMap = dmMap["sender"].toMap();
-        QTweetUser sender = variantMapToUserInfo(senderMap);
-
-        dmStatus.setSender(sender);
-
-        dmStatus.setText(dmMap["text"].toString());
-        dmStatus.setRecipientScreenName(dmMap["recipient_screen_name"].toString());
-        dmStatus.setId(dmMap["id"].toLongLong());
-
-        QVariantMap recipientMap = dmMap["recipient"].toMap();
-        QTweetUser recipient = variantMapToUserInfo(recipientMap);
-
-        dmStatus.setRecipient(recipient);
-
-        dmStatus.setRecipientId(dmMap["recipient_id"].toLongLong());
-        dmStatus.setSenderId(dmMap["sender_id"].toLongLong());
-
+        QTweetDMStatus dmStatus = variantMapToDirectMessage(message.toMap());
         directMessages.append(dmStatus);
     }
+
     return directMessages;
+}
+
+QTweetDMStatus QTweetNetBase::variantMapToDirectMessage(const QVariantMap &var)
+{
+    QTweetDMStatus directMessage;
+
+    directMessage.setCreatedAt(var["created_at"].toString());
+    directMessage.setSenderScreenName(var["sender_screen_name"].toString());
+
+    QVariantMap senderMap = var["sender"].toMap();
+    QTweetUser sender = variantMapToUserInfo(senderMap);
+
+    directMessage.setSender(sender);
+
+    directMessage.setText(var["text"].toString());
+    directMessage.setRecipientScreenName(var["recipient_screen_name"].toString());
+    directMessage.setId(var["id"].toLongLong());
+
+    QVariantMap recipientMap = var["recipient"].toMap();
+    QTweetUser recipient = variantMapToUserInfo(recipientMap);
+
+    directMessage.setRecipient(recipient);
+
+    directMessage.setRecipientId(var["recipient_id"].toLongLong());
+    directMessage.setSenderId(var["sender_id"].toLongLong());
+
+    return directMessage;
 }
 
 QTweetUser QTweetNetBase::variantMapToUserInfo(const QVariantMap &var)
