@@ -4,7 +4,8 @@ QT       -= gui
 TEMPLATE = lib
 TARGET = QTweetLib
 DESTDIR = ../lib
-LIBS += ../lib/qjson.lib
+win32:LIBS += ../lib/qjson.lib
+unix:LIBS += -L../lib -lqjson
 CONFIG += create_prl
 INCLUDEPATH += ..
 

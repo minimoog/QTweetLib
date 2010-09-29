@@ -67,8 +67,11 @@ void MainWindow::on_authenticateButton_clicked()
 
 void MainWindow::on_fetchFTPushButton_clicked()
 {
+    qDebug() << "in fetch()";
+
     QTweetFriendsTimeline *friendsTimeline = new QTweetFriendsTimeline(m_oauthtwitter, this);
     connect(friendsTimeline, SIGNAL(finished(QByteArray)), this, SLOT(finishedFriendsTimeline(QByteArray)));
+    //connect(friendsTimeline, SIGNAL(parsedStatuses(QList<QTweetStatus>)), this, SLOT(finishedFT(QList<QTweetStatus>)));
 
     QTweetNetBase::ResponseType respType;
 
@@ -107,6 +110,21 @@ void MainWindow::on_fetchFTPushButton_clicked()
                            includeRts,
                            includeEntities);
 }
+
+//void MainWindow::finishedFT(const QList<QTweetStatus> &statuses)
+//{
+//    qDebug() << "in finishedFriendsTimelineParsing()";
+//      QTweetFriendsTimeline *friendsTimeline = qobject_cast<QTweetFriendsTimeline*>(sender());
+
+//      for (QList<QTweetStatus>::const_iterator i = statuses.begin(); i != statuses.end(); ++i)
+//      {
+//        qDebug() << (*i).text() << endl;
+//      }
+
+//      if (friendsTimeline) {
+//        friendsTimeline->deleteLater();
+//      }
+//}
 
 void MainWindow::finishedFriendsTimeline(const QByteArray& response)
 {

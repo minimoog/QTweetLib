@@ -47,6 +47,7 @@ private slots:
     void on_authenticateButton_clicked();
     void on_fetchFTPushButton_clicked();
     void finishedFriendsTimeline(const QByteArray& response);
+    //void finishedFT(const QList<QTweetStatus>& statuses);
     void streamStatuses(const QTweetStatus& status);
 
     void on_startUserStreamButton_clicked();

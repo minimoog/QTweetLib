@@ -2,7 +2,11 @@ QT       += core gui network
 
 TARGET = exampletest
 TEMPLATE = app
-LIBS += ../lib/QTweetLib.lib
+win32:LIBS += ../lib/QTweetLib.lib
+unix:LIBS += -L../lib -lQTweetLib
+
+unix:QMAKE_LFLAGS += -Wl,-rpath=../lib
+
 CONFIG += link_prl
 
 INCLUDEPATH += ../src
