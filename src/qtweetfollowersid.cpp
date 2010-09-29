@@ -78,7 +78,7 @@ void QTweetFollowersID::parsingJsonFinished(const QVariant &json, bool ok, const
 
         emit parsedIDs(idList, nextCursor, prevCursor);
     } else {
-        qDebug() << "QTweetFriendsID parser error: " << errorMsg;
+        qDebug() << "QTweetFollowersID parser error: " << errorMsg;
     }
 }
 
