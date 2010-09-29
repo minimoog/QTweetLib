@@ -77,7 +77,7 @@ void QTweetListMemberships::parsingJsonFinished(const QVariant &json, bool ok, c
         QList<QTweetList> lists = variantToTweetLists(listsVar);
 
         QString nextCursor = respMap["next_cursor_str"].toString();
-        QString prevCursor = respMap["prev_cursor_str"].toString();
+        QString prevCursor = respMap["previous_cursor_str"].toString();
 
         emit parsedList(lists, nextCursor, prevCursor);
     } else {

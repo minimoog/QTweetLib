@@ -18,44 +18,38 @@
  * Contact e-mail: Antonie Jovanoski <minimoog77_at_gmail.com>
  */
 
-#include <QtDebug>
 #include <QNetworkRequest>
 #include <QNetworkReply>
-#include "qtweetlistsubscriptions.h"
-#include "qtweetlist.h"
+#include "qtweetfriendsid.h"
 
-QTweetListSubscriptions::QTweetListSubscriptions(QObject *parent) :
+QTweetFriendsID::QTweetFriendsID(QObject *parent) :
     QTweetNetBase(parent)
 {
 }
 
-QTweetListSubscriptions::QTweetListSubscriptions(OAuthTwitter *oauthTwitter, QObject *parent) :
+QTweetFriendsID::QTweetFriendsID(OAuthTwitter *oauthTwitter, QObject *parent) :
         QTweetNetBase(oauthTwitter, parent)
 {
 }
 
 /*!
-    \param user User ID
-    \param cursor Breaks the results into pages. A single page contains 20 lists.
-                  Provide a value of -1 to begin paging.
-                  Provide values as returned next_cursor and previous_cursor attributes to page back and forth
-    \param respType Response type json or xml
+    \param user The ID of the user for whom to return results for.
+    \param screenName The screen name of the user for whom to return results for.
+    \param cursor Use from response nextCursor and prevCursor to allow paging back and forth
  */
-void QTweetListSubscriptions::fetch(qint64 user, const QString &cursor, ResponseType respType)
+void QTweetFriendsID::fetch(qint64 user, const QString &screenName, const QString &cursor)
 {
     Q_ASSERT(oauthTwitter() != 0);
 
-    QString urlString = QString("http://api.twitter.com/1/%1/lists/subscriptions.").arg(user);
+    QUrl url("http://api.twitter.com/1/friends/ids.json");
 
-    QUrl url;
+    if (user)
+        url.addQueryItem("user_id", QString::number(user));
 
-    if (respType == QTweetNetBase::JSON)
-        url.setUrl(urlString + "json");
-    else
-        url.setUrl(urlString + "xml");
+    if (!screenName.isEmpty())
+        url.addQueryItem("screen_name", screenName);
 
-    if (!cursor.isEmpty())
-        url.addQueryItem("cursor", cursor);
+    url.addQueryItem("cursor", cursor);
 
     QNetworkRequest req(url);
 
@@ -67,25 +61,28 @@ void QTweetListSubscriptions::fetch(qint64 user, const QString &cursor, Response
     connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(error()));
 }
 
-void QTweetListSubscriptions::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
+void QTweetFriendsID::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
 {
     if (ok) {
+        QList<qint64> idList;
+
         QVariantMap respMap = json.toMap();
 
-        QVariant listsVar = respMap["lists"];
+        QVariantList idVarList = respMap["ids"].toList();
 
-        QList<QTweetList> lists = variantToTweetLists(listsVar);
+        foreach (const QVariant& idVar, idVarList)
+            idList.append(idVar.toLongLong());
 
         QString nextCursor = respMap["next_cursor_str"].toString();
         QString prevCursor = respMap["previous_cursor_str"].toString();
 
-        emit parsedLists(lists, nextCursor, prevCursor);
+        emit parsedIDs(idList, nextCursor, prevCursor);
     } else {
-        qDebug() << "QTweetListSubscriptions json parser error: " << errorMsg;
+        qDebug() << "QTweetFriendsID parser error: " << errorMsg;
     }
 }
 
-void QTweetListSubscriptions::error()
+void QTweetFriendsID::error()
 {
-    // ### TODO:
+    // ### TODO
 }
