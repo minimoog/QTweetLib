@@ -61,7 +61,8 @@ HEADERS += \
     qtweetdirectmessagedestroy.h \
     qtweetfriendshipcreate.h \
     qtweetfriendshipdestroy.h \
-    qtweetfriendsid.h
+    qtweetfriendsid.h \
+    qtweetfollowersid.h
 
 SOURCES += \
     oauth.cpp \
@@ -110,4 +111,5 @@ SOURCES += \
     qtweetdirectmessagedestroy.cpp \
     qtweetfriendshipcreate.cpp \
     qtweetfriendshipdestroy.cpp \
-    qtweetfriendsid.cpp
+    qtweetfriendsid.cpp \
+    qtweetfollowersid.cpp
