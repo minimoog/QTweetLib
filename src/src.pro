@@ -64,7 +64,8 @@ HEADERS += \
     qtweetfriendsid.h \
     qtweetfollowersid.h \
     qtweetaccountverifycredentials.h \
-    qtweetaccountratelimitstatus.h
+    qtweetaccountratelimitstatus.h \
+    qtweetfavorites.h
 
 SOURCES += \
     oauth.cpp \
@@ -116,4 +117,5 @@ SOURCES += \
     qtweetfriendsid.cpp \
     qtweetfollowersid.cpp \
     qtweetaccountverifycredentials.cpp \
-    qtweetaccountratelimitstatus.cpp
+    qtweetaccountratelimitstatus.cpp \
+    qtweetfavorites.cpp
