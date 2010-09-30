@@ -26,6 +26,7 @@
 #include "qtweetlib_global.h"
 
 class QNetworkAccessManager;
+class OAuthTwitter;
 class QAuthenticator;
 class QTimer;
 class QTweetStatus;
@@ -38,10 +39,8 @@ class QTWEETLIBSHARED_EXPORT QTweetUserStream : public QObject
     Q_OBJECT
 public:
     QTweetUserStream(QObject *parent = 0);
-    void setNetworkAccessManager(QNetworkAccessManager* netManager);
-    QNetworkAccessManager* networkAccessManager() const;
-    void setUsername(const QString& username);
-    void setPassword(const QString& password);
+    void setOAuthTwitter(OAuthTwitter* oauthTwitter);
+    OAuthTwitter* oauthTwitter() const;
 
 signals:
     /*!
@@ -58,7 +57,6 @@ public slots:
     void startFetching();
 
 private slots:
-    void authRequired(QNetworkReply* reply, QAuthenticator* authenticator);
     void replyError(QNetworkReply::NetworkError code);
     void replyFinished();
     void replyReadyRead();
@@ -67,11 +65,9 @@ private slots:
 private:
     void parseStream(const QByteArray& );
 
-    QNetworkAccessManager *m_netManager;
+    OAuthTwitter *m_oauthTwitter;
     QNetworkReply *m_reply;
     QTimer *m_backofftimer;
-    QString m_username;
-    QString m_password;
     QByteArray m_cashedResponse;
 };
 

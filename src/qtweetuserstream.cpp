@@ -19,52 +19,34 @@
  */
 
 #include <QtDebug>
-#include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QNetworkRequest>
 #include <QAuthenticator>
 #include <QTimer>
 #include <QThreadPool>
+#include "oauthtwitter.h"
 #include "qtweetuserstream.h"
 #include "qtweetstatus.h"
 #include "qtweetuser.h"
 #include "qjson/parserrunnable.h"
 
-#define TWITTER_USERSTREAM_URL "https://betastream.twitter.com/2b/user.json"
+#define TWITTER_USERSTREAM_URL "https://userstream.twitter.com/2/user.json"
 
 QTweetUserStream::QTweetUserStream(QObject *parent) :
-    QObject(parent), m_netManager(0), m_reply(0), m_backofftimer(new QTimer(this))
+    QObject(parent), m_oauthTwitter(0), m_reply(0), m_backofftimer(new QTimer(this))
 {
     m_backofftimer->setSingleShot(true);
     connect(m_backofftimer, SIGNAL(timeout()), this, SLOT(startFetching()));
 }
 
-void QTweetUserStream::setNetworkAccessManager(QNetworkAccessManager *netManager)
+void QTweetUserStream::setOAuthTwitter(OAuthTwitter *oauthTwitter)
 {
-    m_netManager = netManager;
-    connect(m_netManager, SIGNAL(authenticationRequired(QNetworkReply*,QAuthenticator*)),
-            this, SLOT(authRequired(QNetworkReply*,QAuthenticator*)));
+    m_oauthTwitter = oauthTwitter;
 }
 
-QNetworkAccessManager* QTweetUserStream::networkAccessManager() const
+OAuthTwitter* QTweetUserStream::oauthTwitter() const
 {
-    return m_netManager;
-}
-
-void QTweetUserStream::setUsername(const QString& username)
-{
-    m_username = username;
-}
-
-void QTweetUserStream::setPassword(const QString& password)
-{
-    m_password = password;
-}
-
-void QTweetUserStream::authRequired(QNetworkReply *reply, QAuthenticator *authenticator)
-{
-    authenticator->setUser(m_username);
-    authenticator->setPassword(m_password);
+    return m_oauthTwitter;
 }
 
 void QTweetUserStream::replyError(QNetworkReply::NetworkError code)
@@ -121,7 +103,10 @@ void QTweetUserStream::startFetching()
     QNetworkRequest req;
     req.setUrl(QUrl(TWITTER_USERSTREAM_URL));
 
-    m_reply = m_netManager->get(req);
+    QByteArray oauthHeader = oauthTwitter()->generateAuthorizationHeader(req.url(), OAuth::GET);
+    req.setRawHeader(AUTH_HEADER, oauthHeader);
+
+    m_reply = m_oauthTwitter->networkAccessManager()->get(req);
     connect(m_reply, SIGNAL(finished()), this, SLOT(replyFinished()));
     connect(m_reply, SIGNAL(readyRead()), this, SLOT(replyReadyRead()));
     connect(m_reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(replyError(QNetworkReply::NetworkError)));

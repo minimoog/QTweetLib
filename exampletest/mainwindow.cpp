@@ -36,7 +36,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     m_oauthtwitter->setNetworkAccessManager(new QNetworkAccessManager(this));
-    m_userstream->setNetworkAccessManager(m_oauthtwitter->networkAccessManager());
+    m_userstream->setOAuthTwitter(m_oauthtwitter);
 }
 
 MainWindow::~MainWindow()
@@ -139,32 +139,36 @@ void MainWindow::finishedFriendsTimeline(const QByteArray& response)
 
 void MainWindow::on_startUserStreamButton_clicked()
 {
-    m_userstream->setUsername(ui->usernameUserStreamLineEdit->text());
-    m_userstream->setPassword(ui->passwordUserStreamLineEdit->text());
-
     m_userstream->startFetching();
-    connect(m_userstream, SIGNAL(parsedStatusesStream(QTweetStatus)), this, SLOT(streamStatuses(QTweetStatus)));
+    //connect(m_userstream, SIGNAL(parsedStatusesStream(QTweetStatus)), this, SLOT(streamStatuses(QTweetStatus)));
+    connect(m_userstream, SIGNAL(stream(QByteArray)), this, SLOT(streamStatuses(QByteArray)));
 }
 
-void MainWindow::streamStatuses(const QTweetStatus &status)
-{
-    ui->responseUserStreamTextEdit->appendPlainText("id: " + QString::number(status.id()));
-    ui->responseUserStreamTextEdit->appendPlainText("text: " + status.text());
-    ui->responseUserStreamTextEdit->appendPlainText("source: " + status.source());
-    ui->responseUserStreamTextEdit->appendPlainText("in reply to status id: " + QString::number(status.inReplyToStatusId()));
-    ui->responseUserStreamTextEdit->appendPlainText("in reply to userid: " + QString::number(status.inReplyToUserId()));
-    ui->responseUserStreamTextEdit->appendPlainText("in reply to screen name: " + status.inReplyToScreenName());
-    ui->responseUserStreamTextEdit->appendPlainText("userid: " + QString::number(status.user().id()));
-    ui->responseUserStreamTextEdit->appendPlainText("name: " + status.user().name());
-    ui->responseUserStreamTextEdit->appendPlainText("screen name: " + status.user().screenName());
-    ui->responseUserStreamTextEdit->appendPlainText("avatar: " + status.user().profileImageUrl());
+//void MainWindow::streamStatuses(const QTweetStatus &status)
+//{
+//    ui->responseUserStreamTextEdit->appendPlainText("id: " + QString::number(status.id()));
+//    ui->responseUserStreamTextEdit->appendPlainText("text: " + status.text());
+//    ui->responseUserStreamTextEdit->appendPlainText("source: " + status.source());
+//    ui->responseUserStreamTextEdit->appendPlainText("in reply to status id: " + QString::number(status.inReplyToStatusId()));
+//    ui->responseUserStreamTextEdit->appendPlainText("in reply to userid: " + QString::number(status.inReplyToUserId()));
+//    ui->responseUserStreamTextEdit->appendPlainText("in reply to screen name: " + status.inReplyToScreenName());
+//    ui->responseUserStreamTextEdit->appendPlainText("userid: " + QString::number(status.user().id()));
+//    ui->responseUserStreamTextEdit->appendPlainText("name: " + status.user().name());
+//    ui->responseUserStreamTextEdit->appendPlainText("screen name: " + status.user().screenName());
+//    ui->responseUserStreamTextEdit->appendPlainText("avatar: " + status.user().profileImageUrl());
 
-    if (status.retweetedStatus().id() != 0) {
-        ui->responseUserStreamTextEdit->appendPlainText("Retweeted Status: ");
-        ui->responseUserStreamTextEdit->appendPlainText("\tid: " + QString::number(status.retweetedStatus().id()));
-        ui->responseUserStreamTextEdit->appendPlainText("\tuserid: " + QString::number(status.retweetedStatus().id()));
-        ui->responseUserStreamTextEdit->appendPlainText("\tname: " + status.retweetedStatus().user().name());
-        ui->responseUserStreamTextEdit->appendPlainText("\tscreen name: " + status.retweetedStatus().user().screenName());
-    }
-    ui->responseUserStreamTextEdit->appendPlainText("------------------------------------------------------");
+//    if (status.retweetedStatus().id() != 0) {
+//        ui->responseUserStreamTextEdit->appendPlainText("Retweeted Status: ");
+//        ui->responseUserStreamTextEdit->appendPlainText("\tid: " + QString::number(status.retweetedStatus().id()));
+//        ui->responseUserStreamTextEdit->appendPlainText("\tuserid: " + QString::number(status.retweetedStatus().id()));
+//        ui->responseUserStreamTextEdit->appendPlainText("\tname: " + status.retweetedStatus().user().name());
+//        ui->responseUserStreamTextEdit->appendPlainText("\tscreen name: " + status.retweetedStatus().user().screenName());
+//    }
+//    ui->responseUserStreamTextEdit->appendPlainText("------------------------------------------------------");
+//}
+
+void MainWindow::streamStatuses(const QByteArray &response)
+{
+    ui->responseUserStreamTextEdit->appendPlainText(QString(response));
+    ui->responseUserStreamTextEdit->appendPlainText("/n##################/n");
 }
