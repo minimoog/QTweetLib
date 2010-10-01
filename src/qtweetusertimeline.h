@@ -34,8 +34,7 @@ class QTWEETLIBSHARED_EXPORT QTweetUserTimeline : public QTweetNetBase
 public:
     QTweetUserTimeline(QObject *parent = 0);
     QTweetUserTimeline(OAuthTwitter *oauthTwitter, QObject *parent = 0);
-    void fetch(ResponseType respType = QTweetNetBase::JSON,
-               qint64 userid = 0,
+    void fetch(qint64 userid = 0,
                const QString& screenName = QString(),
                qint64 sinceid = 0,
                qint64 maxid = 0,

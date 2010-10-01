@@ -36,8 +36,7 @@ public:
     QTweetUserLookup(QObject *parent = 0);
     QTweetUserLookup(OAuthTwitter *oauthTwitter, QObject *parent = 0);
     void fetch(const QList<qint64>& useridList = QList<qint64>(),
-               const QStringList& screenNameList = QStringList(),
-               ResponseType respType = QTweetNetBase::JSON);
+               const QStringList& screenNameList = QStringList());
 
 signals:
     /*! Emited when json is parsed */

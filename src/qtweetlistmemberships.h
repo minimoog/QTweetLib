@@ -33,8 +33,7 @@ public:
     QTweetListMemberships(QObject *parent = 0);
     QTweetListMemberships(OAuthTwitter *oauthTwitter, QObject *parent = 0);
     void fetch(qint64 id,
-               const QString& cursor = QString(),
-               ResponseType respType = QTweetNetBase::JSON);
+               const QString& cursor = QString());
 
 signals:
     /*! Emited when json parsing is finished

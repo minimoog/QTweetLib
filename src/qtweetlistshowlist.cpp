@@ -38,22 +38,14 @@ QTweetListShowList::QTweetListShowList(OAuthTwitter *oauthTwitter, QObject *pare
     Shows (gets) specified list
     \param id User id
     \param list List id
-    \param respType Response type json or xml
  */
-void QTweetListShowList::show(qint64 id, qint64 list, ResponseType respType)
+void QTweetListShowList::show(qint64 id, qint64 list)
 {
     // slug parameter?
 
     Q_ASSERT(oauthTwitter() != 0);
 
-    QString urlString = QString("http://api.twitter.com/1/%1/lists/%2.").arg(id).arg(list);
-
-    QUrl url;
-
-    if (respType == QTweetNetBase::JSON)
-        url.setUrl(urlString + "json");
-    else
-        url.setUrl(urlString + "xml");
+    QUrl url(QString("http://api.twitter.com/1/%1/lists/%2.json").arg(id).arg(list));
 
     QNetworkRequest req(url);
 

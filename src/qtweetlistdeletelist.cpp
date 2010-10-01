@@ -38,20 +38,12 @@ QTweetListDeleteList::QTweetListDeleteList(OAuthTwitter *oauthTwitter, QObject *
     Deletes specified list
     \param user User id
     \param list List id
-    \param respType Response type json or xml
  */
-void QTweetListDeleteList::deleteList(qint64 user, qint64 list, ResponseType respType)
+void QTweetListDeleteList::deleteList(qint64 user, qint64 list)
 {
     Q_ASSERT(oauthTwitter() != 0);
 
-    QString urlString = QString("http://api.twitter.com/1/%1/lists/%2.").arg(user).arg(list);
-
-    QUrl url;
-
-    if (respType == QTweetNetBase::JSON)
-        url.setUrl(urlString + "json");
-    else
-        url.setUrl(urlString + "xml");
+    QUrl url(QString("http://api.twitter.com/1/%1/lists/%2.json").arg(user).arg(list));
 
     QNetworkRequest req(url);
 

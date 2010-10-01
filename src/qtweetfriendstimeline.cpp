@@ -38,7 +38,6 @@ QTweetFriendsTimeline::QTweetFriendsTimeline(OAuthTwitter *oauthTwitter, QObject
 
 /*!
     Starts fetching friends timeline
-    \param respType Response type
     \param sinceid Fetch tweets newer then sinceid
     \param maxid Fetch tweets older then maxid
     \param count Number of tweet to fetch (up to 200)
@@ -48,23 +47,17 @@ QTweetFriendsTimeline::QTweetFriendsTimeline(OAuthTwitter *oauthTwitter, QObject
     \param includeEntities Each tweet include node "entities"
     \remarks Async
  */
-void QTweetFriendsTimeline::fetch(ResponseType respType,
-                                    qint64 sinceid,
-                                    qint64 maxid,
-                                    int count,
-                                    int page,
-                                    bool trimUser,
-                                    bool includeRts,
-                                    bool includeEntities)
+void QTweetFriendsTimeline::fetch(qint64 sinceid,
+                                  qint64 maxid,
+                                  int count,
+                                  int page,
+                                  bool trimUser,
+                                  bool includeRts,
+                                  bool includeEntities)
 {
     Q_ASSERT(oauthTwitter() != 0);
 
-    QUrl url;
-
-    if (respType == QTweetNetBase::JSON)
-        url.setUrl("http://api.twitter.com/1/statuses/friends_timeline.json");
-    else
-        url.setUrl("http://api.twitter.com/1/statuses/friends_timeline.xml");
+    QUrl url("http://api.twitter.com/1/statuses/friends_timeline.json");
 
     if (sinceid != 0)
         url.addQueryItem("since_id", QString::number(sinceid));

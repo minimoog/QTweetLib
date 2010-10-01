@@ -33,9 +33,7 @@ class QTWEETLIBSHARED_EXPORT QTweetDirectMessageDestroy : public QTweetNetBase
 public:
     QTweetDirectMessageDestroy(QObject *parent = 0);
     QTweetDirectMessageDestroy(OAuthTwitter *oauthTwitter, QObject *parent = 0);
-    void destroyMessage(qint64 id,
-                        bool includeEntities = false,
-                        ResponseType respType = QTweetNetBase::JSON);
+    void destroyMessage(qint64 id, bool includeEntities = false);
 
 signals:
     /*! emits destroyed direct message */

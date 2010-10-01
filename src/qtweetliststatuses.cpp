@@ -41,8 +41,7 @@ QTweetListStatuses::QTweetListStatuses(OAuthTwitter *oauthTwitter, QObject *pare
     \param maxid Returns results with an ID less than (that is, older than) or equal to the specified ID.
     \param perPage Specifies how many tweets per page
     \param page    Specifies the page of results to retrieve.
-    \param includeEntities When set to true each tweet will include a node called "entities,".
-    \param respType Response type json or xml
+    \param includeEntities When set to true each tweet will include a node called "entities,"
   */
 void QTweetListStatuses::fetch(qint64 user,
                                qint64 list,
@@ -50,19 +49,11 @@ void QTweetListStatuses::fetch(qint64 user,
                                qint64 maxid,
                                int perPage,
                                int page,
-                               bool includeEntities,
-                               ResponseType respType)
+                               bool includeEntities)
 {
     Q_ASSERT(oauthTwitter() != 0);
 
-    QString urlString = QString("http://api.twitter.com/1/%1/lists/%2/statuses.").arg(user).arg(list);
-
-    QUrl url;
-
-    if (respType == QTweetNetBase::JSON)
-        url.setUrl(urlString + "json");
-    else
-        url.setUrl(urlString + "xml");
+    QUrl url(QString("http://api.twitter.com/1/%1/lists/%2/statuses.json").arg(user).arg(list));
 
     if (sinceid != 0)
         url.addQueryItem("since_id", QString::number(sinceid));

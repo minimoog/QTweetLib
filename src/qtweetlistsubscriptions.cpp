@@ -39,20 +39,12 @@ QTweetListSubscriptions::QTweetListSubscriptions(OAuthTwitter *oauthTwitter, QOb
     \param cursor Breaks the results into pages. A single page contains 20 lists.
                   Provide a value of -1 to begin paging.
                   Provide values as returned next_cursor and previous_cursor attributes to page back and forth
-    \param respType Response type json or xml
  */
-void QTweetListSubscriptions::fetch(qint64 user, const QString &cursor, ResponseType respType)
+void QTweetListSubscriptions::fetch(qint64 user, const QString &cursor)
 {
     Q_ASSERT(oauthTwitter() != 0);
 
-    QString urlString = QString("http://api.twitter.com/1/%1/lists/subscriptions.").arg(user);
-
-    QUrl url;
-
-    if (respType == QTweetNetBase::JSON)
-        url.setUrl(urlString + "json");
-    else
-        url.setUrl(urlString + "xml");
+    QUrl url(QString("http://api.twitter.com/1/%1/lists/subscriptions.json").arg(user));
 
     if (!cursor.isEmpty())
         url.addQueryItem("cursor", cursor);

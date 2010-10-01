@@ -32,8 +32,7 @@ class QTWEETLIBSHARED_EXPORT QTweetMentions : public QTweetNetBase
 public:
     QTweetMentions(QObject *parent = 0);
     QTweetMentions(OAuthTwitter *oauthTwitter, QObject *parent = 0);
-    void fetch(ResponseType restType = QTweetNetBase::JSON,
-               qint64 sinceid = 0,
+    void fetch(qint64 sinceid = 0,
                qint64 maxid = 0,
                int count = 0,
                int page = 0,

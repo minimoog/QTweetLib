@@ -34,8 +34,7 @@ public:
     QTweetListGetLists(QObject *parent = 0);
     QTweetListGetLists(OAuthTwitter *oauthTwitter, QObject *parent = 0);
     void getLists(qint64 user,
-                  const QString& cursor = QString(),
-                  ResponseType respType = QTweetNetBase::JSON);
+                  const QString& cursor = QString());
 
 signals:
     /*! Emited when json parsing is finished

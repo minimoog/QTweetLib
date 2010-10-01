@@ -34,8 +34,7 @@ public:
     QTweetUserShow(OAuthTwitter *oauthTwitter, QObject *parent = 0);
     void fetch(qint64 id = 0,
                qint64 userid = 0,
-               const QString& screenName = QString(),
-               ResponseType respType = QTweetNetBase::JSON);
+               const QString& screenName = QString());
 
 signals:
     /*! Emited when json is parsed to user info */

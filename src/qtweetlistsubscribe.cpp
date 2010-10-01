@@ -36,20 +36,12 @@ QTweetListSubscribe::QTweetListSubscribe(OAuthTwitter *oauthTwitter, QObject *pa
 /*!
     \param user User id owner of the list
     \param list List id
-    \param respType Response type json or xml
  */
-void QTweetListSubscribe::follow(qint64 user, qint64 list, ResponseType respType)
+void QTweetListSubscribe::follow(qint64 user, qint64 list)
 {
     Q_ASSERT(oauthTwitter() != 0);
 
-    QString urlString = QString("http://api.twitter.com/1/%1/%2/subscribers.").arg(user).arg(list);
-
-    QUrl url;
-
-    if (respType == QTweetNetBase::JSON)
-        url.setUrl(urlString + "json");
-    else
-        url.setUrl(urlString + "xml");
+    QUrl url(QString("http://api.twitter.com/1/%1/%2/subscribers.json").arg(user).arg(list));
 
     QNetworkRequest req(url);
 

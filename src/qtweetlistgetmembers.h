@@ -35,8 +35,7 @@ public:
     void get(qint64 user,
              qint64 list,
              const QString &cursor = QString(),
-             bool includeEntities = false,
-             ResponseType restType = QTweetNetBase::JSON);
+             bool includeEntities = false);
 
 signals:
     /*! Emits parsed user list

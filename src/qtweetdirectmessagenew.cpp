@@ -38,22 +38,15 @@ QTweetDirectMessageNew::QTweetDirectMessageNew(OAuthTwitter *oauthTwitter, QObje
     \param text The text of direct message
     \param screenName The screen name of the user who should receive the direct message.
     \param includeEntities When set to true each tweet will include a node called "entities,"
-    \param respType Response type: json or xml
  */
 void QTweetDirectMessageNew::post(qint64 user,
                                   const QString &text,
                                   const QString &screenName,
-                                  bool includeEntities,
-                                  ResponseType respType)
+                                  bool includeEntities)
 {
     Q_ASSERT(oauthTwitter() != 0);
 
-    QUrl url;
-
-    if (respType == QTweetNetBase::JSON)
-        url.setUrl("http://api.twitter.com/1/direct_messages/new.json");
-    else
-        url.setUrl("http://api.twitter.com/1/direct_messages/new.xml");
+    QUrl url("http://api.twitter.com/1/direct_messages/new.json");
 
     if (user)
         url.addQueryItem("user_id", QString::number(user));

@@ -36,20 +36,12 @@ QTweetDirectMessageDestroy::QTweetDirectMessageDestroy(OAuthTwitter *oauthTwitte
 /*!
     \param id    The ID of the direct message to delete.
     \param includeEntities When set to true, each tweet will include a node called "entities,"
-    \param respType Response type: json or xml
  */
-void QTweetDirectMessageDestroy::destroyMessage(qint64 id, bool includeEntities, ResponseType respType)
+void QTweetDirectMessageDestroy::destroyMessage(qint64 id, bool includeEntities)
 {
     Q_ASSERT(oauthTwitter() != 0);
 
-    QString urlString = QString("http://api.twitter.com/1/direct_messages/destroy/%1.").arg(id);
-
-    QUrl url;
-
-    if (respType == QTweetNetBase::JSON)
-        url.setUrl(urlString + "json");
-    else
-        url.setUrl(urlString + "xml");
+    QUrl url(QString("http://api.twitter.com/1/direct_messages/destroy/%1.json").arg(id));
 
     if (includeEntities)
         url.addQueryItem("include_entities", "true");

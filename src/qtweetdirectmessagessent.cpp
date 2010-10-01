@@ -39,23 +39,16 @@ QTweetDirectMessagesSent::QTweetDirectMessagesSent(OAuthTwitter *oauthTwitter, Q
     \param count Specifies the number of records to retrieve. Must be less than or equal to 200.
     \param page Specifies the page of results to retrieve.
     \param includeEntities When set to true, each tweet will include a node called "entities,".
-    \param respType Response type json or xml
  */
 void QTweetDirectMessagesSent::fetch(qint64 sinceid,
                                      qint64 maxid,
                                      int count,
                                      int page,
-                                     bool includeEntities,
-                                     ResponseType respType)
+                                     bool includeEntities)
 {
     Q_ASSERT(oauthTwitter() != 0);
 
-    QUrl url;
-
-    if (respType == QTweetNetBase::JSON)
-        url.setUrl("http://api.twitter.com/1/direct_messages/sent.json");
-    else
-        url.setUrl("http://api.twitter.com/1/direct_messages/sent.xml");
+    QUrl url("http://api.twitter.com/1/direct_messages/sent.json");
 
     if (sinceid)
         url.addQueryItem("since_id", QString::number(sinceid));

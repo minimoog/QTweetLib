@@ -34,8 +34,7 @@ public:
     QTweetStatusRetweet(OAuthTwitter *oauthTwitter, QObject *parent = 0);
     void retweet(qint64 id,
                  bool trimUser = false,
-                 bool includeEntities = false,
-                 ResponseType respType = QTweetNetBase::JSON);
+                 bool includeEntities = false);
 
 signals:
     void postedRetweet(const QTweetStatus& status);

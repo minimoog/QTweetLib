@@ -39,8 +39,7 @@ public:
               const QString& placeid = QString(),
               bool displayCoordinates = false,
               bool trimUser = false,
-              bool includeEntities = false,
-              ResponseType respType = QTweetNetBase::JSON);
+              bool includeEntities = false);
 
 signals:
     void postedStatus(const QTweetStatus& status);

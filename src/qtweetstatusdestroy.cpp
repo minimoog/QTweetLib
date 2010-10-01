@@ -40,17 +40,11 @@ QTweetStatusDestroy::QTweetStatusDestroy(OAuthTwitter *oauthTwitter, QObject *pa
  */
 void QTweetStatusDestroy::destroy(qint64 id,
                                   bool trimUser,
-                                  bool includeEntities,
-                                  ResponseType respType)
+                                  bool includeEntities)
 {
     Q_ASSERT(oauthTwitter() != 0);
 
-    QUrl url;
-
-    if (respType == QTweetNetBase::JSON)
-        url.setUrl("http://api.twitter.com/1/statuses/destroy.json");
-    else
-        url.setUrl("http://api.twitter.com/1/statuses/destroy.xml");
+    QUrl url("http://api.twitter.com/1/statuses/destroy.json");
 
     url.addQueryItem("id", QString::number(id));
 
@@ -69,6 +63,8 @@ void QTweetStatusDestroy::destroy(qint64 id,
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
     connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(error()));
 }
+
+// ### TODO Response parsing
 
 void QTweetStatusDestroy::error()
 {

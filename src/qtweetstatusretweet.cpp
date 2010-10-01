@@ -36,22 +36,15 @@ QTweetStatusRetweet::QTweetStatusRetweet(OAuthTwitter *oauthTwitter, QObject *pa
 /*!
     Retweets the tweet
     \param id Tweet ID to retweet
-    \param respType Response type
     \remarks Async
  */
 void QTweetStatusRetweet::retweet(qint64 id,
                                   bool trimUser,
-                                  bool includeEntities,
-                                  ResponseType respType)
+                                  bool includeEntities)
 {
     Q_ASSERT(oauthTwitter() != 0);
 
-    QUrl url;
-
-    if (respType == QTweetNetBase::JSON)
-        url.setUrl(QString("http://api.twitter.com/1/statuses/retweet/%1.json").arg(id));
-    else
-        url.setUrl(QString("http://api.twitter.com/1/statuses/retweet/%1.xml").arg(id));
+    QUrl url(QString("http://api.twitter.com/1/statuses/retweet/%1.json").arg(id));
 
     if (trimUser)
         url.addQueryItem("trim_user", "true");

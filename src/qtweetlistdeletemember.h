@@ -35,8 +35,7 @@ public:
     QTweetListDeleteMember(OAuthTwitter *oauthTwitter, QObject *parent = 0);
     void remove(qint64 user,
                 qint64 list,
-                qint64 member,
-                ResponseType respType = QTweetNetBase::JSON);
+                qint64 member);
 
 signals:
     /*! Emits parsed list where member was deleted */

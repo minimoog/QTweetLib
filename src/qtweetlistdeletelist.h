@@ -32,7 +32,7 @@ class QTWEETLIBSHARED_EXPORT QTweetListDeleteList : public QTweetNetBase
 public:
     QTweetListDeleteList(QObject *parent = 0);
     QTweetListDeleteList(OAuthTwitter *oauthTwitter, QObject *parent = 0);
-    void deleteList(qint64 user, qint64 list, ResponseType respType = QTweetNetBase::JSON);
+    void deleteList(qint64 user, qint64 list);
 
 signals:
     /*! Emits parsed deleted list */

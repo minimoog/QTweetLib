@@ -37,22 +37,13 @@ QTweetListGetLists::QTweetListGetLists(OAuthTwitter *oauthTwitter, QObject *pare
 /*! Gets the lists
     \param user User id
     \param cursor Breaks the results into pages. Provide a value of "-1" to begin paging.
-    \param respType Response type, json or xml
  */
 void QTweetListGetLists::getLists(qint64 user,
-                                  const QString &cursor,
-                                  ResponseType respType)
+                                  const QString &cursor)
 {
     Q_ASSERT(oauthTwitter() != 0);
 
-    QString urlString = QString("http://api.twitter.com/1/%1/lists.").arg(user);
-
-    QUrl url;
-
-    if (respType == QTweetNetBase::JSON)
-        url.setUrl(urlString + "json");
-    else
-        url.setUrl(urlString + "xml");
+    QUrl url(QString("http://api.twitter.com/1/%1/lists.json").arg(user));
 
     if (!cursor.isEmpty())
         url.addQueryItem("cursor", cursor);

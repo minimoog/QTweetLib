@@ -41,7 +41,6 @@ QTweetStatusUpdate::QTweetStatusUpdate(OAuthTwitter *oauthTwitter, QObject *pare
     \param longitude Longitude
     \param placeid A place in the world (use reverse geocoding)
     \param displayCoordinates Whether or not to put a exact coordinates a tweet has been sent from
-    \param respType Response type
     \remarks Async
  */
 void QTweetStatusUpdate::post(const QString &status,
@@ -51,17 +50,11 @@ void QTweetStatusUpdate::post(const QString &status,
                               const QString &placeid,
                               bool displayCoordinates,
                               bool trimUser,
-                              bool includeEntities,
-                              ResponseType respType)
+                              bool includeEntities)
 {
     Q_ASSERT(oauthTwitter() != 0);
 
-    QUrl url;
-
-    if (respType == QTweetNetBase::JSON)
-        url.setUrl("http://api.twitter.com/1/statuses/update.json");
-    else
-        url.setUrl("http://api.twitter.com/1/statuses/update.xml");
+    QUrl url("http://api.twitter.com/1/statuses/update.json");
 
     QUrl urlQuery;
 

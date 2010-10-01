@@ -40,12 +40,6 @@ class QTWEETLIBSHARED_EXPORT QTweetNetBase : public QObject
 {
     Q_OBJECT
 public:
-    enum ResponseType {
-        Xml = 0x01,
-        JSON = 0x02
-    };
-    Q_DECLARE_FLAGS(ResponseTypes, ResponseType)
-
     QTweetNetBase(QObject *parent = 0);
     QTweetNetBase(OAuthTwitter *oauthTwitter, QObject *parent = 0);
 
@@ -70,7 +64,7 @@ signals:
     void networkError(const QString& errorString);
 
 protected slots:
-    virtual void parsingJsonFinished(const QVariant& json, bool ok, const QString& errorMsg);
+    virtual void parsingJsonFinished(const QVariant& json, bool ok, const QString& errorMsg) = 0;
     virtual void reply();
 
 protected:

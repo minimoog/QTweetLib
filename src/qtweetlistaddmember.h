@@ -36,8 +36,7 @@ public:
     QTweetListAddMember(OAuthTwitter *oauthTwitter, QObject *parent = 0);
     void add(qint64 user,
              qint64 list,
-             qint64 memberid,
-             ResponseType respType = QTweetNetBase::JSON);
+             qint64 memberid);
 
 signals:
     /*! Emits parsed list in which user was added */

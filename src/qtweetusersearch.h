@@ -35,8 +35,7 @@ public:
     void search(const QString& query,
                 int perPage = 0,
                 int page = 0,
-                bool includeEntities = false,
-                ResponseType respType = QTweetNetBase::JSON);
+                bool includeEntities = false);
 
 signals:
     /*! Emited when json is parsed */

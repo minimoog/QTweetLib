@@ -90,11 +90,6 @@ void QTweetNetBase::parseJson(const QByteArray &jsonData)
     QThreadPool::globalInstance()->start(jsonParser);
 }
 
-void QTweetNetBase::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
-{
-    // ### TODO: Make this method abstract
-}
-
 void QTweetNetBase::reply()
 {
     QNetworkReply *reply = qobject_cast<QNetworkReply*>(sender());

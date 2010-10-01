@@ -38,22 +38,15 @@ QTweetFriendshipCreate::QTweetFriendshipCreate(OAuthTwitter *oauthTwitter, QObje
     \param screenName Screen name of user to follow
     \param follow    Enable notifications for the target user.
     \param includeEntities When set to true, each tweet will include a node called "entities"
-    \param respType Response type: json or xml
  */
 void QTweetFriendshipCreate::create(qint64 userid,
                                     const QString &screenName,
                                     bool follow,
-                                    bool includeEntities,
-                                    ResponseType respType)
+                                    bool includeEntities)
 {
     Q_ASSERT(oauthTwitter() != 0);
 
-    QUrl url;
-
-    if (respType == QTweetNetBase::JSON)
-        url.setUrl("http://api.twitter.com/1/friendships/create.json");
-    else
-        url.setUrl("http://api.twitter.com/1/friendships/create.xml");
+    QUrl url("http://api.twitter.com/1/friendships/create.json");
 
     if (userid)
         url.addQueryItem("user_id", QString::number(userid));

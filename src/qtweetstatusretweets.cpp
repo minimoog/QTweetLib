@@ -36,19 +36,13 @@ QTweetStatusRetweets::QTweetStatusRetweets(OAuthTwitter *oauthTwitter, QObject *
     Start fetching
     \param id Tweet ID
     \param count Numbers of retweets to fetch
-    \param respType Response type
     \remarks Async
  */
-void QTweetStatusRetweets::fetch(qint64 id, int count, ResponseType respType)
+void QTweetStatusRetweets::fetch(qint64 id, int count)
 {
     Q_ASSERT(oauthTwitter() != 0);
 
-    QUrl url;
-
-    if (respType == QTweetNetBase::JSON)
-        url.setUrl("http://api.twitter.com/1/statuses/retweets.json");
-    else
-        url.setUrl("http://api.twitter.com/1/statuses/retweets.xml");
+    QUrl url("http://api.twitter.com/1/statuses/retweets.json");
 
     url.addQueryItem("id", QString::number(id));
 
@@ -67,6 +61,8 @@ void QTweetStatusRetweets::fetch(qint64 id, int count, ResponseType respType)
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
     connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(error()));
 }
+
+// ### TODO json parsing, emiting signal
 
 void QTweetStatusRetweets::error()
 {

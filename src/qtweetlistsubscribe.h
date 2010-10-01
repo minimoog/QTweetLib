@@ -33,8 +33,7 @@ public:
     QTweetListSubscribe(QObject *parent = 0);
     QTweetListSubscribe(OAuthTwitter *oauthTwitter, QObject *parent = 0);
     void follow(qint64 user,
-                qint64 list,
-                ResponseType respType = QTweetNetBase::JSON);
+                qint64 list);
 
 signals:
     /*! Emits parsed list */

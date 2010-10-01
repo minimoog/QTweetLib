@@ -33,8 +33,7 @@ public:
     QTweetListUnsubscribe(QObject *parent = 0);
     QTweetListUnsubscribe(OAuthTwitter *oauthTwitter, QObject *parent = 0);
     void unsubscribe(qint64 user,
-                     qint64 list,
-                     ResponseType respType = QTweetNetBase::JSON);
+                     qint64 list);
 
 signals:
     /*! Emits parsed list from which user was unsubscribed */

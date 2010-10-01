@@ -35,8 +35,7 @@ public:
     void create(qint64 user,
                 const QString& name,
                 bool mode = true,
-                const QString& description = QString(),
-                ResponseType respType = QTweetNetBase::JSON);
+                const QString& description = QString());
 
 signals:
     /*! Emits parsed list */

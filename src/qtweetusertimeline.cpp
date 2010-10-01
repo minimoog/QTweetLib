@@ -36,7 +36,6 @@ QTweetUserTimeline::QTweetUserTimeline(OAuthTwitter *oauthTwitter, QObject *pare
 
 /*!
     Starts fetching
-    \param respType Response type
     \param userid User ID
     \param screenName User screen name
     \param sinceid Fetches tweets with ID greater (more recent) then sinceid
@@ -48,25 +47,19 @@ QTweetUserTimeline::QTweetUserTimeline(OAuthTwitter *oauthTwitter, QObject *pare
     \param includeEntities Each tweet include node "entities"
     \remarks Async
  */
-void QTweetUserTimeline::fetch(ResponseType respType,
-                                 qint64 userid,
-                                 const QString &screenName,
-                                 qint64 sinceid,
-                                 qint64 maxid,
-                                 int count,
-                                 int page,
-                                 bool trimUser,
-                                 bool includeRts,
-                                 bool includeEntities)
+void QTweetUserTimeline::fetch(qint64 userid,
+                               const QString &screenName,
+                               qint64 sinceid,
+                               qint64 maxid,
+                               int count,
+                               int page,
+                               bool trimUser,
+                               bool includeRts,
+                               bool includeEntities)
 {
     Q_ASSERT(oauthTwitter() != 0);
 
-    QUrl url;
-
-    if (respType == QTweetNetBase::JSON)
-        url.setUrl("http://api.twitter.com/1/statuses/user_timeline.json");
-    else
-        url.setUrl("http://api.twitter.com/1/statuses/user_timeline.xml");
+    QUrl url("http://api.twitter.com/1/statuses/user_timeline.json");
 
     if (userid != 0)
         url.addQueryItem("user_id", QString::number(userid));

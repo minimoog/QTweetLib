@@ -38,8 +38,7 @@ public:
                qint64 maxid = 0,
                int perPage = 0,
                int page = 0,
-               bool includeEntities = false,
-               ResponseType respType = QTweetNetBase::JSON);
+               bool includeEntities = false);
 
 signals:
     /*! Emits parsed statuses */

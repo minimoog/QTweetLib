@@ -37,21 +37,14 @@ QTweetUserLookup::QTweetUserLookup(OAuthTwitter *oauthTwitter, QObject *parent) 
     Startw fetching
     \param useridList List of user IDs
     \param screenNameLit List of screen names
-    \param respType Response type
     \remarks Async
  */
 void QTweetUserLookup::fetch(const QList<qint64> &useridList,
-                             const QStringList &screenNameList,
-                             ResponseType respType)
+                             const QStringList &screenNameList)
 {
     Q_ASSERT(oauthTwitter() != 0);
 
-    QUrl url;
-
-    if (respType == QTweetNetBase::JSON)
-        url.setUrl("http://api.twitter.com/1/users/lookup.json");
-    else
-        url.setUrl("http://api.twitter.com/1/users/lookup.xml");
+    QUrl url("http://api.twitter.com/1/users/lookup.json");
 
     if (!useridList.isEmpty()) {
         QString idString;

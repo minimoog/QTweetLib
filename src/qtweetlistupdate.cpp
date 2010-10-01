@@ -40,25 +40,16 @@ QTweetListUpdate::QTweetListUpdate(OAuthTwitter *oauthTwitter, QObject *parent) 
     \param name The name of the list
     \param mode True for public, false for private
     \param description The description to give the list
-    \param respType Response type xml or json
  */
 void QTweetListUpdate::update(qint64 user,
                               qint64 list,
                               const QString &name,
                               bool mode,
-                              const QString &description,
-                              ResponseType respType)
+                              const QString &description)
 {
     Q_ASSERT(oauthTwitter() != 0);
 
-    QString urlString = QString("http://api.twitter.com/1/%1/lists/%2.").arg(user).arg(list);
-
-    QUrl url;
-
-    if (respType == QTweetNetBase::JSON)
-        url.setUrl(urlString + "json");
-    else
-        url.setUrl(urlString + "xml");
+    QUrl url(QString("http://api.twitter.com/1/%1/lists/%2.json").arg(user).arg(list));
 
     if (!name.isEmpty())
         url.addQueryItem("name", name);

@@ -45,17 +45,11 @@ QTweetUserSearch::QTweetUserSearch(OAuthTwitter *oauthTwitter, QObject *parent) 
 void QTweetUserSearch::search(const QString &query,
                               int perPage,
                               int page,
-                              bool includeEntities,
-                              ResponseType respType)
+                              bool includeEntities)
 {
     Q_ASSERT(oauthTwitter() != 0);
 
-    QUrl url;
-
-    if (respType == QTweetNetBase::JSON)
-        url.setUrl("http://api.twitter.com/1/users/search.json");
-    else
-        url.setUrl("http://api.twitter.com/1/users/search.xml");
+    QUrl url("http://api.twitter.com/1/users/search.json");
 
     url.addQueryItem("q", query);
 

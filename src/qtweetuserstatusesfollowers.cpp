@@ -43,17 +43,11 @@ QTweetUserStatusesFollowers::QTweetUserStatusesFollowers(OAuthTwitter *oauthTwit
 void QTweetUserStatusesFollowers::fetch(qint64 userid,
                                       const QString &screenName,
                                       const QString &cursor,
-                                      bool includeEntities,
-                                      ResponseType respType)
+                                      bool includeEntities)
 {
     Q_ASSERT(oauthTwitter() != 0);
 
-    QUrl url;
-
-    if (respType == QTweetNetBase::JSON)
-        url.setUrl("http://api.twitter.com/1/statuses/followers.json");
-    else
-        url.setUrl("http://api.twitter.com/1/statuses/followers.xml");
+    QUrl url("http://api.twitter.com/1/statuses/followers.json");
 
     if (userid != 0)
         url.addQueryItem("user_id", QString::number(userid));

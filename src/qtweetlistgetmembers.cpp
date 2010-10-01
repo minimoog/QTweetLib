@@ -41,24 +41,15 @@ QTweetListGetMembers::QTweetListGetMembers(OAuthTwitter *oauthTwitter, QObject *
                 Provide a value of -1 to begin paging.
                 Provide values as returned in the signal nextCursor and prevCursor to page back and forth in the list.
   \param includeEntities When set to true tweet will include a node called "entities,"
-  \param respType Response type json (default) or xml
  */
 void QTweetListGetMembers::get(qint64 user,
                                qint64 list,
                                const QString &cursor,
-                               bool includeEntities,
-                               ResponseType respType)
+                               bool includeEntities)
 {
     Q_ASSERT(oauthTwitter() != 0);
 
-    QString urlString = QString("http://api.twitter.com/1/%1/%2/members.").arg(user).arg(list);
-
-    QUrl url;
-
-    if (respType == QTweetNetBase::JSON)
-        url.setUrl(urlString + "json");
-    else
-        url.setUrl(urlString + "xml");
+    QUrl url(QString("http://api.twitter.com/1/%1/%2/members.json").arg(user).arg(list));
 
     if (!cursor.isEmpty())
         url.addQueryItem("cursor", cursor);

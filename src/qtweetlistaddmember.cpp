@@ -37,20 +37,12 @@ QTweetListAddMember::QTweetListAddMember(OAuthTwitter *oauthTwitter, QObject *pa
     \param user User id (owner of the list)
     \param list List id
     \param memberid User id of the list member
-    \param respType Response type json or xml
  */
-void QTweetListAddMember::add(qint64 user, qint64 list, qint64 memberid, ResponseType respType)
+void QTweetListAddMember::add(qint64 user, qint64 list, qint64 memberid)
 {
     Q_ASSERT(oauthTwitter() != 0);
 
-    QString urlString = QString("http://api.twitter.com/1/%1/%2/members.").arg(user).arg(list);
-
-    QUrl url;
-
-    if (respType == QTweetNetBase::JSON)
-        url.setUrl(urlString + "json");
-    else
-        url.setUrl(urlString + "xml");
+    QUrl url(QString("http://api.twitter.com/1/%1/%2/members.json").arg(user).arg(list));
 
     url.addQueryItem("id", QString::number(memberid));
 

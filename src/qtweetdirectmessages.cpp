@@ -35,7 +35,6 @@ QTweetDirectMessages::QTweetDirectMessages(OAuthTwitter *oauthTwitter, QObject *
 
 /*!
     Start fetching direct messages
-    \param respType Type of response (XML, JSON)
     \param sinceid Fetch DM newer then sinceid
     \param maxid Fetch DM older then maxid
     \param count Number of DM to fetch (up to 200)
@@ -43,8 +42,7 @@ QTweetDirectMessages::QTweetDirectMessages(OAuthTwitter *oauthTwitter, QObject *
     \param includeEntities When true each tweet will include a node called "entities"
     \remarks Asynhronous
  */
-void QTweetDirectMessages::fetch(ResponseType respType,
-                                 qint64 sinceid,
+void QTweetDirectMessages::fetch(qint64 sinceid,
                                  qint64 maxid,
                                  int count,
                                  int page,
@@ -52,12 +50,7 @@ void QTweetDirectMessages::fetch(ResponseType respType,
 {
     Q_ASSERT(oauthTwitter() != 0);
 
-    QUrl url;
-
-    if (respType == QTweetNetBase::JSON)
-        url.setUrl("http://api.twitter.com/1/direct_messages.json");
-    else
-        url.setUrl("http://api.twitter.com/1/direct_messages.xml");
+    QUrl url("http://api.twitter.com/1/direct_messages.json");
 
     if (sinceid != 0)
         url.addQueryItem("since_id", QString::number(sinceid));

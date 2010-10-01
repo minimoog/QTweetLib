@@ -33,7 +33,6 @@ public:
     QTweetStatusShow(QObject *parent = 0);
     QTweetStatusShow(OAuthTwitter *oauthTwitter, QObject *parent = 0);
     void fetch(qint64 id,
-               ResponseType respType = QTweetNetBase::JSON,
                bool trimUser = false,
                bool includeEntities = false);
 

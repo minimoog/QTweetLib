@@ -35,8 +35,7 @@ public:
     void post(qint64 user,
               const QString& text,
               const QString& screenName = QString(),
-              bool includeEntities = false,
-              ResponseType respType = QTweetNetBase::JSON);
+              bool includeEntities = false);
 
 signals:
     /*! Emits parsed direct message who was sent */

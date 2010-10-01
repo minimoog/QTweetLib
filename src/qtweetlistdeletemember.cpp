@@ -37,20 +37,12 @@ QTweetListDeleteMember::QTweetListDeleteMember(OAuthTwitter *oauthTwitter, QObje
     \param user User id (owner of the list
     \param list List id
     \param member User id of the list member to remove
-    \param respType Response type json or xml
  */
-void QTweetListDeleteMember::remove(qint64 user, qint64 list, qint64 member, ResponseType respType)
+void QTweetListDeleteMember::remove(qint64 user, qint64 list, qint64 member)
 {
     Q_ASSERT(oauthTwitter() != 0);
 
-    QString urlString = QString("http://api.twitter.com/1/%1/%2/members.").arg(user).arg(list);
-
-    QUrl url;
-
-    if (respType == QTweetNetBase::JSON)
-        url.setUrl(urlString + "json");
-    else
-        url.setUrl(urlString + "xml");
+    QUrl url(QString("http://api.twitter.com/1/%1/%2/members.json").arg(user).arg(list));
 
     url.addQueryItem("id", QString::number(member));
 

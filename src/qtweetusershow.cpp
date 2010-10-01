@@ -38,19 +38,13 @@ QTweetUserShow::QTweetUserShow(OAuthTwitter *oauthTwitter, QObject *parent) :
     \param id User ID
     \param userid User ID
     \param screenName User screen name
-    \param respType Response type
     \remarks Async
  */
-void QTweetUserShow::fetch(qint64 id, qint64 userid, const QString &screenName, ResponseType respType)
+void QTweetUserShow::fetch(qint64 id, qint64 userid, const QString &screenName)
 {
     Q_ASSERT(oauthTwitter() != 0);
 
-    QUrl url;
-
-    if (respType == QTweetNetBase::JSON)
-        url.setUrl("http://api.twitter.com/1/users/show.json");
-    else
-        url.setUrl("http://api.twitter.com/1/users/show.xml");
+    QUrl url("http://api.twitter.com/1/users/show.json");
 
     if (id != 0)
         url.addQueryItem("id", QString::number(id));

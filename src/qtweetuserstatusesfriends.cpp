@@ -46,17 +46,11 @@ QTweetUserStatusesFriends::QTweetUserStatusesFriends(OAuthTwitter *oauthTwitter,
 void QTweetUserStatusesFriends::fetch(qint64 userid,
                                       const QString &screenName,
                                       const QString &cursor,
-                                      bool includeEntities,
-                                      ResponseType respType)
+                                      bool includeEntities)
 {
     Q_ASSERT(oauthTwitter() != 0);
 
-    QUrl url;
-
-    if (respType == QTweetNetBase::JSON)
-        url.setUrl("http://api.twitter.com/1/statuses/friends.json");
-    else
-        url.setUrl("http://api.twitter.com/1/statuses/friends.xml");
+    QUrl url("http://api.twitter.com/1/statuses/friends.json");
 
     if (userid != 0)
         url.addQueryItem("user_id", QString::number(userid));

@@ -34,8 +34,7 @@ public:
     QTweetFriendshipDestroy(OAuthTwitter *oauthTwitter, QObject *parent = 0);
     void unfollow(qint64 userid,
                   const QString& screenName = QString(),
-                  bool includeEntities = false,
-                  ResponseType respType = QTweetNetBase::JSON);
+                  bool includeEntities = false);
 
 signals:
     /*! Emits unfollowed user */

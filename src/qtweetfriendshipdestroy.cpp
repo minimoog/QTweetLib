@@ -37,21 +37,14 @@ QTweetFriendshipDestroy::QTweetFriendshipDestroy(OAuthTwitter *oauthTwitter, QOb
     \param userid User id to unfollow
     \param screenName Screen name to unfollow
     \param includeEntities When set totrue, each tweet will include a node called "entities,".
-    \param restType Response type: json or xml
   */
 void QTweetFriendshipDestroy::unfollow(qint64 userid,
                                        const QString &screenName,
-                                       bool includeEntities,
-                                       ResponseType respType)
+                                       bool includeEntities)
 {
     Q_ASSERT(oauthTwitter() != 0);
 
-    QUrl url;
-
-    if (respType == QTweetNetBase::JSON)
-        url.setUrl("http://api.twitter.com/1/friendships/destroy.json");
-    else
-        url.setUrl("http://api.twitter.com/1/friendships/destroy.xml");
+    QUrl url("http://api.twitter.com/1/friendships/destroy.json");
 
     if (userid)
         url.addQueryItem("user_id", QString::number(userid));

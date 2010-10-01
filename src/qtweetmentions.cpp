@@ -35,7 +35,6 @@ QTweetMentions::QTweetMentions(OAuthTwitter *oauthTwitter, QObject *parent) :
 
 /*!
     Start fetching
-    \param respType Response type
     \param sinceid Fetches tweets with ID greater (more recent) then sinceid
     \param maxid Fetches tweets with ID less (older) then maxid
     \param count Number of tweets to fetch (up to 200)
@@ -44,23 +43,17 @@ QTweetMentions::QTweetMentions(OAuthTwitter *oauthTwitter, QObject *parent) :
     \param includeEntities True to include a node called "entities"
     \remarks Async
  */
-void QTweetMentions::fetch(ResponseType respType,
-                             qint64 sinceid,
-                             qint64 maxid,
-                             int count,
-                             int page,
-                             bool trimUser,
-                             bool includeRts,
-                             bool includeEntities)
+void QTweetMentions::fetch(qint64 sinceid,
+                           qint64 maxid,
+                           int count,
+                           int page,
+                           bool trimUser,
+                           bool includeRts,
+                           bool includeEntities)
 {
     Q_ASSERT(oauthTwitter() != 0);
 
-    QUrl url;
-
-    if (respType == QTweetNetBase::JSON)
-        url.setUrl("http://api.twitter.com/1/statuses/mentions.json");
-    else
-        url.setUrl("http://api.twitter.com/1/statuses/mentions.xml");
+    QUrl url("http://api.twitter.com/1/statuses/mentions.json");
 
     if (sinceid != 0)
         url.addQueryItem("since_id", QString::number(sinceid));

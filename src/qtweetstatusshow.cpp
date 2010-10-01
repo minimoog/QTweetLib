@@ -36,19 +36,13 @@ QTweetStatusShow::QTweetStatusShow(OAuthTwitter *oauthTwitter, QObject *parent) 
 /*!
     Starts fetching
     \param id Tweet ID
-    \param respType Response type
     \remarks Async
  */
-void QTweetStatusShow::fetch(qint64 id, ResponseType respType, bool trimUser, bool includeEntities)
+void QTweetStatusShow::fetch(qint64 id, bool trimUser, bool includeEntities)
 {
     Q_ASSERT(oauthTwitter() != 0);
 
-    QUrl url;
-
-    if (respType == QTweetNetBase::JSON)
-        url.setUrl("http://api.twitter.com/1/statuses/show.json");
-    else
-        url.setUrl("http://api.twitter.com/1/statuses/show.xml");
+    QUrl url("http://api.twitter.com/1/statuses/show.json");
 
     url.addQueryItem("id", QString::number(id));
 

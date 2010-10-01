@@ -34,8 +34,7 @@ public:
     QTweetStatusDestroy(OAuthTwitter* oauthTwitter, QObject *parent = 0);
     void destroy(qint64 id,
                  bool trimUser = false,
-                 bool includeEntities = false,
-                 ResponseType respType = QTweetNetBase::JSON);
+                 bool includeEntities = false);
 
 private slots:
     void error();

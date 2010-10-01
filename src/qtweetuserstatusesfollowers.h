@@ -38,8 +38,7 @@ public:
     void fetch(qint64 userid = 0,
                const QString& screenName = QString(),
                const QString& cursor = QString(),
-               bool includeEntities = false,
-               ResponseType respType = QTweetNetBase::JSON);
+               bool includeEntities = false);
 
 signals:
     /*! Emited when json parsing is finished

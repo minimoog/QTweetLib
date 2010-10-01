@@ -35,8 +35,7 @@ public:
     void create(qint64 userid,
                 const QString& screenName = QString(),
                 bool follow = false,
-                bool includeEntities = false,
-                ResponseType respType = QTweetNetBase::JSON);
+                bool includeEntities = false);
 
 signals:
     /*! Emits the befriended user */

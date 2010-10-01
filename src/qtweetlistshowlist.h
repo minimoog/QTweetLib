@@ -33,7 +33,7 @@ class QTWEETLIBSHARED_EXPORT QTweetListShowList : public QTweetNetBase
 public:
     QTweetListShowList(QObject *parent = 0);
     QTweetListShowList(OAuthTwitter *oauthTwitter, QObject *parent = 0);
-    void show(qint64 id, qint64 list, ResponseType respType = QTweetNetBase::JSON);
+    void show(qint64 id, qint64 list);
 
 signals:
     /*!

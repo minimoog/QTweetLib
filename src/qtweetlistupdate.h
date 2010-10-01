@@ -36,8 +36,7 @@ public:
                 qint64 list,
                 const QString& name = QString(),
                 bool mode = true,
-                const QString& description = QString(),
-                ResponseType respType = QTweetNetBase::JSON);
+                const QString& description = QString());
 signals:
     /*! Emits parsed updated list */
     void parsedList(const QTweetList& list);
