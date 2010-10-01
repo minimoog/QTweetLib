@@ -18,10 +18,6 @@
  * Contact e-mail: Antonie Jovanoski <minimoog77_at_gmail.com>
  */
 
-/*
- * TODO: Error notification and detection
- */
-
 #ifndef OAUTHTWITTER_H
 #define OAUTHTWITTER_H
 
@@ -44,8 +40,16 @@ public:
 	QNetworkAccessManager* networkAccessManager() const;
     void authorizeXAuth(const QString& username, const QString& password);
 
+signals:
+    /*! Emited when XAuth authorization is finished */
+    void authorizeXAuthFinished();
+    /*! Emited when there is error in XAuth authorization */
+    // ### TODO Error detection
+    // Sigh, bad documentation on errors in twitter api
+    void authorizeXAuthError();
+
 private slots:
-	void error();
+    void finishedAuthorization();
 
 private:
 	QNetworkAccessManager *m_netManager;

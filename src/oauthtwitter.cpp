@@ -25,7 +25,6 @@
 #include <QTimer>
 #include <QNetworkAccessManager>
 #include "oauthtwitter.h"
-#include "signalwaiter.h"
 
 #define TWITTER_REQUEST_TOKEN_URL "http://twitter.com/oauth/request_token"
 #define TWITTER_ACCESS_TOKEN_URL "http://twitter.com/oauth/access_token"
@@ -58,9 +57,10 @@ QNetworkAccessManager* OAuthTwitter::networkAccessManager() const
 }
 
 /*!
-    Gets oauth tokens using XAuth method
+    Gets oauth tokens using XAuth method (starts authorization process)
     \param username username
     \param password password
+    \remarks Async, emits authorizeXAuthFinished or authorizeXAuthError when there is error
  */
 void OAuthTwitter::authorizeXAuth(const QString &username, const QString &password)
 {
@@ -77,26 +77,26 @@ void OAuthTwitter::authorizeXAuth(const QString &username, const QString &passwo
     req.setRawHeader(AUTH_HEADER, oauthHeader);
 
     QNetworkReply *reply = m_netManager->post(req, QByteArray());
-    connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(error()));
-
-    // ### TODO: Don't use SignalWaiter
-
-    SignalWaiter sigWait(reply, SIGNAL(finished()));
-
-    if (sigWait.wait(5000)) {
-        QByteArray response = reply->readAll();
-        parseTokens(response);
-        reply->deleteLater();
-    } else {
-        qDebug() << "Timeout";
-    }
+    connect(reply, SIGNAL(finished()), this, SLOT(finishedAuthorization()));
 }
 
-void OAuthTwitter::error()
+void OAuthTwitter::finishedAuthorization()
 {
-	QNetworkReply *reply = qobject_cast<QNetworkReply*>(sender());
-	if(reply){
-		qDebug() << "OAuth Twitter error";
-		qDebug() << reply->errorString();
-	}
+    QNetworkReply *reply = qobject_cast<QNetworkReply*>(sender());
+    if (reply) {
+        if (reply->error() == QNetworkReply::NoError) {
+            QByteArray response = reply->readAll();
+            parseTokens(response);
+
+            emit authorizeXAuthFinished();
+        } else {
+            //dump error
+            qDebug() << "Network Error: " << reply->error();
+            qDebug() << "Response error: " << reply->readAll();
+            emit authorizeXAuthError();
+
+        }
+
+        reply->deleteLater();
+    }
 }

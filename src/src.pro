@@ -15,7 +15,6 @@ windows: {
 
 HEADERS += \
     oauth.h \
-    signalwaiter.h \
     oauthtwitter.h \
     qtweetfriendstimeline.h \
     qtweetlib_global.h \
@@ -71,7 +70,6 @@ HEADERS += \
 
 SOURCES += \
     oauth.cpp \
-    signalwaiter.cpp \
     oauthtwitter.cpp \
     qtweetfriendstimeline.cpp \
     qtweethometimeline.cpp \

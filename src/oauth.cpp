@@ -183,17 +183,6 @@ QByteArray OAuth::generateSignatureHMACSHA1(const QByteArray& signatureBase)
 	//OAuth spec. 9.2 http://oauth.net/core/1.0/#anchor16
 	QByteArray key = QByteArray(CONSUMER_SECRET) + '&' + m_oauthTokenSecret;
 
-    //unsigned char digest[EVP_MAX_MD_SIZE];
-    //unsigned int digestLen = 0;
-
-    //HMAC_fp(EVP_sha1_fp(),
-    //	key.constData(),
-    //	key.size(),
-    //	(const unsigned char*)signatureBase.constData(),
-    //	signatureBase.size(),
-    //	digest,
-    //	&digestLen);
-
     QByteArray result = hmacSha1(signatureBase, key);
 	QByteArray resultBE64 = result.toBase64();
 	QByteArray resultPE = resultBE64.toPercentEncoding();
@@ -288,6 +277,9 @@ QByteArray OAuth::generateSignatureBase(const QUrl& url, HttpMethod method, cons
  */
 QByteArray OAuth::generateAuthorizationHeader( const QUrl& url, HttpMethod method )
 {
+    if (m_oauthToken.isEmpty() && m_oauthTokenSecret.isEmpty())
+        qDebug() << "OAuth tokens are empty!";
+
 	QByteArray timeStamp = generateTimeStamp();
 	QByteArray nonce = generateNonce();
 
