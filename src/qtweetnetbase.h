@@ -39,9 +39,12 @@ class QTweetList;
 class QTWEETLIBSHARED_EXPORT QTweetNetBase : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(OAuthTwitter* oauthTwitter READ oauthTwitter WRITE setOAuthTwitter)
+    Q_PROPERTY(bool jsonParsing READ isJsonParsingEnabled WRITE setJsonParsingEnabled)
 public:
     QTweetNetBase(QObject *parent = 0);
     QTweetNetBase(OAuthTwitter *oauthTwitter, QObject *parent = 0);
+    virtual QTweetNetBase::~QTweetNetBase();
 
     void setOAuthTwitter(OAuthTwitter* oauthTwitter);
     OAuthTwitter* oauthTwitter() const;
@@ -49,7 +52,7 @@ public:
     void setJsonParsingEnabled(bool enable);
     bool isJsonParsingEnabled() const;
 
-    virtual QByteArray response() const;
+    QByteArray response() const;
 
 signals:
     /*!

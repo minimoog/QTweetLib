@@ -46,6 +46,10 @@ QTweetNetBase::QTweetNetBase(OAuthTwitter *oauthTwitter, QObject *parent) :
 
 }
 
+QTweetNetBase::~QTweetNetBase()
+{
+}
+
 /*!
     Sets OAuth Twitter authorization
     \param oauthTwitter OAuth Twitter

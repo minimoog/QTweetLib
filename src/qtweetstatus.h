@@ -22,10 +22,14 @@
 #define QTWEETSTATUS_H
 
 #include <QVariant>
-#include <QHash>
+#include <QSharedDataPointer>
 #include "qtweetlib_global.h"
 
+class QDateTime;
 class QTweetUser;
+class QTweetStatusData;
+
+// ### TODO: Places and coordinates
 
 /*!
     Stores tweet info
@@ -34,24 +38,9 @@ class QTWEETLIBSHARED_EXPORT QTweetStatus
 {
 public:
     QTweetStatus();
-
-    enum TypeInfo {
-        Contributors,
-        Coordinates,
-        CreatedAt,
-        Favorited,
-        Geo,
-        Id,
-        InReplyToScreenName,
-        InReplyToStatusId,
-        InReplyToUserId,
-        Place,
-        RetweetedStatus,
-        Source,
-        Text,
-        Truncated,
-        User,
-    };
+    QTweetStatus(const QTweetStatus &other);
+    QTweetStatus &operator=(const QTweetStatus &other);
+    ~QTweetStatus();
 
     void setId(qint64 id);
     qint64 id() const;
@@ -59,23 +48,23 @@ public:
     QString text() const;
     void setCreatedAt(const QString& twitterDate);
     QDateTime createdAt() const;
-    void setSource(const QString& source);
-    QString source() const;
-    void setInReplyToStatusId(qint64 id);
-    qint64 inReplyToStatusId() const;
     void setInReplyToUserId(qint64 id);
     qint64 inReplyToUserId() const;
     void setInReplyToScreenName(const QString& screenName);
     QString inReplyToScreenName() const;
+    void setInReplyToStatusId(qint64 id);
+    qint64 inReplyToStatusId() const;
+    void setFavorited(bool fav);
+    bool favorited() const;
+    void setSource(const QString& source);
+    QString source() const;
     void setUser(const QTweetUser& user);
     QTweetUser user() const;
     void setRetweetedStatus(const QTweetStatus& status);
     QTweetStatus retweetedStatus() const;
-    //void setPlace(const QString& place);
-    //QString place() const;
 
 private:
-    QHash<int, QVariant> m_statusInfo;
+    QSharedDataPointer<QTweetStatusData> d;
 };
 
 Q_DECLARE_METATYPE(QTweetStatus)

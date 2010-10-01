@@ -18,122 +18,146 @@
  * Contact e-mail: Antonie Jovanoski <minimoog77_at_gmail.com>
  */
 
+#include <QSharedData>
 #include <QDateTime>
 #include "qtweetstatus.h"
 #include "qtweetuser.h"
 
-QTweetStatus::QTweetStatus()
+class QTweetStatusData : public QSharedData
+{
+public:
+    QTweetStatusData() : id(0), inReplyToStatusId(0) {}
+
+    qint64 id;
+    QString text;
+    QDateTime createdAt;
+    qint64 inReplyToUserId;
+    QString inReplyToScreenName;
+    qint64 inReplyToStatusId;
+    bool favorited;
+    QString source;
+    QTweetUser user;
+    QTweetStatus retweetedStatus;
+};
+
+QTweetStatus::QTweetStatus() :
+        d(new QTweetStatusData)
+{
+}
+
+QTweetStatus::QTweetStatus(const QTweetStatus &other) :
+        d(other.d)
+{
+}
+
+QTweetStatus& QTweetStatus::operator=(const QTweetStatus &rhs)
+{
+    if (this != &rhs)
+        d.operator=(rhs.d);
+    return *this;
+}
+
+QTweetStatus::~QTweetStatus()
 {
 }
 
 void QTweetStatus::setId(qint64 id)
 {
-    m_statusInfo.insert(QTweetStatus::Id, id);
+    d->id = id;
 }
 
 qint64 QTweetStatus::id() const
 {
-    return m_statusInfo.value(QTweetStatus::Id).toLongLong();
+    return d->id;
 }
 
 void QTweetStatus::setText(const QString &text)
 {
-    m_statusInfo.insert(QTweetStatus::Text, text);
+    d->text = text;
 }
 
 QString QTweetStatus::text() const
 {
-    return m_statusInfo.value(QTweetStatus::Text).toString();
+    return d->text;
 }
 
 void QTweetStatus::setCreatedAt(const QString &twitterDate)
 {
-    QDateTime datetime = QTweetUser::twitterDateToQDateTime(twitterDate);
-
-    m_statusInfo.insert(QTweetStatus::CreatedAt, datetime);
+    d->createdAt = QTweetUser::twitterDateToQDateTime(twitterDate);
 }
 
 QDateTime QTweetStatus::createdAt() const
 {
-    return m_statusInfo.value(QTweetStatus::CreatedAt).toDateTime();
-}
-
-void QTweetStatus::setSource(const QString &source)
-{
-    m_statusInfo.insert(QTweetStatus::Source, source);
-}
-
-QString QTweetStatus::source() const
-{
-    return m_statusInfo.value(QTweetStatus::Source).toString();
-}
-
-void QTweetStatus::setInReplyToStatusId(qint64 id)
-{
-    m_statusInfo.insert(QTweetStatus::InReplyToStatusId, id);
-}
-
-qint64 QTweetStatus::inReplyToStatusId() const
-{
-    return m_statusInfo.value(QTweetStatus::InReplyToStatusId).toLongLong();
+    return d->createdAt;
 }
 
 void QTweetStatus::setInReplyToUserId(qint64 id)
 {
-    m_statusInfo.insert(QTweetStatus::InReplyToUserId, id);
+    d->inReplyToUserId = id;
 }
 
 qint64 QTweetStatus::inReplyToUserId() const
 {
-    return m_statusInfo.value(QTweetStatus::InReplyToUserId).toLongLong();
+    return d->inReplyToUserId;
 }
 
 void QTweetStatus::setInReplyToScreenName(const QString &screenName)
 {
-    m_statusInfo.insert(QTweetStatus::InReplyToScreenName, screenName);
+    d->inReplyToScreenName = screenName;
 }
 
 QString QTweetStatus::inReplyToScreenName() const
 {
-    return m_statusInfo.value(QTweetStatus::InReplyToScreenName).toString();
+    return d->inReplyToScreenName;
+}
+
+void QTweetStatus::setInReplyToStatusId(qint64 id)
+{
+    d->inReplyToStatusId = id;
+}
+
+qint64 QTweetStatus::inReplyToStatusId() const
+{
+    return d->inReplyToStatusId;
+}
+
+void QTweetStatus::setFavorited(bool fav)
+{
+    d->favorited = fav;
+}
+
+bool QTweetStatus::favorited() const
+{
+    return d->favorited;
+}
+
+void QTweetStatus::setSource(const QString &source)
+{
+    d->source = source;
+}
+
+QString QTweetStatus::source() const
+{
+    return d->source;
 }
 
 void QTweetStatus::setUser(const QTweetUser &user)
 {
-    QVariant userVariant;
-    userVariant.setValue(user);
-
-    m_statusInfo.insert(QTweetStatus::User, userVariant);
+    d->user = user;
 }
 
 QTweetUser QTweetStatus::user() const
 {
-    QVariant user = m_statusInfo.value(QTweetStatus::User);
-
-    return user.value<QTweetUser>();
+    return d->user;
 }
 
 void QTweetStatus::setRetweetedStatus(const QTweetStatus &status)
 {
-    QVariant rtStatus;
-    rtStatus.setValue(status);
-
-    m_statusInfo.insert(QTweetStatus::RetweetedStatus, rtStatus);
+    //recursion?
+    d->retweetedStatus = status;
 }
 
 QTweetStatus QTweetStatus::retweetedStatus() const
 {
-    QVariant rtStatus = m_statusInfo.value(QTweetStatus::RetweetedStatus);
-
-    return rtStatus.value<QTweetStatus>();
+    return d->retweetedStatus;
 }
-
-//void QTweetStatus::setPlace(const QString &place)
-//{
-//    m_statusInfo.insert(QTweetStatus::Place, place);
-//}
-
-//QString QTweetStatus::place() const
-//{
-//    return m_statusInfo.value(QTweetStatus::Place).toString();
-//}
