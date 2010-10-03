@@ -22,10 +22,11 @@
 #define QTWEETUSER_H
 
 #include <QVariant>
-#include <QHash>
+#include <QSharedDataPointer>
 #include "qtweetlib_global.h"
 
 class QTweetStatus;
+class QTweetUserData;
 
 /*!
     Class for storing user info
@@ -34,42 +35,18 @@ class QTWEETLIBSHARED_EXPORT QTweetUser
 {
 public:
     QTweetUser();
+    QTweetUser(const QTweetUser& other);
+    QTweetUser& operator=(const QTweetUser& other);
+    ~QTweetUser();
 
-    enum TypeInfo {
-        Id,
-        Name,
-        ScreenName,
-        Location,
-        Description,
-        ProfileImageUrl,
-        Url,
-        Protected,
-        FollowersCount,
-        ProfileBackgroundColor,
-        ProfileTextColor,
-        ProfileLinkColor,
-        ProfileSidebarFillColor,
-        ProfileSidebarBorderColor,
-        FriendsCount,
-        CreatedAt,
-        FavouritesCount,
-        UtcOffset,
-        TimeZone,
-        ProfileBackgroundImageUrl,
-        ProfileBackgroundTile,
-        Notifications,
-        GeoEnabled,
-        Verified,
-        Following,
-        StatusesCount,
-        Lang,
-        ContributorsEnabled,
-        // Twitter API sometimes returns user info with included last status
-        Status
-    };
-
+    void setContributorsEnabled(bool enabled);
+    bool isContributorsEnabled() const;
     void setId(qint64 id);
     qint64 id() const;
+    void setLang(const QString& lang);
+    QString lang() const;
+    void setListedCount(int count);
+    int listedCount() const;
     void setName(const QString& name);
     QString name() const;
     void setScreenName(const QString& screenName);
@@ -100,8 +77,6 @@ public:
     bool isGeoEnabled() const;
     void setVerified(bool verified);
     bool isVerified() const;
-    void setFollowing(bool following);
-    bool isFollowing() const;
     void setStatusesCount(int count);
     int statusesCount() const;
     void setStatus(const QTweetStatus& lastStatus);
@@ -110,7 +85,7 @@ public:
     static QDateTime twitterDateToQDateTime(const QString& twitterDate);
 
 private:
-    QHash<int, QVariant> m_userInfo;
+    QSharedDataPointer<QTweetUserData> d;
 };
 
 Q_DECLARE_METATYPE(QTweetUser)

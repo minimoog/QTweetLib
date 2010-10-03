@@ -218,7 +218,9 @@ QTweetUser QTweetNetBase::variantMapToUserInfo(const QVariantMap &var)
     userInfo.setFriendsCount(var["friends_count"].toInt());
     userInfo.setStatusesCount(var["statuses_count"].toInt());
     userInfo.setScreenName(var["screen_name"].toString());
-    userInfo.setFollowing(var["following"].toBool());
+    userInfo.setContributorsEnabled(var["contributors_enabled"].toBool());
+    userInfo.setListedCount(var["listed_count"].toInt());
+    userInfo.setLang(var["lang"].toString());
 
     //check if contains status
     if (var.contains("status")) {

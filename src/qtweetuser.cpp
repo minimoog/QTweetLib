@@ -18,209 +18,290 @@
  * Contact e-mail: Antonie Jovanoski <minimoog77_at_gmail.com>
  */
 
+#include <QSharedData>
 #include <QDateTime>
 #include "qtweetuser.h"
 #include "qtweetstatus.h"
 
-QTweetUser::QTweetUser()
+class QTweetUserData : public QSharedData
 {
+public:
+    QTweetUserData() : id(0) {}
+
+    bool contributorsEnabled;
+    QDateTime createdAt;
+    QString description;
+    int favoritesCount;
+    bool followRequestSent;
+    int followersCount;
+    int friendsCount;
+    bool geoEnabled;
+    qint64 id;
+    QString lang;
+    int listedCount;
+    QString location;
+    QString name;
+    //QString profileBackgroundColor;
+    //QString profileBackgroundImageUrl;
+    //bool profileBackgroundTile;
+    QString profileImageUrl;
+    //QString profileLinkColor;
+    //QString profileSidebarBorderColor;
+    //QString profileSidebarFillColor;
+    //QString profileTextColor;
+    //bool profileUseBackgroundImage;
+    bool accountProtected;
+    QString screenName;
+    //bool showAllInlineMedia;
+    int statusesCount;
+    QString timeZone;
+    QString url;
+    int utcOffset;
+    bool verified;
+    QTweetStatus status;    //should be pointer?
+};
+
+QTweetUser::QTweetUser() :
+        d(new QTweetUserData)
+{
+}
+
+QTweetUser::QTweetUser(const QTweetUser &other) :
+        d(other.d)
+{
+}
+
+QTweetUser& QTweetUser::operator =(const QTweetUser& other)
+{
+    if (this != &other)
+        d.operator =(other.d);
+    return *this;
+}
+
+QTweetUser::~QTweetUser()
+{
+}
+
+void QTweetUser::setContributorsEnabled(bool enabled)
+{
+    d->contributorsEnabled = enabled;
+}
+
+bool QTweetUser::isContributorsEnabled() const
+{
+    return d->contributorsEnabled;
 }
 
 void QTweetUser::setId(qint64 id)
 {
-    m_userInfo.insert(QTweetUser::Id, id);
+    d->id = id;
 }
 
 qint64 QTweetUser::id() const
 {
-    return m_userInfo.value(QTweetUser::Id).toLongLong();
+    return d->id;
+}
+
+void QTweetUser::setLang(const QString &lang)
+{
+    d->lang = lang;
+}
+
+QString QTweetUser::lang() const
+{
+    return d->lang;
+}
+
+void QTweetUser::setListedCount(int count)
+{
+    d->listedCount = count;
+}
+
+int QTweetUser::listedCount() const
+{
+    return d->listedCount;
 }
 
 void QTweetUser::setName(const QString &name)
 {
-    m_userInfo.insert(QTweetUser::Name, name);
+    d->name = name;
 }
 
 QString QTweetUser::name() const
 {
-    return m_userInfo.value(QTweetUser::Name).toString();
+    return d->name;
 }
+
+//void QTweetUser::setProfileBackgroundColor(const QString &color)
+//{
+//    // ### TODO: prepend #?
+//    // ### TODO: use QColor (QGui dependancy?) instead QString
+//    d->profileBackgroundColor = color;
+//}
+
+//QString QTweetUser::profileBackgroundColor() const
+//{
+//    return d->profileBackgroundColor;
+//}
 
 void QTweetUser::setScreenName(const QString &screenName)
 {
-    m_userInfo.insert(QTweetUser::ScreenName, screenName);
+    d->screenName = screenName;
 }
 
 QString QTweetUser::screenName() const
 {
-    return m_userInfo.value(QTweetUser::ScreenName).toString();
+    return d->screenName;
 }
 
 void QTweetUser::setLocation(const QString &location)
 {
-    m_userInfo.insert(QTweetUser::Location, location);
+    d->location = location;
 }
 
 QString QTweetUser::location() const
 {
-    return m_userInfo.value(QTweetUser::Location).toString();
+    return d->location;
 }
 
 void QTweetUser::setDescription(const QString &desc)
 {
-    m_userInfo.insert(QTweetUser::Description, desc);
+    d->description = desc;
 }
 
 QString QTweetUser::description() const
 {
-    return m_userInfo.value(QTweetUser::Description).toString();
+    return d->description;
 }
 
 void QTweetUser::setprofileImageUrl(const QString &url)
 {
-    m_userInfo.insert(QTweetUser::ProfileImageUrl, url);
+    d->profileImageUrl = url;
 }
 
 QString QTweetUser::profileImageUrl() const
 {
-    return m_userInfo.value(QTweetUser::ProfileImageUrl).toString();
+    return d->profileImageUrl;
 }
 
 void QTweetUser::setUrl(const QString &url)
 {
-    m_userInfo.insert(QTweetUser::Url, url);
+    d->url = url;
 }
 
 QString QTweetUser::url() const
 {
-    return m_userInfo.value(QTweetUser::Url).toString();
+    return d->url;
 }
 
 void QTweetUser::setProtected(bool protected_)
 {
-    m_userInfo.insert(QTweetUser::Protected, protected_);
+    d->accountProtected = protected_;
 }
 
 bool QTweetUser::isProtected() const
 {
-    return m_userInfo.value(QTweetUser::Protected).toBool();
+    return d->accountProtected;
 }
 
 void QTweetUser::setFollowersCount(int count)
 {
-    m_userInfo.insert(QTweetUser::FollowersCount, count);
+    d->followersCount = count;
 }
 
 int QTweetUser::followersCount() const
 {
-    return m_userInfo.value(QTweetUser::FollowersCount).toInt();
+    return d->followersCount;
 }
 
 void QTweetUser::setFriendsCount(int count)
 {
-    m_userInfo.insert(QTweetUser::FriendsCount, count);
+    d->friendsCount = count;
 }
 
 int QTweetUser::friendsCount() const
 {
-    return m_userInfo.value(QTweetUser::FriendsCount).toInt();
+    return d->friendsCount;
 }
 
 void QTweetUser::setCreatedAt(const QString &twitterDate)
 {
-    QDateTime datetime = twitterDateToQDateTime(twitterDate);
-
-    m_userInfo.insert(QTweetUser::CreatedAt, datetime);
+    d->createdAt = twitterDateToQDateTime(twitterDate);
 }
 
 QDateTime QTweetUser::createdAt() const
 {
-    return m_userInfo.value(QTweetUser::CreatedAt).toDateTime();
+    return d->createdAt;
 }
 
 void QTweetUser::setFavouritesCount(int count)
 {
-    m_userInfo.insert(QTweetUser::FavouritesCount, count);
+    d->favoritesCount = count;
 }
 
 int QTweetUser::favouritesCount() const
 {
-    return m_userInfo.value(QTweetUser::FavouritesCount).toInt();
+    return d->favoritesCount;
 }
 
 void QTweetUser::setUtcOffset(int sec)
 {
-    m_userInfo.insert(QTweetUser::UtcOffset, sec);
+    d->utcOffset = sec;
 }
 
 int QTweetUser::utcOffset() const
 {
-    return m_userInfo.value(QTweetUser::UtcOffset).toInt();
+    return d->utcOffset;
 }
 
 void QTweetUser::setTimezone(const QString &timezone)
 {
-    m_userInfo.insert(QTweetUser::TimeZone, timezone);
+    d->timeZone = timezone;
 }
 
 QString QTweetUser::timezone() const
 {
-    return m_userInfo.value(QTweetUser::TimeZone).toString();
+    return d->timeZone;
 }
 
 void QTweetUser::setGeoEnabled(bool isGeoEnabled)
 {
-    m_userInfo.insert(QTweetUser::GeoEnabled, isGeoEnabled);
+    d->geoEnabled = isGeoEnabled;
 }
 
 bool QTweetUser::isGeoEnabled() const
 {
-    return m_userInfo.value(QTweetUser::GeoEnabled, false).toBool();
+    return d->geoEnabled;
 }
 
 void QTweetUser::setVerified(bool verified)
 {
-    m_userInfo.insert(QTweetUser::Verified, verified);
+    d->verified = verified;
 }
 
 bool QTweetUser::isVerified() const
 {
-    return m_userInfo.value(QTweetUser::Verified, false).toBool();
-}
-
-void QTweetUser::setFollowing(bool following)
-{
-    m_userInfo.insert(QTweetUser::Following, following);
-}
-
-bool QTweetUser::isFollowing() const
-{
-    return m_userInfo.value(QTweetUser::Following, false).toBool();
+    return d->verified;
 }
 
 void QTweetUser::setStatusesCount(int count)
 {
-    m_userInfo.insert(QTweetUser::StatusesCount, count);
+    d->statusesCount = count;
 }
 
 int QTweetUser::statusesCount() const
 {
-    return m_userInfo.value(QTweetUser::StatusesCount).toInt();
+    return d->statusesCount;
 }
 
 void QTweetUser::setStatus(const QTweetStatus &lastStatus)
 {
-    QVariant statusVariant;
-    statusVariant.setValue(lastStatus);
-
-    m_userInfo.insert(QTweetUser::Status, statusVariant);
+    d->status = lastStatus;
 }
 
 QTweetStatus QTweetUser::status() const
 {
-    QVariant status = m_userInfo.value(QTweetUser::Status);
-
-    return status.value<QTweetStatus>();
+    return d->status;
 }
 
 QDateTime QTweetUser::twitterDateToQDateTime(const QString &twitterDate)
