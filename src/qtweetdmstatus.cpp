@@ -18,112 +18,132 @@
  * Contact e-mail: Antonie Jovanoski <minimoog77_at_gmail.com>
  */
 
+#include <QSharedData>
 #include <QDateTime>
 #include "qtweetuser.h"
 #include "qtweetdmstatus.h"
 
-QTweetDMStatus::QTweetDMStatus()
+class QTweetDMStatusData : public QSharedData
+{
+public:
+    QDateTime createdAt;
+    QString senderScreenName;
+    QTweetUser sender;
+    QString text;
+    QString recipientScreenName;
+    qint64 id;
+    QTweetUser recipient;
+    qint64 recipientId;
+    qint64 senderId;
+};
+
+QTweetDMStatus::QTweetDMStatus() :
+        d(new QTweetDMStatusData)
+{
+}
+
+QTweetDMStatus::QTweetDMStatus(const QTweetDMStatus &other) :
+        d(other.d)
+{
+}
+
+QTweetDMStatus& QTweetDMStatus::operator =(const QTweetDMStatus &other)
+{
+    if (this != &other)
+        d.operator =(other.d);
+    return *this;
+}
+
+QTweetDMStatus::~QTweetDMStatus()
 {
 }
 
 void QTweetDMStatus::setCreatedAt(const QString &twitterDate)
 {
-    QDateTime datetime = QTweetUser::twitterDateToQDateTime(twitterDate);
-
-    m_dmInfo.insert(QTweetDMStatus::CreatedAt, datetime);
+    d->createdAt = QTweetUser::twitterDateToQDateTime(twitterDate);
 }
 
 QDateTime QTweetDMStatus::createdAt() const
 {
-    return m_dmInfo.value(QTweetDMStatus::CreatedAt).toDateTime();
+    return d->createdAt;
 }
 
 void QTweetDMStatus::setSenderScreenName(const QString &screenName)
 {
-    m_dmInfo.insert(QTweetDMStatus::SenderScreenName, screenName);
+    d->senderScreenName = screenName;
 }
 
 QString QTweetDMStatus::senderScreenName() const
 {
-    return m_dmInfo.value(QTweetDMStatus::SenderScreenName).toString();
+    return d->senderScreenName;
 }
 
 void QTweetDMStatus::setSender(const QTweetUser &sender)
 {
-    QVariant senderVariant;
-    senderVariant.setValue(sender);
-
-    m_dmInfo.insert(QTweetDMStatus::Sender, senderVariant);
+    d->sender = sender;
 }
 
 QTweetUser QTweetDMStatus::sender() const
 {
-    QVariant senderVariant = m_dmInfo.value(QTweetDMStatus::Sender);
-
-    return senderVariant.value<QTweetUser>();
+    return d->sender;
 }
 
 void QTweetDMStatus::setText(const QString &text)
 {
-    m_dmInfo.insert(QTweetDMStatus::Text, text);
+    d->text = text;
 }
 
 QString QTweetDMStatus::text() const
 {
-    return m_dmInfo.value(QTweetDMStatus::Text).toString();
+    return d->text;
 }
 
 void QTweetDMStatus::setRecipientScreenName(const QString &screenName)
 {
-    m_dmInfo.insert(QTweetDMStatus::RecipientScreenName, screenName);
+    d->recipientScreenName = screenName;
 }
 
 QString QTweetDMStatus::recipientScreenName() const
 {
-    return m_dmInfo.value(QTweetDMStatus::RecipientScreenName).toString();
+    return d->recipientScreenName;
 }
 
 void QTweetDMStatus::setId(qint64 id)
 {
-    m_dmInfo.insert(QTweetDMStatus::Id, id);
+    d->id = id;
 }
 
 qint64 QTweetDMStatus::id() const
 {
-    return m_dmInfo.value(QTweetDMStatus::Id).toLongLong();
+    return d->id;
 }
 
 void QTweetDMStatus::setRecipient(const QTweetUser &recipient)
 {
-    QVariant recipientVariant;
-    recipientVariant.setValue(recipient);
-
-    m_dmInfo.insert(QTweetDMStatus::Recipient, recipientVariant);
+    d->recipient = recipient;
 }
 
 QTweetUser QTweetDMStatus::recipient() const
 {
-    QVariant recipientVariant = m_dmInfo.value(QTweetDMStatus::Recipient);
-
-    return recipientVariant.value<QTweetUser>();
+    return d->recipient;
 }
 
 void QTweetDMStatus::setRecipientId(qint64 id)
 {
-    m_dmInfo.insert(QTweetDMStatus::RecipientId, id);
+    d->recipientId = id;
 }
 
 qint64 QTweetDMStatus::recipientId() const
 {
-    return m_dmInfo.value(QTweetDMStatus::RecipientId).toLongLong();
+    return d->recipientId;
 }
 
 void QTweetDMStatus::setSenderId(qint64 id)
 {
-    m_dmInfo.insert(QTweetDMStatus::SenderId, id);
+    d->senderId = id;
 }
 
 qint64 QTweetDMStatus::senderId() const
 {
-    return m_dmInfo.value(QTweetDMStatus::SenderId).toLongLong();
+    return d->senderId;
 }

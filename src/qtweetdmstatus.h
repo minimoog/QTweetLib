@@ -22,10 +22,11 @@
 #define QTWEETDMSTATUS_H
 
 #include <QVariant>
-#include <QHash>
+#include <QSharedDataPointer>
 #include "qtweetlib_global.h"
 
 class QTweetUser;
+class QTweetDMStatusData;
 
 /*!
     Stores direct message info
@@ -34,18 +35,9 @@ class QTWEETLIBSHARED_EXPORT QTweetDMStatus
 {
 public:
     QTweetDMStatus();
-
-    enum TypeInfo {
-        CreatedAt,
-        SenderScreenName,
-        Sender,
-        Text,
-        RecipientScreenName,
-        Id,
-        Recipient,
-        RecipientId,
-        SenderId
-    };
+    QTweetDMStatus(const QTweetDMStatus& other);
+    QTweetDMStatus& operator=(const QTweetDMStatus& other);
+    ~QTweetDMStatus();
 
     void setCreatedAt(const QString& twitterDate);
     QDateTime createdAt() const;
@@ -67,7 +59,7 @@ public:
     qint64 senderId() const;
 
 private:
-    QHash<int, QVariant> m_dmInfo;
+    QSharedDataPointer<QTweetDMStatusData> d;
 };
 
 Q_DECLARE_METATYPE(QTweetDMStatus)
