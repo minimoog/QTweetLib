@@ -21,6 +21,7 @@
 #include <QNetworkReply>
 #include <QNetworkRequest>
 #include "qtweetstatusdestroy.h"
+#include "qtweetstatus.h"
 
 QTweetStatusDestroy::QTweetStatusDestroy(QObject *parent) :
     QTweetNetBase(parent)
@@ -64,7 +65,16 @@ void QTweetStatusDestroy::destroy(qint64 id,
     connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(error()));
 }
 
-// ### TODO Response parsing
+void QTweetStatusDestroy::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
+{
+    if (ok) {
+        QTweetStatus status = variantMapToStatus(json.toMap());
+
+        emit deletedStatus(status);
+    } else {
+        qDebug() << "QTweetStatusDestroy parse error: " << errorMsg;
+    }
+}
 
 void QTweetStatusDestroy::error()
 {
