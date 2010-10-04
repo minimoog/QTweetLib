@@ -22,55 +22,45 @@
 #define QTWEETLIST_H
 
 #include <QVariant>
-#include <QHash>
+#include <QSharedDataPointer>
 #include "qtweetlib_global.h"
 
 class QTweetUser;
+class QTweetListData;
 
 class QTWEETLIBSHARED_EXPORT QTweetList
 {
 public:
     QTweetList();
+    QTweetList(const QTweetList& other);
+    QTweetList& operator=(const QTweetList& other);
+    ~QTweetList();
 
-    enum TypeInfo {
-        Mode,
-        Description,
-        Following,
-        MemberCount,
-        FullName,
-        SubscriberCount,
-        Slug,
-        Name,
-        Id,
-        Uri,
-        User
-    };
-
-    void setMode(const QString& mode) { m_listInfo.insert(QTweetList::Mode, mode); }
-    QString mode() const { return m_listInfo.value(QTweetList::Mode).toString(); }
-    void setDescription(const QString& desc) { m_listInfo.insert(QTweetList::Description, desc); }
-    QString description() const { return m_listInfo.value(QTweetList::Description).toString(); }
-    void setFollowing(bool following) { m_listInfo.insert(QTweetList::Following, following); }
-    bool following() const { return m_listInfo.value(QTweetList::Following).toBool(); }
-    void setMemberCount(int count) { m_listInfo.insert(QTweetList::MemberCount, count); }
-    int memberCount() const { return m_listInfo.value(QTweetList::MemberCount).toInt(); }
-    void setFullName(const QString& name) { m_listInfo.insert(QTweetList::FullName, name); }
-    QString fullName() const { return m_listInfo.value(QTweetList::FullName).toString(); }
-    void setSubscriberCount(int count) { m_listInfo.insert(QTweetList::SubscriberCount, count); }
-    int subscriberCount() const { return m_listInfo.value(QTweetList::SubscriberCount).toInt(); }
-    void setSlug(const QString& slug) { m_listInfo.insert(QTweetList::Slug, slug); }
-    QString slug() const { return m_listInfo.value(QTweetList::Slug).toString(); }
-    void setName(const QString& name) { m_listInfo.insert(QTweetList::Name, name); }
-    QString name() const { return m_listInfo.value(QTweetList::Name).toString(); }
-    void setId(qint64 id) { m_listInfo.insert(QTweetList::Id, id); }
-    qint64 id() const { return m_listInfo.value(QTweetList::Id).toLongLong(); }
-    void setUri(const QString& uri) { m_listInfo.insert(QTweetList::Uri, uri); }
-    QString uri() const { return m_listInfo.value(QTweetList::Uri).toString(); }
+    void setMode(const QString& mode);
+    QString mode() const;
+    void setDescription(const QString& desc);
+    QString description() const;
+    void setFollowing(bool following);
+    bool following() const;
+    void setMemberCount(int count);
+    int memberCount() const;
+    void setFullName(const QString& name);
+    QString fullName() const;
+    void setSubscriberCount(int count);
+    int subscriberCount() const;
+    void setSlug(const QString& slug);
+    QString slug() const;
+    void setName(const QString& name);
+    QString name() const;
+    void setId(qint64 id);
+    qint64 id() const;
+    void setUri(const QString& uri);
+    QString uri() const;
     void setUser(const QTweetUser& user);
     QTweetUser user() const;
 
 private:
-    QHash<int, QVariant> m_listInfo;
+    QSharedDataPointer<QTweetListData> d;
 };
 
 Q_DECLARE_METATYPE(QTweetList)
