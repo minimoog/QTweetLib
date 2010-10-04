@@ -62,6 +62,7 @@ public:
     QTweetUser user() const;
     void setRetweetedStatus(const QTweetStatus& status);
     QTweetStatus retweetedStatus() const;
+    bool isRetweet() const;
 
 private:
     QSharedDataPointer<QTweetStatusData> d;

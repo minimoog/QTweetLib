@@ -26,7 +26,7 @@
 class QTweetStatusData : public QSharedData
 {
 public:
-    QTweetStatusData() : id(0), inReplyToStatusId(0) {}
+    QTweetStatusData() : id(0), inReplyToStatusId(0), containsRetweetStatus(false) {}
 
     qint64 id;
     QString text;
@@ -38,6 +38,7 @@ public:
     QString source;
     QTweetUser user;
     QTweetStatus retweetedStatus;
+    bool containsRetweetStatus;
 };
 
 QTweetStatus::QTweetStatus() :
@@ -153,11 +154,17 @@ QTweetUser QTweetStatus::user() const
 
 void QTweetStatus::setRetweetedStatus(const QTweetStatus &status)
 {
-    //recursion?
+    //recursion? circural reference?
     d->retweetedStatus = status;
+    d->containsRetweetStatus = true;
 }
 
 QTweetStatus QTweetStatus::retweetedStatus() const
 {
     return d->retweetedStatus;
+}
+
+bool QTweetStatus::isRetweet() const
+{
+    return d->containsRetweetStatus;
 }

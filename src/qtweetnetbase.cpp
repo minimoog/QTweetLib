@@ -115,8 +115,6 @@ QList<QTweetStatus> QTweetNetBase::variantToStatusList(const QVariant &fromParse
 
     QList<QVariant> listStatus = fromParser.toList();
 
-    // ### TODO: Parsing when user info is trimmed
-
     foreach (const QVariant& status, listStatus) {
         QVariantMap statusMap = status.toMap();
 
@@ -201,34 +199,39 @@ QTweetUser QTweetNetBase::variantMapToUserInfo(const QVariantMap &var)
 {
     QTweetUser userInfo;
 
-    userInfo.setName(var["name"].toString());
-    userInfo.setLocation(var["location"].toString());
-    userInfo.setprofileImageUrl(var["profile_image_url"].toString());
-    userInfo.setCreatedAt(var["created_at"].toString());
-    userInfo.setFavouritesCount(var["favourites_count"].toInt());
-    userInfo.setUrl(var["url"].toString());
-    userInfo.setUtcOffset(var["utc_offset"].toInt());
     userInfo.setId(var["id"].toLongLong());
-    userInfo.setProtected(var["protected"].toBool());
-    userInfo.setFollowersCount(var["followers_count"].toInt());
-    userInfo.setVerified(var["verified"].toBool());
-    userInfo.setGeoEnabled(var["geo_enabled"].toBool());
-    userInfo.setDescription(var["description"].toString());
-    userInfo.setTimezone(var["time_zone"].toString());
-    userInfo.setFriendsCount(var["friends_count"].toInt());
-    userInfo.setStatusesCount(var["statuses_count"].toInt());
-    userInfo.setScreenName(var["screen_name"].toString());
-    userInfo.setContributorsEnabled(var["contributors_enabled"].toBool());
-    userInfo.setListedCount(var["listed_count"].toInt());
-    userInfo.setLang(var["lang"].toString());
 
-    //check if contains status
-    if (var.contains("status")) {
-        QVariantMap statusMap = var["status"].toMap();
+    //don't fill rest of it, when user info is trimmed
+    if (var.contains("name")) {
 
-        QTweetStatus status = variantMapToStatus(var);
+        userInfo.setName(var["name"].toString());
+        userInfo.setLocation(var["location"].toString());
+        userInfo.setprofileImageUrl(var["profile_image_url"].toString());
+        userInfo.setCreatedAt(var["created_at"].toString());
+        userInfo.setFavouritesCount(var["favourites_count"].toInt());
+        userInfo.setUrl(var["url"].toString());
+        userInfo.setUtcOffset(var["utc_offset"].toInt());
+        userInfo.setProtected(var["protected"].toBool());
+        userInfo.setFollowersCount(var["followers_count"].toInt());
+        userInfo.setVerified(var["verified"].toBool());
+        userInfo.setGeoEnabled(var["geo_enabled"].toBool());
+        userInfo.setDescription(var["description"].toString());
+        userInfo.setTimezone(var["time_zone"].toString());
+        userInfo.setFriendsCount(var["friends_count"].toInt());
+        userInfo.setStatusesCount(var["statuses_count"].toInt());
+        userInfo.setScreenName(var["screen_name"].toString());
+        userInfo.setContributorsEnabled(var["contributors_enabled"].toBool());
+        userInfo.setListedCount(var["listed_count"].toInt());
+        userInfo.setLang(var["lang"].toString());
 
-        userInfo.setStatus(status);
+        //check if contains status
+        if (var.contains("status")) {
+            QVariantMap statusMap = var["status"].toMap();
+
+            QTweetStatus status = variantMapToStatus(statusMap);
+
+            userInfo.setStatus(status);
+        }
     }
 
     return userInfo;
