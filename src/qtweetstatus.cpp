@@ -37,7 +37,17 @@ public:
     bool favorited;
     QString source;
     QTweetUser user;
-    QTweetStatus retweetedStatus;
+    //avoid recursion
+    //QTweetStatus retweetedStatus;
+    qint64 rtsId;
+    QString rtsText;
+    QDateTime rtsCreatedAt;
+    qint64 rtsInReplyToUserId;
+    QString rtsInReplyToScreenName;
+    qint64 rtsInReplyToStatusId;
+    bool rtsFavorited;
+    QString rtsSource;
+    QTweetUser rtsUser;
     bool containsRetweetStatus;
 };
 
@@ -155,13 +165,31 @@ QTweetUser QTweetStatus::user() const
 void QTweetStatus::setRetweetedStatus(const QTweetStatus &status)
 {
     //recursion? circural reference?
-    d->retweetedStatus = status;
+    d->rtsId = status.id();
+    d->rtsText = status.text();
+    d->rtsCreatedAt = status.createdAt();
+    d->rtsInReplyToUserId = status.inReplyToUserId();
+    d->rtsInReplyToStatusId = status.inReplyToUserId();
+    d->rtsFavorited = status.favorited();
+    d->rtsSource = status.source();
+    d->rtsUser = status.user();
     d->containsRetweetStatus = true;
 }
 
 QTweetStatus QTweetStatus::retweetedStatus() const
 {
-    return d->retweetedStatus;
+    QTweetStatus status;
+    status.setId(d->rtsId);
+    status.setText(d->rtsText);
+    //status.setCreatedAt(d->rtsCreatedAt); // ### TODO FIX
+    status.setInReplyToUserId(d->rtsInReplyToUserId);
+    status.setInReplyToScreenName(d->rtsInReplyToScreenName);
+    status.setInReplyToStatusId(d->rtsInReplyToStatusId);
+    status.setFavorited(d->rtsFavorited);
+    status.setSource(d->rtsSource);
+    status.setUser(d->rtsUser);
+
+    return status;
 }
 
 bool QTweetStatus::isRetweet() const

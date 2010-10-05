@@ -58,7 +58,19 @@ public:
     QString url;
     int utcOffset;
     bool verified;
-    QTweetStatus status;    //should be pointer?
+    //avoid recursion with QTweetStatus
+    qint64 statusId;
+    QString statusText;
+    QDateTime statusCreatedAt;
+    qint64 statusInReplyToUserId;
+    QString statusInReplyToScreenName;
+    qint64 statusInReplyToStatusId;
+    bool statusFavorited;
+    QString statusSource;
+    //QTweetUser user
+    //QTweetStatus retweetedStatus; //check if there is retweeted status in user response
+    //bool containsRetweetStatus;
+    //QTweetStatus status;    //should be pointer?
 };
 
 QTweetUser::QTweetUser() :
@@ -296,12 +308,30 @@ int QTweetUser::statusesCount() const
 
 void QTweetUser::setStatus(const QTweetStatus &lastStatus)
 {
-    d->status = lastStatus;
+    //d->status = lastStatus;
+    d->statusId = lastStatus.id();
+    d->statusText = lastStatus.text();
+    d->statusCreatedAt = lastStatus.createdAt();
+    d->statusInReplyToScreenName = lastStatus.inReplyToScreenName();
+    d->statusInReplyToStatusId = lastStatus.inReplyToStatusId();
+    d->statusInReplyToUserId = lastStatus.inReplyToUserId();
+    d->statusFavorited = lastStatus.favorited();
+    d->statusSource = lastStatus.source();
 }
 
 QTweetStatus QTweetUser::status() const
 {
-    return d->status;
+    QTweetStatus lastStatus;
+    lastStatus.setId(d->statusId);
+    lastStatus.setText(d->statusText);
+    //lastStatus.setCreatedAt();    // ### TODO FIX IT!
+    lastStatus.setInReplyToScreenName(d->statusInReplyToScreenName);
+    lastStatus.setInReplyToStatusId(d->statusInReplyToStatusId);
+    lastStatus.setInReplyToUserId(d->statusInReplyToUserId);
+    lastStatus.setFavorited(d->statusFavorited);
+    lastStatus.setSource(d->statusSource);
+
+    return lastStatus;
 }
 
 QDateTime QTweetUser::twitterDateToQDateTime(const QString &twitterDate)
