@@ -202,13 +202,13 @@ QByteArray OAuth::generateSignatureBase(const QUrl& url, HttpMethod method, cons
 	//OAuth spec. 9.1 http://oauth.net/core/1.0/#anchor14
 
 	//OAuth spec. 9.1.1
-	QList<QPair<QByteArray, QByteArray> > urlParameters = url.encodedQueryItems();
+	QList<QPair<QString, QString> > urlParameters = url.queryItems();
 	QList<QByteArray> normParameters;
 
-	QListIterator<QPair<QByteArray, QByteArray> > i(urlParameters);
+	QListIterator<QPair<QString, QString> > i(urlParameters);
 	while(i.hasNext()){
-		QPair<QByteArray, QByteArray> queryItem = i.next();
-		QByteArray normItem = queryItem.first + '=' + queryItem.second;
+		QPair<QString, QString> queryItem = i.next();
+		QByteArray normItem = QUrl::toPercentEncoding(queryItem.first) + '=' + QUrl::toPercentEncoding(queryItem.second);
 		normParameters.append(normItem);
 	}
 
@@ -233,13 +233,21 @@ QByteArray OAuth::generateSignatureBase(const QUrl& url, HttpMethod method, cons
 	qSort(normParameters);
 
 	//OAuth spec. 9.1.1.2
-	QByteArray normString;
-	QListIterator<QByteArray> j(normParameters);
-	while(j.hasNext()){
-		normString += j.next();
-		normString += '&';
-	}
-	normString.chop(1);
+	//QByteArray normString;
+	//QListIterator<QByteArray> j(normParameters);
+	//while(j.hasNext()){
+	//	normString += j.next();
+	//	normString += '&';
+	//}
+	//normString.chop(1);
+
+    QByteArray normString;
+    QListIterator<QByteArray> j(normParameters);
+    while (j.hasNext()) {
+        normString += j.next().toPercentEncoding();
+        normString += "%26";
+    }
+    normString.chop(3);
 
 	//OAuth spec. 9.1.2
 	QString urlScheme = url.scheme();
@@ -266,7 +274,7 @@ QByteArray OAuth::generateSignatureBase(const QUrl& url, HttpMethod method, cons
 	}
 
 	//OAuth spec. 9.1.3
-	return httpm + '&' + normUrl.toPercentEncoding() + '&' + normString.toPercentEncoding();
+	return httpm + '&' + normUrl.toPercentEncoding() + '&' + normString;
 }
 
 /*!
