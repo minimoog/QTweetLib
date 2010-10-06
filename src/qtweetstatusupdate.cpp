@@ -54,9 +54,9 @@ void QTweetStatusUpdate::post(const QString &status,
 {
     Q_ASSERT(oauthTwitter() != 0);
 
-    QUrl url("http://api.twitter.com/1/statuses/update.json");
+    //QUrl url("http://api.twitter.com/1/statuses/update.json");
 
-    QUrl urlQuery;
+    QUrl urlQuery("http://api.twitter.com/1/statuses/update.json");
 
     urlQuery.addQueryItem("status", status);
 
@@ -82,16 +82,16 @@ void QTweetStatusUpdate::post(const QString &status,
         urlQuery.addQueryItem("include_entities", "true");
 
     QByteArray oauthHeader = oauthTwitter()->generateAuthorizationHeader(urlQuery, OAuth::POST);
-    QNetworkRequest req(url);
+    QNetworkRequest req(urlQuery);
     req.setRawHeader(AUTH_HEADER, oauthHeader);
 
     //build status post array
-    QByteArray statusPost = urlQuery.toEncoded(QUrl::RemoveScheme | QUrl::RemoveAuthority | QUrl::RemovePath);
+    //QByteArray statusPost = urlQuery.toEncoded(QUrl::RemoveScheme | QUrl::RemoveAuthority | QUrl::RemovePath);
 
     //remove '?'
-    statusPost.remove(0, 1);
+    //statusPost.remove(0, 1);
 
-    QNetworkReply *reply = oauthTwitter()->networkAccessManager()->post(req, statusPost);
+    QNetworkReply *reply = oauthTwitter()->networkAccessManager()->post(req, QByteArray());
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
     connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(error()));
 }
