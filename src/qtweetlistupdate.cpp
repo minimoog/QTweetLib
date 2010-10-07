@@ -80,8 +80,3 @@ void QTweetListUpdate::parsingJsonFinished(const QVariant &json, bool ok, const 
         qDebug() << "QTweetListUpdate json parser error: " << errorMsg;
     }
 }
-
-void QTweetListUpdate::error()
-{
-    // ### TODO
-}

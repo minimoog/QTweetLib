@@ -53,9 +53,6 @@ signals:
 protected slots:
     void parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg);
 
-private slots:
-    void error();
-
 private:
     bool m_usesCursoring;
 };

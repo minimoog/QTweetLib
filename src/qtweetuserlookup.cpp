@@ -90,8 +90,3 @@ void QTweetUserLookup::parsingJsonFinished(const QVariant &json, bool ok, const 
         qDebug() << "QTweetUserLookup json parser error: " << errorMsg;
     }
 }
-
-void QTweetUserLookup::error()
-{
-    // ### TODO:
-}

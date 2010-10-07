@@ -64,7 +64,3 @@ void QTweetListSubscribe::parsingJsonFinished(const QVariant &json, bool ok, con
     }
 }
 
-void QTweetListSubscribe::error()
-{
-    // ### TODO
-}

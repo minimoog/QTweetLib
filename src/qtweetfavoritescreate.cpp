@@ -66,8 +66,3 @@ void QTweetFavoritesCreate::parsingJsonFinished(const QVariant &json, bool ok, c
         qDebug() << "QTweetFavoritesCreate parser error: " << errorMsg;
     }
 }
-
-void QTweetFavoritesCreate::error()
-{
-    // ### TODO:
-}

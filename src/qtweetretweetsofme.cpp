@@ -90,8 +90,3 @@ void QTweetRetweetsOfMe::parsingJsonFinished(const QVariant &json, bool ok, cons
         qDebug() << "QTweetRetweetsOfMe JSON parser error: " << errorMsg;
     }
 }
-
-void QTweetRetweetsOfMe::error()
-{
-    // ### TODO
-}

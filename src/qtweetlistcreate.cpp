@@ -79,8 +79,3 @@ void QTweetListCreate::parsingJsonFinished(const QVariant &json, bool ok, const 
         qDebug() << "QTweetListCreate json parser error: " << errorMsg;
     }
 }
-
-void QTweetListCreate::error()
-{
-    // ### TODO
-}

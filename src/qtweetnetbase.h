@@ -53,6 +53,7 @@ public:
     bool isJsonParsingEnabled() const;
 
     QByteArray response() const;
+    QString lastErrorMessage() const;
 
 signals:
     /*!
@@ -60,11 +61,14 @@ signals:
         \param response Contains the response
      */
     void finished(const QByteArray& response);
-
-    /*!
-        Emited when there is a network error
+    /*! Emited when there is error. You can check error message with lastErrorMessage().
+        \param httpStatus Http status code
+        \param errorMsg Error message. If it's empty then error was not standard json twitter api message.
+                        In that case check response.
+        \remarks DOESN'T emit finished signal
      */
-    void networkError(const QString& errorString);
+    // ### TODO: Enum the httpStatus
+    void error(int httpStatus, const QString& errorMsg);
 
 protected slots:
     virtual void parsingJsonFinished(const QVariant& json, bool ok, const QString& errorMsg) = 0;
@@ -82,10 +86,10 @@ protected:
 
     void parseJson(const QByteArray& jsonData);
 
-    QByteArray m_response;
-
 private:
     OAuthTwitter *m_oauthTwitter;
+    QByteArray m_response;
+    QString m_lastErrorMessage;
     bool m_jsonParsingEnabled;
 };
 

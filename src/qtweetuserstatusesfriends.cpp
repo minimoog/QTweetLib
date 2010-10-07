@@ -100,7 +100,3 @@ void QTweetUserStatusesFriends::parsingJsonFinished(const QVariant &json, bool o
     }
 }
 
-void QTweetUserStatusesFriends::error()
-{
-    // ### TODO
-}

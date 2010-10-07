@@ -86,7 +86,3 @@ void QTweetDirectMessagesSent::parsingJsonFinished(const QVariant &json, bool ok
     }
 }
 
-void QTweetDirectMessagesSent::error()
-{
-    // ### TODO
-}

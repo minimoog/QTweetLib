@@ -78,8 +78,3 @@ void QTweetUserShow::parsingJsonFinished(const QVariant &json, bool ok, const QS
         qDebug() << "QTweetUserShow Json parser error: " << errorMsg;
     }
 }
-
-void QTweetUserShow::error()
-{
-    // ### TODO:
-}

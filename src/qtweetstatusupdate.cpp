@@ -108,7 +108,3 @@ void QTweetStatusUpdate::parsingJsonFinished(const QVariant &json, bool ok, cons
     }
 }
 
-void QTweetStatusUpdate::error()
-{
-    // ### TODO:
-}

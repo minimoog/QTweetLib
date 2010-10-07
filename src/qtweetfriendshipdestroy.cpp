@@ -75,8 +75,3 @@ void QTweetFriendshipDestroy::parsingJsonFinished(const QVariant &json, bool ok,
         qDebug() << "QTweetFriendshipCreate parser error: " << errorMsg;
     }
 }
-
-void QTweetFriendshipDestroy::error()
-{
-    // ### TODO:
-}

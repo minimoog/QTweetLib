@@ -79,8 +79,3 @@ void QTweetDirectMessageNew::parsingJsonFinished(const QVariant &json, bool ok, 
         qDebug() << "QTweetDirectMessageNew parser error: " << errorMsg;
     }
 }
-
-void QTweetDirectMessageNew::error()
-{
-    // ### TODO
-}

@@ -97,7 +97,3 @@ void QTweetMentions::parsingJsonFinished(const QVariant &json, bool ok, const QS
     }
 }
 
-void QTweetMentions::error()
-{
-    // ### TODO:
-}

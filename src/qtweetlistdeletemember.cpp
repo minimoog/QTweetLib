@@ -66,8 +66,3 @@ void QTweetListDeleteMember::parsingJsonFinished(const QVariant &json, bool ok, 
         qDebug() << "QTweetListDeleteMember parser error: " << errorMsg;
     }
 }
-
-void QTweetListDeleteMember::error()
-{
-    // ### TODO:
-}

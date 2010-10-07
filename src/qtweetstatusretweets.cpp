@@ -64,7 +64,3 @@ void QTweetStatusRetweets::fetch(qint64 id, int count)
 
 // ### TODO json parsing, emiting signal
 
-void QTweetStatusRetweets::error()
-{
-    // ### TODO:
-}

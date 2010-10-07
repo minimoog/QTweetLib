@@ -77,7 +77,3 @@ void QTweetListMemberships::parsingJsonFinished(const QVariant &json, bool ok, c
     }
 }
 
-void QTweetListMemberships::error()
-{
-    // ### TODO
-}

@@ -76,7 +76,3 @@ void QTweetListGetLists::parsingJsonFinished(const QVariant &json, bool ok, cons
     }
 }
 
-void QTweetListGetLists::error()
-{
-    // ### TODO
-}

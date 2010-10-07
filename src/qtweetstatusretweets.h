@@ -33,9 +33,6 @@ public:
     QTweetStatusRetweets(QObject *parent = 0);
     QTweetStatusRetweets(OAuthTwitter *oauthTwitter, QObject *parent = 0);
     void fetch(qint64 id, int count = 0);
-
-private slots:
-    void error();
 };
 
 #endif // QTWEETSTATUSRETWEETS_H

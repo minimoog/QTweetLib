@@ -67,7 +67,3 @@ void QTweetDirectMessageDestroy::parsingJsonFinished(const QVariant &json, bool 
     }
 }
 
-void QTweetDirectMessageDestroy::error()
-{
-    // ### TODO
-}

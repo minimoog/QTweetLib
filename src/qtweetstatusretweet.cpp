@@ -73,7 +73,3 @@ void QTweetStatusRetweet::parsingJsonFinished(const QVariant &json, bool ok, con
     }
 }
 
-void QTweetStatusRetweet::error()
-{
-    // ### TODO:
-}

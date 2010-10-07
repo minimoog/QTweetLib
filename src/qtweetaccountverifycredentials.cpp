@@ -62,8 +62,3 @@ void QTweetAccountVerifyCredentials::parsingJsonFinished(const QVariant &json, b
         qDebug() << "QTweetAccountVerifyCredentials parser error: " << errorMsg;
     }
 }
-
-void QTweetAccountVerifyCredentials::error()
-{
-    // ### TODO:
-}

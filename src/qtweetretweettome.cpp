@@ -91,7 +91,3 @@ void QTweetRetweetToMe::parsingJsonFinished(const QVariant &json, bool ok, const
     }
 }
 
-void QTweetRetweetToMe::error()
-{
-    // ### TODO:
-}

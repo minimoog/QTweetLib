@@ -87,9 +87,3 @@ void QTweetDirectMessages::parsingJsonFinished(const QVariant &json, bool ok, co
         qDebug() << "QTweetDirectMessages JSON parser error: " << errorMsg;
     }
 }
-
-void QTweetDirectMessages::error()
-{
-    // ### TODO: Better error detection
-    qCritical("Direct Messages error");
-}

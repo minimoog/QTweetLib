@@ -66,8 +66,3 @@ void QTweetListAddMember::parsingJsonFinished(const QVariant &json, bool ok, con
         qDebug() << "QTweetListAddMember parser error: " << errorMsg;
     }
 }
-
-void QTweetListAddMember::error()
-{
-    // ### TODO
-}

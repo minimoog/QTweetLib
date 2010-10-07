@@ -83,7 +83,3 @@ void QTweetUserSearch::parsingJsonFinished(const QVariant &json, bool ok, const 
     }
 }
 
-void QTweetUserSearch::error()
-{
-    // ### TODO
-}

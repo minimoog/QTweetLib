@@ -67,7 +67,3 @@ void QTweetFavoritesDestroy::parsingJsonFinished(const QVariant &json, bool ok, 
     }
 }
 
-void QTweetFavoritesDestroy::error()
-{
-    // ### TODO
-}

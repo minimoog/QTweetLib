@@ -76,7 +76,3 @@ void QTweetStatusDestroy::parsingJsonFinished(const QVariant &json, bool ok, con
     }
 }
 
-void QTweetStatusDestroy::error()
-{
-    // ### TODO:
-}

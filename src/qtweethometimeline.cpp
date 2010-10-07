@@ -94,8 +94,3 @@ void QTweetHomeTimeline::parsingJsonFinished(const QVariant &json, bool ok, cons
     }
 }
 
-void QTweetHomeTimeline::error()
-{
-    // ### TODO: Better error detection
-    qCritical("Home Timeline error");
-}

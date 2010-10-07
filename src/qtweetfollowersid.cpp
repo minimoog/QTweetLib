@@ -81,8 +81,3 @@ void QTweetFollowersID::parsingJsonFinished(const QVariant &json, bool ok, const
         qDebug() << "QTweetFollowersID parser error: " << errorMsg;
     }
 }
-
-void QTweetFollowersID::error()
-{
-    // ### TODO
-}

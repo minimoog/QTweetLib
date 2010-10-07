@@ -26,6 +26,7 @@
 #include "qtweetuser.h"
 #include "qtweetlist.h"
 #include "qjson/parserrunnable.h"
+#include "qjson/parser.h"
 
 /*!
     Constructor
@@ -73,6 +74,11 @@ QByteArray QTweetNetBase::response() const
     return m_response;
 }
 
+QString QTweetNetBase::lastErrorMessage() const
+{
+    return m_lastErrorMessage;
+}
+
 void QTweetNetBase::setJsonParsingEnabled(bool enable)
 {
     m_jsonParsingEnabled = enable;
@@ -99,12 +105,37 @@ void QTweetNetBase::reply()
     QNetworkReply *reply = qobject_cast<QNetworkReply*>(sender());
 
     if (reply) {
-         m_response = reply->readAll();
-        emit finished(m_response);
+        if (reply->error() == QNetworkReply::NoError) {
+            m_response = reply->readAll();
+            emit finished(m_response);
 
-        if (isJsonParsingEnabled())
-            parseJson(m_response);
+            if (isJsonParsingEnabled())
+                parseJson(m_response);
+        } else {
+            m_response = reply->readAll();
 
+            //dump error
+            qDebug() << "Network error: " << reply->error();
+            qDebug() << "Error string: " << reply->errorString();
+            qDebug() << "Error response: " << m_response;
+
+            //HTTP status code
+            int httpStatus = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+
+            //try to json parse the error response
+            QJson::Parser parser;
+            bool ok;
+
+            QVariantMap errMsgMap = parser.parse(m_response, &ok).toMap();
+            if (!ok) {
+                m_lastErrorMessage.clear();
+            } else {
+                //QString request = errMsgMap["request"].toString();
+                m_lastErrorMessage = errMsgMap["error"].toString();
+            }
+
+            emit error(httpStatus, m_lastErrorMessage);
+        }
         reply->deleteLater();
     }
 }
