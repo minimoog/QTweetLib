@@ -202,13 +202,13 @@ QByteArray OAuth::generateSignatureBase(const QUrl& url, HttpMethod method, cons
 	//OAuth spec. 9.1 http://oauth.net/core/1.0/#anchor14
 
 	//OAuth spec. 9.1.1
-	QList<QPair<QString, QString> > urlParameters = url.queryItems();
+	QList<QPair<QByteArray, QByteArray> > urlParameters = url.encodedQueryItems();
 	QList<QByteArray> normParameters;
 
-	QListIterator<QPair<QString, QString> > i(urlParameters);
+	QListIterator<QPair<QByteArray, QByteArray> > i(urlParameters);
 	while(i.hasNext()){
-		QPair<QString, QString> queryItem = i.next();
-		QByteArray normItem = QUrl::toPercentEncoding(queryItem.first) + '=' + QUrl::toPercentEncoding(queryItem.second);
+		QPair<QByteArray, QByteArray> queryItem = i.next();
+		QByteArray normItem = queryItem.first + '=' + queryItem.second;
 		normParameters.append(normItem);
 	}
 
