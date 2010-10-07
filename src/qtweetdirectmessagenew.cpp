@@ -51,7 +51,7 @@ void QTweetDirectMessageNew::post(qint64 user,
     if (user)
         url.addQueryItem("user_id", QString::number(user));
 
-    url.addQueryItem("text", text);
+    url.addEncodedQueryItem("text", QUrl::toPercentEncoding(text));
 
     if (!screenName.isEmpty())
         url.addQueryItem("screen_name", screenName);
