@@ -51,21 +51,26 @@ void QTweetListUpdate::update(qint64 user,
 
     QUrl url(QString("http://api.twitter.com/1/%1/lists/%2.json").arg(user).arg(list));
 
+    QUrl urlQuery(url);
+
     if (!name.isEmpty())
-        url.addQueryItem("name", name);
+        urlQuery.addEncodedQueryItem("name", QUrl::toPercentEncoding(name));
 
     if (!mode)
-        url.addQueryItem("mode", "private");
+        urlQuery.addQueryItem("mode", "private");
 
     if (!description.isEmpty())
-        url.addQueryItem("description", description);
+        urlQuery.addEncodedQueryItem("description", QUrl::toPercentEncoding(description));
 
     QNetworkRequest req(url);
 
-    QByteArray oauthHeader = oauthTwitter()->generateAuthorizationHeader(url, OAuth::POST);
+    QByteArray oauthHeader = oauthTwitter()->generateAuthorizationHeader(urlQuery, OAuth::POST);
     req.setRawHeader(AUTH_HEADER, oauthHeader);
 
-    QNetworkReply *reply = oauthTwitter()->networkAccessManager()->post(req, QByteArray());
+    QByteArray postBody = urlQuery.toEncoded(QUrl::RemoveScheme | QUrl::RemoveAuthority | QUrl::RemovePath);
+    postBody.remove(0, 1);
+
+    QNetworkReply *reply = oauthTwitter()->networkAccessManager()->post(req, postBody);
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
 }
 

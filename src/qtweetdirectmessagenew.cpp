@@ -56,7 +56,7 @@ void QTweetDirectMessageNew::post(qint64 user,
     urlQuery.addEncodedQueryItem("text", QUrl::toPercentEncoding(text));
 
     if (!screenName.isEmpty())
-        urlQuery.addQueryItem("screen_name", screenName);
+        urlQuery.addEncodedQueryItem("screen_name", QUrl::toPercentEncoding(screenName));
 
     if (includeEntities)
         urlQuery.addQueryItem("include_entities", "true");

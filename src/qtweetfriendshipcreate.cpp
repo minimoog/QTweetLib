@@ -48,24 +48,29 @@ void QTweetFriendshipCreate::create(qint64 userid,
 
     QUrl url("http://api.twitter.com/1/friendships/create.json");
 
+    QUrl urlQuery(url);
+
     if (userid)
-        url.addQueryItem("user_id", QString::number(userid));
+        urlQuery.addQueryItem("user_id", QString::number(userid));
 
     if (!screenName.isEmpty())
-        url.addQueryItem("screen_name", screenName);
+        urlQuery.addQueryItem("screen_name", QUrl::toPercentEncoding(screenName));
 
     if (follow)
-        url.addQueryItem("follow", "true");
+        urlQuery.addQueryItem("follow", "true");
 
     if (includeEntities)
-        url.addQueryItem("include_entities", "true");
+        urlQuery.addQueryItem("include_entities", "true");
 
     QNetworkRequest req(url);
 
-    QByteArray oauthHeader = oauthTwitter()->generateAuthorizationHeader(url, OAuth::POST);
+    QByteArray oauthHeader = oauthTwitter()->generateAuthorizationHeader(urlQuery, OAuth::POST);
     req.setRawHeader(AUTH_HEADER, oauthHeader);
 
-    QNetworkReply *reply = oauthTwitter()->networkAccessManager()->post(req, QByteArray());
+    QByteArray postBody = urlQuery.toEncoded(QUrl::RemoveScheme | QUrl::RemoveAuthority | QUrl::RemovePath);
+    postBody.remove(0, 1);
+
+    QNetworkReply *reply = oauthTwitter()->networkAccessManager()->post(req, postBody);
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
 }
 
