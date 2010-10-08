@@ -52,7 +52,6 @@ void QTweetListDeleteList::deleteList(qint64 user, qint64 list)
 
     QNetworkReply *reply = oauthTwitter()->networkAccessManager()->deleteResource(req);
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
-    connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(error()));
 }
 
 void QTweetListDeleteList::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
@@ -64,5 +63,7 @@ void QTweetListDeleteList::parsingJsonFinished(const QVariant &json, bool ok, co
         emit deletedList(list);
     } else {
         qDebug() << "QTweetListDeleteList json parser error: " << errorMsg;
+        setLastErrorMessage(errorMsg);
+        emit error(JsonParsingError, errorMsg);
     }
 }

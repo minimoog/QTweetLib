@@ -74,7 +74,6 @@ void QTweetDirectMessages::fetch(qint64 sinceid,
 
     QNetworkReply *reply = oauthTwitter()->networkAccessManager()->get(req);
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
-    connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(error()));
 }
 
 void QTweetDirectMessages::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
@@ -85,5 +84,7 @@ void QTweetDirectMessages::parsingJsonFinished(const QVariant &json, bool ok, co
         emit parsedDirectMessages(directMessages);
     } else {
         qDebug() << "QTweetDirectMessages JSON parser error: " << errorMsg;
+        setLastErrorMessage(errorMsg);
+        emit error(JsonParsingError, errorMsg);
     }
 }

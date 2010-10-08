@@ -50,7 +50,6 @@ void QTweetListUnsubscribe::unsubscribe(qint64 user, qint64 list)
 
     QNetworkReply *reply = oauthTwitter()->networkAccessManager()->deleteResource(req);
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
-    connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(error()));
 }
 
 void QTweetListUnsubscribe::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
@@ -61,6 +60,8 @@ void QTweetListUnsubscribe::parsingJsonFinished(const QVariant &json, bool ok, c
         emit parsedList(list);
     } else {
         qDebug() << "QTweetListUnsubscribe parser error: " << errorMsg;
+        setLastErrorMessage(errorMsg);
+        emit error(JsonParsingError, errorMsg);
     }
 }
 

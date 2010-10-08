@@ -50,7 +50,6 @@ void QTweetListSubscribe::follow(qint64 user, qint64 list)
 
     QNetworkReply *reply = oauthTwitter()->networkAccessManager()->post(req, QByteArray());
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
-    connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(error()));
 }
 
 void QTweetListSubscribe::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
@@ -61,6 +60,8 @@ void QTweetListSubscribe::parsingJsonFinished(const QVariant &json, bool ok, con
         emit parsedList(list);
     } else {
         qDebug() << "QTweetListSubscribe parser error: " << errorMsg;
+        setLastErrorMessage(errorMsg);
+        emit error(JsonParsingError, errorMsg);
     }
 }
 

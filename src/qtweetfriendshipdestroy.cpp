@@ -62,7 +62,6 @@ void QTweetFriendshipDestroy::unfollow(qint64 userid,
 
     QNetworkReply *reply = oauthTwitter()->networkAccessManager()->deleteResource(req);
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
-    connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(error()));
 }
 
 void QTweetFriendshipDestroy::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
@@ -73,5 +72,7 @@ void QTweetFriendshipDestroy::parsingJsonFinished(const QVariant &json, bool ok,
         emit parsedUser(user);
     } else {
         qDebug() << "QTweetFriendshipCreate parser error: " << errorMsg;
+        setLastErrorMessage(errorMsg);
+        emit error(JsonParsingError, errorMsg);
     }
 }

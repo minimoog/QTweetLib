@@ -53,7 +53,6 @@ void QTweetFavoritesDestroy::unfavorite(qint64 statusid, bool includeEntities)
 
     QNetworkReply *reply = oauthTwitter()->networkAccessManager()->deleteResource(req);
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
-    connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(error()));
 }
 
 void QTweetFavoritesDestroy::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
@@ -64,6 +63,8 @@ void QTweetFavoritesDestroy::parsingJsonFinished(const QVariant &json, bool ok, 
         emit parsedStatus(status);
     } else {
         qDebug() << "QTweetFavoritesDestroy parser error: " << errorMsg;
+        setLastErrorMessage(errorMsg);
+        emit error(JsonParsingError, errorMsg);
     }
 }
 

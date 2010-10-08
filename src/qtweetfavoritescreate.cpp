@@ -53,7 +53,6 @@ void QTweetFavoritesCreate::create(qint64 statusid, bool includeEntities)
 
     QNetworkReply *reply = oauthTwitter()->networkAccessManager()->post(req, QByteArray());
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
-    connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(error()));
 }
 
 void QTweetFavoritesCreate::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
@@ -64,5 +63,7 @@ void QTweetFavoritesCreate::parsingJsonFinished(const QVariant &json, bool ok, c
         emit parsedStatus(status);
     } else {
         qDebug() << "QTweetFavoritesCreate parser error: " << errorMsg;
+        setLastErrorMessage(errorMsg);
+        emit error(JsonParsingError, errorMsg);
     }
 }

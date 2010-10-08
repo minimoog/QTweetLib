@@ -41,10 +41,25 @@ class QTWEETLIBSHARED_EXPORT QTweetNetBase : public QObject
     Q_OBJECT
     Q_PROPERTY(OAuthTwitter* oauthTwitter READ oauthTwitter WRITE setOAuthTwitter)
     Q_PROPERTY(bool jsonParsing READ isJsonParsingEnabled WRITE setJsonParsingEnabled)
-public:
+public: 
     QTweetNetBase(QObject *parent = 0);
     QTweetNetBase(OAuthTwitter *oauthTwitter, QObject *parent = 0);
     virtual QTweetNetBase::~QTweetNetBase();
+
+    enum ErrorCode {
+        JsonParsingError = 1,
+        UnknownError = 2,
+        NotModified = 304,
+        BadRequest = 400,
+        Unauthorized = 401,
+        Forbidden = 403,
+        NotFound = 404,
+        NotAcceptable = 406,
+        EnhanceYourCalm = 420,
+        InternalServerError = 500,
+        BadGateway = 502,
+        ServiceUnavailable = 503
+    };
 
     void setOAuthTwitter(OAuthTwitter* oauthTwitter);
     OAuthTwitter* oauthTwitter() const;
@@ -62,13 +77,12 @@ signals:
      */
     void finished(const QByteArray& response);
     /*! Emited when there is error. You can check error message with lastErrorMessage().
-        \param httpStatus Http status code
+        \param code Error code
         \param errorMsg Error message. If it's empty then error was not standard json twitter api message.
                         In that case check response.
         \remarks DOESN'T emit finished signal
      */
-    // ### TODO: Enum the httpStatus
-    void error(int httpStatus, const QString& errorMsg);
+    void error(ErrorCode code, const QString& errorMsg);
 
 protected slots:
     virtual void parsingJsonFinished(const QVariant& json, bool ok, const QString& errorMsg) = 0;
@@ -85,6 +99,7 @@ protected:
     QList<QTweetList> variantToTweetLists(const QVariant& var);
 
     void parseJson(const QByteArray& jsonData);
+    void setLastErrorMessage(const QString& errMsg);
 
 private:
     OAuthTwitter *m_oauthTwitter;

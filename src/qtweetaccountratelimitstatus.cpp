@@ -59,5 +59,7 @@ void QTweetAccountRateLimitStatus::parsingJsonFinished(const QVariant &json, boo
         emit rateLimitInfo(remainingHits, resetTime, hourlyLimit);
     } else {
         qDebug() << "QTweetAccountRateLimitStatus parser error: " << errorMsg;
+        setLastErrorMessage(errorMsg);
+        emit error(JsonParsingError, errorMsg);
     }
 }

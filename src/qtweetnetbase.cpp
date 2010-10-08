@@ -134,10 +134,30 @@ void QTweetNetBase::reply()
                 m_lastErrorMessage = errMsgMap["error"].toString();
             }
 
-            emit error(httpStatus, m_lastErrorMessage);
+            switch (httpStatus) {
+            case NotModified:   /*!< There was no new data to return. */
+            case BadRequest:    /*!< The request was invalid. This is the status code will be returned during rate limiting. */
+            case Unauthorized:  /*!< Authentication credentials were missing or incorrect. */
+            case Forbidden:     /*!< The request is understood, but it has been refused, due to update limits. */
+            case NotFound:      /*!< The URI requested is invalid or the resource requested, such as a user, does not exists. */
+            case NotAcceptable: /*!< Returned by the Search API when an invalid format is specified in the request. */
+            case EnhanceYourCalm:   /*!< Returned by the Search and Trends API when you are being rate limited. */
+            case InternalServerError:   /*!< Something is broken in Twitter */
+            case BadGateway:    /*!< Twitter is down or being upgraded. */
+            case ServiceUnavailable:    /*! The Twitter servers are up, but overloaded with requests. Try again later. */
+                emit error(static_cast<ErrorCode>(httpStatus), m_lastErrorMessage);
+                break;
+            default:
+                emit error(UnknownError, m_lastErrorMessage);
+            }
         }
         reply->deleteLater();
     }
+}
+
+void QTweetNetBase::setLastErrorMessage(const QString &errMsg)
+{
+    m_lastErrorMessage = errMsg;
 }
 
 QList<QTweetStatus> QTweetNetBase::variantToStatusList(const QVariant &fromParser)

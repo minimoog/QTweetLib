@@ -66,7 +66,6 @@ void QTweetDirectMessageNew::post(qint64 user,
 
     QNetworkReply *reply = oauthTwitter()->networkAccessManager()->post(req, QByteArray());
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
-    connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(error()));
 }
 
 void QTweetDirectMessageNew::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
@@ -77,5 +76,7 @@ void QTweetDirectMessageNew::parsingJsonFinished(const QVariant &json, bool ok, 
         emit parsedDirectMessage(dm);
     } else {
         qDebug() << "QTweetDirectMessageNew parser error: " << errorMsg;
+        setLastErrorMessage(errorMsg);
+        emit error(JsonParsingError, errorMsg);
     }
 }

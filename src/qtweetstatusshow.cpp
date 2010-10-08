@@ -59,7 +59,6 @@ void QTweetStatusShow::fetch(qint64 id, bool trimUser, bool includeEntities)
 
     QNetworkReply *reply = oauthTwitter()->networkAccessManager()->get(req);
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
-    connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(error()));
 }
 
 void QTweetStatusShow::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
@@ -70,5 +69,7 @@ void QTweetStatusShow::parsingJsonFinished(const QVariant &json, bool ok, const 
         emit parsedStatus(status);
     } else {
         qDebug() << "QTweetStatusShow JSON parser error: " << errorMsg;
+        setLastErrorMessage(errorMsg);
+        emit error(JsonParsingError, errorMsg);
     }
 }

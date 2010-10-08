@@ -77,7 +77,6 @@ void QTweetUserLookup::fetch(const QList<qint64> &useridList,
 
     QNetworkReply *reply = oauthTwitter()->networkAccessManager()->get(req);
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
-    connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(error()));
 }
 
 void QTweetUserLookup::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
@@ -88,5 +87,7 @@ void QTweetUserLookup::parsingJsonFinished(const QVariant &json, bool ok, const 
         emit parsedUserInfoList(userInfoList);
     } else {
         qDebug() << "QTweetUserLookup json parser error: " << errorMsg;
+        setLastErrorMessage(errorMsg);
+        emit error(JsonParsingError, errorMsg);
     }
 }

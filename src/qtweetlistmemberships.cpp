@@ -56,7 +56,6 @@ void QTweetListMemberships::fetch(qint64 id, const QString &cursor)
 
     QNetworkReply *reply = oauthTwitter()->networkAccessManager()->get(req);
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
-    connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(error()));
 }
 
 void QTweetListMemberships::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
@@ -74,6 +73,8 @@ void QTweetListMemberships::parsingJsonFinished(const QVariant &json, bool ok, c
         emit parsedList(lists, nextCursor, prevCursor);
     } else {
         qDebug() << "QTweetListMemberships json parser error: " << errorMsg;
+        setLastErrorMessage(errorMsg);
+        emit error(JsonParsingError, errorMsg);
     }
 }
 

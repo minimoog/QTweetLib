@@ -59,7 +59,6 @@ void QTweetStatusRetweets::fetch(qint64 id, int count)
 
     QNetworkReply *reply = oauthTwitter()->networkAccessManager()->get(req);
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
-    connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(error()));
 }
 
 // ### TODO json parsing, emiting signal

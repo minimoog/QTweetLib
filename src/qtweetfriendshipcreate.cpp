@@ -67,7 +67,6 @@ void QTweetFriendshipCreate::create(qint64 userid,
 
     QNetworkReply *reply = oauthTwitter()->networkAccessManager()->post(req, QByteArray());
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
-    connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(error()));
 }
 
 void QTweetFriendshipCreate::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
@@ -78,5 +77,7 @@ void QTweetFriendshipCreate::parsingJsonFinished(const QVariant &json, bool ok, 
         emit parsedUser(user);
     } else {
         qDebug() << "QTweetFriendshipCreate parser error: " << errorMsg;
+        setLastErrorMessage(errorMsg);
+        emit error(JsonParsingError, errorMsg);
     }
 }
