@@ -1,0 +1,73 @@
+/* Copyright (c) 2010, Antonie Jovanoski
+ *
+ * All rights reserved.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Contact e-mail: Antonie Jovanoski <minimoog77_at_gmail.com>
+ */
+
+#include <QtDebug>
+#include <QNetworkRequest>
+#include <QNetworkReply>
+#include "qtweetsearch.h"
+
+QTweetSearch::QTweetSearch(QObject *parent) :
+    QTweetNetBase(parent)
+{
+}
+
+QTweetSearch::QTweetSearch(OAuthTwitter *oauthTwitter, QObject *parent) :
+    QTweetNetBase(oauthTwitter, parent)
+{
+}
+
+void QTweetSearch::start(const QString &query,
+                         const QString &lang,
+                         /* const QString &locale, */
+                         int rpp,
+                         int page,
+                         qint64 sinceid)
+{
+    QUrl url("http://search.twitter.com/search.json");
+
+    url.addEncodedQueryItem("q", QUrl::toPercentEncoding(query));
+
+    if (!lang.isEmpty())
+        url.addQueryItem("lang", lang);
+
+    // if (!locale.isEmpty())
+    //     url.addQueryItem("locale", locale);
+
+    if (rpp)
+        url.addQueryItem("rpp", QString::number(rpp));
+
+    if (page)
+        url.addQueryItem("page", QString::number(page));
+
+    if (sinceid)
+        url.addQueryItem("since_id", QString::number(sinceid));
+
+    QNetworkRequest req(url);
+
+    QByteArray oauthHeader = oauthTwitter()->generateAuthorizationHeader(url, OAuth::GET);
+    req.setRawHeader(AUTH_HEADER, oauthHeader);
+
+    QNetworkReply *reply = oauthTwitter()->networkAccessManager()->get(req);
+    connect(reply, SIGNAL(finished()), this, SLOT(reply()));
+}
+
+void QTweetSearch::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
+{
+}
