@@ -44,7 +44,7 @@ class QTWEETLIBSHARED_EXPORT QTweetNetBase : public QObject
 public: 
     QTweetNetBase(QObject *parent = 0);
     QTweetNetBase(OAuthTwitter *oauthTwitter, QObject *parent = 0);
-    virtual QTweetNetBase::~QTweetNetBase();
+    virtual ~QTweetNetBase();
 
     enum ErrorCode {
         JsonParsingError = 1,
