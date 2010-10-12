@@ -68,7 +68,8 @@ HEADERS += \
     qtweetfavoritescreate.h \
     qtweetfavoritesdestroy.h \
     qtweetsearch.h \
-    qtweetsearchresult.h
+    qtweetsearchresult.h \
+    qtweetsearchpageresults.h
 
 SOURCES += \
     oauth.cpp \
@@ -124,4 +125,5 @@ SOURCES += \
     qtweetfavoritescreate.cpp \
     qtweetfavoritesdestroy.cpp \
     qtweetsearch.cpp \
-    qtweetsearchresult.cpp
+    qtweetsearchresult.cpp \
+    qtweetsearchpageresults.cpp
