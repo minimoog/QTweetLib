@@ -48,7 +48,10 @@ void QTweetRetweetsOfMe::fetch(qint64 sinceid,
                                bool trimUser,
                                bool includeEntities)
 {
-    Q_ASSERT(oauthTwitter() != 0);
+    if (!isAuthenticationEnabled()) {
+        qCritical("Needs authentication to be enabled");
+        return;
+    }
 
     QUrl url("http://api.twitter.com/1/statuses/retweets_of_me.json");
 

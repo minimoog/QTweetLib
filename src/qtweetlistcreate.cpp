@@ -47,7 +47,10 @@ void QTweetListCreate::create(qint64 user,
                               bool mode,
                               const QString &description)
 {
-    Q_ASSERT(oauthTwitter() != 0);
+    if (!isAuthenticationEnabled()) {
+        qCritical("Needs authentication to be enabled");
+        return;
+    }
 
     QUrl url(QString("http://api.twitter.com/1/%1/lists.json").arg(user));
 

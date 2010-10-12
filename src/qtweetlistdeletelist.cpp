@@ -41,7 +41,10 @@ QTweetListDeleteList::QTweetListDeleteList(OAuthTwitter *oauthTwitter, QObject *
  */
 void QTweetListDeleteList::deleteList(qint64 user, qint64 list)
 {
-    Q_ASSERT(oauthTwitter() != 0);
+    if (!isAuthenticationEnabled()) {
+        qCritical("Needs authentication to be enabled");
+        return;
+    }
 
     QUrl url(QString("http://api.twitter.com/1/%1/lists/%2.json").arg(user).arg(list));
 

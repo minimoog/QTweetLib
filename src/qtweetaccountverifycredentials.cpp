@@ -35,7 +35,10 @@ QTweetAccountVerifyCredentials::QTweetAccountVerifyCredentials(OAuthTwitter *oau
 
 void QTweetAccountVerifyCredentials::verify(bool includeEntities)
 {
-    Q_ASSERT(oauthTwitter() != 0);
+    if (!isAuthenticationEnabled()) {
+        qCritical("Needs authentication to be enabled");
+        return;
+    }
 
     QUrl url("http://api.twitter.com/1/account/verify_credentials.json");
 

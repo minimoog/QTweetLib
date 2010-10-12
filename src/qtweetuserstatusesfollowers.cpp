@@ -45,8 +45,6 @@ void QTweetUserStatusesFollowers::fetch(qint64 userid,
                                       const QString &cursor,
                                       bool includeEntities)
 {
-    Q_ASSERT(oauthTwitter() != 0);
-
     QUrl url("http://api.twitter.com/1/statuses/followers.json");
 
     if (userid != 0)
@@ -65,8 +63,10 @@ void QTweetUserStatusesFollowers::fetch(qint64 userid,
 
     QNetworkRequest req(url);
 
-    QByteArray oauthHeader = oauthTwitter()->generateAuthorizationHeader(url, OAuth::GET);
-    req.setRawHeader(AUTH_HEADER, oauthHeader);
+    if (isAuthenticationEnabled()) {
+        QByteArray oauthHeader = oauthTwitter()->generateAuthorizationHeader(url, OAuth::GET);
+        req.setRawHeader(AUTH_HEADER, oauthHeader);
+    }
 
     QNetworkReply *reply = oauthTwitter()->networkAccessManager()->get(req);
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));

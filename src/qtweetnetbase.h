@@ -43,6 +43,7 @@ class QTWEETLIBSHARED_EXPORT QTweetNetBase : public QObject
     Q_OBJECT
     Q_PROPERTY(OAuthTwitter* oauthTwitter READ oauthTwitter WRITE setOAuthTwitter)
     Q_PROPERTY(bool jsonParsing READ isJsonParsingEnabled WRITE setJsonParsingEnabled)
+    Q_PROPERTY(bool authenticaion READ isAuthenticationEnabled WRITE setAuthenticationEnabled)
 public: 
     QTweetNetBase(QObject *parent = 0);
     QTweetNetBase(OAuthTwitter *oauthTwitter, QObject *parent = 0);
@@ -68,6 +69,9 @@ public:
 
     void setJsonParsingEnabled(bool enable);
     bool isJsonParsingEnabled() const;
+
+    void setAuthenticationEnabled(bool enable);
+    bool isAuthenticationEnabled() const;
 
     QByteArray response() const;
     QString lastErrorMessage() const;
@@ -110,6 +114,7 @@ private:
     QByteArray m_response;
     QString m_lastErrorMessage;
     bool m_jsonParsingEnabled;
+    bool m_authentication;
 };
 
 #endif // QTWEETNETBASE_H

@@ -39,7 +39,10 @@ QTweetDirectMessageDestroy::QTweetDirectMessageDestroy(OAuthTwitter *oauthTwitte
  */
 void QTweetDirectMessageDestroy::destroyMessage(qint64 id, bool includeEntities)
 {
-    Q_ASSERT(oauthTwitter() != 0);
+    if (!isAuthenticationEnabled()) {
+        qCritical("Needs authentication to be enabled");
+        return;
+    }
 
     QUrl url(QString("http://api.twitter.com/1/direct_messages/destroy/%1.json").arg(id));
 

@@ -40,7 +40,10 @@ QTweetListAddMember::QTweetListAddMember(OAuthTwitter *oauthTwitter, QObject *pa
  */
 void QTweetListAddMember::add(qint64 user, qint64 list, qint64 memberid)
 {
-    Q_ASSERT(oauthTwitter() != 0);
+    if (!isAuthenticationEnabled()) {
+        qCritical("Needs authentication to be enabled");
+        return;
+    }
 
     QUrl url(QString("http://api.twitter.com/1/%1/%2/members.json").arg(user).arg(list));
 

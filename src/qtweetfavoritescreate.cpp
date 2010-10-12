@@ -39,7 +39,10 @@ QTweetFavoritesCreate::QTweetFavoritesCreate(OAuthTwitter *oauthTwitter, QObject
  */
 void QTweetFavoritesCreate::create(qint64 statusid, bool includeEntities)
 {
-    Q_ASSERT(oauthTwitter() != 0);
+    if (!isAuthenticationEnabled()) {
+        qCritical("Needs authentication to be enabled");
+        return;
+    }
 
     QUrl url(QString("http://api.twitter.com/1/favorites/create/%1.json").arg(statusid));
 

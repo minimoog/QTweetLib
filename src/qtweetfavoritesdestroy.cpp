@@ -39,7 +39,10 @@ QTweetFavoritesDestroy::QTweetFavoritesDestroy(OAuthTwitter *oauthTwitter, QObje
  */
 void QTweetFavoritesDestroy::unfavorite(qint64 statusid, bool includeEntities)
 {
-    Q_ASSERT(oauthTwitter() != 0);
+    if (!isAuthenticationEnabled()) {
+        qCritical("Needs authentication to be enabled");
+        return;
+    }
 
     QUrl url(QString("http://api.twitter.com/1/favorites/destroy/%1.json").arg(statusid));
 

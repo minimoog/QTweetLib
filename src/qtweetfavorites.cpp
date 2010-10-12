@@ -40,7 +40,10 @@ QTweetFavorites::QTweetFavorites(OAuthTwitter *oauthTwitter, QObject *parent) :
  */
 void QTweetFavorites::fetch(qint64 id, int page, bool includeEntities)
 {
-    Q_ASSERT(oauthTwitter() != 0);
+    if (!isAuthenticationEnabled()) {
+        qCritical("Needs authentication to be enabled");
+        return;
+    }
 
     QUrl url;
 

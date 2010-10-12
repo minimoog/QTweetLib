@@ -42,8 +42,6 @@ QTweetUserShow::QTweetUserShow(OAuthTwitter *oauthTwitter, QObject *parent) :
  */
 void QTweetUserShow::fetch(qint64 id, qint64 userid, const QString &screenName)
 {
-    Q_ASSERT(oauthTwitter() != 0);
-
     QUrl url("http://api.twitter.com/1/users/show.json");
 
     if (id != 0)
@@ -60,8 +58,10 @@ void QTweetUserShow::fetch(qint64 id, qint64 userid, const QString &screenName)
 
     QNetworkRequest req(url);
 
-    QByteArray oauthHeader = oauthTwitter()->generateAuthorizationHeader(url, OAuth::GET);
-    req.setRawHeader(AUTH_HEADER, oauthHeader);
+    if (isAuthenticationEnabled()) {
+        QByteArray oauthHeader = oauthTwitter()->generateAuthorizationHeader(url, OAuth::GET);
+        req.setRawHeader(AUTH_HEADER, oauthHeader);
+    }
 
     QNetworkReply *reply = oauthTwitter()->networkAccessManager()->get(req);
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));

@@ -47,7 +47,10 @@ void QTweetUserSearch::search(const QString &query,
                               int page,
                               bool includeEntities)
 {
-    Q_ASSERT(oauthTwitter() != 0);
+    if (!isAuthenticationEnabled()) {
+        qCritical("Needs authentication to be enabled");
+        return;
+    }
 
     QUrl url("http://api.twitter.com/1/users/search.json");
 

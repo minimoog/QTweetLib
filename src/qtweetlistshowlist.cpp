@@ -43,7 +43,10 @@ void QTweetListShowList::show(qint64 id, qint64 list)
 {
     // slug parameter?
 
-    Q_ASSERT(oauthTwitter() != 0);
+    if (!isAuthenticationEnabled()) {
+        qCritical("Needs authentication to be enabled");
+        return;
+    }
 
     QUrl url(QString("http://api.twitter.com/1/%1/lists/%2.json").arg(id).arg(list));
 

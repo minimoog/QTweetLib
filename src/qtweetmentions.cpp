@@ -51,7 +51,10 @@ void QTweetMentions::fetch(qint64 sinceid,
                            bool includeRts,
                            bool includeEntities)
 {
-    Q_ASSERT(oauthTwitter() != 0);
+    if (!isAuthenticationEnabled()) {
+        qCritical("Needs authentication to be enabled");
+        return;
+    }
 
     QUrl url("http://api.twitter.com/1/statuses/mentions.json");
 

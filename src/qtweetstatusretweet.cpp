@@ -42,8 +42,6 @@ void QTweetStatusRetweet::retweet(qint64 id,
                                   bool trimUser,
                                   bool includeEntities)
 {
-    Q_ASSERT(oauthTwitter() != 0);
-
     QUrl url(QString("http://api.twitter.com/1/statuses/retweet/%1.json").arg(id));
 
     if (trimUser)
@@ -54,8 +52,10 @@ void QTweetStatusRetweet::retweet(qint64 id,
 
     QNetworkRequest req(url);
 
-    QByteArray oauthHeader = oauthTwitter()->generateAuthorizationHeader(url, OAuth::POST);
-    req.setRawHeader(AUTH_HEADER, oauthHeader);
+    if (isAuthenticationEnabled()) {    //Oh, Twitter API docs wrong?
+        QByteArray oauthHeader = oauthTwitter()->generateAuthorizationHeader(url, OAuth::POST);
+        req.setRawHeader(AUTH_HEADER, oauthHeader);
+    }
 
     QNetworkReply *reply = oauthTwitter()->networkAccessManager()->post(req, QByteArray());
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));

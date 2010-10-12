@@ -42,7 +42,10 @@ QTweetUserLookup::QTweetUserLookup(OAuthTwitter *oauthTwitter, QObject *parent) 
 void QTweetUserLookup::fetch(const QList<qint64> &useridList,
                              const QStringList &screenNameList)
 {
-    Q_ASSERT(oauthTwitter() != 0);
+    if (!isAuthenticationEnabled()) {
+        qCritical("Needs authentication to be enabled");
+        return;
+    }
 
     QUrl url("http://api.twitter.com/1/users/lookup.json");
 

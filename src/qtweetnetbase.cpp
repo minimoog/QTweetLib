@@ -34,7 +34,7 @@
     Constructor
  */
 QTweetNetBase::QTweetNetBase(QObject *parent) :
-    QObject(parent), m_oauthTwitter(0)
+    QObject(parent), m_oauthTwitter(0), m_jsonParsingEnabled(true), m_authentication(true)
 {
 }
 
@@ -44,7 +44,7 @@ QTweetNetBase::QTweetNetBase(QObject *parent) :
     \param parent QObject parent
  */
 QTweetNetBase::QTweetNetBase(OAuthTwitter *oauthTwitter, QObject *parent) :
-        QObject(parent), m_oauthTwitter(oauthTwitter)
+        QObject(parent), m_oauthTwitter(oauthTwitter), m_jsonParsingEnabled(true), m_authentication(true)
 {
 
 }
@@ -89,6 +89,16 @@ void QTweetNetBase::setJsonParsingEnabled(bool enable)
 bool QTweetNetBase::isJsonParsingEnabled() const
 {
     return m_jsonParsingEnabled;
+}
+
+void QTweetNetBase::setAuthenticationEnabled(bool enable)
+{
+    m_authentication = enable;
+}
+
+bool QTweetNetBase::isAuthenticationEnabled() const
+{
+    return m_authentication;
 }
 
 void QTweetNetBase::parseJson(const QByteArray &jsonData)

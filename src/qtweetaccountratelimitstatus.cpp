@@ -34,14 +34,14 @@ QTweetAccountRateLimitStatus::QTweetAccountRateLimitStatus(OAuthTwitter *oauthTw
 
 void QTweetAccountRateLimitStatus::check()
 {
-    Q_ASSERT(oauthTwitter() != 0);
-
     QUrl url("http://api.twitter.com/1/account/rate_limit_status.json");
 
     QNetworkRequest req(url);
 
-    QByteArray oauthHeader = oauthTwitter()->generateAuthorizationHeader(url, OAuth::GET);
-    req.setRawHeader(AUTH_HEADER, oauthHeader);
+    if (isAuthenticationEnabled()) {
+        QByteArray oauthHeader = oauthTwitter()->generateAuthorizationHeader(url, OAuth::GET);
+        req.setRawHeader(AUTH_HEADER, oauthHeader);
+    }
 
     QNetworkReply *reply = oauthTwitter()->networkAccessManager()->get(req);
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));

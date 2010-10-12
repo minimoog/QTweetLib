@@ -44,7 +44,10 @@ void QTweetFriendshipCreate::create(qint64 userid,
                                     bool follow,
                                     bool includeEntities)
 {
-    Q_ASSERT(oauthTwitter() != 0);
+    if (!isAuthenticationEnabled()) {
+        qCritical("Needs authentication to be enabled");
+        return;
+    }
 
     QUrl url("http://api.twitter.com/1/friendships/create.json");
 

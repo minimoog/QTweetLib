@@ -40,8 +40,6 @@ QTweetStatusShow::QTweetStatusShow(OAuthTwitter *oauthTwitter, QObject *parent) 
  */
 void QTweetStatusShow::fetch(qint64 id, bool trimUser, bool includeEntities)
 {
-    Q_ASSERT(oauthTwitter() != 0);
-
     QUrl url("http://api.twitter.com/1/statuses/show.json");
 
     url.addQueryItem("id", QString::number(id));
@@ -54,8 +52,10 @@ void QTweetStatusShow::fetch(qint64 id, bool trimUser, bool includeEntities)
 
     QNetworkRequest req(url);
 
-    QByteArray oauthHeader = oauthTwitter()->generateAuthorizationHeader(url, OAuth::GET);
-    req.setRawHeader(AUTH_HEADER, oauthHeader);
+    if (isAuthenticationEnabled()) {
+        QByteArray oauthHeader = oauthTwitter()->generateAuthorizationHeader(url, OAuth::GET);
+        req.setRawHeader(AUTH_HEADER, oauthHeader);
+    }
 
     QNetworkReply *reply = oauthTwitter()->networkAccessManager()->get(req);
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
