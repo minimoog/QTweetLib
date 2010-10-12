@@ -25,6 +25,8 @@
 #include "qtweetdmstatus.h"
 #include "qtweetuser.h"
 #include "qtweetlist.h"
+#include "qtweetsearchresult.h"
+#include "qtweetsearchpageresults.h"
 #include "qjson/parserrunnable.h"
 #include "qjson/parser.h"
 
@@ -341,4 +343,48 @@ QList<QTweetList> QTweetNetBase::variantToTweetLists(const QVariant &var)
     }
 
     return lists;
+}
+
+QTweetSearchResult QTweetNetBase::variantMapToSearchResult(const QVariantMap &var)
+{
+    QTweetSearchResult result;
+
+    result.setCreatedAt(var["created_at"].toString());
+    result.setFromUser(var["from_user"].toString());
+    result.setId(var["id"].toLongLong());
+    result.setLang(var["iso_language_code"].toString());
+    result.setProfileImageUrl(var["profile_image_url"].toString());
+    result.setSource(var["source"].toString());
+    result.setText(var["text"].toString());
+    result.setToUser(var["to_user"].toString());
+
+    return result;
+}
+
+QTweetSearchPageResults QTweetNetBase::variantToSearchPageResults(const QVariant &var)
+{
+    QTweetSearchPageResults page;
+
+    QVariantMap varMap = var.toMap();
+
+    page.setMaxId(varMap["max_id"].toLongLong());
+    page.setNextPage(varMap["next_page"].toByteArray());
+    page.setPage(varMap["page"].toInt());
+    page.setQuery(varMap["query"].toByteArray());
+    page.setRefreshUrl(varMap["refresh_url"].toByteArray());
+    page.setResultsPerPage(varMap["results_per_page"].toInt());
+    page.setSinceId(varMap["since_id"].toLongLong());
+    page.setTotal(varMap["total"].toInt());
+
+    QList<QTweetSearchResult> resultList;
+    QList<QVariant> resultVarList = varMap["results"].toList();
+
+    foreach (const QVariant& resultVar, resultVarList) {
+        QTweetSearchResult result = variantMapToSearchResult(resultVar.toMap());
+        resultList.append(result);
+    }
+
+    page.setResults(resultList);
+
+    return page;
 }

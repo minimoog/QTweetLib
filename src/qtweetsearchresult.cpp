@@ -21,7 +21,7 @@
 #include "qtweetsearchresult.h"
 #include <QSharedData>
 #include <QDateTime>
-#include "qtweetuser.h"
+//#include "qtweetuser.h"
 
 class QTweetSearchResultData : public QSharedData {
 public:
@@ -63,9 +63,22 @@ void QTweetSearchResult::setCreatedAt(const QDateTime &dateTime)
     data->createdAt = dateTime;
 }
 
+// Oh, not again. ANOTHER datetime format from twitter.
+//Mon, 04 Oct 2010 12:51:42 +0000
+
 void QTweetSearchResult::setCreatedAt(const QString &twitterDate)
 {
-    data->createdAt = QTweetUser::twitterDateToQDateTime(twitterDate);
+    QString dateString = twitterDate.left(3) + ' ' + twitterDate.mid(8, 3) + ' ' +
+                         twitterDate.mid(5, 2) + ' ' + twitterDate.mid(13, 4);
+    QString timeString = twitterDate.mid(17, 8);
+
+    QDate date = QDate::fromString(dateString);
+    QTime time = QTime::fromString(timeString);
+
+    if (date.isValid() && time.isValid())
+        data->createdAt = QDateTime(date, time, Qt::UTC);
+    else
+        data->createdAt = QDateTime();
 }
 
 QDateTime QTweetSearchResult::createdAt() const
