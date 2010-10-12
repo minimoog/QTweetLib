@@ -22,6 +22,7 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include "qtweetsearch.h"
+#include "qtweetsearchpageresults.h"
 
 QTweetSearch::QTweetSearch(QObject *parent) :
     QTweetNetBase(parent)
@@ -70,4 +71,13 @@ void QTweetSearch::start(const QString &query,
 
 void QTweetSearch::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
 {
+    if (ok) {
+        QTweetSearchPageResults pageResults = variantToSearchPageResults(json);
+
+        emit parsedPageResults(pageResults);
+    } else {
+        qDebug() << "QTweetSearch parsing error: " << errorMsg;
+        setLastErrorMessage(errorMsg);
+        emit error(JsonParsingError, errorMsg);
+    }
 }
