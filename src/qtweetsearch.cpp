@@ -69,6 +69,23 @@ void QTweetSearch::start(const QString &query,
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
 }
 
+void QTweetSearch::startWithCustomQuery(const QByteArray &encodedQuery)
+{
+    QUrl url("http://search.twitter.com/search.json");
+
+    //remove ?
+    QByteArray query(encodedQuery);
+    url.setEncodedQuery(query.remove(0, 1));
+
+    QNetworkRequest req(url);
+
+    QByteArray oauthHeader = oauthTwitter()->generateAuthorizationHeader(url, OAuth::GET);
+    req.setRawHeader(AUTH_HEADER, oauthHeader);
+
+    QNetworkReply *reply = oauthTwitter()->networkAccessManager()->get(req);
+    connect(reply, SIGNAL(finished()), this, SLOT(reply()));
+}
+
 void QTweetSearch::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
 {
     if (ok) {

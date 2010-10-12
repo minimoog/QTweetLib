@@ -38,6 +38,8 @@ public:
                //geocode ### TODO
                //resultType ### TODO
                );
+    void startWithCustomQuery(const QByteArray& encodedQuery);
+
 signals:
     void parsedPageResults(const QTweetSearchPageResults& pageResults);
 
