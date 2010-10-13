@@ -34,3 +34,4 @@ qjson/*.vcxproj.*
 *.suo
 src/*.vcxproj
 src/*.vcxproj.*
+examples/search/debug/*

@@ -1,5 +1,5 @@
 TEMPLATE = subdirs
-SUBDIRS = sub_qjson sub_src sub_exampletest
+SUBDIRS = sub_qjson sub_src sub_exampletest sub_examples
 
 sub_qjson.subdir = qjson
 
@@ -8,3 +8,6 @@ sub_src.depends = sub_qjson
 
 sub_exampletest.subdir = exampletest
 sub_exampletest.depends = sub_src
+
+sub_examples.subdir = examples
+sub_examples.depends = sub_src
