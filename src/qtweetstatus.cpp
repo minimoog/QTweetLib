@@ -97,6 +97,11 @@ void QTweetStatus::setCreatedAt(const QString &twitterDate)
     d->createdAt = QTweetUser::twitterDateToQDateTime(twitterDate);
 }
 
+void QTweetStatus::setCreatedAt(const QDateTime &dateTime)
+{
+    d->createdAt = dateTime;
+}
+
 QDateTime QTweetStatus::createdAt() const
 {
     return d->createdAt;

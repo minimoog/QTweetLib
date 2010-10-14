@@ -241,6 +241,11 @@ void QTweetUser::setCreatedAt(const QString &twitterDate)
     d->createdAt = twitterDateToQDateTime(twitterDate);
 }
 
+void QTweetUser::setCreatedAt(const QDateTime &datetime)
+{
+    d->createdAt = datetime;
+}
+
 QDateTime QTweetUser::createdAt() const
 {
     return d->createdAt;

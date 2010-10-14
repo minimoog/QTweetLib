@@ -47,6 +47,7 @@ public:
     void setText(const QString& text);
     QString text() const;
     void setCreatedAt(const QString& twitterDate);
+    void setCreatedAt(const QDateTime& dateTime);
     QDateTime createdAt() const;
     void setInReplyToUserId(qint64 id);
     qint64 inReplyToUserId() const;
