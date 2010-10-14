@@ -73,13 +73,6 @@ void MainWindow::on_fetchFTPushButton_clicked()
     connect(friendsTimeline, SIGNAL(finished(QByteArray)), this, SLOT(finishedFriendsTimeline(QByteArray)));
     //connect(friendsTimeline, SIGNAL(parsedStatuses(QList<QTweetStatus>)), this, SLOT(finishedFT(QList<QTweetStatus>)));
 
-    QTweetNetBase::ResponseType respType;
-
-    if (ui->typeFTComboBox->currentText() == "JSON")
-        respType = QTweetNetBase::JSON;
-    else
-        respType = QTweetNetBase::Xml;
-
     bool skipUser;
 
     if (ui->skipUserFTComboBox->currentText() == "false")
@@ -101,8 +94,7 @@ void MainWindow::on_fetchFTPushButton_clicked()
     else
         includeEntities = true;
 
-    friendsTimeline->fetch(respType,
-                           ui->sinceidFTLineEdit->text().toLongLong(),
+    friendsTimeline->fetch(ui->sinceidFTLineEdit->text().toLongLong(),
                            ui->maxidFTLineEdit->text().toLongLong(),
                            ui->countFTLineEdit->text().toInt(),
                            ui->pageFTLineEdit->text().toInt(),
