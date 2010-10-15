@@ -35,3 +35,4 @@ qjson/*.vcxproj.*
 src/*.vcxproj
 src/*.vcxproj.*
 examples/search/debug/*
+examples/timelines/debug/*
