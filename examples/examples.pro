@@ -1,2 +1,2 @@
 TEMPLATE = subdirs
-SUBDIRS =  search timelines
+SUBDIRS =  search timelines statusupdate

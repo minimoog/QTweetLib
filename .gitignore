@@ -36,3 +36,7 @@ src/*.vcxproj
 src/*.vcxproj.*
 examples/search/debug/*
 examples/timelines/debug/*
+examples/statusupdate/debug/*
+examples/statusupdate/ui_mainwindow.h
+examples/timelines/ui_mainwindow.h
+examples/timelines/ui_mainwindow.h
