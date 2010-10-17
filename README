@@ -3,3 +3,6 @@
 - Uses QJson library by Flavio Castelli for parsing JSON responses
 - JSON parsing is done in multithreaded way using QThreadPool
 - User Streams support is not completed (fetches responses correctly, JSON parsing is not full implemented)
+
+Requirements and dependencies:
+- Qt needs to be compiled with OpenSSL support (there are two places where is used https protocol)
