@@ -93,3 +93,13 @@ QString QTweetPlace::fullName() const
 {
     return m_fullName;
 }
+
+void QTweetPlace::setType(Type type)
+{
+    m_type = type;
+}
+
+QTweetPlace::Type QTweetPlace::type() const
+{
+    return m_type;
+}

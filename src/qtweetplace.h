@@ -21,6 +21,7 @@
 #ifndef QTWEETPLACE_H
 #define QTWEETPLACE_H
 
+#include <QVariant>
 #include <QString>
 #include <QGeoBoundingBox>
 #include <QList>
@@ -30,6 +31,8 @@ QTM_USE_NAMESPACE
 class QTweetPlace
 {
 public:
+    enum Type { Poi, Neighborhood, City, Admin, Country };
+
     QTweetPlace();
     void setName(const QString& name);
     QString name() const;
@@ -47,6 +50,8 @@ public:
     QList<QTweetPlace> containedWithin() const;
     void setFullName(const QString& name);
     QString fullName() const;
+    void setType(Type type);
+    Type type() const;
 
 private:
     QString m_name;
@@ -59,8 +64,9 @@ private:
 #endif
     QList<QTweetPlace> m_containedWithin;
     QString m_fullName;
-    // ### TODO: place_type
-
+    Type m_type;
 };
+
+Q_DECLARE_METATYPE(QTweetPlace)
 
 #endif // QTWEETPLACE_H

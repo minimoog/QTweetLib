@@ -421,7 +421,21 @@ QTweetPlace QTweetNetBase::variantMapToPlace(const QVariantMap &var)
     place.setCountry(var["country"].toString());
     place.setID(var["id"].toString());
     place.setFullName(var["full_name"].toString());
-    // ### TODO place_type
+
+    QString placeType = var["place_type"].toString();
+
+    if (placeType == "poi")
+        place.setType(QTweetPlace::Poi);
+    else if (placeType == "neighborhood")
+        place.setType(QTweetPlace::Neighborhood);
+    else if (placeType == "city")
+        place.setType(QTweetPlace::City);
+    else if (placeType == "admin")
+        place.setType(QTweetPlace::Admin);
+    else if (placeType == "country")
+        place.setType(QTweetPlace::Country);
+    else
+        place.setType(QTweetPlace::Neighborhood);   //twitter default
 
 #if (QTM_VERSION >= QTM_VERSION_CHECK(1, 1, 0))
     QVariant bbVar = var["bounding_box"];
@@ -466,7 +480,21 @@ QTweetPlace QTweetNetBase::variantMapToPlaceRecursive(const QVariantMap &var)
     place.setCountry(var["country"].toString());
     place.setID(var["id"].toString());
     place.setFullName(var["full_name"].toString());
-    // ### TODO place_type
+
+    QString placeType = var["place_type"].toString();
+
+    if (placeType == "poi")
+        place.setType(QTweetPlace::Poi);
+    else if (placeType == "neighborhood")
+        place.setType(QTweetPlace::Neighborhood);
+    else if (placeType == "city")
+        place.setType(QTweetPlace::City);
+    else if (placeType == "admin")
+        place.setType(QTweetPlace::Admin);
+    else if (placeType == "country")
+        place.setType(QTweetPlace::Country);
+    else
+        place.setType(QTweetPlace::Neighborhood);   //twitter default
 
 #if (QTM_VERSION >= QTM_VERSION_CHECK(1, 1, 0))
     QVariant bbVar = var["bounding_box"];
