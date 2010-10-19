@@ -1,6 +1,9 @@
 QT       += network
 QT       -= gui
 
+CONFIG += mobility
+MOBILITY += location
+
 TEMPLATE = lib
 TARGET = QTweetLib
 DESTDIR = ../lib
@@ -69,7 +72,8 @@ HEADERS += \
     qtweetfavoritesdestroy.h \
     qtweetsearch.h \
     qtweetsearchresult.h \
-    qtweetsearchpageresults.h
+    qtweetsearchpageresults.h \
+    qtweetplace.h
 
 SOURCES += \
     oauth.cpp \
@@ -126,4 +130,5 @@ SOURCES += \
     qtweetfavoritesdestroy.cpp \
     qtweetsearch.cpp \
     qtweetsearchresult.cpp \
-    qtweetsearchpageresults.cpp
+    qtweetsearchpageresults.cpp \
+    qtweetplace.cpp
