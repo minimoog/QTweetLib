@@ -28,6 +28,7 @@
 class QDateTime;
 class QTweetUser;
 class QTweetStatusData;
+class QTweetPlace;
 
 // ### TODO: Places and coordinates
 
@@ -63,6 +64,8 @@ public:
     QTweetUser user() const;
     void setRetweetedStatus(const QTweetStatus& status);
     QTweetStatus retweetedStatus() const;
+    void setPlace(const QTweetPlace& place);
+    QTweetPlace place() const;
     bool isRetweet() const;
 
 private:

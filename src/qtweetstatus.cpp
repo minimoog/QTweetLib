@@ -22,6 +22,7 @@
 #include <QDateTime>
 #include "qtweetstatus.h"
 #include "qtweetuser.h"
+#include "qtweetplace.h"
 
 class QTweetStatusData : public QSharedData
 {
@@ -48,6 +49,7 @@ public:
     bool rtsFavorited;
     QString rtsSource;
     QTweetUser rtsUser;
+    QTweetPlace place;
     bool containsRetweetStatus;
 };
 
@@ -195,6 +197,16 @@ QTweetStatus QTweetStatus::retweetedStatus() const
     status.setUser(d->rtsUser);
 
     return status;
+}
+
+void QTweetStatus::setPlace(const QTweetPlace &place)
+{
+    d->place = place;
+}
+
+QTweetPlace QTweetStatus::place() const
+{
+    return d->place;
 }
 
 bool QTweetStatus::isRetweet() const

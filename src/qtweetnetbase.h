@@ -34,6 +34,7 @@ class QTweetDMStatus;
 class QTweetList;
 class QTweetSearchResult;
 class QTweetSearchPageResults;
+class QTweetPlace;
 
 /*!
     Base class for Twitter API classes
@@ -105,6 +106,7 @@ protected:
     QList<QTweetList> variantToTweetLists(const QVariant& var);
     QTweetSearchResult variantMapToSearchResult(const QVariantMap& var);
     QTweetSearchPageResults variantToSearchPageResults(const QVariant& var);
+    QTweetPlace variantMapToPlace(const QVariantMap& var);
 
     void parseJson(const QByteArray& jsonData);
     void setLastErrorMessage(const QString& errMsg);
