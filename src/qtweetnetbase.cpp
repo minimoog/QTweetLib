@@ -424,30 +424,95 @@ QTweetPlace QTweetNetBase::variantMapToPlace(const QVariantMap &var)
     // ### TODO place_type
 
 #if (QTM_VERSION >= QTM_VERSION_CHECK(1, 1, 0))
-    QVariantMap bbMap = var["bounding_box"].toMap();
+    QVariant bbVar = var["bounding_box"];
 
-    if (bbMap["type"].toString() == "Polygon") {
-        QVariantList coordList = bbMap["coordinates"].toList();
+    if (!bbVar.isNull()) {
+        QVariantMap bbMap = bbVar.toMap();
 
-        if (coordList.count() == 4) {
-            QGeoBoundingBox box;
+        if (bbMap["type"].toString() == "Polygon") {
+            QVariantList coordList = bbMap["coordinates"].toList();
 
-            QVariantList coordsBottomLeft = coordList.at(0).toList();
-            box.setBottomLeft(QGeoCoordinate(coordsBottomLeft.at(1).toDouble(), coordsBottomLeft.at(0).toDouble()));
+            if (coordList.count() == 4) {
+                QGeoBoundingBox box;
 
-            QVariantList coordsBottomRight = coordList.at(1).toList();
-            box.setBottomRight(QGeoCoordinate(coordsBottomRight.at(1).toDouble(), coordsBottomRight.at(0).toDouble()));
+                QVariantList coordsBottomLeft = coordList.at(0).toList();
+                box.setBottomLeft(QGeoCoordinate(coordsBottomLeft.at(1).toDouble(), coordsBottomLeft.at(0).toDouble()));
 
-            QVariantList coordsTopRight = coordList.at(2).toList();
-            box.setTopRight(QGeoCoordinate(coordsTopRight.at(1).toDouble(), coordsTopRight.at(0).toDouble()));
+                QVariantList coordsBottomRight = coordList.at(1).toList();
+                box.setBottomRight(QGeoCoordinate(coordsBottomRight.at(1).toDouble(), coordsBottomRight.at(0).toDouble()));
 
-            QVariantList coordsTopLeft = coordList.at(3).toList();
-            box.setTopLeft(QGeoCoordinate(coordsTopLeft.at(1).toDouble(), coordsTopLeft.at(0).toDouble()));
+                QVariantList coordsTopRight = coordList.at(2).toList();
+                box.setTopRight(QGeoCoordinate(coordsTopRight.at(1).toDouble(), coordsTopRight.at(0).toDouble()));
 
-            place.setBoundingBox(box);
+                QVariantList coordsTopLeft = coordList.at(3).toList();
+                box.setTopLeft(QGeoCoordinate(coordsTopLeft.at(1).toDouble(), coordsTopLeft.at(0).toDouble()));
+
+                place.setBoundingBox(box);
+            }
         }
     }
 #endif
+
+    return place;
+}
+
+//not to be used in timelines api, but in geo api, where place contains other places
+QTweetPlace QTweetNetBase::variantMapToPlaceRecursive(const QVariantMap &var)
+{
+    QTweetPlace place;
+
+    place.setName(var["name"].toString());
+    place.setCountryCode(var["country_code"].toString());
+    place.setCountry(var["country"].toString());
+    place.setID(var["id"].toString());
+    place.setFullName(var["full_name"].toString());
+    // ### TODO place_type
+
+#if (QTM_VERSION >= QTM_VERSION_CHECK(1, 1, 0))
+    QVariant bbVar = var["bounding_box"];
+
+    if (!bbVar.isNull()) {
+        QVariantMap bbMap = bbVar.toMap();
+
+        if (bbMap["type"].toString() == "Polygon") {
+            QVariantList coordList = bbMap["coordinates"].toList();
+
+            if (coordList.count() == 4) {
+                QGeoBoundingBox box;
+
+                QVariantList coordsBottomLeft = coordList.at(0).toList();
+                box.setBottomLeft(QGeoCoordinate(coordsBottomLeft.at(1).toDouble(), coordsBottomLeft.at(0).toDouble()));
+
+                QVariantList coordsBottomRight = coordList.at(1).toList();
+                box.setBottomRight(QGeoCoordinate(coordsBottomRight.at(1).toDouble(), coordsBottomRight.at(0).toDouble()));
+
+                QVariantList coordsTopRight = coordList.at(2).toList();
+                box.setTopRight(QGeoCoordinate(coordsTopRight.at(1).toDouble(), coordsTopRight.at(0).toDouble()));
+
+                QVariantList coordsTopLeft = coordList.at(3).toList();
+                box.setTopLeft(QGeoCoordinate(coordsTopLeft.at(1).toDouble(), coordsTopLeft.at(0).toDouble()));
+
+                place.setBoundingBox(box);
+            }
+        }
+    }
+#endif
+
+    QVariantList containedVarList = var["contained_within"].toList();
+
+    QList<QTweetPlace> containedInPlacesList;
+
+    if (!containedVarList.isEmpty()) {
+        foreach (const QVariant& containedVar, containedVarList) {
+            QVariantMap containedPlaceMap = containedVar.toMap();
+
+            QTweetPlace containedPlace = variantMapToPlaceRecursive(containedPlaceMap);
+
+            containedInPlacesList.append(containedPlace);
+        }
+    }
+
+    place.setContainedWithin(containedInPlacesList);
 
     return place;
 }
