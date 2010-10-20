@@ -76,7 +76,8 @@ HEADERS += \
     qtweetplace.h \
     qtweetgeoreversegeocode.h \
     qtweetgeosearch.h \
-    qtweetgeosimilarplaces.h
+    qtweetgeosimilarplaces.h \
+    qtweetgeoplaceid.h
 
 SOURCES += \
     oauth.cpp \
@@ -137,4 +138,5 @@ SOURCES += \
     qtweetplace.cpp \
     qtweetgeoreversegeocode.cpp \
     qtweetgeosearch.cpp \
-    qtweetgeosimilarplaces.cpp
+    qtweetgeosimilarplaces.cpp \
+    qtweetgeoplaceid.cpp
