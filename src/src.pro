@@ -73,7 +73,8 @@ HEADERS += \
     qtweetsearch.h \
     qtweetsearchresult.h \
     qtweetsearchpageresults.h \
-    qtweetplace.h
+    qtweetplace.h \
+    qtweetgeoreversegeocode.h
 
 SOURCES += \
     oauth.cpp \
@@ -131,4 +132,5 @@ SOURCES += \
     qtweetsearch.cpp \
     qtweetsearchresult.cpp \
     qtweetsearchpageresults.cpp \
-    qtweetplace.cpp
+    qtweetplace.cpp \
+    qtweetgeoreversegeocode.cpp

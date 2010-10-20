@@ -108,6 +108,7 @@ protected:
     QTweetSearchPageResults variantToSearchPageResults(const QVariant& var);
     QTweetPlace variantMapToPlace(const QVariantMap& var);
     QTweetPlace variantMapToPlaceRecursive(const QVariantMap& var);
+    QList<QTweetPlace> variantToPlaceList(const QVariant& fromParser);
 
     void parseJson(const QByteArray& jsonData);
     void setLastErrorMessage(const QString& errMsg);

@@ -544,3 +544,19 @@ QTweetPlace QTweetNetBase::variantMapToPlaceRecursive(const QVariantMap &var)
 
     return place;
 }
+
+QList<QTweetPlace> QTweetNetBase::variantToPlaceList(const QVariant &fromParser)
+{
+    QList<QTweetPlace> placeList;
+
+    QVariantMap responseVarMap = fromParser.toMap();
+    QVariantMap resultVarMap = responseVarMap["result"].toMap();
+    QVariantList placesVarList = resultVarMap["places"].toList();
+
+    foreach (const QVariant& placeVar, placesVarList) {
+        QTweetPlace place = variantMapToPlaceRecursive(placeVar.toMap());
+        placeList.append(place);
+    }
+
+    return placeList;
+}
