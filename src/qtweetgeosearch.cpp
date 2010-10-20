@@ -101,7 +101,7 @@ void QTweetGeoSearch::parsingJsonFinished(const QVariant &json, bool ok, const Q
 
         emit parsedPlaces(places);
     } else {
-        qDebug() << "QTweetGeoReverseGeoCode parser error: " << errorMsg;
+        qDebug() << "QTweetGeoSearch parser error: " << errorMsg;
         setLastErrorMessage(errorMsg);
         emit error(JsonParsingError, errorMsg);
     }
