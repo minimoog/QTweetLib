@@ -25,7 +25,7 @@
 
 class QTweetPlace;
 
-class QTweetGeoPlaceID : public QTweetNetBase
+class QTWEETLIBSHARED_EXPORT QTweetGeoPlaceID : public QTweetNetBase
 {
     Q_OBJECT
 public:

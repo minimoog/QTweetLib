@@ -60,7 +60,13 @@ void QTweetGeoSimilarPlaces::parsingJsonFinished(const QVariant &json, bool ok, 
     if (ok) {
         QList<QTweetPlace> places = variantToPlaceList(json);
 
-        emit parsedPlaces(places);
+        //get token
+        QVariantMap respMap = json.toMap();
+        QVariantMap resultMap = respMap["result"].toMap();
+
+        QString token = resultMap["token"].toString();
+
+        emit parsedPlaces(places, token);
     } else {
         qDebug() << "QTweetGeoSimilarPlaces parser error: " << errorMsg;
         setLastErrorMessage(errorMsg);
