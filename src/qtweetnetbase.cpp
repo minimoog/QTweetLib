@@ -446,22 +446,26 @@ QTweetPlace QTweetNetBase::variantMapToPlace(const QVariantMap &var)
         if (bbMap["type"].toString() == "Polygon") {
             QVariantList coordList = bbMap["coordinates"].toList();
 
-            if (coordList.count() == 4) {
-                QGeoBoundingBox box;
+            if (coordList.count() == 1) {
+                QVariantList latLongList = coordList.at(0).toList();
 
-                QVariantList coordsBottomLeft = coordList.at(0).toList();
-                box.setBottomLeft(QGeoCoordinate(coordsBottomLeft.at(1).toDouble(), coordsBottomLeft.at(0).toDouble()));
+                if (latLongList.count() == 4) {
+                    QGeoBoundingBox box;
 
-                QVariantList coordsBottomRight = coordList.at(1).toList();
-                box.setBottomRight(QGeoCoordinate(coordsBottomRight.at(1).toDouble(), coordsBottomRight.at(0).toDouble()));
+                    QVariantList coordsBottomLeft = latLongList.at(0).toList();
+                    box.setBottomLeft(QGeoCoordinate(coordsBottomLeft.at(1).toDouble(), coordsBottomLeft.at(0).toDouble()));
 
-                QVariantList coordsTopRight = coordList.at(2).toList();
-                box.setTopRight(QGeoCoordinate(coordsTopRight.at(1).toDouble(), coordsTopRight.at(0).toDouble()));
+                    QVariantList coordsBottomRight = latLongList.at(1).toList();
+                    box.setBottomRight(QGeoCoordinate(coordsBottomRight.at(1).toDouble(), coordsBottomRight.at(0).toDouble()));
 
-                QVariantList coordsTopLeft = coordList.at(3).toList();
-                box.setTopLeft(QGeoCoordinate(coordsTopLeft.at(1).toDouble(), coordsTopLeft.at(0).toDouble()));
+                    QVariantList coordsTopRight = latLongList.at(2).toList();
+                    box.setTopRight(QGeoCoordinate(coordsTopRight.at(1).toDouble(), coordsTopRight.at(0).toDouble()));
 
-                place.setBoundingBox(box);
+                    QVariantList coordsTopLeft = latLongList.at(3).toList();
+                    box.setTopLeft(QGeoCoordinate(coordsTopLeft.at(1).toDouble(), coordsTopLeft.at(0).toDouble()));
+
+                    place.setBoundingBox(box);
+                }
             }
         }
     }
@@ -505,22 +509,26 @@ QTweetPlace QTweetNetBase::variantMapToPlaceRecursive(const QVariantMap &var)
         if (bbMap["type"].toString() == "Polygon") {
             QVariantList coordList = bbMap["coordinates"].toList();
 
-            if (coordList.count() == 4) {
-                QGeoBoundingBox box;
+            if (coordList.count() == 1) {
+                QVariantList latLongList = coordList.at(0).toList();
 
-                QVariantList coordsBottomLeft = coordList.at(0).toList();
-                box.setBottomLeft(QGeoCoordinate(coordsBottomLeft.at(1).toDouble(), coordsBottomLeft.at(0).toDouble()));
+                if (latLongList.count() == 4) {
+                    QGeoBoundingBox box;
 
-                QVariantList coordsBottomRight = coordList.at(1).toList();
-                box.setBottomRight(QGeoCoordinate(coordsBottomRight.at(1).toDouble(), coordsBottomRight.at(0).toDouble()));
+                    QVariantList coordsBottomLeft = latLongList.at(0).toList();
+                    box.setBottomLeft(QGeoCoordinate(coordsBottomLeft.at(1).toDouble(), coordsBottomLeft.at(0).toDouble()));
 
-                QVariantList coordsTopRight = coordList.at(2).toList();
-                box.setTopRight(QGeoCoordinate(coordsTopRight.at(1).toDouble(), coordsTopRight.at(0).toDouble()));
+                    QVariantList coordsBottomRight = latLongList.at(1).toList();
+                    box.setBottomRight(QGeoCoordinate(coordsBottomRight.at(1).toDouble(), coordsBottomRight.at(0).toDouble()));
 
-                QVariantList coordsTopLeft = coordList.at(3).toList();
-                box.setTopLeft(QGeoCoordinate(coordsTopLeft.at(1).toDouble(), coordsTopLeft.at(0).toDouble()));
+                    QVariantList coordsTopRight = latLongList.at(2).toList();
+                    box.setTopRight(QGeoCoordinate(coordsTopRight.at(1).toDouble(), coordsTopRight.at(0).toDouble()));
 
-                place.setBoundingBox(box);
+                    QVariantList coordsTopLeft = latLongList.at(3).toList();
+                    box.setTopLeft(QGeoCoordinate(coordsTopLeft.at(1).toDouble(), coordsTopLeft.at(0).toDouble()));
+
+                    place.setBoundingBox(box);
+                }
             }
         }
     }
