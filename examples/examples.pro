@@ -1,2 +1,2 @@
 TEMPLATE = subdirs
-SUBDIRS =  search timelines statusupdate
+SUBDIRS =  search timelines statusupdate geosearch

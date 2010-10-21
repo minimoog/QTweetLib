@@ -25,10 +25,11 @@
 #include <QString>
 #include <QGeoBoundingBox>
 #include <QList>
+#include "qtweetlib_global.h"
 
 QTM_USE_NAMESPACE
 
-class QTweetPlace
+class QTWEETLIBSHARED_EXPORT QTweetPlace
 {
 public:
     enum Type { Poi, Neighborhood, City, Admin, Country };

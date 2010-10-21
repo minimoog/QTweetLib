@@ -40,3 +40,11 @@ examples/statusupdate/debug/*
 examples/statusupdate/ui_mainwindow.h
 examples/timelines/ui_mainwindow.h
 examples/timelines/ui_mainwindow.h
+examples/geosearch/debug/*
+ipch/*
+examples/timelines/*.vcxproj.*
+examples/geosearch/*.vcxproj*
+examples/geosearch/ui_geosearch.h
+examples/search/*.vcxproj*
+examples/statusupdate/*.vcxproj*
+examples/timelines/*.vcxproj*
