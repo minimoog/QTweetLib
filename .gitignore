@@ -48,3 +48,5 @@ examples/geosearch/ui_geosearch.h
 examples/search/*.vcxproj*
 examples/statusupdate/*.vcxproj*
 examples/timelines/*.vcxproj*
+examples/georeverse/debug/*
+examples/georeverse/ui_*.h
