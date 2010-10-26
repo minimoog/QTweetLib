@@ -50,3 +50,11 @@ examples/statusupdate/*.vcxproj*
 examples/timelines/*.vcxproj*
 examples/georeverse/debug/*
 examples/georeverse/ui_*.h
+examples/followers/debug/*
+examples/followers/*.vcxproj.*
+examples/followers/*.vcxproj
+examples/georeverse/*.vcxproj*
+examples/followers/ui_*.h
+examples/search/ui_*.h
+examples/search/ui_*.h
+examples/search/ui_*.h
