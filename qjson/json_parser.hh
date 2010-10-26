@@ -70,7 +70,7 @@ namespace yy
   #define YYERROR_VERBOSE 1
 
 
-/* Line 303 of lalr1.cc.  */
+/* Line 35 of lalr1.cc.  */
 #line 75 "json_parser.hh"
 
 #include "location.hh"
@@ -149,8 +149,8 @@ namespace yy
      QUOTMARKOPEN = 14,
      QUOTMARKCLOSE = 15,
      STRING = 16,
-     INFINITY = 17,
-     NAN = 18
+     INFINITY_VAL = 17,
+     NAN_VAL = 18
    };
 
     };

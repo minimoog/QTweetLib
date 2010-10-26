@@ -38,8 +38,8 @@ bool ishexnstring(const QString& string) {
 }
 
 JSonScanner::JSonScanner(QIODevice* io)
-  : m_io (io),
-    m_allowSpecialNumbers(false)
+  : m_allowSpecialNumbers(false),
+    m_io (io)
 {
   m_quotmarkClosed = true;
   m_quotmarkCount = 0;
@@ -130,7 +130,7 @@ static QString unescape( const QByteArray& ba, bool* ok ) {
 int JSonScanner::yylex(YYSTYPE* yylval, yy::location *yylloc)
 {
   char ch;
-  
+
   if (!m_io->isOpen()) {
     qCritical() << "JSonScanner::yylex - io device is not open";
     return -1;
@@ -153,15 +153,13 @@ int JSonScanner::yylex(YYSTYPE* yylval, yy::location *yylloc)
     }
 
     qjsonDebug() << "JSonScanner::yylex - got |" << ch << "|";
-    
     yylloc->columns();
-    
+
     if (ch == '\n' || ch == '\r')
       yylloc->lines();
-      
   } while (m_quotmarkClosed && (isspace(ch) != 0));
 
-  if (m_quotmarkClosed && (ch == 't') || (ch == 'T')) {
+  if (m_quotmarkClosed && ((ch == 't') || (ch == 'T'))) {
     const QByteArray buf = m_io->peek(3).toLower();
     if (buf == "rue") {
       m_io->read (3);
@@ -180,8 +178,8 @@ int JSonScanner::yylex(YYSTYPE* yylval, yy::location *yylloc)
     } else if (buf.startsWith("an") && m_allowSpecialNumbers) {
       m_io->read(2);
       yylloc->columns(2);
-      qjsonDebug() << "JSonScanner::yylex - NAN";
-      return yy::json_parser::token::NAN;
+      qjsonDebug() << "JSonScanner::yylex - NAN_VAL";
+      return yy::json_parser::token::NAN_VAL;
 
     }
   }
@@ -202,7 +200,7 @@ int JSonScanner::yylex(YYSTYPE* yylval, yy::location *yylloc)
     const QByteArray buf = m_io->peek(1);
     if (!buf.isEmpty()) {
       if ((buf[0] == '+' ) || (buf[0] == '-' )) {
-        ret += m_io->read (1);  
+        ret += m_io->read (1);
         yylloc->columns();
       }
     }
@@ -216,7 +214,7 @@ int JSonScanner::yylex(YYSTYPE* yylval, yy::location *yylloc)
       m_io->read(7);
       yylloc->columns(7);
       qjsonDebug() << "JSonScanner::yylex - INFINITY_VAL";
-      return yy::json_parser::token::INFINITY;
+      return yy::json_parser::token::INFINITY_VAL;
     }
   }
 
@@ -278,7 +276,38 @@ int JSonScanner::yylex(YYSTYPE* yylval, yy::location *yylloc)
     }
   }
   else if (isdigit(ch) != 0 && m_quotmarkClosed) {
-    *yylval = QVariant(QString::fromLatin1(QByteArray(&ch,1)));
+    bool ok;
+    QByteArray numArray = QByteArray::fromRawData( &ch, 1 * sizeof(char) );
+    qulonglong number = numArray.toULongLong(&ok);
+    if (!ok) {
+      //This shouldn't happen
+      qCritical() << "JSonScanner::yylex - error while converting char to ulonglong, returning -1";
+      return -1;
+    }
+    if (number == 0) {
+      // we have to return immediately otherwise numbers like
+      // 2.04 will be converted to 2.4
+      *yylval = QVariant(number);
+      qjsonDebug() << "JSonScanner::yylex - yy::json_parser::token::DIGIT";
+      return yy::json_parser::token::DIGIT;
+    }
+
+    char nextCh;
+    qint64 ret = m_io->peek(&nextCh, 1);
+    while (ret == 1 && isdigit(nextCh)) {
+      m_io->read(1); //consume
+      yylloc->columns(1);
+      numArray = QByteArray::fromRawData( &nextCh, 1 * sizeof(char) );
+      number = number * 10 + numArray.toULongLong(&ok);
+      if (!ok) {
+        //This shouldn't happen
+        qCritical() << "JSonScanner::yylex - error while converting char to ulonglong, returning -1";
+        return -1;
+      }
+      ret = m_io->peek(&nextCh, 1);
+    }
+
+    *yylval = QVariant(number);
     qjsonDebug() << "JSonScanner::yylex - yy::json_parser::token::DIGIT";
     return yy::json_parser::token::DIGIT;
   }
