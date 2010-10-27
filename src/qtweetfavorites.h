@@ -23,9 +23,9 @@
 
 #include "qtweetnetbase.h"
 
-/*!
-    Fetches favorite statuses for the authenticating user or
-    user specified by the ID parameter
+/**
+ *   Fetches favorite statuses for the authenticating user or
+ *   user specified by the ID parameter
  */
 class QTWEETLIBSHARED_EXPORT QTweetFavorites : public QTweetNetBase
 {
@@ -38,7 +38,7 @@ public:
                bool includeEntities = false);
 
 signals:
-    /*! Emits list of favorited statuses */
+    /** Emits list of favorited statuses */
     void parsedFavorites(const QList<QTweetStatus>& favorites);
 
 protected slots:

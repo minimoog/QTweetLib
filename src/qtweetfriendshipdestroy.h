@@ -23,8 +23,8 @@
 
 #include "qtweetnetbase.h"
 
-/*!
-    Allows the authenticating users to unfollow the user specified in the ID parameter.
+/**
+ *   Allows the authenticating users to unfollow the user specified in the ID parameter.
  */
 class QTWEETLIBSHARED_EXPORT QTweetFriendshipDestroy : public QTweetNetBase
 {
@@ -37,7 +37,7 @@ public:
                   bool includeEntities = false);
 
 signals:
-    /*! Emits unfollowed user */
+    /** Emits unfollowed user */
     void parsedUser(const QTweetUser& user);
 
 protected slots:

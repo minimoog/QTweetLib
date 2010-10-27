@@ -23,19 +23,27 @@
 #include "qtweetdirectmessagedestroy.h"
 #include "qtweetdmstatus.h"
 
+/**
+ *  Constructor
+ */
 QTweetDirectMessageDestroy::QTweetDirectMessageDestroy(QObject *parent) :
     QTweetNetBase(parent)
 {
 }
 
+/**
+ *  Constructor
+ *  @param oauthTwitter OAuthTwitter object
+ *  @param parent parent QObject
+ */
 QTweetDirectMessageDestroy::QTweetDirectMessageDestroy(OAuthTwitter *oauthTwitter, QObject *parent) :
         QTweetNetBase(oauthTwitter, parent)
 {
 }
 
-/*!
-    \param id    The ID of the direct message to delete.
-    \param includeEntities When set to true, each tweet will include a node called "entities,"
+/**
+ *   @param id the ID of the direct message to delete.
+ *   @param includeEntities When set to true, each tweet will include a node called "entities,"
  */
 void QTweetDirectMessageDestroy::destroyMessage(qint64 id, bool includeEntities)
 {

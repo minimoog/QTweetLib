@@ -23,21 +23,31 @@
 #include "qtweetfriendshipcreate.h"
 #include "qtweetuser.h"
 
+/**
+ *  Constructor
+ */
 QTweetFriendshipCreate::QTweetFriendshipCreate(QObject *parent) :
     QTweetNetBase(parent)
 {
 }
 
+/**
+ *  Constructor
+ *  @param oauthTwitter OAuthTwitter object
+ *  @param parent parent QObject
+ */
 QTweetFriendshipCreate::QTweetFriendshipCreate(OAuthTwitter *oauthTwitter, QObject *parent) :
         QTweetNetBase(oauthTwitter, parent)
 {
 }
 
-/*!
-    \param userid User id to follow
-    \param screenName Screen name of user to follow
-    \param follow    Enable notifications for the target user.
-    \param includeEntities When set to true, each tweet will include a node called "entities"
+/**
+ *  Creates frienship
+ *  @param userid id to follow
+ *  @param screenName Screen name of user to follow
+ *  @param follow Enable notifications for the target user.
+ *  @param includeEntities When set to true, each tweet will include a node called "entities"
+ *  @remarks Use either userid or screenName, setting the default value will not be put in query
  */
 void QTweetFriendshipCreate::create(qint64 userid,
                                     const QString &screenName,

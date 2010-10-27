@@ -23,22 +23,32 @@
 #include "qtweetdirectmessagessent.h"
 #include "qtweetdmstatus.h"
 
+/**
+ *  Constructor
+ */
 QTweetDirectMessagesSent::QTweetDirectMessagesSent(QObject *parent) :
         QTweetNetBase(parent)
 {
 }
 
+/**
+ *  Constructor
+ *  @param oauthTwitter OAuthTwitter object
+ *  @param parent parent QObject
+ */
 QTweetDirectMessagesSent::QTweetDirectMessagesSent(OAuthTwitter *oauthTwitter, QObject *parent) :
         QTweetNetBase(oauthTwitter, parent)
 {
 }
 
-/*!
-    \param sinceid Returns results with an ID greater than (that is, more recent than) the specified ID.
-    \param maxid Returns results with an ID less than (that is, older than) or equal to the specified ID.
-    \param count Specifies the number of records to retrieve. Must be less than or equal to 200.
-    \param page Specifies the page of results to retrieve.
-    \param includeEntities When set to true, each tweet will include a node called "entities,".
+/**
+ *   Starts fetching direct messages
+ *   @param sinceid returns results with an ID greater than (that is, more recent than) the specified ID.
+ *   @param maxid returns results with an ID less than (that is, older than) or equal to the specified ID.
+ *   @param count specifies the number of records to retrieve. Must be less than or equal to 200.
+ *   @param page specifies the page of results to retrieve.
+ *   @param includeEntities When set to true, each tweet will include a node called "entities,".
+ *   @remarks Setting parameters to default value will not be put in the query
  */
 void QTweetDirectMessagesSent::fetch(qint64 sinceid,
                                      qint64 maxid,

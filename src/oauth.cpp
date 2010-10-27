@@ -27,6 +27,11 @@
 #define CONSUMER_KEY ""
 #define CONSUMER_SECRET ""
 
+/**
+ * Generates HMAC-SHA1 signature
+ * @param message for which to create signature
+ * @param key
+ */
 static QByteArray hmacSha1(const QByteArray& message, const QByteArray& key)
 {
     QByteArray normKey;
@@ -70,10 +75,10 @@ static QByteArray hmacSha1(const QByteArray& message, const QByteArray& key)
     return sha1;
 }
 
-/*!
-    Generates time stamp
-    \return time stamp in epoch time
-*/
+/**
+ *   Generates time stamp
+ *   @return time stamp in epoch time
+ */
 static QByteArray generateTimeStamp()
 {
 	//OAuth spec. 8 http://oauth.net/core/1.0/#nonce
@@ -83,10 +88,10 @@ static QByteArray generateTimeStamp()
 	return QString("%1").arg(seconds).toUtf8();
 }
 
-/*!
-    Generates random 16 length string
-    \return random string
-*/
+/**
+ *   Generates random 16 length string
+ *   @return random string
+ */
 static QByteArray generateNonce()
 {
 	//OAuth spec. 8 http://oauth.net/core/1.0/#nonce
@@ -103,21 +108,20 @@ static QByteArray generateNonce()
 	return nonce;
 }
 
-/*!
-    Constructor
-    \param parent Parent QObject
-*/
+/**
+ *   Constructor
+ *   @param parent parent QObject
+ */
 OAuth::OAuth(QObject *parent) : QObject(parent)
 {
 	QDateTime current = QDateTime::currentDateTime();
 	qsrand(current.toTime_t());
 }
 
-/*!
-    Parses oauth_token and oauth_token_secret from response of the service provider
-    and sets m_oauthToken and m_oauthTokenSecret accordingly
-
-    \param response Response from service provider
+/**
+ *   Parses oauth_token and oauth_token_secret from response of the service provider
+ *   and sets m_oauthToken and m_oauthTokenSecret accordingly
+ *   @param response response from service provider
  */
 void OAuth::parseTokens(const QByteArray& response)
 {
@@ -131,53 +135,57 @@ void OAuth::parseTokens(const QByteArray& response)
 	m_oauthTokenSecret = parseUrl.encodedQueryItemValue("oauth_token_secret");
 }
 
-/*!
-    Sets oauth token
-    \param[in] token OAuth token
-*/
+/**
+ *   Sets oauth token
+ *   @param token OAuth token
+ */
 void OAuth::setOAuthToken(const QByteArray& token)
 {
 	m_oauthToken = token;
 }
 
-/*!
-    Sets OAauth token secret
-    \param[in] tokenSecret OAuth token secret
-*/
+/**
+ *   Sets OAauth token secret
+ *   @param tokenSecret OAuth token secret
+ */
 void OAuth::setOAuthTokenSecret(const QByteArray& tokenSecret)
 {
 	m_oauthTokenSecret = tokenSecret;
 }
 
-/*!
-    Gets oauth_token
-    \return OAuth token
-*/
+/**
+ *   Gets oauth_token
+ *   @return OAuth token
+ */
 QByteArray OAuth::oauthToken() const
 {
 	return m_oauthToken;
 }
 
-/*!
-    Gets oauth_token_secret
-    \return OAuth token secret
-*/
+/**
+ *   Gets oauth_token_secret
+ *   @return OAuth token secret
+ */
 QByteArray OAuth::oauthTokenSecret() const
 {
 	return m_oauthTokenSecret;
 }
 
+
+/**
+ *  Clears the oauth tokens
+ */
 void OAuth::clearTokens()
 {
     m_oauthToken.clear();
     m_oauthTokenSecret.clear();
 }
 
-/*!
-    Generates HMAC-SHA1 signature
-    \param[in] signatureBase String
-    \return HMAC-SHA1 signature
-*/
+/**
+ *   Generates HMAC-SHA1 signature
+ *   @param signatureBase signature base
+ *   @return HMAC-SHA1 signature
+ */
 QByteArray OAuth::generateSignatureHMACSHA1(const QByteArray& signatureBase)
 {
 	//OAuth spec. 9.2 http://oauth.net/core/1.0/#anchor16
@@ -189,14 +197,14 @@ QByteArray OAuth::generateSignatureHMACSHA1(const QByteArray& signatureBase)
 	return resultPE;
 }
 
-/*!
-    Generates OAuth signature base
-    \param[in] url Url with encoded parameters
-    \param[in] method Http method
-    \param[in] timestamp timestamp
-    \param[in] nonce random string
-    \return signature base
-*/
+/**
+ *   Generates OAuth signature base
+ *   @param url Url with encoded parameters
+ *   @param method Http method
+ *   @param timestamp timestamp
+ *   @param nonce random string
+ *   @return signature base
+ */
 QByteArray OAuth::generateSignatureBase(const QUrl& url, HttpMethod method, const QByteArray& timestamp, const QByteArray& nonce)
 {
 	//OAuth spec. 9.1 http://oauth.net/core/1.0/#anchor14
@@ -277,11 +285,11 @@ QByteArray OAuth::generateSignatureBase(const QUrl& url, HttpMethod method, cons
 	return httpm + '&' + normUrl.toPercentEncoding() + '&' + normString;
 }
 
-/*!
-    Generates Authorization Header
-    \remarks If HttpMethod is POST put query items in url (QUrl::addEncodedQueryItem)
-    \param[in] url Url with query items embedded
-    \param[in] method Type of http method
+/**
+ *   Generates Authorization Header
+ *   @param url url with query items embedded
+ *   @param method type of http method
+ *   @remarks If HttpMethod is POST put query items in url (QUrl::addEncodedQueryItem)
  */
 QByteArray OAuth::generateAuthorizationHeader( const QUrl& url, HttpMethod method )
 {

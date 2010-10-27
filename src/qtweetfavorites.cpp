@@ -23,20 +23,29 @@
 #include "qtweetfavorites.h"
 #include "qtweetstatus.h"
 
+/**
+ *  Constructor
+ */
 QTweetFavorites::QTweetFavorites(QObject *parent) :
     QTweetNetBase(parent)
 {
 }
 
+/**
+ *  Constructor
+ *  @param oauthTwitter OAuthTwitter object
+ *  @param parent parent QObject
+ */
 QTweetFavorites::QTweetFavorites(OAuthTwitter *oauthTwitter, QObject *parent) :
         QTweetNetBase(oauthTwitter, parent)
 {
 }
 
-/*!
-    \param id The ID or screen name of the user for whom to request a list of favorite statuses. 0 for authenticated user
-    \param page    Specifies the page of results to retrieve.
-    \param includeEntities When set to true, each tweet will include a node called "entities,".
+/**
+ *   Starts fetching favorites
+ *   @param id the ID of the user for whom to request a list of favorite statuses. 0 for authenticated user
+ *   @param page Specifies the page of results to retrieve.
+ *   @param includeEntities When set to true, each tweet will include a node called "entities,".
  */
 void QTweetFavorites::fetch(qint64 id, int page, bool includeEntities)
 {

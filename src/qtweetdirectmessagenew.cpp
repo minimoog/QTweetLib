@@ -23,21 +23,31 @@
 #include "qtweetdirectmessagenew.h"
 #include "qtweetdmstatus.h"
 
+/**
+ *  Constructor
+ */
 QTweetDirectMessageNew::QTweetDirectMessageNew(QObject *parent) :
     QTweetNetBase(parent)
 {
 }
 
+/**
+ *  Constructor
+ *  @param oauthTwitter OAuthTwitter object
+ *  @param parent parent QObject
+ */
 QTweetDirectMessageNew::QTweetDirectMessageNew(OAuthTwitter *oauthTwitter, QObject *parent) :
         QTweetNetBase(oauthTwitter, parent)
 {
 }
 
-/*!
-    \param user The ID of the user who should receive the direct message.
-    \param text The text of direct message
-    \param screenName The screen name of the user who should receive the direct message.
-    \param includeEntities When set to true each tweet will include a node called "entities,"
+/**
+ *   Sends direct message
+ *   @param user The ID of the user who should receive the direct message.
+ *   @param text The text of direct message
+ *   @param screenName The screen name of the user who should receive the direct message.
+ *   @param includeEntities When set to true each tweet will include a node called "entities,"
+ *   @remarks Use either user or screenName, set them to default if you don't want to be put in query
  */
 void QTweetDirectMessageNew::post(qint64 user,
                                   const QString &text,

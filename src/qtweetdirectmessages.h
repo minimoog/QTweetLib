@@ -25,8 +25,8 @@
 
 class QTweetDMStatus;
 
-/*!
-    Class for fetching direct messages
+/**
+ *   Class for fetching direct messages
  */
 class QTWEETLIBSHARED_EXPORT QTweetDirectMessages : public QTweetNetBase
 {
@@ -41,7 +41,7 @@ public:
                bool includeEntities = false);
 
 signals:
-    /*! Emited when json is parsed to direct messages list */
+    /** Emits parsed direct messages list */
     void parsedDirectMessages(const QList<QTweetDMStatus>& messages);
 
 protected slots:

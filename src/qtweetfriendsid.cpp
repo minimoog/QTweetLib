@@ -22,20 +22,29 @@
 #include <QNetworkReply>
 #include "qtweetfriendsid.h"
 
+/**
+ *  Constructor
+ */
 QTweetFriendsID::QTweetFriendsID(QObject *parent) :
     QTweetNetBase(parent)
 {
 }
 
+/**
+ *  Constructor
+ *  @param oauthTwitter OAuthTwitter object
+ *  @param parent parent QObject
+ */
 QTweetFriendsID::QTweetFriendsID(OAuthTwitter *oauthTwitter, QObject *parent) :
         QTweetNetBase(oauthTwitter, parent)
 {
 }
 
-/*!
-    \param user The ID of the user for whom to return results for.
-    \param screenName The screen name of the user for whom to return results for.
-    \param cursor Use from response nextCursor and prevCursor to allow paging back and forth
+/**
+ *  Start fetcing one page of id's
+ *  @param user the ID of the user for whom to return results for.
+ *  @param screenName the screen name of the user for whom to return results for.
+ *  @param cursor use from response nextCursor and prevCursor to allow paging back and forth
  */
 void QTweetFriendsID::fetch(qint64 user, const QString &screenName, const QString &cursor)
 {

@@ -23,19 +23,28 @@
 #include "qtweetfavoritescreate.h"
 #include "qtweetstatus.h"
 
+/**
+ *  Constructor
+ */
 QTweetFavoritesCreate::QTweetFavoritesCreate(QObject *parent) :
     QTweetNetBase(parent)
 {
 }
 
+/**
+ *  Constructor
+ *  @param oauthTwitter OAuthTwitter object
+ *  @param parent parent QObject
+ */
 QTweetFavoritesCreate::QTweetFavoritesCreate(OAuthTwitter *oauthTwitter, QObject *parent) :
         QTweetNetBase(oauthTwitter, parent)
 {
 }
 
-/*!
-    \param statusid  ID of the desired status.
-    \param includeEntities When set to true, each tweet will include a node called "entities,".
+/**
+ *  Starts creating favorited statues
+ *  @param statusid  ID of the desired status to be favorited.
+ *  @param includeEntities When set to true, each tweet will include a node called "entities,".
  */
 void QTweetFavoritesCreate::create(qint64 statusid, bool includeEntities)
 {

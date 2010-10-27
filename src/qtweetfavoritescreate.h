@@ -23,9 +23,9 @@
 
 #include "qtweetnetbase.h"
 
-/*!
-    Favorites the status specified in the ID parameter as the authenticating user.
-    Returns the favorite status when successful.
+/**
+ *   Favorites the status specified in the ID parameter as the authenticating user.
+ *   Emits the favorite status when successful.
  */
 class QTWEETLIBSHARED_EXPORT QTweetFavoritesCreate : public QTweetNetBase
 {
@@ -36,7 +36,7 @@ public:
     void create(qint64 statusid, bool includeEntities = false);
 
 signals:
-    /*! Emits favorited status */
+    /** Emits favorited status */
     void parsedStatus(const QTweetStatus& status);
 
 protected slots:

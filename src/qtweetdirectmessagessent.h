@@ -23,8 +23,8 @@
 
 #include "qtweetnetbase.h"
 
-/*!
-    Fetches direct messages sent by the authenticating user.
+/**
+ *   Fetches direct messages sent by the authenticating user.
  */
 class QTWEETLIBSHARED_EXPORT QTweetDirectMessagesSent : public QTweetNetBase
 {
@@ -39,7 +39,7 @@ public:
                bool includeEntities = false);
 
 signals:
-    /*! Emits parsed direct messages list */
+    /** Emits direct messages list */
     void parsedDirectMessages(const QList<QTweetDMStatus>& messages);
 
 protected slots:

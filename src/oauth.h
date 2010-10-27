@@ -27,8 +27,8 @@
 
 class QByteArray;
 
-/*! \class OAuth
-    \brief Base OAuth class
+/**
+ * Base OAuth class
  */
 class QTWEETLIBSHARED_EXPORT OAuth : public QObject
 {

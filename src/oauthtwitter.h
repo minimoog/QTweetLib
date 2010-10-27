@@ -25,8 +25,8 @@
 
 class QNetworkAccessManager;
 
-/*!
-    OAuth Twitter authorization class
+/**
+ *   OAuth Twitter authorization class
  */
 class QTWEETLIBSHARED_EXPORT OAuthTwitter : public OAuth
 {
@@ -36,14 +36,15 @@ class QTWEETLIBSHARED_EXPORT OAuthTwitter : public OAuth
                WRITE setNetworkAccessManager)
 public:
 	OAuthTwitter(QObject *parent = 0);
+    OAuthTwitter(QNetworkAccessManager* netManager, QObject *parent = 0);
 	void setNetworkAccessManager(QNetworkAccessManager* netManager);
 	QNetworkAccessManager* networkAccessManager() const;
     void authorizeXAuth(const QString& username, const QString& password);
 
 signals:
-    /*! Emited when XAuth authorization is finished */
+    /** Emited when XAuth authorization is finished */
     void authorizeXAuthFinished();
-    /*! Emited when there is error in XAuth authorization */
+    /** Emited when there is error in XAuth authorization */
     // ### TODO Error detection
     // Sigh, bad documentation on errors in twitter api
     void authorizeXAuthError();

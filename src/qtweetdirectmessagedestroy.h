@@ -23,9 +23,9 @@
 
 #include "qtweetnetbase.h"
 
-/*!
-    Destroys the direct message.
-    The authenticating user must be the recipient of the specified direct message. ### OH bad twitter api docs
+/**
+ *   Destroys the direct message.
+ *   The authenticating user must be the recipient of the specified direct message.
  */
 class QTWEETLIBSHARED_EXPORT QTweetDirectMessageDestroy : public QTweetNetBase
 {
@@ -36,7 +36,7 @@ public:
     void destroyMessage(qint64 id, bool includeEntities = false);
 
 signals:
-    /*! emits destroyed direct message */
+    /** emits destroyed direct message */
     void parsedDirectMessage(const QTweetDMStatus& message);
 
 protected slots:

@@ -23,9 +23,9 @@
 
 #include "qtweetnetbase.h"
 
-/*!
-    Un-favorites the status specified in the ID parameter as the authenticating user.
-    Returns the un-favorited status when successful.
+/**
+ *   Un-favorites the status specified in the ID parameter as the authenticating user.
+ *   Emits the un-favorited status when successful.
  */
 class QTWEETLIBSHARED_EXPORT QTweetFavoritesDestroy : public QTweetNetBase
 {
@@ -36,7 +36,7 @@ public:
     void unfavorite(qint64 statusid, bool includeEntities = false);
 
 signals:
-    /*! Emits the unfavorited status */
+    /** Emits the unfavorited status */
     void parsedStatus(const QTweetStatus& status);
 
 protected slots:

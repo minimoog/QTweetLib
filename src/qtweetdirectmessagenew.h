@@ -23,8 +23,8 @@
 
 #include "qtweetnetbase.h"
 
-/*!
-    Sends a new direct message to the specified user from the authenticating user.
+/**
+ *   Sends a new direct message to the specified user from the authenticating user.
  */
 class QTWEETLIBSHARED_EXPORT QTweetDirectMessageNew : public QTweetNetBase
 {
@@ -38,7 +38,7 @@ public:
               bool includeEntities = false);
 
 signals:
-    /*! Emits parsed direct message who was sent */
+    /** Emits direct message who was sent */
     void parsedDirectMessage(const QTweetDMStatus& message);
 
 protected slots:

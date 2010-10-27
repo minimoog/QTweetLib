@@ -23,16 +23,28 @@
 #include "qtweetaccountverifycredentials.h"
 #include "qtweetuser.h"
 
+/**
+ *  Constructor
+ */
 QTweetAccountVerifyCredentials::QTweetAccountVerifyCredentials(QObject *parent) :
     QTweetNetBase(parent)
 {
 }
 
+/**
+ *  Constructor
+ *  @param oauthTwitter OAuthTwitter object
+ *  @param parent parent QObject
+ */
 QTweetAccountVerifyCredentials::QTweetAccountVerifyCredentials(OAuthTwitter *oauthTwitter, QObject *parent) :
         QTweetNetBase(oauthTwitter, parent)
 {
 }
 
+/**
+ *  Verifies credentials
+ *  @param includeEntities when set to either true, t or 1, each tweet will include a node called "entities,".
+ */
 void QTweetAccountVerifyCredentials::verify(bool includeEntities)
 {
     if (!isAuthenticationEnabled()) {

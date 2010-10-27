@@ -23,9 +23,9 @@
 
 #include "qtweetnetbase.h"
 
-/*!
-    Returns the remaining number of API requests available to the requesting user
-    before the API limit is reached for the current hour.
+/**
+ *   Returns the remaining number of API requests available to the requesting user
+ *   before the API limit is reached for the current hour.
  */
 class QTweetAccountRateLimitStatus : public QTweetNetBase
 {
@@ -36,10 +36,10 @@ public:
     void check();
 
 signals:
-    /*! Emits rate limit info
-        \param remainingHits Remaining hits
-        \param resetTime Reset time in seconds
-        \param hourlyLimit
+    /** Emits rate limit info
+     *  @param remainingHits Remaining hits
+     *  @param resetTime Reset time in seconds
+     *  @param hourlyLimit
      */
     void rateLimitInfo(int remainingHits, int resetTime, int hourlyLimit);
 

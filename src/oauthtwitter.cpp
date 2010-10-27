@@ -18,49 +18,56 @@
  * Contact e-mail: Antonie Jovanoski <minimoog77_at_gmail.com>
  */
 
+#include "oauthtwitter.h"
 #include <QtDebug>
 #include <QUrl>
 #include <QNetworkReply>
-#include <QEventLoop>
 #include <QTimer>
 #include <QNetworkAccessManager>
-#include "oauthtwitter.h"
 
 #define TWITTER_REQUEST_TOKEN_URL "http://twitter.com/oauth/request_token"
 #define TWITTER_ACCESS_TOKEN_URL "http://twitter.com/oauth/access_token"
 #define TWITTER_AUTHORIZE_URL "http://twitter.com/oauth/authorize"
 #define TWITTER_ACCESS_TOKEN_XAUTH_URL "https://api.twitter.com/oauth/access_token"
 
-/*!
-    Constructor
+/**
+ *   Constructor
  */
 OAuthTwitter::OAuthTwitter(QObject *parent)
     :	OAuth(parent), m_netManager(0)
 {
 }
 
-/*!
-    Sets network access manager
-    \remarks Must be set to work properly
+/**
+ *  Constructor
+ */
+OAuthTwitter::OAuthTwitter(QNetworkAccessManager *netManager, QObject *parent) :
+    OAuth(parent), m_netManager(netManager)
+{
+}
+
+/**
+ *   Sets network access manager
+ *   @remarks Must be set to work properly
  */
 void OAuthTwitter::setNetworkAccessManager(QNetworkAccessManager* netManager)
 {
 	m_netManager = netManager;
 }
 
-/*!
-    Gets network access manager
+/**
+ *   Gets network access manager
  */
 QNetworkAccessManager* OAuthTwitter::networkAccessManager() const
 {
 	return m_netManager;
 }
 
-/*!
-    Gets oauth tokens using XAuth method (starts authorization process)
-    \param username username
-    \param password password
-    \remarks Async, emits authorizeXAuthFinished or authorizeXAuthError when there is error
+/**
+ *   Gets oauth tokens using XAuth method (starts authorization process)
+ *   @param username username
+ *   @param password password
+ *   @remarks Async, emits authorizeXAuthFinished or authorizeXAuthError when there is error
  */
 void OAuthTwitter::authorizeXAuth(const QString &username, const QString &password)
 {
@@ -80,6 +87,9 @@ void OAuthTwitter::authorizeXAuth(const QString &username, const QString &passwo
     connect(reply, SIGNAL(finished()), this, SLOT(finishedAuthorization()));
 }
 
+/**
+ * Called when authorization is finished
+ */
 void OAuthTwitter::finishedAuthorization()
 {
     QNetworkReply *reply = qobject_cast<QNetworkReply*>(sender());

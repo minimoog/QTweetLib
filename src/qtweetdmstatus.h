@@ -28,8 +28,8 @@
 class QTweetUser;
 class QTweetDMStatusData;
 
-/*!
-    Stores direct message info
+/**
+ *   Stores direct message info
  */
 class QTWEETLIBSHARED_EXPORT QTweetDMStatus
 {

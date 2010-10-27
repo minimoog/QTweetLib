@@ -23,8 +23,8 @@
 
 #include "qtweetnetbase.h"
 
-/*!
-    Returns an list of numeric IDs for every user following the specified user.
+/**
+ *   Returns an list of numeric IDs for every user following the specified user.
  */
 class QTWEETLIBSHARED_EXPORT QTweetFollowersID : public QTweetNetBase
 {
@@ -37,10 +37,11 @@ public:
                const QString& cursor = QString("-1"));
 
 signals:
-    /*!
-      \param ids List of ids following the user
-      \param nextCursor Cursor for next page, "0" if there is no page
-      \param prevCursor Cursor for prev page "0" if there is no page
+    /**
+     * Emits one page of ids
+     * @param ids List of ids following the user
+     * @param nextCursor Cursor for next page, "0" if there is no page
+     * @param prevCursor Cursor for prev page "0" if there is no page
      */
     void parsedIDs(const QList<qint64>& ids,
                    const QString& nextCursor,

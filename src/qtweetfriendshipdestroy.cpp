@@ -23,21 +23,31 @@
 #include "qtweetfriendshipdestroy.h"
 #include "qtweetuser.h"
 
+/**
+ *  Constructor
+ */
 QTweetFriendshipDestroy::QTweetFriendshipDestroy(QObject *parent) :
     QTweetNetBase(parent)
 {
 }
 
+/**
+ *  Constructor
+ *  @param oauthTwitter OAuthTwitter object
+ *  @param parent parent QObject
+ */
 QTweetFriendshipDestroy::QTweetFriendshipDestroy(OAuthTwitter *oauthTwitter, QObject *parent) :
         QTweetNetBase(oauthTwitter, parent)
 {
 }
 
-/*!
-    \param userid User id to unfollow
-    \param screenName Screen name to unfollow
-    \param includeEntities When set totrue, each tweet will include a node called "entities,".
-  */
+/**
+ *  Unfollows the specified user
+ *  @param userid user id to unfollow
+ *  @param screenName screen name to unfollow
+ *  @param includeEntities when set totrue, each tweet will include a node called "entities,".
+ *  @remarks Use either userid or screenname. Setting to default value will not be put in query
+ */
 void QTweetFriendshipDestroy::unfollow(qint64 userid,
                                        const QString &screenName,
                                        bool includeEntities)

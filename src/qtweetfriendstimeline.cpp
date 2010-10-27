@@ -21,31 +21,38 @@
 #include <QtDebug>
 #include <QNetworkRequest>
 #include <QNetworkReply>
-#include <QThreadPool>
 #include "qtweetfriendstimeline.h"
 #include "qtweetstatus.h"
 #include "qjson/parserrunnable.h"
 
+/**
+ *  Constructor
+ */
 QTweetFriendsTimeline::QTweetFriendsTimeline(QObject *parent) :
     QTweetNetBase(parent)
 {
 }
 
+/**
+ *  Constructor
+ *  @param oauthTwitter OAuthTwitter object
+ *  @param parent parent QObject
+ */
 QTweetFriendsTimeline::QTweetFriendsTimeline(OAuthTwitter *oauthTwitter, QObject *parent) :
         QTweetNetBase(oauthTwitter, parent)
 {
 }
 
-/*!
-    Starts fetching friends timeline
-    \param sinceid Fetch tweets newer then sinceid
-    \param maxid Fetch tweets older then maxid
-    \param count Number of tweet to fetch (up to 200)
-    \param page Page Number (starts from 1)
-    \param skipUser Don't show user info in timeline (only id)
-    \param includeRts Timeline contains native retweets if true
-    \param includeEntities Each tweet include node "entities"
-    \remarks Async
+/**
+ *   Starts fetching friends timeline
+ *   @param sinceid fetch tweets newer then sinceid
+ *   @param maxid fetch tweets older then maxid
+ *   @param count number of tweet to fetch (up to 200)
+ *   @param page page Number (starts from 1)
+ *   @param skipUser don't show user info in timeline (only id)
+ *   @param includeRts timeline contains native retweets if true
+ *   @param includeEntities each tweet will include node "entities"
+ *   @remarks Setting parameter to default value will not be put in query
  */
 void QTweetFriendsTimeline::fetch(qint64 sinceid,
                                   qint64 maxid,

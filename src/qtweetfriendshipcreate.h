@@ -23,8 +23,8 @@
 
 #include "qtweetnetbase.h"
 
-/*!
-    Allows the authenticating users to follow the user specified in the ID parameter.
+/**
+ *   Allows the authenticating users to follow the user specified in the ID parameter.
  */
 class QTWEETLIBSHARED_EXPORT QTweetFriendshipCreate : public QTweetNetBase
 {
@@ -38,7 +38,7 @@ public:
                 bool includeEntities = false);
 
 signals:
-    /*! Emits the befriended user */
+    /** Emits the befriended user */
     void parsedUser(const QTweetUser& user);
 
 protected slots:

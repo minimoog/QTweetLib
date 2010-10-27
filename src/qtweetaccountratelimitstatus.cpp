@@ -22,16 +22,28 @@
 #include <QNetworkReply>
 #include "qtweetaccountratelimitstatus.h"
 
+/**
+ *  Constructor
+ */
 QTweetAccountRateLimitStatus::QTweetAccountRateLimitStatus(QObject *parent) :
     QTweetNetBase(parent)
 {
 }
 
+/**
+ *  Constructor
+ *  @param oauthTwitter OAuthTwitter object
+ *  @param parent parent QObject
+ */
 QTweetAccountRateLimitStatus::QTweetAccountRateLimitStatus(OAuthTwitter *oauthTwitter, QObject *parent) :
         QTweetNetBase(oauthTwitter, parent)
 {
 }
 
+/**
+ *  Starts checking rate limit status
+ *  @remarks Should be emiting rateLimitInfo signal after finishing
+ */
 void QTweetAccountRateLimitStatus::check()
 {
     QUrl url("http://api.twitter.com/1/account/rate_limit_status.json");

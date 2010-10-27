@@ -23,19 +23,28 @@
 #include "qtweetfavoritesdestroy.h"
 #include "qtweetstatus.h"
 
+/**
+ *  Constructor
+ */
 QTweetFavoritesDestroy::QTweetFavoritesDestroy(QObject *parent) :
     QTweetNetBase(parent)
 {
 }
 
+/**
+ *  Constructor
+ *  @param oauthTwitter OAuthTwitter object
+ *  @param parent parent QObject
+ */
 QTweetFavoritesDestroy::QTweetFavoritesDestroy(OAuthTwitter *oauthTwitter, QObject *parent) :
         QTweetNetBase(oauthTwitter, parent)
 {
 }
 
-/*!
-    \param statusid ID of the desired status
-    \param includeEntities When set to true, each tweet will include a node called "entities,"
+/**
+ *  Starts unfavoriting status
+ *  @param statusid ID of the desired status
+ *  @param includeEntities When set to true, each tweet will include a node called "entities,"
  */
 void QTweetFavoritesDestroy::unfavorite(qint64 statusid, bool includeEntities)
 {

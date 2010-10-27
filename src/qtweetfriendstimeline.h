@@ -25,8 +25,8 @@
 
 class QTweetStatus;
 
-/*!
-    Class for fetching twitter friends timeline
+/**
+ *   Class for fetching twitter friends timeline
  */
 class QTWEETLIBSHARED_EXPORT QTweetFriendsTimeline : public QTweetNetBase
 {
@@ -43,7 +43,7 @@ public:
                bool includeEntities = false);
 
 signals:
-    /*! Emited when json is parsed to status list */
+    /** Emits friends timeline status list */
     void parsedStatuses(const QList<QTweetStatus>& statuses);
 
 protected slots:

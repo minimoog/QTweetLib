@@ -23,6 +23,11 @@
 
 #include "qtweetnetbase.h"
 
+/**
+ *  Checks credentials of a authenticated user. Should emit parsedUser signal
+ *  if authentication was successful, error if not. Use this to test if
+ *  supplied user credentials are valid
+ */
 class QTWEETLIBSHARED_EXPORT QTweetAccountVerifyCredentials : public QTweetNetBase
 {
     Q_OBJECT
@@ -32,6 +37,7 @@ public:
     void verify(bool includeEntities = false);
 
 signals:
+    /** Emits parsed user when credentials are valid */
     void parsedUser(const QTweetUser& user);
 
 protected slots:
