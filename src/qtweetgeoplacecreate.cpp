@@ -23,16 +23,32 @@
 #include "qtweetgeoplacecreate.h"
 #include "qtweetplace.h"
 
+/**
+ *  Constructor
+ */
 QTweetGeoPlaceCreate::QTweetGeoPlaceCreate(QObject *parent) :
     QTweetNetBase(parent)
 {
 }
 
+/**
+ *  Constructor
+ *  @param oauthTwitter OAuthTwitter object
+ *  @param parent parent QObject
+ */
 QTweetGeoPlaceCreate::QTweetGeoPlaceCreate(OAuthTwitter *oauthTwitter, QObject *parent) :
     QTweetNetBase(oauthTwitter, parent)
 {
 }
 
+/**
+ *  Creates place
+ *  @param name the name a place is known as
+ *  @param containedWithin placeid within which the new place can be found. Be close as possible with
+                           contained place
+ *  @param token token found in the response from QTweetGeoSimilarPlaces
+ *  @param latLong latitude and longitude
+ */
 void QTweetGeoPlaceCreate::create(const QString &name,
                                   const QString &containedWithin,
                                   const QString &token,

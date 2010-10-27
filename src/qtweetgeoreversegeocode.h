@@ -24,6 +24,10 @@
 #include "qtweetnetbase.h"
 #include "qtweetplace.h"
 
+/**
+ *  Given a latitude and a longitude, searches up to 20 places that can be used
+ *  as placeId when updating a status
+ */
 class QTWEETLIBSHARED_EXPORT QTweetGeoReverseGeoCode : public QTweetNetBase
 {
     Q_OBJECT
@@ -37,6 +41,7 @@ public:
                    int maxResults = 0);
 
 signals:
+    /** Emits list of places */
     void parsedPlaces(const QList<QTweetPlace>& places);
 
 protected slots:

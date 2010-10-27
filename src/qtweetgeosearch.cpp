@@ -22,16 +22,35 @@
 #include <QNetworkReply>
 #include "qtweetgeosearch.h"
 
+/**
+ *  Constructor
+ */
 QTweetGeoSearch::QTweetGeoSearch(QObject *parent) :
     QTweetNetBase(parent)
 {
 }
 
+/**
+ *  Constructor
+ *  @param oauthTwitter OAuthTwitter object
+ *  @param parent parent QObject
+ */
 QTweetGeoSearch::QTweetGeoSearch(OAuthTwitter *oauthTwitter, QObject *parent) :
     QTweetNetBase(oauthTwitter, parent)
 {
 }
 
+/**
+ *  Starts geo searching
+ *  @param latLong latitude and longitude
+ *  @param query text to match against while executing a geo-based query,
+ *               best suited for finding nearby locations by name
+ *  @param ip ip address. Used when attempting to fix geolocation based off of the user's IP address.
+ *  @param granularity this is the minimal granularity of place types to return
+ *  @param accuracy hint on the "region" in which to search in meters
+ *  @param maxResults hint as to the number of results to return
+ *  @param containedWithin this is the placeID which you would like to restrict the search results to
+ */
 void QTweetGeoSearch::search(QPointF latLong,
                              const QString &query,
                              const QString &ip,

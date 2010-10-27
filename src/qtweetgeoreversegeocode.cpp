@@ -22,16 +22,32 @@
 #include <QNetworkReply>
 #include "qtweetgeoreversegeocode.h"
 
+/**
+ *  Constructor
+ */
 QTweetGeoReverseGeoCode::QTweetGeoReverseGeoCode(QObject *parent) :
     QTweetNetBase(parent)
 {
 }
 
+/**
+ *  Constructor
+ *  @param oauthTwitter OAuthTwitter object
+ *  @param parent parent QObject
+ */
 QTweetGeoReverseGeoCode::QTweetGeoReverseGeoCode(OAuthTwitter *oauthTwitter, QObject *parent) :
     QTweetNetBase(oauthTwitter, parent)
 {
 }
 
+/**
+ *  Start geo reversing
+ *  @param latitude
+ *  @param longitude
+ *  @param accuracy a hint on the "region" in which to search in meters
+ *  @param granularity minimal granularity of place types to return
+ *  @param maxResults hint as to the number of results to return
+ */
 void QTweetGeoReverseGeoCode::getPlaces(qreal latitude,
                                         qreal longitude,
                                         int accuracy,

@@ -25,6 +25,9 @@
 
 class QTweetPlace;
 
+/**
+ *  Creates a new place at the given latitude and longitude
+ */
 class QTWEETLIBSHARED_EXPORT QTweetGeoPlaceCreate : public QTweetNetBase
 {
     Q_OBJECT
@@ -37,6 +40,7 @@ public:
                 const QPointF& latLong);
 
 signals:
+    /** Emits geo place */
     void parsedPlace(const QTweetPlace& place);
 
 protected slots:

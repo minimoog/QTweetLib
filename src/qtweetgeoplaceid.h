@@ -25,6 +25,9 @@
 
 class QTweetPlace;
 
+/**
+ *  Fetches all the information about a known place
+ */
 class QTWEETLIBSHARED_EXPORT QTweetGeoPlaceID : public QTweetNetBase
 {
     Q_OBJECT
@@ -34,6 +37,7 @@ public:
     void get(const QString& placeid);
 
 signals:
+    /** Emits the place */
     void parsedPlace(const QTweetPlace& place);
 
 protected slots:

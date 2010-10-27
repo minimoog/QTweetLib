@@ -26,6 +26,10 @@
 class QPointF;
 class QTweetPlace;
 
+/**
+ *  Locates places near the given coordinates which are similar in name
+ *  @see http://dev.twitter.com/doc/get/geo/similar_places
+ */
 class QTWEETLIBSHARED_EXPORT QTweetGeoSimilarPlaces : public QTweetNetBase
 {
     Q_OBJECT
@@ -38,6 +42,10 @@ public:
     // ### TODO: Atributes, lack of documentation
 
 signals:
+    /** Emits places
+      * @param places list of places
+      * @param token token to create a new place
+      */
     void parsedPlaces(const QList<QTweetPlace>& places, const QString& token);
 
 protected slots:

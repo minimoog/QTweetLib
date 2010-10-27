@@ -25,6 +25,10 @@
 #include "qtweetplace.h"
 #include "qtweetnetbase.h"
 
+/**
+ *  Search for places that can be attached to a statuses/update
+ *  @see http://dev.twitter.com/doc/get/geo/search
+ */
 class QTWEETLIBSHARED_EXPORT QTweetGeoSearch : public QTweetNetBase
 {
     Q_OBJECT
@@ -41,6 +45,7 @@ public:
                 // ### TODO Atributes, not enough documentation
 
 signals:
+    /** Emits list of places */
     void parsedPlaces(const QList<QTweetPlace>& places);
 
 protected slots:

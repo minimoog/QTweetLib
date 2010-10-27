@@ -23,16 +23,28 @@
 #include "qtweetgeoplaceid.h"
 #include "qtweetplace.h"
 
+/**
+ *  Constructor
+ */
 QTweetGeoPlaceID::QTweetGeoPlaceID(QObject *parent) :
     QTweetNetBase(parent)
 {
 }
 
+/**
+ *  Constructor
+ *  @param oauthTwitter OAuthTwitter object
+ *  @param parent parent QObject
+ */
 QTweetGeoPlaceID::QTweetGeoPlaceID(OAuthTwitter *oauthTwitter, QObject *parent) :
     QTweetNetBase(oauthTwitter, parent)
 {
 }
 
+/**
+ *  Starts fetching information about place
+ *  @param placeid a place in the world. These ID's can be retrieved from QTweetGeoReverseGeoCode
+ */
 void QTweetGeoPlaceID::get(const QString &placeid)
 {
     QUrl url(QString("http://api.twitter.com/1/geo/id/%1.json").arg(placeid));

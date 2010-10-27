@@ -23,16 +23,30 @@
 #include "qtweetplace.h"
 #include "qtweetgeosimilarplaces.h"
 
+/**
+ *  Constructor
+ */
 QTweetGeoSimilarPlaces::QTweetGeoSimilarPlaces(QObject *parent) :
     QTweetNetBase(parent)
 {
 }
 
+/**
+ *  Constructor
+ *  @param oauthTwitter OAuthTwitter object
+ *  @param parent parent QObject
+ */
 QTweetGeoSimilarPlaces::QTweetGeoSimilarPlaces(OAuthTwitter *oauthTwitter, QObject *parent) :
     QTweetNetBase(oauthTwitter, parent)
 {
 }
 
+/**
+ *  Start fetching similar places
+ *  @param latLong latitude and longitude
+ *  @param name the name a place is known as
+ *  @param containedWithin this is the placeID which you would like to restrict the search results to
+ */
 void QTweetGeoSimilarPlaces::get(const QPointF &latLong, const QString &name, const QString &containedWithin)
 {
     QUrl url("http://api.twitter.com/1/geo/similar_places.json");
