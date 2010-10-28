@@ -23,8 +23,8 @@
 
 #include "qtweetnetbase.h"
 
-/*!
-    Fetches the subscribers of the specified list.
+/**
+ *   Fetches the subscribers of the specified list.
  */
 class QTWEETLIBSHARED_EXPORT QTweetListSubscribers : public QTweetNetBase
 {
@@ -38,6 +38,11 @@ public:
                bool includeEntities = false);
 
 signals:
+    /** Emits page of the subscribed users
+     *  @param users list of users
+     *  @param nextCursor cursor for next page, "0" if there is no next page
+     *  @param prevCursor cursor for prev page, "0" if there is no prev page
+     */
     void parsedUsers(const QList<QTweetUser>& users,
                      const QString& nextCursor,
                      const QString& prevCursor);

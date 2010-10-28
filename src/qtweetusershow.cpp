@@ -18,6 +18,7 @@
  * Contact e-mail: Antonie Jovanoski <minimoog77_at_gmail.com>
  */
 
+#include <QtDebug>
 #include <QNetworkReply>
 #include <QNetworkRequest>
 #include "qtweetusershow.h"
@@ -33,12 +34,11 @@ QTweetUserShow::QTweetUserShow(OAuthTwitter *oauthTwitter, QObject *parent) :
 {
 }
 
-/*!
-    Starts fetching
-    \param id User ID
-    \param userid User ID
-    \param screenName User screen name
-    \remarks Async
+/**
+ *   Starts fetching
+ *   @param id user ID
+ *   @param userid user ID
+ *   @param screenName user screen name
  */
 void QTweetUserShow::fetch(qint64 id, qint64 userid, const QString &screenName)
 {

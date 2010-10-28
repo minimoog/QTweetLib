@@ -23,8 +23,8 @@
 
 #include "qtweetnetbase.h"
 
-/*!
-    Fetches mentions (up to 800)
+/**
+ *   Fetches mentions (up to 800)
  */
 class QTWEETLIBSHARED_EXPORT QTweetMentions : public QTweetNetBase
 {
@@ -41,7 +41,7 @@ public:
                bool includeEntities = false);
 
 signals:
-    /*! Emited when json is parsed to status list */
+    /** Emits mentions status list */
     void parsedStatuses(const QList<QTweetStatus>& statuses);
 
 protected slots:

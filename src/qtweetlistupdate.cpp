@@ -34,12 +34,12 @@ QTweetListUpdate::QTweetListUpdate(OAuthTwitter *oauthTwitter, QObject *parent) 
 {
 }
 
-/*! Updates the list
-    \param user User id
-    \param list List id
-    \param name The name of the list
-    \param mode True for public, false for private
-    \param description The description to give the list
+/**  Updates the list
+ *   @param user user id
+ *   @param list list id
+ *   @param name the name of the list
+ *   @param mode true for public, false for private
+ *   @param description The description to give the list
  */
 void QTweetListUpdate::update(qint64 user,
                               qint64 list,

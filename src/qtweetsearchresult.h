@@ -27,6 +27,9 @@
 
 class QTweetSearchResultData;
 
+/**
+ *  Stores search result
+ */
 class QTWEETLIBSHARED_EXPORT QTweetSearchResult
 {
 public:

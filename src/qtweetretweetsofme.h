@@ -23,8 +23,8 @@
 
 #include "qtweetnetbase.h"
 
-/*!
-    Class for fetching tweets of user that have been retweeted by others
+/**
+ *   Class for fetching tweets of user that have been retweeted by others
  */
 class QTWEETLIBSHARED_EXPORT QTweetRetweetsOfMe : public QTweetNetBase
 {
@@ -41,7 +41,7 @@ public:
 
 
 signals:
-    /*! Emited when json is parsed to status list */
+    /** Emits retweets status list */
     void parsedStatuses(const QList<QTweetStatus>& statuses);
 
 protected slots:

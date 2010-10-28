@@ -18,6 +18,7 @@
  * Contact e-mail: Antonie Jovanoski <minimoog77_at_gmail.com>
  */
 
+#include <QtDebug>
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include "qtweetlistdeletemember.h"
@@ -33,10 +34,10 @@ QTweetListDeleteMember::QTweetListDeleteMember(OAuthTwitter *oauthTwitter, QObje
 {
 }
 
-/*!
-    \param user User id (owner of the list
-    \param list List id
-    \param member User id of the list member to remove
+/**
+ *   @param user user id (owner of the list
+ *   @param list list id
+ *   @param member user id of the list member to remove
  */
 void QTweetListDeleteMember::remove(qint64 user, qint64 list, qint64 member)
 {

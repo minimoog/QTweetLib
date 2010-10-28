@@ -24,25 +24,33 @@
 #include "qtweethometimeline.h"
 #include "qtweetstatus.h"
 
+/**
+ *  Constructor
+ */
 QTweetHomeTimeline::QTweetHomeTimeline(QObject *parent) :
     QTweetNetBase(parent)
 {
 }
 
+/**
+ *  Constructor
+ *  @param oauthTwitter OAuthTwitter object
+ *  @param parent parent QObject
+ */
 QTweetHomeTimeline::QTweetHomeTimeline(OAuthTwitter *oauthTwitter, QObject *parent) :
         QTweetNetBase(oauthTwitter, parent)
 {
 }
 
-/*!
-    Start fetching home timeline
-    \param sinceid Fetches tweets with ID greater (more recent) then sinceid
-    \param maxid Fetches tweets with ID less (older) then maxid
-    \param count Number of tweets to fetch (up to 200)
-    \param page Page number
-    \param skipUser True to include only status authors numerical ID
-    \param includeEntities True to include a node called "entities"
-    \remarks Async
+/**
+ *   Start fetching home timeline
+ *   @param sinceid fetches tweets with ID greater (more recent) then sinceid
+ *   @param maxid fetches tweets with ID less (older) then maxid
+ *   @param count number of tweets to fetch (up to 200)
+ *   @param page page number
+ *   @param skipUser true to include only status authors numerical ID
+ *   @param includeEntities true to include a node called "entities"
+ *   @remarks Setting parameter to default value will not be put in a querys
  */
 void QTweetHomeTimeline::fetch(qint64 sinceid,
                                qint64 maxid,

@@ -18,6 +18,7 @@
  * Contact e-mail: Antonie Jovanoski <minimoog77_at_gmail.com>
  */
 
+#include <QtDebug>
 #include <QNetworkReply>
 #include <QNetworkRequest>
 #include "qtweetstatusshow.h"
@@ -33,10 +34,11 @@ QTweetStatusShow::QTweetStatusShow(OAuthTwitter *oauthTwitter, QObject *parent) 
 {
 }
 
-/*!
-    Starts fetching
-    \param id Tweet ID
-    \remarks Async
+/**
+ *   Starts fetching
+ *   @param id tweet ID
+ *   @param trimUser set to true to trim user info in response
+ *   @param includeEntities set to true to include node entities in response
  */
 void QTweetStatusShow::fetch(qint64 id, bool trimUser, bool includeEntities)
 {

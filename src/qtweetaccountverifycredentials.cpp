@@ -18,6 +18,7 @@
  * Contact e-mail: Antonie Jovanoski <minimoog77_at_gmail.com>
  */
 
+#include <QtDebug>
 #include <QNetworkReply>
 #include <QNetworkRequest>
 #include "qtweetaccountverifycredentials.h"

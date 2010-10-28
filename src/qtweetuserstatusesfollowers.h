@@ -23,11 +23,11 @@
 
 #include "qtweetnetbase.h"
 
-/*!
-  Fetches the authenticating user's followers, each with current status inline.
-  They are ordered by the order in which they followed the user, 100 at a time.
-
-  Use the cursor option to access older friends.
+/**
+ *  Fetches the authenticating user's followers, each with current status inline.
+ *  They are ordered by the order in which they followed the user, 100 at a time.
+ *
+ *   Use the cursor option to access older friends.
  */
 class QTWEETLIBSHARED_EXPORT QTweetUserStatusesFollowers : public QTweetNetBase
 {
@@ -41,10 +41,10 @@ public:
                bool includeEntities = false);
 
 signals:
-    /*! Emited when json parsing is finished
-        \param followersList List of friends
-        \param nextCursor Cursor for next page, "0" if there is no next page, empty if there is no paging
-        \param prevCursor Cursor for prev page, "0" if there is no prev page, empty if there is no paging
+    /** Emits page of followers list
+     *  @param followersList list of friends
+     *  @param nextCursor cursor for next page, "0" if there is no next page, empty if there is no paging
+     *  @param prevCursor cursor for prev page, "0" if there is no prev page, empty if there is no paging
      */
     void parsedFollowersList(const QList<QTweetUser>& followersList,
                              const QString& nextCursor = QString(),

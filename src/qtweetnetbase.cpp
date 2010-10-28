@@ -18,6 +18,7 @@
  * Contact e-mail: Antonie Jovanoski <minimoog77_at_gmail.com>
  */
 
+#include <QtDebug>
 #include <QThreadPool>
 #include <QNetworkReply>
 #include "qtweetnetbase.h"
@@ -36,18 +37,18 @@
     #include <QGeoCoordinate>
 #endif
 
-/*!
-    Constructor
+/**
+ *   Constructor
  */
 QTweetNetBase::QTweetNetBase(QObject *parent) :
     QObject(parent), m_oauthTwitter(0), m_jsonParsingEnabled(true), m_authentication(true)
 {
 }
 
-/*!
-    Constructor
-    \param oauthTwitter OAuth Twitter
-    \param parent QObject parent
+/**
+ *   Constructor
+ *   @param oauthTwitter OAuth Twitter
+ *   @param parent QObject parent
  */
 QTweetNetBase::QTweetNetBase(OAuthTwitter *oauthTwitter, QObject *parent) :
         QObject(parent), m_oauthTwitter(oauthTwitter), m_jsonParsingEnabled(true), m_authentication(true)
@@ -55,58 +56,84 @@ QTweetNetBase::QTweetNetBase(OAuthTwitter *oauthTwitter, QObject *parent) :
 
 }
 
+/**
+ *  Desctructor
+ */
 QTweetNetBase::~QTweetNetBase()
 {
 }
 
-/*!
-    Sets OAuth Twitter authorization
-    \param oauthTwitter OAuth Twitter
+/**
+ *   Sets OAuth Twitter authorization object
+ *   @param oauthTwitter OAuth Twitter object
  */
 void QTweetNetBase::setOAuthTwitter(OAuthTwitter *oauthTwitter)
 {
     m_oauthTwitter = oauthTwitter;
 }
 
-/*!
-    Gets OAuth Twitter authorization
-    \return OAuth Twitter
+/**
+ *   Gets OAuth Twitter authorization object
+ *   @return OAuth Twitter object
  */
 OAuthTwitter* QTweetNetBase::oauthTwitter() const
 {
     return m_oauthTwitter;
 }
 
+/**
+ *  Gets response
+ */
 QByteArray QTweetNetBase::response() const
 {
     return m_response;
 }
 
+/**
+ *  Gets last error message
+ */
 QString QTweetNetBase::lastErrorMessage() const
 {
     return m_lastErrorMessage;
 }
 
+/**
+ *  Enables/disables json parsing
+ *  @remarks When disabled only finished and error signals are emited
+ */
 void QTweetNetBase::setJsonParsingEnabled(bool enable)
 {
     m_jsonParsingEnabled = enable;
 }
 
+/**
+ *  Checks if its json parsing enabled
+ */
 bool QTweetNetBase::isJsonParsingEnabled() const
 {
     return m_jsonParsingEnabled;
 }
 
+/**
+ *  Enables/disables oauth authentication
+ *  @remarks Most of classes requires authentication
+ */
 void QTweetNetBase::setAuthenticationEnabled(bool enable)
 {
     m_authentication = enable;
 }
 
+/**
+ *  Checks if authentication is enabled
+ */
 bool QTweetNetBase::isAuthenticationEnabled() const
 {
     return m_authentication;
 }
 
+/**
+ *  Parses json response
+ */
 void QTweetNetBase::parseJson(const QByteArray &jsonData)
 {
     QJson::ParserRunnable *jsonParser = new QJson::ParserRunnable;
@@ -118,6 +145,9 @@ void QTweetNetBase::parseJson(const QByteArray &jsonData)
     QThreadPool::globalInstance()->start(jsonParser);
 }
 
+/**
+ *  Called after response from twitter
+ */
 void QTweetNetBase::reply()
 {
     QNetworkReply *reply = qobject_cast<QNetworkReply*>(sender());
@@ -153,16 +183,16 @@ void QTweetNetBase::reply()
             }
 
             switch (httpStatus) {
-            case NotModified:   /*!< There was no new data to return. */
-            case BadRequest:    /*!< The request was invalid. This is the status code will be returned during rate limiting. */
-            case Unauthorized:  /*!< Authentication credentials were missing or incorrect. */
-            case Forbidden:     /*!< The request is understood, but it has been refused, due to update limits. */
-            case NotFound:      /*!< The URI requested is invalid or the resource requested, such as a user, does not exists. */
-            case NotAcceptable: /*!< Returned by the Search API when an invalid format is specified in the request. */
-            case EnhanceYourCalm:   /*!< Returned by the Search and Trends API when you are being rate limited. */
-            case InternalServerError:   /*!< Something is broken in Twitter */
-            case BadGateway:    /*!< Twitter is down or being upgraded. */
-            case ServiceUnavailable:    /*! The Twitter servers are up, but overloaded with requests. Try again later. */
+            case NotModified:
+            case BadRequest:
+            case Unauthorized:
+            case Forbidden:
+            case NotFound:
+            case NotAcceptable:
+            case EnhanceYourCalm:
+            case InternalServerError:
+            case BadGateway:
+            case ServiceUnavailable:
                 emit error(static_cast<ErrorCode>(httpStatus), m_lastErrorMessage);
                 break;
             default:
@@ -173,11 +203,17 @@ void QTweetNetBase::reply()
     }
 }
 
+/**
+ *  Sets last error message
+ */
 void QTweetNetBase::setLastErrorMessage(const QString &errMsg)
 {
     m_lastErrorMessage = errMsg;
 }
 
+/**
+ *  Converts list of statuses
+ */
 QList<QTweetStatus> QTweetNetBase::variantToStatusList(const QVariant &fromParser)
 {
     QList<QTweetStatus> statuses;
@@ -194,6 +230,9 @@ QList<QTweetStatus> QTweetNetBase::variantToStatusList(const QVariant &fromParse
     return statuses;
 }
 
+/**
+ *  Converts status
+ */
 QTweetStatus QTweetNetBase::variantMapToStatus(const QVariantMap &var)
 {
     QTweetStatus status;
@@ -230,6 +269,9 @@ QTweetStatus QTweetNetBase::variantMapToStatus(const QVariantMap &var)
     return status;
 }
 
+/**
+ *  Converts list of direct messages
+ */
 QList<QTweetDMStatus> QTweetNetBase::variantToDirectMessagesList(const QVariant &fromParser)
 {
     QList<QTweetDMStatus> directMessages;
@@ -244,6 +286,9 @@ QList<QTweetDMStatus> QTweetNetBase::variantToDirectMessagesList(const QVariant 
     return directMessages;
 }
 
+/**
+ *  Converts direct message
+ */
 QTweetDMStatus QTweetNetBase::variantMapToDirectMessage(const QVariantMap &var)
 {
     QTweetDMStatus directMessage;
@@ -271,6 +316,9 @@ QTweetDMStatus QTweetNetBase::variantMapToDirectMessage(const QVariantMap &var)
     return directMessage;
 }
 
+/**
+ *  Converts user info
+ */
 QTweetUser QTweetNetBase::variantMapToUserInfo(const QVariantMap &var)
 {
     QTweetUser userInfo;
@@ -313,6 +361,9 @@ QTweetUser QTweetNetBase::variantMapToUserInfo(const QVariantMap &var)
     return userInfo;
 }
 
+/**
+ *  Converts list of user infos
+ */
 QList<QTweetUser> QTweetNetBase::variantToUserInfoList(const QVariant &fromParser)
 {
     QList<QTweetUser> users;
@@ -328,6 +379,9 @@ QList<QTweetUser> QTweetNetBase::variantToUserInfoList(const QVariant &fromParse
     return users;
 }
 
+/**
+ *  Converts tweet list
+ */
 QTweetList QTweetNetBase::variantMapToTweetList(const QVariantMap &var)
 {
     QTweetList list;
@@ -353,6 +407,9 @@ QTweetList QTweetNetBase::variantMapToTweetList(const QVariantMap &var)
     return list;
 }
 
+/**
+ *  Converts list of tweet lists
+ */
 QList<QTweetList> QTweetNetBase::variantToTweetLists(const QVariant &var)
 {
     QList<QTweetList> lists;
@@ -368,6 +425,9 @@ QList<QTweetList> QTweetNetBase::variantToTweetLists(const QVariant &var)
     return lists;
 }
 
+/**
+ *  Converts search result
+ */
 QTweetSearchResult QTweetNetBase::variantMapToSearchResult(const QVariantMap &var)
 {
     QTweetSearchResult result;
@@ -384,6 +444,9 @@ QTweetSearchResult QTweetNetBase::variantMapToSearchResult(const QVariantMap &va
     return result;
 }
 
+/**
+ *  Converts page results
+ */
 QTweetSearchPageResults QTweetNetBase::variantToSearchPageResults(const QVariant &var)
 {
     QTweetSearchPageResults page;
@@ -412,6 +475,9 @@ QTweetSearchPageResults QTweetNetBase::variantToSearchPageResults(const QVariant
     return page;
 }
 
+/**
+ *  Converts place
+ */
 QTweetPlace QTweetNetBase::variantMapToPlace(const QVariantMap &var)
 {
     QTweetPlace place;
@@ -475,6 +541,7 @@ QTweetPlace QTweetNetBase::variantMapToPlace(const QVariantMap &var)
 }
 
 //not to be used in timelines api, but in geo api, where place contains other places
+//is it recursive responsive?
 QTweetPlace QTweetNetBase::variantMapToPlaceRecursive(const QVariantMap &var)
 {
     QTweetPlace place;
@@ -553,6 +620,9 @@ QTweetPlace QTweetNetBase::variantMapToPlaceRecursive(const QVariantMap &var)
     return place;
 }
 
+/**
+ *  Convers list of places
+ */
 QList<QTweetPlace> QTweetNetBase::variantToPlaceList(const QVariant &fromParser)
 {
     QList<QTweetPlace> placeList;

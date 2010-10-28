@@ -23,9 +23,9 @@
 
 #include "qtweetnetbase.h"
 
-/*!
-    Fetches user home timeline
-*/
+/**
+ *   Fetches user home timeline
+ */
 class QTWEETLIBSHARED_EXPORT QTweetHomeTimeline : public QTweetNetBase
 {
     Q_OBJECT
@@ -40,7 +40,7 @@ public:
                bool includeEntities = false);
 
 signals:
-    /*! Emited when json is parsed to status list */
+    /** Emits hometimeline status list */
     void parsedStatuses(const QList<QTweetStatus>& statuses);
 
 protected slots:

@@ -18,6 +18,7 @@
  * Contact e-mail: Antonie Jovanoski <minimoog77_at_gmail.com>
  */
 
+#include <QtDebug>
 #include <QNetworkReply>
 #include <QNetworkRequest>
 #include "qtweetuserlookup.h"
@@ -33,11 +34,10 @@ QTweetUserLookup::QTweetUserLookup(OAuthTwitter *oauthTwitter, QObject *parent) 
 {
 }
 
-/*!
-    Startw fetching
-    \param useridList List of user IDs
-    \param screenNameLit List of screen names
-    \remarks Async
+/**
+ *   Starts fetching
+ *   @param useridList list of user IDs
+ *   @param screenNameList list of screen names
  */
 void QTweetUserLookup::fetch(const QList<qint64> &useridList,
                              const QStringList &screenNameList)

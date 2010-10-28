@@ -23,8 +23,8 @@
 
 #include "qtweetnetbase.h"
 
-/*!
-    Deletes the specified list. Must be owned by the authenticated user.
+/**
+ *   Deletes the specified list. Must be owned by the authenticated user.
  */
 class QTWEETLIBSHARED_EXPORT QTweetListDeleteList : public QTweetNetBase
 {
@@ -35,7 +35,7 @@ public:
     void deleteList(qint64 user, qint64 list);
 
 signals:
-    /*! Emits parsed deleted list */
+    /** Emits deleted list */
     void deletedList(const QTweetList& list);
 
 protected slots:

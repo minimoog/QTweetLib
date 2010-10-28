@@ -23,8 +23,8 @@
 
 #include "qtweetnetbase.h"
 
-/*!
-    Fetch the lists the specified user follows.
+/**
+ *   Fetch the lists the specified user follows.
  */
 class QTWEETLIBSHARED_EXPORT QTweetListSubscriptions : public QTweetNetBase
 {
@@ -36,10 +36,10 @@ public:
                const QString& cursor = QString());
 
 signals:
-    /*! Emited when json parsing is finished
-        \param lists Lists
-        \param nextCursor Cursor for next page, "0" if there is no next page
-        \param prevCursor Cursor for prev page, "0" if there is no prev page
+    /*! Emits page of lists
+     *  @param lists
+     *  @param nextCursor cursor for next page, "0" if there is no next page
+     *  @param prevCursor cursor for prev page, "0" if there is no prev page
      */
     void parsedLists(const QList<QTweetList>& lists,
                      const QString& nextCursor,

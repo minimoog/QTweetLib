@@ -23,8 +23,8 @@
 
 #include "qtweetnetbase.h"
 
-/*!
-    Class for fetching extended information for given user
+/**
+ *   Class for fetching extended information for given user
  */
 class QTWEETLIBSHARED_EXPORT QTweetUserShow : public QTweetNetBase
 {
@@ -37,7 +37,7 @@ public:
                const QString& screenName = QString());
 
 signals:
-    /*! Emited when json is parsed to user info */
+    /** Emits user */
     void parsedUserInfo(const QTweetUser& userInfo);
 
 protected slots:

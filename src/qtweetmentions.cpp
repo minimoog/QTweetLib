@@ -18,6 +18,7 @@
  * Contact e-mail: Antonie Jovanoski <minimoog77_at_gmail.com>
  */
 
+#include <QtDebug>
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include "qtweetmentions.h"
@@ -33,15 +34,15 @@ QTweetMentions::QTweetMentions(OAuthTwitter *oauthTwitter, QObject *parent) :
 {
 }
 
-/*!
-    Start fetching
-    \param sinceid Fetches tweets with ID greater (more recent) then sinceid
-    \param maxid Fetches tweets with ID less (older) then maxid
-    \param count Number of tweets to fetch (up to 200)
-    \param page Page number
-    \param includeRts Timeline contains native retweets if true
-    \param includeEntities True to include a node called "entities"
-    \remarks Async
+/**
+ *   Start fetching
+ *   @param sinceid fetches tweets with ID greater (more recent) then sinceid
+ *   @param maxid fetches tweets with ID less (older) then maxid
+ *   @param count number of tweets to fetch (up to 200)
+ *   @param page page number
+ *   @param includeRts timeline contains native retweets if true
+ *   @param includeEntities true to include a node called "entities"
+ *   @remarks Put parameter to default value to not to be put in query
  */
 void QTweetMentions::fetch(qint64 sinceid,
                            qint64 maxid,

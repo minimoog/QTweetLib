@@ -34,9 +34,9 @@ QTweetListGetLists::QTweetListGetLists(OAuthTwitter *oauthTwitter, QObject *pare
 {
 }
 
-/*! Gets the lists
-    \param user User id
-    \param cursor Breaks the results into pages. Provide a value of "-1" to begin paging.
+/** Gets the lists
+ *  @param user user id
+ *  @param cursor breaks the results into pages. Provide a value of "-1" to begin paging.
  */
 void QTweetListGetLists::getLists(qint64 user,
                                   const QString &cursor)

@@ -18,6 +18,8 @@
  * Contact e-mail: Antonie Jovanoski <minimoog77_at_gmail.com>
  */
 
+#include <QtDebug>
+#include <QPointF>
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include "qtweetplace.h"

@@ -23,11 +23,11 @@
 
 #include "qtweetnetbase.h"
 
-/*!
-  Fetches a user's friends, each with current status inline.
-  They are ordered by the order in which the user followed them, most recently followed first, 100 at a time.
-
-  Use the cursor option to access older friends.
+/**
+ * Fetches a user's friends, each with current status inline.
+ * They are ordered by the order in which the user followed them, most recently followed first, 100 at a time.
+ *
+ *  Use the cursor option to access older friends.
  */
 class QTWEETLIBSHARED_EXPORT QTweetUserStatusesFriends : public QTweetNetBase
 {
@@ -41,10 +41,10 @@ public:
                bool includeEntities = false);
 
 signals:
-    /*! Emited when json parsing is finished
-        \param friendsList List of friends
-        \param nextCursor Cursor for next page, "0" if there is no next page, empty if there is no paging
-        \param prevCursor Cursor for prev page, "0" if there is no prev page, empty if there is no paging
+    /** Emits page of friends
+     *  @param friendsList list of friends
+     *  @param nextCursor cursor for next page, "0" if there is no next page, empty if there is no paging
+     *  @param prevCursor cursor for prev page, "0" if there is no prev page, empty if there is no paging
      */
     void parsedFriendsList(const QList<QTweetUser>& friendsList,
                            const QString& nextCursor = QString(),
@@ -54,7 +54,7 @@ protected slots:
     void parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg);
 
 private:
-    bool m_usesCursoring;
+    bool m_usesCursoring;   // ### TODO: Remove it
 };
 
 #endif // QTWEETUSERSTATUSESFRIENDS_H

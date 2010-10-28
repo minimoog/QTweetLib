@@ -28,8 +28,8 @@
 class QTweetStatus;
 class QTweetUserData;
 
-/*!
-    Class for storing user info
+/**
+ *   Class for storing user info
  */
 class QTWEETLIBSHARED_EXPORT QTweetUser
 {

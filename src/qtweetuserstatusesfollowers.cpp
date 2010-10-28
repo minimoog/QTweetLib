@@ -18,6 +18,7 @@
  * Contact e-mail: Antonie Jovanoski <minimoog77_at_gmail.com>
  */
 
+#include <QtDebug>
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include "qtweetuserstatusesfollowers.h"
@@ -33,13 +34,17 @@ QTweetUserStatusesFollowers::QTweetUserStatusesFollowers(OAuthTwitter *oauthTwit
 {
 }
 
-/*! Starts fetching user followers list
-    \param userid The ID of the user for whom to return results for.
-    \param screenName The screen name of the user for whom to return results for.
-    \param cursor Breaks the results into pages. Provide a value of "-1" to begin paging.
-    \param includeEntities When set to true, each tweet will include a node called "entities,".
-    \remarks With no user specified, request defaults to the authenticated user's followers.
+/**
+ *   Starts fetching user followers list
+ *   @param userid the ID of the user for whom to return results for.
+ *   @param screenName the screen name of the user for whom to return results for.
+ *   @param cursor breaks the results into pages. Provide a value of "-1" to begin paging.
+ *   @param includeEntities when set to true, each tweet will include a node called "entities,".
+ *   @remarks With no user specified, request defaults to the authenticated user's followers.
  */
+
+// ### TODO overload where you can specify either userid or screenname
+
 void QTweetUserStatusesFollowers::fetch(qint64 userid,
                                       const QString &screenName,
                                       const QString &cursor,

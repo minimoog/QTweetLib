@@ -23,8 +23,8 @@
 
 #include "qtweetnetbase.h"
 
-/*!
-    Class for updating user status (posting tweet)
+/**
+ *   Class for updating user status (posting tweet)
  */
 class QTWEETLIBSHARED_EXPORT QTweetStatusUpdate : public QTweetNetBase
 {
@@ -42,6 +42,7 @@ public:
               bool includeEntities = false);
 
 signals:
+    /** Emits posted status */
     void postedStatus(const QTweetStatus& status);
 
 protected slots:

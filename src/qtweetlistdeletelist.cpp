@@ -34,10 +34,10 @@ QTweetListDeleteList::QTweetListDeleteList(OAuthTwitter *oauthTwitter, QObject *
 {
 }
 
-/*!
-    Deletes specified list
-    \param user User id
-    \param list List id
+/**
+ *   Deletes specified list
+ *   @param user user id
+ *   @param list list id
  */
 void QTweetListDeleteList::deleteList(qint64 user, qint64 list)
 {

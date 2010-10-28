@@ -32,6 +32,9 @@
 
 #define TWITTER_USERSTREAM_URL "https://userstream.twitter.com/2/user.json"
 
+/**
+ *  Constructor
+ */
 QTweetUserStream::QTweetUserStream(QObject *parent) :
     QObject(parent), m_oauthTwitter(0), m_reply(0), m_backofftimer(new QTimer(this))
 {
@@ -39,16 +42,25 @@ QTweetUserStream::QTweetUserStream(QObject *parent) :
     connect(m_backofftimer, SIGNAL(timeout()), this, SLOT(startFetching()));
 }
 
+/**
+ *  Sets oauth twitter object
+ */
 void QTweetUserStream::setOAuthTwitter(OAuthTwitter *oauthTwitter)
 {
     m_oauthTwitter = oauthTwitter;
 }
 
+/**
+ *  Gets oauth twitter object
+ */
 OAuthTwitter* QTweetUserStream::oauthTwitter() const
 {
     return m_oauthTwitter;
 }
 
+/**
+ *  Called when there is network error
+ */
 void QTweetUserStream::replyError(QNetworkReply::NetworkError code)
 {
     qDebug() << "Reply error: " << code;
@@ -89,8 +101,8 @@ void QTweetUserStream::replyError(QNetworkReply::NetworkError code)
     }
 }
 
-/*!
-    Starts fetching user stream
+/**
+ *   Starts fetching user stream
  */
 void QTweetUserStream::startFetching()
 {
@@ -112,6 +124,9 @@ void QTweetUserStream::startFetching()
     connect(m_reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(replyError(QNetworkReply::NetworkError)));
 }
 
+/**
+ *  Called when connection is finished. Reconnects.
+ */
 void QTweetUserStream::replyFinished()
 {
     if (!m_reply->error()) { //no error, reconnect

@@ -18,6 +18,7 @@
  * Contact e-mail: Antonie Jovanoski <minimoog77_at_gmail.com>
  */
 
+#include <QtDebug>
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include "qtweetlistsubscribe.h"
@@ -33,9 +34,9 @@ QTweetListSubscribe::QTweetListSubscribe(OAuthTwitter *oauthTwitter, QObject *pa
 {
 }
 
-/*!
-    \param user User id owner of the list
-    \param list List id
+/**
+ *   @param user user id owner of the list
+ *   @param list list id
  */
 void QTweetListSubscribe::follow(qint64 user, qint64 list)
 {

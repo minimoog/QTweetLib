@@ -18,6 +18,7 @@
  * Contact e-mail: Antonie Jovanoski <minimoog77_at_gmail.com>
  */
 
+#include <QtDebug>
 #include <QNetworkReply>
 #include <QNetworkRequest>
 #include "qtweetstatusretweet.h"
@@ -33,10 +34,11 @@ QTweetStatusRetweet::QTweetStatusRetweet(OAuthTwitter *oauthTwitter, QObject *pa
 {
 }
 
-/*!
-    Retweets the tweet
-    \param id Tweet ID to retweet
-    \remarks Async
+/**
+ *   Retweets the tweet
+ *   @param id tweet ID to retweet
+ *   @param trimUser trims user info in response
+ *   @param includeEntities true to include node entities in response
  */
 void QTweetStatusRetweet::retweet(qint64 id,
                                   bool trimUser,

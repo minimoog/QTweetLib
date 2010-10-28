@@ -31,8 +31,8 @@ class QAuthenticator;
 class QTimer;
 class QTweetStatus;
 
-/*!
-    Class for fetching user stream
+/**
+ *   Class for fetching user stream
  */
 class QTWEETLIBSHARED_EXPORT QTweetUserStream : public QObject
 {
@@ -43,13 +43,13 @@ public:
     OAuthTwitter* oauthTwitter() const;
 
 signals:
-    /*!
-        Emits stream elements
+    /**
+     *   Emits stream elements
      */
     void stream(const QByteArray& );
 
-    /*!
-        Emits tweets (parsed) elements
+    /**
+     *   Emits tweets (parsed) elements
      */
     void parsedStatusesStream(const QTweetStatus& status);
 

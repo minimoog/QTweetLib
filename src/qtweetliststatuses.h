@@ -23,8 +23,8 @@
 
 #include "qtweetnetbase.h"
 
-/*!
-    Fetches tweet timeline for members of the specified list.
+/**
+ *   Fetches tweet timeline for members of the specified list.
  */
 class QTWEETLIBSHARED_EXPORT QTweetListStatuses : public QTweetNetBase
 {
@@ -41,7 +41,7 @@ public:
                bool includeEntities = false);
 
 signals:
-    /*! Emits parsed statuses */
+    /** Emits the statuses of a specified list */
     void parsedStatuses(const QList<QTweetStatus>& statuses);
 
 protected slots:

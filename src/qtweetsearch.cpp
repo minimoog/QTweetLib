@@ -34,6 +34,14 @@ QTweetSearch::QTweetSearch(OAuthTwitter *oauthTwitter, QObject *parent) :
 {
 }
 
+/**
+ *  Starts searching
+ *  @param query serch query
+ *  @param lang Restricts tweets to the given language, given by an ISO 639-1 code.
+ *  @param rpp number of tweets to return per page, up to a max of 100.
+ *  @param page page number (starting at 1) to return, up to a max of roughly 1500 results
+ *  @param sinceid returns results with an ID greater than (that is, more recent than) the specified ID.
+ */
 void QTweetSearch::start(const QString &query,
                          const QString &lang,
                          /* const QString &locale, */

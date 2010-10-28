@@ -18,6 +18,7 @@
  * Contact e-mail: Antonie Jovanoski <minimoog77_at_gmail.com>
  */
 
+#include <QtDebug>
 #include <QNetworkReply>
 #include <QNetworkRequest>
 #include "qtweetretweettome.h"
@@ -33,13 +34,13 @@ QTweetRetweetToMe::QTweetRetweetToMe(OAuthTwitter *oauthTwitter, QObject *parent
 {
 }
 
-/*!
-    Starts fetching
-    \param sinceid Fetches tweets with ID greater (more recent) then sinceid
-    \param maxid Fetches tweets with ID less (older) then maxid
-    \param count Number of tweets to fetch (up to 200)
-    \param page Page number
-    \remarks Async
+/**
+ *   Starts fetching retweets to user
+ *   @param sinceid Fetches tweets with ID greater (more recent) then sinceid
+ *   @param maxid Fetches tweets with ID less (older) then maxid
+ *   @param count Number of tweets to fetch (up to 200)
+ *   @param page Page number
+ *   @remarks Setting parameter to default value, will not be put in the query
  */
 void QTweetRetweetToMe::fetch(qint64 sinceid,
                               qint64 maxid,

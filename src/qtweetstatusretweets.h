@@ -23,8 +23,10 @@
 
 #include "qtweetnetbase.h"
 
-/*!
-    Class to fetch up to 100 first retweets of a given tweet
+// ### TODO
+
+/**
+ *   Class to fetch up to 100 first retweets of a given tweet
  */
 class QTWEETLIBSHARED_EXPORT QTweetStatusRetweets : public QTweetNetBase
 {

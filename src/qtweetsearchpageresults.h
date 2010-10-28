@@ -29,6 +29,9 @@
 class QTweetSearchPageResultsData;
 class QTweetSearchResult;
 
+/**
+ *  Stores page of a search results
+ */
 class QTWEETLIBSHARED_EXPORT QTweetSearchPageResults
 {
 public:

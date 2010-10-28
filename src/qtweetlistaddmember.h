@@ -23,10 +23,10 @@
 
 #include "qtweetnetbase.h"
 
-/*!
-    Add a member to a list.
-    The authenticated user must own the list to be able to add members to it.
-    Lists are limited to having 500 members.
+/**
+ *   Add a member to a list.
+ *   The authenticated user must own the list to be able to add members to it.
+ *   Lists are limited to having 500 members.
  */
 class QTWEETLIBSHARED_EXPORT QTweetListAddMember : public QTweetNetBase
 {
@@ -39,7 +39,7 @@ public:
              qint64 memberid);
 
 signals:
-    /*! Emits parsed list in which user was added */
+    /** Emits list in which user was added */
     void parsedList(const QTweetList& list);
 
 protected slots:

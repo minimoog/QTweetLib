@@ -34,10 +34,10 @@ QTweetListShowList::QTweetListShowList(OAuthTwitter *oauthTwitter, QObject *pare
 {
 }
 
-/*!
-    Shows (gets) specified list
-    \param id User id
-    \param list List id
+/**
+ *   Shows (gets) specified list
+ *   @param id user id
+ *   @param list list id
  */
 void QTweetListShowList::show(qint64 id, qint64 list)
 {

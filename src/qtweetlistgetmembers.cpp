@@ -18,6 +18,7 @@
  * Contact e-mail: Antonie Jovanoski <minimoog77_at_gmail.com>
  */
 
+#include <QtDebug>
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include "qtweetlistgetmembers.h"
@@ -33,14 +34,14 @@ QTweetListGetMembers::QTweetListGetMembers(OAuthTwitter *oauthTwitter, QObject *
 {
 }
 
-/*!
-  \param user User id
-  \param list List id
-  \param cursor Breaks the results into pages.
+/**
+ * @param user user id
+ * @param list list id
+ * @param cursor breaks the results into pages.
                 This is recommended for users who are following many users.
                 Provide a value of -1 to begin paging.
                 Provide values as returned in the signal nextCursor and prevCursor to page back and forth in the list.
-  \param includeEntities When set to true tweet will include a node called "entities,"
+ * @param includeEntities When set to true tweet will include a node called "entities,"
  */
 void QTweetListGetMembers::get(qint64 user,
                                qint64 list,

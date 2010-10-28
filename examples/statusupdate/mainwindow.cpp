@@ -32,7 +32,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    m_authorized = false;
+    //m_authorized = false;
 
     QDoubleValidator *latValidator = new QDoubleValidator(ui->latLineEdit);
     latValidator->setNotation(QDoubleValidator::StandardNotation);
@@ -49,6 +49,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(ui->authPushButton, SIGNAL(clicked()), SLOT(authorizeButtonClicked()));
     connect(ui->udpatePushButton, SIGNAL(clicked()), SLOT(updateButtonClicked()));
+
+    m_authorized = true;
+    m_oauthTwitter->setOAuthToken("16290455-CPyk9D9hJoCghpw7zAE73IZ0g0XtbVHU7xbI5RJE2");
+    m_oauthTwitter->setOAuthTokenSecret("NMCzZHio4YAB1ZrTsNP35HLHeN4Ze1GI3qT4zvMCctQ");
 }
 
 MainWindow::~MainWindow()

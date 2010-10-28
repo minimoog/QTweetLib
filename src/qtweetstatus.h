@@ -30,10 +30,8 @@ class QTweetUser;
 class QTweetStatusData;
 class QTweetPlace;
 
-// ### TODO: Places and coordinates
-
-/*!
-    Stores tweet info
+/**
+ *   Stores tweet info
  */
 class QTWEETLIBSHARED_EXPORT QTweetStatus
 {

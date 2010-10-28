@@ -23,8 +23,8 @@
 
 #include "qtweetnetbase.h"
 
-/*!
-  Runs a search for users
+/**
+ *   Runs a search for users
  */
 class QTWEETLIBSHARED_EXPORT QTweetUserSearch : public QTweetNetBase
 {
@@ -38,7 +38,7 @@ public:
                 bool includeEntities = false);
 
 signals:
-    /*! Emited when json is parsed */
+    /** Emits list of users */
     void parsedUserInfoList(const QList<QTweetUser>& userInfoList);
 
 protected slots:

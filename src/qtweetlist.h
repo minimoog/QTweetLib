@@ -28,6 +28,9 @@
 class QTweetUser;
 class QTweetListData;
 
+/**
+ *  Stores list information
+ */
 class QTWEETLIBSHARED_EXPORT QTweetList
 {
 public:

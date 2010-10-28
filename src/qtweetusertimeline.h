@@ -25,8 +25,8 @@
 
 class QTweetStatus;
 
-/*!
-    Class for fetching tweets posted by user or other users
+/**
+ *   Class for fetching tweets posted by user or other users
  */
 class QTWEETLIBSHARED_EXPORT QTweetUserTimeline : public QTweetNetBase
 {
@@ -45,7 +45,7 @@ public:
                bool includeEntities = false);
 
 signals:
-    /*! Emited when json is parsed to status list */
+    /** Emits user timeline status list */
     void parsedStatuses(const QList<QTweetStatus>& statuses);
 
 protected slots:

@@ -32,11 +32,10 @@ QTweetStatusRetweets::QTweetStatusRetweets(OAuthTwitter *oauthTwitter, QObject *
 {
 }
 
-/*!
-    Start fetching
-    \param id Tweet ID
-    \param count Numbers of retweets to fetch
-    \remarks Async
+/**
+ *   Start fetching
+ *   @param id tweet ID
+ *   @param count numbers of retweets to fetch
  */
 void QTweetStatusRetweets::fetch(qint64 id, int count)
 {

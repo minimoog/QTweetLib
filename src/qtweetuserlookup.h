@@ -26,8 +26,8 @@
 
 class QTweetUser;
 
-/*!
-    Class for fetching up to 100 users and theirs most recent status
+/**
+ *   Class for fetching up to 100 users and theirs most recent status
  */
 class QTWEETLIBSHARED_EXPORT QTweetUserLookup : public QTweetNetBase
 {
@@ -39,7 +39,7 @@ public:
                const QStringList& screenNameList = QStringList());
 
 signals:
-    /*! Emited when json is parsed */
+    /** Emits list of users */
     void parsedUserInfoList(const QList<QTweetUser>& userInfoList);
 
 protected slots:

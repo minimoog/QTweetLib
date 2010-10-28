@@ -18,6 +18,7 @@
  * Contact e-mail: Antonie Jovanoski <minimoog77_at_gmail.com>
  */
 
+#include <QtDebug>
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include "qtweetlistunsubscribe.h"
@@ -33,9 +34,9 @@ QTweetListUnsubscribe::QTweetListUnsubscribe(OAuthTwitter *oauthTwitter, QObject
 {
 }
 
-/*!
-    \param user User id of the owner of the list
-    \param list List id
+/**
+ *   @param user user id of the owner of the list
+ *   @param list list id
  */
 void QTweetListUnsubscribe::unsubscribe(qint64 user, qint64 list)
 {

@@ -23,8 +23,8 @@
 
 #include "qtweetnetbase.h"
 
-/*!
-    Class for retweeting tweet
+/**
+ *   Class for retweeting tweet
  */
 class QTWEETLIBSHARED_EXPORT QTweetStatusRetweet : public QTweetNetBase
 {
@@ -37,6 +37,7 @@ public:
                  bool includeEntities = false);
 
 signals:
+    /** Emits retweeted tweet */
     void postedRetweet(const QTweetStatus& status);
 
 protected slots:

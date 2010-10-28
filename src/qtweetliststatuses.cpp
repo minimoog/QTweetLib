@@ -34,15 +34,16 @@ QTweetListStatuses::QTweetListStatuses(OAuthTwitter *oauthTwitter, QObject *pare
 {
 }
 
-/*!
-    \param user User id
-    \param list List id
-    \param sinceid Returns results with an ID greater than (that is, more recent than) the specified ID.
-    \param maxid Returns results with an ID less than (that is, older than) or equal to the specified ID.
-    \param perPage Specifies how many tweets per page
-    \param page    Specifies the page of results to retrieve.
-    \param includeEntities When set to true each tweet will include a node called "entities,"
-  */
+/**
+ *   @param user user id
+ *   @param list list id
+ *   @param sinceid returns results with an ID greater than (that is, more recent than) the specified ID.
+ *   @param maxid returns results with an ID less than (that is, older than) or equal to the specified ID.
+ *   @param perPage specifies how many tweets per page
+ *   @param page    specifies the page of results to retrieve.
+ *   @param includeEntities when set to true each tweet will include a node called "entities,"
+ *   @remarks Setting parameter to default value will not be put in query
+ */
 void QTweetListStatuses::fetch(qint64 user,
                                qint64 list,
                                qint64 sinceid,

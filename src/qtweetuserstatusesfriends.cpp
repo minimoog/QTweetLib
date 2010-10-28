@@ -36,12 +36,13 @@ QTweetUserStatusesFriends::QTweetUserStatusesFriends(OAuthTwitter *oauthTwitter,
 {
 }
 
-/*! Starts fetching user friends list
-    \param userid The ID of the user for whom to return results for.
-    \param screenName The screen name of the user for whom to return results for.
-    \param cursor Breaks the results into pages. Provide a value of "-1" to begin paging.
-    \param includeEntities When set to true, each tweet will include a node called "entities,".
-    \remarks With no user specified, request defaults to the authenticated user's friends.
+/**
+ *   Starts fetching user friends list
+ *   @param userid the ID of the user for whom to return results for.
+ *   @param screenName the screen name of the user for whom to return results for.
+ *   @param cursor breaks the results into pages. Provide a value of "-1" to begin paging.
+ *   @param includeEntities when set to true, each tweet will include a node called "entities,".
+ *   @remarks With no user specified, request defaults to the authenticated user's friends.
  */
 void QTweetUserStatusesFriends::fetch(qint64 userid,
                                       const QString &screenName,

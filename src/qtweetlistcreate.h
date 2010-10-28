@@ -23,8 +23,8 @@
 
 #include "qtweetnetbase.h"
 
-/*!
-    Creates a new list for the authenticated user.
+/**
+ *   Creates a new list for the authenticated user.
  */
 class QTWEETLIBSHARED_EXPORT QTweetListCreate : public QTweetNetBase
 {
@@ -38,7 +38,7 @@ public:
                 const QString& description = QString());
 
 signals:
-    /*! Emits parsed list */
+    /** Emits created list */
     void parsedList(const QTweetList& list);
 
 protected slots:

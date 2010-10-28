@@ -23,6 +23,9 @@
 
 #include "qtweetnetbase.h"
 
+/**
+ *  Gets tweets that match a specified query
+ */
 class QTWEETLIBSHARED_EXPORT QTweetSearch : public QTweetNetBase
 {
     Q_OBJECT
@@ -41,6 +44,7 @@ public:
     void startWithCustomQuery(const QByteArray& encodedQuery);
 
 signals:
+    /** Emits page of search results */
     void parsedPageResults(const QTweetSearchPageResults& pageResults);
 
 protected slots:

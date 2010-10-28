@@ -24,7 +24,6 @@
 #include <QObject>
 #include <QVariantMap>
 #include <QByteArray>
-#include <QtDebug>
 #include "oauthtwitter.h"
 #include "qtweetlib_global.h"
 
@@ -36,8 +35,8 @@ class QTweetSearchResult;
 class QTweetSearchPageResults;
 class QTweetPlace;
 
-/*!
-    Base class for Twitter API classes
+/**
+ *   Base class for Twitter API classes
  */
 class QTWEETLIBSHARED_EXPORT QTweetNetBase : public QObject
 {
@@ -51,18 +50,18 @@ public:
     virtual ~QTweetNetBase();
 
     enum ErrorCode {
-        JsonParsingError = 1,
-        UnknownError = 2,
-        NotModified = 304,
-        BadRequest = 400,
-        Unauthorized = 401,
-        Forbidden = 403,
-        NotFound = 404,
-        NotAcceptable = 406,
-        EnhanceYourCalm = 420,
-        InternalServerError = 500,
-        BadGateway = 502,
-        ServiceUnavailable = 503
+        JsonParsingError = 1,       /** JSON parsing error */
+        UnknownError = 2,           /** Unknown error */
+        NotModified = 304,          /** There was no new data to return. */
+        BadRequest = 400,           /** The request was invalid. This is the status code will be returned during rate limiting. */
+        Unauthorized = 401,         /** Authentication credentials were missing or incorrect. */
+        Forbidden = 403,            /** The request is understood, but it has been refused, due to update limits. */
+        NotFound = 404,             /** The URI requested is invalid or the resource requested, such as a user, does not exists. */
+        NotAcceptable = 406,        /** Returned by the Search API when an invalid format is specified in the request. */
+        EnhanceYourCalm = 420,      /** Returned by the Search and Trends API when you are being rate limited. */
+        InternalServerError = 500,  /** Something is broken in Twitter */
+        BadGateway = 502,           /** Twitter is down or being upgraded. */
+        ServiceUnavailable = 503    /** The Twitter servers are up, but overloaded with requests. Try again later. */
     };
 
     void setOAuthTwitter(OAuthTwitter* oauthTwitter);
@@ -78,16 +77,17 @@ public:
     QString lastErrorMessage() const;
 
 signals:
-    /*!
-        Emited when fetching is finished
-        \param response Contains the response
+    /**
+     *   Emited when fetching is finished
+     *   @param response contains the response in json
      */
     void finished(const QByteArray& response);
-    /*! Emited when there is error. You can check error message with lastErrorMessage().
-        \param code Error code
-        \param errorMsg Error message. If it's empty then error was not standard json twitter api message.
-                        In that case check response.
-        \remarks DOESN'T emit finished signal
+
+    /** Emited when there is error. You can check error message with lastErrorMessage().
+     *  @param code error code
+     *  @param errorMsg error message. If it's empty then error was not standard json twitter api message.
+     *                   In that case check response.
+     *  @remarks DOESN'T emit finished signal
      */
     void error(ErrorCode code, const QString& errorMsg);
 

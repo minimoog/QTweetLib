@@ -34,18 +34,17 @@ QTweetUserTimeline::QTweetUserTimeline(OAuthTwitter *oauthTwitter, QObject *pare
 {
 }
 
-/*!
-    Starts fetching
-    \param userid User ID
-    \param screenName User screen name
-    \param sinceid Fetches tweets with ID greater (more recent) then sinceid
-    \param maxid Fetches tweets with ID less (older) then maxid
-    \param count Number of tweets to fetch (up to 200)
-    \param page Page number
-    \param skipUser True to include only status authors numerical ID
-    \param includeRts Timeline contains native retweets if true
-    \param includeEntities Each tweet include node "entities"
-    \remarks Async
+/**
+ *   Starts fetching
+ *   @param userid user ID
+ *   @param screenName user screen name
+ *   @param sinceid fetches tweets with ID greater (more recent) then sinceid
+ *   @param maxid fetches tweets with ID less (older) then maxid
+ *   @param count number of tweets to fetch (up to 200)
+ *   @param page page number
+ *   @param skipUser true to include only status authors numerical ID
+ *   @param includeRts timeline contains native retweets if true
+ *   @param includeEntities each tweet include node "entities"
  */
 void QTweetUserTimeline::fetch(qint64 userid,
                                const QString &screenName,

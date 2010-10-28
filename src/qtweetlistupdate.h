@@ -23,8 +23,8 @@
 
 #include "qtweetnetbase.h"
 
-/*!
-  Updates the specified list.
+/**
+ *  Updates the specified list.
  */
 class QTWEETLIBSHARED_EXPORT QTweetListUpdate : public QTweetNetBase
 {
@@ -38,7 +38,7 @@ public:
                 bool mode = true,
                 const QString& description = QString());
 signals:
-    /*! Emits parsed updated list */
+    /** Emits updated list */
     void parsedList(const QTweetList& list);
 
 protected slots:

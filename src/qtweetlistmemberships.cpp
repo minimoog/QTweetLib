@@ -34,11 +34,11 @@ QTweetListMemberships::QTweetListMemberships(OAuthTwitter *oauthTwitter, QObject
 {
 }
 
-/*!
-    \param id User ID
-    \param cursor Breaks the results into pages. A single page contains 20 lists.
-                  Provide a value of -1 to begin paging.
-                  Provide values as returned next_cursor and previous_cursor attributes to page back and forth
+/**
+ *   @param id user ID
+ *   @param cursor breaks the results into pages. A single page contains 20 lists.
+ *                 Provide a value of -1 to begin paging.
+ *                 Provide values as returned next_cursor and previous_cursor attributes to page back and forth
  */
 void QTweetListMemberships::fetch(qint64 id, const QString &cursor)
 {

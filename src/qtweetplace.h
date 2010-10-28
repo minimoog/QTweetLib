@@ -29,6 +29,9 @@
 
 QTM_USE_NAMESPACE
 
+/**
+ *   Store place info
+ */
 class QTWEETLIBSHARED_EXPORT QTweetPlace
 {
 public:

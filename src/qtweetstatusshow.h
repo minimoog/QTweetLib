@@ -23,8 +23,8 @@
 
 #include "qtweetnetbase.h"
 
-/*!
-    Class for fetching single tweet
+/**
+ *   Class for fetching single tweet
  */
 class QTWEETLIBSHARED_EXPORT QTweetStatusShow : public QTweetNetBase
 {
@@ -37,6 +37,7 @@ public:
                bool includeEntities = false);
 
 signals:
+    /** Emits specified tweet */
     void parsedStatus(const QTweetStatus& status);
 
 protected slots:

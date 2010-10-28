@@ -23,8 +23,8 @@
 
 #include "qtweetnetbase.h"
 
-/*!
-    Make the authenticated user follow the specified list.
+/**
+ *   Make the authenticated user follow the specified list.
  */
 class QTWEETLIBSHARED_EXPORT QTweetListSubscribe : public QTweetNetBase
 {
@@ -36,7 +36,7 @@ public:
                 qint64 list);
 
 signals:
-    /*! Emits parsed list */
+    /** Emits the specified list */
     void parsedList(const QTweetList& list);
 
 protected slots:

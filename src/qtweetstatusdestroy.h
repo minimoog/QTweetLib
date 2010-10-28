@@ -23,8 +23,8 @@
 
 #include "qtweetnetbase.h"
 
-/*!
-    Class for destroying specified tweet (user must be author of tweet)
+/**
+ *   Class for destroying specified tweet (user must be author of tweet)
  */
 class QTWEETLIBSHARED_EXPORT QTweetStatusDestroy : public QTweetNetBase
 {
@@ -37,6 +37,7 @@ public:
                  bool includeEntities = false);
 
 signals:
+    /** Emits deleted status */
     void deletedStatus(const QTweetStatus& status);
 
 protected slots:

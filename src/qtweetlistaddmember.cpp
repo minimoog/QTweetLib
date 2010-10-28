@@ -18,6 +18,7 @@
  * Contact e-mail: Antonie Jovanoski <minimoog77_at_gmail.com>
  */
 
+#include <QtDebug>
 #include <QNetworkReply>
 #include <QNetworkRequest>
 #include "qtweetlistaddmember.h"
@@ -33,10 +34,10 @@ QTweetListAddMember::QTweetListAddMember(OAuthTwitter *oauthTwitter, QObject *pa
 {
 }
 
-/*!
-    \param user User id (owner of the list)
-    \param list List id
-    \param memberid User id of the list member
+/**
+ *   @param user user id (owner of the list)
+ *   @param list list id
+ *   @param memberid user id of the list member
  */
 void QTweetListAddMember::add(qint64 user, qint64 list, qint64 memberid)
 {

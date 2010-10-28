@@ -23,9 +23,9 @@
 
 #include "qtweetnetbase.h"
 
-/*!
-    Removes the specified member from the list.
-    The authenticated user must be the list's owner to remove members from the list.
+/**
+ *   Removes the specified member from the list.
+ *   The authenticated user must be the list's owner to remove members from the list.
  */
 class QTWEETLIBSHARED_EXPORT QTweetListDeleteMember : public QTweetNetBase
 {
@@ -38,7 +38,7 @@ public:
                 qint64 member);
 
 signals:
-    /*! Emits parsed list where member was deleted */
+    /** Emits list where member was deleted */
     void parsedList(const QTweetList& list);
 
 protected slots:

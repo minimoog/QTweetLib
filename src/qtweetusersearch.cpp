@@ -34,13 +34,12 @@ QTweetUserSearch::QTweetUserSearch(OAuthTwitter *oauthTwitter, QObject *parent) 
 {
 }
 
-/*!
-    Starts a search
-    \param query The search query to run against people search
-    \param perPage The number of people per page to retrieve. Maxiumum of 20 allowed per page.
-    \param page Specifies the page of results to retrieve
-    \param includeEntities When set to true each tweet will include a node called "entities".
-    \remarks Async
+/**
+ *   Starts a search
+ *   @param query the search query to run against people search
+ *   @param perPage the number of people per page to retrieve. Maxiumum of 20 allowed per page.
+ *   @param page specifies the page of results to retrieve
+ *   @param includeEntities when set to true each tweet will include a node called "entities".
  */
 void QTweetUserSearch::search(const QString &query,
                               int perPage,

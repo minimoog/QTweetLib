@@ -23,9 +23,9 @@
 
 #include "qtweetnetbase.h"
 
-/*!
-    Show the specified list.
-    Private lists will only be shown if the authenticated user owns the specified list.
+/**
+ *   Show the specified list.
+ *   Private lists will only be shown if the authenticated user owns the specified list.
  */
 class QTWEETLIBSHARED_EXPORT QTweetListShowList : public QTweetNetBase
 {
@@ -36,9 +36,7 @@ public:
     void show(qint64 id, qint64 list);
 
 signals:
-    /*!
-        Emited when json parsing is finished
-     */
+    /** Emits the list */
     void parsedList(const QTweetList& list);
 
 protected slots:

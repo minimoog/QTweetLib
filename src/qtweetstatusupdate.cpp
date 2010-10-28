@@ -18,6 +18,7 @@
  * Contact e-mail: Antonie Jovanoski <minimoog77_at_gmail.com>
  */
 
+#include <QtDebug>
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include "qtweetstatusupdate.h"
@@ -33,15 +34,14 @@ QTweetStatusUpdate::QTweetStatusUpdate(OAuthTwitter *oauthTwitter, QObject *pare
 {
 }
 
-/*!
-    Posts a tweet
-    \param status Text of the status update
-    \param inReplyToStatus ID of a existing tweet is in reply to
-    \param latitude Latitude
-    \param longitude Longitude
-    \param placeid A place in the world (use reverse geocoding)
-    \param displayCoordinates Whether or not to put a exact coordinates a tweet has been sent from
-    \remarks Async
+/**
+ *   Posts a tweet
+ *   @param status text of the status update
+ *   @param inReplyToStatus ID of a existing tweet is in reply to
+ *   @param latitude latitude
+ *   @param longitude longitude
+ *   @param placeid a place in the world (use reverse geocoding)
+ *   @param displayCoordinates whether or not to put a exact coordinates a tweet has been sent from
  */
 void QTweetStatusUpdate::post(const QString &status,
                               qint64 inReplyToStatus,

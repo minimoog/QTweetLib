@@ -23,9 +23,9 @@
 
 #include "qtweetnetbase.h"
 
-/*!
-  Gets the lists of the specified user.
-  Private lists will be included if the authenticated users is the same as the user who's lists are being returned.
+/**
+ * Gets the lists of the specified user.
+ * Private lists will be included if the authenticated users is the same as the user who's lists are being returned.
  */
 class QTWEETLIBSHARED_EXPORT QTweetListGetLists : public QTweetNetBase
 {
@@ -37,10 +37,10 @@ public:
                   const QString& cursor = QString());
 
 signals:
-    /*! Emited when json parsing is finished
-        \param lists Lists of twitter list
-        \param nextCursor Cursor for next page, "0" if there is no next page
-        \param prevCursor Cursor for prev page, "0" if there is no prev page
+    /** Emits page of lists
+     *  @param lists
+     *  @param nextCursor cursor for next page, "0" if there is no next page
+     *  @param prevCursor cursor for prev page, "0" if there is no prev page
      */
     void parsedLists(const QList<QTweetList>& lists,
                      const QString& nextCursor,

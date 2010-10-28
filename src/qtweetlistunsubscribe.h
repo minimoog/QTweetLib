@@ -23,8 +23,8 @@
 
 #include "qtweetnetbase.h"
 
-/*!
-    Unsubscribes the authenticated user form the specified list.
+/**
+ *   Unsubscribes the authenticated user form the specified list.
  */
 class QTWEETLIBSHARED_EXPORT QTweetListUnsubscribe : public QTweetNetBase
 {
@@ -36,7 +36,7 @@ public:
                      qint64 list);
 
 signals:
-    /*! Emits parsed list from which user was unsubscribed */
+    /** Emits list from which user was unsubscribed */
     void parsedList(const QTweetList& list);
 
 protected slots:

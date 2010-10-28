@@ -18,6 +18,7 @@
  * Contact e-mail: Antonie Jovanoski <minimoog77_at_gmail.com>
  */
 
+#include <QtDebug>
 #include <QNetworkReply>
 #include <QNetworkRequest>
 #include "qtweetstatusdestroy.h"
@@ -33,11 +34,11 @@ QTweetStatusDestroy::QTweetStatusDestroy(OAuthTwitter *oauthTwitter, QObject *pa
 {
 }
 
-/*!
-    Destroys tweet with id
-    \param id Tweet ID
-    \param respType Response type
-    \remarks Async
+/**
+ *   Destroys tweet with id
+ *   @param id tweet ID
+ *   @param trimUser trims users info
+ *   @param includeEntities true to include node entities in response
  */
 void QTweetStatusDestroy::destroy(qint64 id,
                                   bool trimUser,
