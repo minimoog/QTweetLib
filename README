@@ -6,6 +6,7 @@
 
 Requirements and dependencies:
 - Qt needs to be compiled with OpenSSL support (there are two places where is used https protocol)
+- QtMobility 1.1 location package installed
 - You will also need xAuth privilege access to Twitter API ( see http://dev.twitter.com/pages/xauth )
 - Valid OAuth consumer tokens, put them in oauth.cpp line 27 and 28
 - If you have already access tokens ( see http://dev.twitter.com/pages/oauth_single_token ) put them directly
