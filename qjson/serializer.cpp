@@ -26,6 +26,7 @@
 #include <QtCore/QVariant>
 
 #include <cmath>
+#include <float.h>
 
 using namespace QJson;
 

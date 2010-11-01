@@ -34,7 +34,9 @@ public:
     QTweetDirectMessageNew(OAuthTwitter *oauhtTwitter, QObject *parent = 0);
     void post(qint64 user,
               const QString& text,
-              const QString& screenName = QString(),
+              bool includeEntities = false);
+    void post(const QString& screenName,
+              const QString& text,
               bool includeEntities = false);
 
 signals:

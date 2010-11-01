@@ -46,13 +46,10 @@ QTweetDirectMessageNew::QTweetDirectMessageNew(OAuthTwitter *oauthTwitter, QObje
  *   Sends direct message
  *   @param user The ID of the user who should receive the direct message.
  *   @param text The text of direct message
- *   @param screenName The screen name of the user who should receive the direct message.
  *   @param includeEntities When set to true each tweet will include a node called "entities,"
- *   @remarks Use either user or screenName, set them to default if you don't want to be put in query
  */
 void QTweetDirectMessageNew::post(qint64 user,
                                   const QString &text,
-                                  const QString &screenName,
                                   bool includeEntities)
 {
     if (!isAuthenticationEnabled()) {
@@ -64,13 +61,43 @@ void QTweetDirectMessageNew::post(qint64 user,
 
     QUrl urlQuery(url);
 
-    if (user)
-        urlQuery.addQueryItem("user_id", QString::number(user));
-
+    urlQuery.addQueryItem("user_id", QString::number(user));
     urlQuery.addEncodedQueryItem("text", QUrl::toPercentEncoding(text));
 
-    if (!screenName.isEmpty())
-        urlQuery.addEncodedQueryItem("screen_name", QUrl::toPercentEncoding(screenName));
+    if (includeEntities)
+        urlQuery.addQueryItem("include_entities", "true");
+
+    QNetworkRequest req(url);
+
+    QByteArray oauthHeader = oauthTwitter()->generateAuthorizationHeader(urlQuery, OAuth::POST);
+    req.setRawHeader(AUTH_HEADER, oauthHeader);
+
+    QByteArray postBody = urlQuery.toEncoded(QUrl::RemoveScheme | QUrl::RemoveAuthority | QUrl::RemovePath);
+    postBody.remove(0, 1);
+
+    QNetworkReply *reply = oauthTwitter()->networkAccessManager()->post(req, postBody);
+    connect(reply, SIGNAL(finished()), this, SLOT(reply()));
+}
+
+/**
+ *   Sends direct message
+ *   @param user The ID of the user who should receive the direct message.
+ *   @param text The text of direct message
+ *   @param includeEntities When set to true each tweet will include a node called "entities,"
+ */
+void QTweetDirectMessageNew::post(const QString &screenName, const QString &text, bool includeEntities)
+{
+    if (!isAuthenticationEnabled()) {
+        qCritical("Needs authentication to be enabled");
+        return;
+    }
+
+    QUrl url("http://api.twitter.com/1/direct_messages/new.json");
+
+    QUrl urlQuery(url);
+
+    urlQuery.addEncodedQueryItem("screen_name", QUrl::toPercentEncoding(screenName));
+    urlQuery.addEncodedQueryItem("text", QUrl::toPercentEncoding(text));
 
     if (includeEntities)
         urlQuery.addQueryItem("include_entities", "true");
