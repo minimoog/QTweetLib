@@ -36,7 +36,9 @@ public:
     QTweetUserStatusesFollowers(QObject *parent = 0);
     QTweetUserStatusesFollowers(OAuthTwitter *oauthTwitter, QObject *parent = 0);
     void fetch(qint64 userid = 0,
-               const QString& screenName = QString(),
+               const QString& cursor = QString(),
+               bool includeEntities = false);
+    void fetch(const QString& screenName = QString(),
                const QString& cursor = QString(),
                bool includeEntities = false);
 

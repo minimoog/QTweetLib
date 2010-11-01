@@ -37,26 +37,49 @@ QTweetUserStatusesFollowers::QTweetUserStatusesFollowers(OAuthTwitter *oauthTwit
 /**
  *   Starts fetching user followers list
  *   @param userid the ID of the user for whom to return results for.
- *   @param screenName the screen name of the user for whom to return results for.
  *   @param cursor breaks the results into pages. Provide a value of "-1" to begin paging.
  *   @param includeEntities when set to true, each tweet will include a node called "entities,".
- *   @remarks With no user specified, request defaults to the authenticated user's followers.
  */
-
-// ### TODO overload where you can specify either userid or screenname
-
 void QTweetUserStatusesFollowers::fetch(qint64 userid,
-                                      const QString &screenName,
                                       const QString &cursor,
                                       bool includeEntities)
 {
     QUrl url("http://api.twitter.com/1/statuses/followers.json");
 
-    if (userid != 0)
-        url.addQueryItem("user_id", QString::number(userid));
+    url.addQueryItem("user_id", QString::number(userid));
 
-    if (!screenName.isEmpty())
-        url.addQueryItem("screen_name", screenName);
+    if (!cursor.isEmpty()) {
+        m_usesCursoring = true;
+        url.addQueryItem("cursor", cursor);
+    }
+
+    if (includeEntities)
+        url.addQueryItem("include_entities", "true");
+
+    QNetworkRequest req(url);
+
+    if (isAuthenticationEnabled()) {
+        QByteArray oauthHeader = oauthTwitter()->generateAuthorizationHeader(url, OAuth::GET);
+        req.setRawHeader(AUTH_HEADER, oauthHeader);
+    }
+
+    QNetworkReply *reply = oauthTwitter()->networkAccessManager()->get(req);
+    connect(reply, SIGNAL(finished()), this, SLOT(reply()));
+}
+
+/**
+ *   Starts fetching user followers list
+ *   @param screenName the screen name of the user for whom to return results for.
+ *   @param cursor breaks the results into pages. Provide a value of "-1" to begin paging.
+ *   @param includeEntities when set to true, each tweet will include a node called "entities,".
+ */
+void QTweetUserStatusesFollowers::fetch(const QString &screenName,
+                                        const QString &cursor,
+                                        bool includeEntities)
+{
+    QUrl url("http://api.twitter.com/1/statuses/followers.json");
+
+    url.addQueryItem("screen_name", screenName);
 
     if (!cursor.isEmpty()) {
         m_usesCursoring = true;
