@@ -44,19 +44,36 @@ QTweetFollowersID::QTweetFollowersID(OAuthTwitter *oauthTwitter, QObject *parent
 /**
  *  Starts fetching one page of id's
  *  @param user the ID of the user for whom to return results for.
- *  @param screenName the screen name of the user for whom to return results for.
  *  @param cursor use from signal response nextCursor and prevCursor to allow paging back and forth
  */
-void QTweetFollowersID::fetch(qint64 user, const QString &screenName, const QString &cursor)
+void QTweetFollowersID::fetch(qint64 user, const QString &cursor)
 {
     QUrl url("http://api.twitter.com/1/followers/ids.json");
 
-    if (user)
-        url.addQueryItem("user_id", QString::number(user));
+    url.addQueryItem("user_id", QString::number(user));
+    url.addQueryItem("cursor", cursor);
 
-    if (!screenName.isEmpty())
-        url.addQueryItem("screen_name", screenName);
+    QNetworkRequest req(url);
 
+    if (isAuthenticationEnabled()) {
+        QByteArray oauthHeader = oauthTwitter()->generateAuthorizationHeader(url, OAuth::GET);
+        req.setRawHeader(AUTH_HEADER, oauthHeader);
+    }
+
+    QNetworkReply *reply = oauthTwitter()->networkAccessManager()->get(req);
+    connect(reply, SIGNAL(finished()), this, SLOT(reply()));
+}
+
+/**
+ *  Starts fetching one page of id's
+ *  @param screenName the screen name of the user for whom to return results for.
+ *  @param cursor use from signal response nextCursor and prevCursor to allow paging back and forth
+ */
+void QTweetFollowersID::fetch(const QString &screenName, const QString &cursor)
+{
+    QUrl url("http://api.twitter.com/1/followers/ids.json");
+
+    url.addQueryItem("screen_name", screenName);
     url.addQueryItem("cursor", cursor);
 
     QNetworkRequest req(url);
