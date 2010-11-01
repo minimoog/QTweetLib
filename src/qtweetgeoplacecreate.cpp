@@ -19,7 +19,6 @@
  */
 
 #include <QtDebug>
-#include <QPointF>
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include "qtweetgeoplacecreate.h"
@@ -51,7 +50,6 @@ QTweetGeoPlaceCreate::QTweetGeoPlaceCreate(OAuthTwitter *oauthTwitter, QObject *
  *  @param token token found in the response from QTweetGeoSimilarPlaces
  *  @param latLong latitude and longitude
  */
-#if (QTM_VERSION >= QTM_VERSION_CHECK(1, 1, 0))
 void QTweetGeoPlaceCreate::create(const QString &name,
                                   const QString &containedWithin,
                                   const QString &token,
@@ -82,7 +80,6 @@ void QTweetGeoPlaceCreate::create(const QString &name,
     QNetworkReply *reply = oauthTwitter()->networkAccessManager()->post(req, statusPost);
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
 }
-#endif
 
 void QTweetGeoPlaceCreate::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
 {

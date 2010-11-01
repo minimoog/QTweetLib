@@ -38,12 +38,10 @@ public:
     QTweetGeoPlaceCreate(QObject *parent = 0);
     QTweetGeoPlaceCreate(OAuthTwitter *oauthTwitter, QObject *parent = 0);
 
-#if (QTM_VERSION >= QTM_VERSION_CHECK(1, 1, 0))
     void create(const QString& name,
                 const QString& containedWithin,
                 const QString& token,
                 const QGeoCoordinate& latLong);
-#endif
 
 signals:
     /** Emits geo place */

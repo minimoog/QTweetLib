@@ -38,12 +38,10 @@ class QTWEETLIBSHARED_EXPORT QTweetGeoSimilarPlaces : public QTweetNetBase
 public:
     QTweetGeoSimilarPlaces(QObject *parent = 0);
     QTweetGeoSimilarPlaces(OAuthTwitter *oauthTwitter, QObject *parent = 0);
-#if (QTM_VERSION >= QTM_VERSION_CHECK(1, 1, 0))
     void get(const QGeoCoordinate& latLong,
              const QString& name,
              const QString& containedWithin = QString());
     // ### TODO: Atributes, lack of documentation
-#endif
 
 signals:
     /** Emits places

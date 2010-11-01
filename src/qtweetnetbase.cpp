@@ -21,6 +21,8 @@
 #include <QtDebug>
 #include <QThreadPool>
 #include <QNetworkReply>
+#include <QGeoBoundingBox>
+#include <QGeoCoordinate>
 #include "qtweetnetbase.h"
 #include "qtweetstatus.h"
 #include "qtweetdmstatus.h"
@@ -31,11 +33,6 @@
 #include "qtweetplace.h"
 #include "qjson/parserrunnable.h"
 #include "qjson/parser.h"
-
-#if (QTM_VERSION >= QTM_VERSION_CHECK(1, 1, 0))
-    #include <QGeoBoundingBox>
-    #include <QGeoCoordinate>
-#endif
 
 /**
  *   Constructor
@@ -503,7 +500,6 @@ QTweetPlace QTweetNetBase::variantMapToPlace(const QVariantMap &var)
     else
         place.setType(QTweetPlace::Neighborhood);   //twitter default
 
-#if (QTM_VERSION >= QTM_VERSION_CHECK(1, 1, 0))
     QVariant bbVar = var["bounding_box"];
 
     if (!bbVar.isNull()) {
@@ -535,8 +531,6 @@ QTweetPlace QTweetNetBase::variantMapToPlace(const QVariantMap &var)
             }
         }
     }
-#endif
-
     return place;
 }
 
@@ -567,7 +561,6 @@ QTweetPlace QTweetNetBase::variantMapToPlaceRecursive(const QVariantMap &var)
     else
         place.setType(QTweetPlace::Neighborhood);   //twitter default
 
-#if (QTM_VERSION >= QTM_VERSION_CHECK(1, 1, 0))
     QVariant bbVar = var["bounding_box"];
 
     if (!bbVar.isNull()) {
@@ -599,7 +592,6 @@ QTweetPlace QTweetNetBase::variantMapToPlaceRecursive(const QVariantMap &var)
             }
         }
     }
-#endif
 
     QVariantList containedVarList = var["contained_within"].toList();
 

@@ -46,10 +46,8 @@ public:
     QString countryCode() const;
     void setID(const QString& id);  // http://api.twitter.com/1/geo/id/<id>.json
     QString id() const;
-#if (QTM_VERSION >= QTM_VERSION_CHECK(1, 1, 0))
     void setBoundingBox(const QGeoBoundingBox& box);
     QGeoBoundingBox boundingBox() const;
-#endif
     void setContainedWithin(const QList<QTweetPlace>& places);
     QList<QTweetPlace> containedWithin() const;
     void setFullName(const QString& name);
@@ -63,9 +61,7 @@ private:
     QString m_countryCode;
     // ### TODO: Attributes
     QString m_id;
-#if (QTM_VERSION >= QTM_VERSION_CHECK(1, 1, 0))
     QGeoBoundingBox m_boundingBox;
-#endif
     QList<QTweetPlace> m_containedWithin;
     QString m_fullName;
     Type m_type;

@@ -52,7 +52,6 @@ QTweetGeoSearch::QTweetGeoSearch(OAuthTwitter *oauthTwitter, QObject *parent) :
  *  @param maxResults hint as to the number of results to return
  *  @param containedWithin this is the placeID which you would like to restrict the search results to
  */
-#if (QTM_VERSION >= QTM_VERSION_CHECK(1, 1, 0))
 void QTweetGeoSearch::search(const QGeoCoordinate &latLong,
                              const QString &query,
                              const QString &ip,
@@ -114,7 +113,6 @@ void QTweetGeoSearch::search(const QGeoCoordinate &latLong,
     QNetworkReply *reply = oauthTwitter()->networkAccessManager()->get(req);
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
 }
-#endif
 
 void QTweetGeoSearch::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
 {

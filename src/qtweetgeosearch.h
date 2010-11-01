@@ -37,7 +37,6 @@ class QTWEETLIBSHARED_EXPORT QTweetGeoSearch : public QTweetNetBase
 public:
     QTweetGeoSearch(QObject *parent = 0);
     QTweetGeoSearch(OAuthTwitter *oauthTwitter, QObject *parent = 0);
-#if (QTM_VERSION >= QTM_VERSION_CHECK(1, 1, 0))
     void search(const QGeoCoordinate& latLong = QGeoCoordinate(),
                 const QString& query = QString(),
                 const QString& ip = QString(),
@@ -46,7 +45,6 @@ public:
                 int maxResults = 0,
                 const QString& containedWithin = QString());
                 // ### TODO Atributes, not enough documentation
-#endif
 
 signals:
     /** Emits list of places */

@@ -48,7 +48,6 @@ QTweetGeoReverseGeoCode::QTweetGeoReverseGeoCode(OAuthTwitter *oauthTwitter, QOb
  *  @param granularity minimal granularity of place types to return
  *  @param maxResults hint as to the number of results to return
  */
-#if (QTM_VERSION >= QTM_VERSION_CHECK(1, 1, 0))
 void QTweetGeoReverseGeoCode::getPlaces(const QGeoCoordinate& latLong,
                                         int accuracy,
                                         QTweetPlace::Type granularity,
@@ -95,7 +94,6 @@ void QTweetGeoReverseGeoCode::getPlaces(const QGeoCoordinate& latLong,
     QNetworkReply *reply = oauthTwitter()->networkAccessManager()->get(req);
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
 }
-#endif
 
 void QTweetGeoReverseGeoCode::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
 {

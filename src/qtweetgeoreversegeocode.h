@@ -38,12 +38,10 @@ public:
     QTweetGeoReverseGeoCode(QObject *parent = 0);
     QTweetGeoReverseGeoCode(OAuthTwitter *oauthTwitter, QObject *parent = 0);
 
-#if (QTM_VERSION >= QTM_VERSION_CHECK(1, 1, 0))
     void getPlaces(const QGeoCoordinate& latLong,
                    int accuracy = 0,
                    QTweetPlace::Type granularity = QTweetPlace::Neighborhood,
                    int maxResults = 0);
-#endif
 
 signals:
     /** Emits list of places */
