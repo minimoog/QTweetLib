@@ -21,7 +21,10 @@
 #ifndef QTWEETGEOPLACECREATE_H
 #define QTWEETGEOPLACECREATE_H
 
+#include <QGeoCoordinate>
 #include "qtweetnetbase.h"
+
+QTM_USE_NAMESPACE
 
 class QTweetPlace;
 
@@ -34,10 +37,13 @@ class QTWEETLIBSHARED_EXPORT QTweetGeoPlaceCreate : public QTweetNetBase
 public:
     QTweetGeoPlaceCreate(QObject *parent = 0);
     QTweetGeoPlaceCreate(OAuthTwitter *oauthTwitter, QObject *parent = 0);
+
+#if (QTM_VERSION >= QTM_VERSION_CHECK(1, 1, 0))
     void create(const QString& name,
                 const QString& containedWithin,
                 const QString& token,
-                const QPointF& latLong);
+                const QGeoCoordinate& latLong);
+#endif
 
 signals:
     /** Emits geo place */
