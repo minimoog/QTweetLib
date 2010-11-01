@@ -33,7 +33,9 @@ public:
     QTweetFriendshipCreate(QObject *parent = 0);
     QTweetFriendshipCreate(OAuthTwitter *oauthTwitter, QObject *parent = 0);
     void create(qint64 userid,
-                const QString& screenName = QString(),
+                bool follow = false,
+                bool includeEntities = false);
+    void create(const QString& screenName,
                 bool follow = false,
                 bool includeEntities = false);
 

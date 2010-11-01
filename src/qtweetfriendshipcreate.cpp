@@ -45,13 +45,10 @@ QTweetFriendshipCreate::QTweetFriendshipCreate(OAuthTwitter *oauthTwitter, QObje
 /**
  *  Creates frienship
  *  @param userid id to follow
- *  @param screenName Screen name of user to follow
  *  @param follow Enable notifications for the target user.
  *  @param includeEntities When set to true, each tweet will include a node called "entities"
- *  @remarks Use either userid or screenName, setting the default value will not be put in query
  */
 void QTweetFriendshipCreate::create(qint64 userid,
-                                    const QString &screenName,
                                     bool follow,
                                     bool includeEntities)
 {
@@ -64,11 +61,46 @@ void QTweetFriendshipCreate::create(qint64 userid,
 
     QUrl urlQuery(url);
 
-    if (userid)
-        urlQuery.addQueryItem("user_id", QString::number(userid));
+    urlQuery.addQueryItem("user_id", QString::number(userid));
 
-    if (!screenName.isEmpty())
-        urlQuery.addQueryItem("screen_name", QUrl::toPercentEncoding(screenName));
+    if (follow)
+        urlQuery.addQueryItem("follow", "true");
+
+    if (includeEntities)
+        urlQuery.addQueryItem("include_entities", "true");
+
+    QNetworkRequest req(url);
+
+    QByteArray oauthHeader = oauthTwitter()->generateAuthorizationHeader(urlQuery, OAuth::POST);
+    req.setRawHeader(AUTH_HEADER, oauthHeader);
+
+    QByteArray postBody = urlQuery.toEncoded(QUrl::RemoveScheme | QUrl::RemoveAuthority | QUrl::RemovePath);
+    postBody.remove(0, 1);
+
+    QNetworkReply *reply = oauthTwitter()->networkAccessManager()->post(req, postBody);
+    connect(reply, SIGNAL(finished()), this, SLOT(reply()));
+}
+
+/**
+ *  Creates frienship
+ *  @param screenName Screen name of user to follow
+ *  @param follow Enable notifications for the target user.
+ *  @param includeEntities When set to true, each tweet will include a node called "entities"
+ */
+void QTweetFriendshipCreate::create(const QString &screenName,
+                                    bool follow,
+                                    bool includeEntities)
+{
+    if (!isAuthenticationEnabled()) {
+        qCritical("Needs authentication to be enabled");
+        return;
+    }
+
+    QUrl url("http://api.twitter.com/1/friendships/create.json");
+
+    QUrl urlQuery(url);
+
+    urlQuery.addQueryItem("screen_name", QUrl::toPercentEncoding(screenName));
 
     if (follow)
         urlQuery.addQueryItem("follow", "true");
