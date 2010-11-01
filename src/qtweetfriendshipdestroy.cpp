@@ -45,13 +45,9 @@ QTweetFriendshipDestroy::QTweetFriendshipDestroy(OAuthTwitter *oauthTwitter, QOb
 /**
  *  Unfollows the specified user
  *  @param userid user id to unfollow
- *  @param screenName screen name to unfollow
  *  @param includeEntities when set totrue, each tweet will include a node called "entities,".
- *  @remarks Use either userid or screenname. Setting to default value will not be put in query
  */
-void QTweetFriendshipDestroy::unfollow(qint64 userid,
-                                       const QString &screenName,
-                                       bool includeEntities)
+void QTweetFriendshipDestroy::unfollow(qint64 userid, bool includeEntities)
 {
     if (!isAuthenticationEnabled()) {
         qCritical("Needs authentication to be enabled");
@@ -60,11 +56,35 @@ void QTweetFriendshipDestroy::unfollow(qint64 userid,
 
     QUrl url("http://api.twitter.com/1/friendships/destroy.json");
 
-    if (userid)
-        url.addQueryItem("user_id", QString::number(userid));
+    url.addQueryItem("user_id", QString::number(userid));
 
-    if (!screenName.isEmpty())
-        url.addQueryItem("screen_name", screenName);
+    if (includeEntities)
+        url.addQueryItem("include_entities", "true");
+
+    QNetworkRequest req(url);
+
+    QByteArray oauthHeader = oauthTwitter()->generateAuthorizationHeader(url, OAuth::GET);
+    req.setRawHeader(AUTH_HEADER, oauthHeader);
+
+    QNetworkReply *reply = oauthTwitter()->networkAccessManager()->deleteResource(req);
+    connect(reply, SIGNAL(finished()), this, SLOT(reply()));
+}
+
+/**
+ *  Unfollows the specified user
+ *  @param screenName screen name to unfollow
+ *  @param includeEntities when set totrue, each tweet will include a node called "entities,".
+ */
+void QTweetFriendshipDestroy::unfollow(const QString &screenName, bool includeEntities)
+{
+    if (!isAuthenticationEnabled()) {
+        qCritical("Needs authentication to be enabled");
+        return;
+    }
+
+    QUrl url("http://api.twitter.com/1/friendships/destroy.json");
+
+    url.addQueryItem("screen_name", screenName);
 
     if (includeEntities)
         url.addQueryItem("include_entities", "true");

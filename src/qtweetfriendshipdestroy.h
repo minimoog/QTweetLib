@@ -33,7 +33,8 @@ public:
     QTweetFriendshipDestroy(QObject *parent = 0);
     QTweetFriendshipDestroy(OAuthTwitter *oauthTwitter, QObject *parent = 0);
     void unfollow(qint64 userid,
-                  const QString& screenName = QString(),
+                  bool includeEntities = false);
+    void unfollow(const QString& screenName,
                   bool includeEntities = false);
 
 signals:
