@@ -21,9 +21,11 @@
 #ifndef QTWEETGEOSIMILARPLACES_H
 #define QTWEETGEOSIMILARPLACES_H
 
+#include <QGeoCoordinate>
 #include "qtweetnetbase.h"
 
-class QPointF;
+QTM_USE_NAMESPACE
+
 class QTweetPlace;
 
 /**
@@ -36,10 +38,12 @@ class QTWEETLIBSHARED_EXPORT QTweetGeoSimilarPlaces : public QTweetNetBase
 public:
     QTweetGeoSimilarPlaces(QObject *parent = 0);
     QTweetGeoSimilarPlaces(OAuthTwitter *oauthTwitter, QObject *parent = 0);
-    void get(const QPointF& latLong,
+#if (QTM_VERSION >= QTM_VERSION_CHECK(1, 1, 0))
+    void get(const QGeoCoordinate& latLong,
              const QString& name,
              const QString& containedWithin = QString());
     // ### TODO: Atributes, lack of documentation
+#endif
 
 signals:
     /** Emits places
