@@ -36,25 +36,42 @@ QTweetUserShow::QTweetUserShow(OAuthTwitter *oauthTwitter, QObject *parent) :
 
 /**
  *   Starts fetching
- *   @param id user ID
  *   @param userid user ID
- *   @param screenName user screen name
+ *   @param includeEntities when set to true, each tweet will include a node called "entities"
  */
-void QTweetUserShow::fetch(qint64 id, qint64 userid, const QString &screenName)
+void QTweetUserShow::fetch(qint64 userid, bool includeEntities)
 {
     QUrl url("http://api.twitter.com/1/users/show.json");
 
-    if (id != 0)
-        url.addQueryItem("id", QString::number(id));
+    url.addQueryItem("user_id", QString::number(userid));
 
-    if (userid != 0)
-        url.addQueryItem("user_id", QString::number(userid));
+    if (includeEntities)
+        url.addQueryItem("include_entities", "true");
 
-    if (!screenName.isEmpty())
-        url.addQueryItem("screen_name", screenName);
+    QNetworkRequest req(url);
 
-    // ### TODO: Remove id parameter
-    // ### TODO: Add include_entities parameter
+    if (isAuthenticationEnabled()) {
+        QByteArray oauthHeader = oauthTwitter()->generateAuthorizationHeader(url, OAuth::GET);
+        req.setRawHeader(AUTH_HEADER, oauthHeader);
+    }
+
+    QNetworkReply *reply = oauthTwitter()->networkAccessManager()->get(req);
+    connect(reply, SIGNAL(finished()), this, SLOT(reply()));
+}
+
+/**
+ *   Starts fetching
+ *   @param userid user ID
+ *   @param includeEntities when set to true, each tweet will include a node called "entities"
+ */
+void QTweetUserShow::fetch(const QString &screenName, bool includeEntities)
+{
+    QUrl url("http://api.twitter.com/1/users/show.json");
+
+    url.addQueryItem("screen_name", screenName);
+
+    if (includeEntities)
+        url.addQueryItem("include_entities", "true");
 
     QNetworkRequest req(url);
 

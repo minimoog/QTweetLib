@@ -32,9 +32,10 @@ class QTWEETLIBSHARED_EXPORT QTweetUserShow : public QTweetNetBase
 public:
     QTweetUserShow(QObject *parent = 0);
     QTweetUserShow(OAuthTwitter *oauthTwitter, QObject *parent = 0);
-    void fetch(qint64 id = 0,
-               qint64 userid = 0,
-               const QString& screenName = QString());
+    void fetch(qint64 userid = 0,
+               bool includeEntities = false);
+    void fetch(const QString& screenName,
+               bool includeEntities = false);
 
 signals:
     /** Emits user */
