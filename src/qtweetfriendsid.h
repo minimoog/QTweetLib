@@ -33,7 +33,8 @@ public:
     QTweetFriendsID(QObject *parent = 0);
     QTweetFriendsID(OAuthTwitter *oauthTwitter, QObject *parent = 0);
     void fetch(qint64 user,
-               const QString& screenName = QString(),
+               const QString& cursor = QString("-1"));
+    void fetch(const QString& screenName,
                const QString& cursor = QString("-1"));
 
 signals:
