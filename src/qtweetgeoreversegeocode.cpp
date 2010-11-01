@@ -43,22 +43,21 @@ QTweetGeoReverseGeoCode::QTweetGeoReverseGeoCode(OAuthTwitter *oauthTwitter, QOb
 
 /**
  *  Start geo reversing
- *  @param latitude
- *  @param longitude
+ *  @param latLong latitutde and longitude
  *  @param accuracy a hint on the "region" in which to search in meters
  *  @param granularity minimal granularity of place types to return
  *  @param maxResults hint as to the number of results to return
  */
-void QTweetGeoReverseGeoCode::getPlaces(qreal latitude,
-                                        qreal longitude,
+#if (QTM_VERSION >= QTM_VERSION_CHECK(1, 1, 0))
+void QTweetGeoReverseGeoCode::getPlaces(const QGeoCoordinate& latLong,
                                         int accuracy,
                                         QTweetPlace::Type granularity,
                                         int maxResults)
 {
     QUrl url("http://api.twitter.com/1/geo/reverse_geocode.json");
 
-    url.addQueryItem("lat", QString::number(latitude));
-    url.addQueryItem("long", QString::number(longitude));
+    url.addQueryItem("lat", QString::number(latLong.latitude()));
+    url.addQueryItem("long", QString::number(latLong.longitude()));
 
     if (accuracy != 0)
         url.addQueryItem("accuracy", QString::number(accuracy));
@@ -96,6 +95,7 @@ void QTweetGeoReverseGeoCode::getPlaces(qreal latitude,
     QNetworkReply *reply = oauthTwitter()->networkAccessManager()->get(req);
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
 }
+#endif
 
 void QTweetGeoReverseGeoCode::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
 {

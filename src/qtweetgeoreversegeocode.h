@@ -21,8 +21,11 @@
 #ifndef QTWEETGEOREVERSEGEOCODE_H
 #define QTWEETGEOREVERSEGEOCODE_H
 
+#include <QGeoCoordinate>
 #include "qtweetnetbase.h"
 #include "qtweetplace.h"
+
+QTM_USE_NAMESPACE
 
 /**
  *  Given a latitude and a longitude, searches up to 20 places that can be used
@@ -34,11 +37,13 @@ class QTWEETLIBSHARED_EXPORT QTweetGeoReverseGeoCode : public QTweetNetBase
 public:
     QTweetGeoReverseGeoCode(QObject *parent = 0);
     QTweetGeoReverseGeoCode(OAuthTwitter *oauthTwitter, QObject *parent = 0);
-    void getPlaces(qreal latitude,
-                   qreal longitude,
+
+#if (QTM_VERSION >= QTM_VERSION_CHECK(1, 1, 0))
+    void getPlaces(const QGeoCoordinate& latLong,
                    int accuracy = 0,
                    QTweetPlace::Type granularity = QTweetPlace::Neighborhood,
                    int maxResults = 0);
+#endif
 
 signals:
     /** Emits list of places */
