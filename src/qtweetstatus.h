@@ -60,6 +60,7 @@ public:
     QString source() const;
     void setUser(const QTweetUser& user);
     QTweetUser user() const;
+    qint64 userid() const;  //usefull for getting quick userid when userinfo is trimmed
     void setRetweetedStatus(const QTweetStatus& status);
     QTweetStatus retweetedStatus() const;
     void setPlace(const QTweetPlace& place);

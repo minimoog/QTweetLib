@@ -169,9 +169,13 @@ QTweetUser QTweetStatus::user() const
     return d->user;
 }
 
+qint64 QTweetStatus::userid() const
+{
+    return d->user.id();
+}
+
 void QTweetStatus::setRetweetedStatus(const QTweetStatus &status)
 {
-    //recursion? circural reference?
     d->rtsId = status.id();
     d->rtsText = status.text();
     d->rtsCreatedAt = status.createdAt();
@@ -188,7 +192,7 @@ QTweetStatus QTweetStatus::retweetedStatus() const
     QTweetStatus status;
     status.setId(d->rtsId);
     status.setText(d->rtsText);
-    //status.setCreatedAt(d->rtsCreatedAt); // ### TODO FIX
+    status.setCreatedAt(d->rtsCreatedAt);
     status.setInReplyToUserId(d->rtsInReplyToUserId);
     status.setInReplyToScreenName(d->rtsInReplyToScreenName);
     status.setInReplyToStatusId(d->rtsInReplyToStatusId);
