@@ -21,7 +21,10 @@
 #ifndef QTWEETSTATUSUPDATE_H
 #define QTWEETSTATUSUPDATE_H
 
+#include <QGeoCoordinate>
 #include "qtweetnetbase.h"
+
+QTM_USE_NAMESPACE
 
 /**
  *   Class for updating user status (posting tweet)
@@ -34,8 +37,7 @@ public:
     QTweetStatusUpdate(OAuthTwitter *oauthTwitter, QObject *parent = 0);
     void post(const QString& status,
               qint64 inReplyToStatus = 0,
-              qreal latitude = 0,
-              qreal longitude = 0,
+              const QGeoCoordinate& latLong = QGeoCoordinate(),
               const QString& placeid = QString(),
               bool displayCoordinates = false,
               bool trimUser = false,
