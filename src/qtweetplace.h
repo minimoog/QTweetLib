@@ -23,11 +23,10 @@
 
 #include <QVariant>
 #include <QString>
-#include <QGeoBoundingBox>
 #include <QList>
+#include "qtweetgeoboundingbox.h"
 #include "qtweetlib_global.h"
 
-QTM_USE_NAMESPACE
 
 /**
  *   Store place info
@@ -46,8 +45,8 @@ public:
     QString countryCode() const;
     void setID(const QString& id);  // http://api.twitter.com/1/geo/id/<id>.json
     QString id() const;
-    void setBoundingBox(const QGeoBoundingBox& box);
-    QGeoBoundingBox boundingBox() const;
+    void setBoundingBox(const QTweetGeoBoundingBox& box);
+    QTweetGeoBoundingBox boundingBox() const;
     void setContainedWithin(const QList<QTweetPlace>& places);
     QList<QTweetPlace> containedWithin() const;
     void setFullName(const QString& name);
@@ -61,7 +60,7 @@ private:
     QString m_countryCode;
     // ### TODO: Attributes
     QString m_id;
-    QGeoBoundingBox m_boundingBox;
+    QTweetGeoBoundingBox m_boundingBox;
     QList<QTweetPlace> m_containedWithin;
     QString m_fullName;
     Type m_type;

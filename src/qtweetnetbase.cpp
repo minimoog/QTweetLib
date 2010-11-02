@@ -21,8 +21,6 @@
 #include <QtDebug>
 #include <QThreadPool>
 #include <QNetworkReply>
-#include <QGeoBoundingBox>
-#include <QGeoCoordinate>
 #include "qtweetnetbase.h"
 #include "qtweetstatus.h"
 #include "qtweetdmstatus.h"
@@ -512,19 +510,19 @@ QTweetPlace QTweetNetBase::variantMapToPlace(const QVariantMap &var)
                 QVariantList latLongList = coordList.at(0).toList();
 
                 if (latLongList.count() == 4) {
-                    QGeoBoundingBox box;
+                    QTweetGeoBoundingBox box;
 
                     QVariantList coordsBottomLeft = latLongList.at(0).toList();
-                    box.setBottomLeft(QGeoCoordinate(coordsBottomLeft.at(1).toDouble(), coordsBottomLeft.at(0).toDouble()));
+                    box.setBottomLeft(QTweetGeoCoord(coordsBottomLeft.at(1).toDouble(), coordsBottomLeft.at(0).toDouble()));
 
                     QVariantList coordsBottomRight = latLongList.at(1).toList();
-                    box.setBottomRight(QGeoCoordinate(coordsBottomRight.at(1).toDouble(), coordsBottomRight.at(0).toDouble()));
+                    box.setBottomRight(QTweetGeoCoord(coordsBottomRight.at(1).toDouble(), coordsBottomRight.at(0).toDouble()));
 
                     QVariantList coordsTopRight = latLongList.at(2).toList();
-                    box.setTopRight(QGeoCoordinate(coordsTopRight.at(1).toDouble(), coordsTopRight.at(0).toDouble()));
+                    box.setTopRight(QTweetGeoCoord(coordsTopRight.at(1).toDouble(), coordsTopRight.at(0).toDouble()));
 
                     QVariantList coordsTopLeft = latLongList.at(3).toList();
-                    box.setTopLeft(QGeoCoordinate(coordsTopLeft.at(1).toDouble(), coordsTopLeft.at(0).toDouble()));
+                    box.setTopLeft(QTweetGeoCoord(coordsTopLeft.at(1).toDouble(), coordsTopLeft.at(0).toDouble()));
 
                     place.setBoundingBox(box);
                 }
@@ -573,19 +571,19 @@ QTweetPlace QTweetNetBase::variantMapToPlaceRecursive(const QVariantMap &var)
                 QVariantList latLongList = coordList.at(0).toList();
 
                 if (latLongList.count() == 4) {
-                    QGeoBoundingBox box;
+                    QTweetGeoBoundingBox box;
 
                     QVariantList coordsBottomLeft = latLongList.at(0).toList();
-                    box.setBottomLeft(QGeoCoordinate(coordsBottomLeft.at(1).toDouble(), coordsBottomLeft.at(0).toDouble()));
+                    box.setBottomLeft(QTweetGeoCoord(coordsBottomLeft.at(1).toDouble(), coordsBottomLeft.at(0).toDouble()));
 
                     QVariantList coordsBottomRight = latLongList.at(1).toList();
-                    box.setBottomRight(QGeoCoordinate(coordsBottomRight.at(1).toDouble(), coordsBottomRight.at(0).toDouble()));
+                    box.setBottomRight(QTweetGeoCoord(coordsBottomRight.at(1).toDouble(), coordsBottomRight.at(0).toDouble()));
 
                     QVariantList coordsTopRight = latLongList.at(2).toList();
-                    box.setTopRight(QGeoCoordinate(coordsTopRight.at(1).toDouble(), coordsTopRight.at(0).toDouble()));
+                    box.setTopRight(QTweetGeoCoord(coordsTopRight.at(1).toDouble(), coordsTopRight.at(0).toDouble()));
 
                     QVariantList coordsTopLeft = latLongList.at(3).toList();
-                    box.setTopLeft(QGeoCoordinate(coordsTopLeft.at(1).toDouble(), coordsTopLeft.at(0).toDouble()));
+                    box.setTopLeft(QTweetGeoCoord(coordsTopLeft.at(1).toDouble(), coordsTopLeft.at(0).toDouble()));
 
                     place.setBoundingBox(box);
                 }

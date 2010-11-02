@@ -64,12 +64,12 @@ QString QTweetPlace::id() const
     return m_id;
 }
 
-void QTweetPlace::setBoundingBox(const QGeoBoundingBox &box)
+void QTweetPlace::setBoundingBox(const QTweetGeoBoundingBox &box)
 {
     m_boundingBox = box;
 }
 
-QGeoBoundingBox QTweetPlace::boundingBox() const
+QTweetGeoBoundingBox QTweetPlace::boundingBox() const
 {
     return m_boundingBox;
 }

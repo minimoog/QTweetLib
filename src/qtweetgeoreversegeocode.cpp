@@ -48,7 +48,7 @@ QTweetGeoReverseGeoCode::QTweetGeoReverseGeoCode(OAuthTwitter *oauthTwitter, QOb
  *  @param granularity minimal granularity of place types to return
  *  @param maxResults hint as to the number of results to return
  */
-void QTweetGeoReverseGeoCode::getPlaces(const QGeoCoordinate& latLong,
+void QTweetGeoReverseGeoCode::getPlaces(const QTweetGeoCoord& latLong,
                                         int accuracy,
                                         QTweetPlace::Type granularity,
                                         int maxResults)

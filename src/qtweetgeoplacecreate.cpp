@@ -53,7 +53,7 @@ QTweetGeoPlaceCreate::QTweetGeoPlaceCreate(OAuthTwitter *oauthTwitter, QObject *
 void QTweetGeoPlaceCreate::create(const QString &name,
                                   const QString &containedWithin,
                                   const QString &token,
-                                  const QGeoCoordinate &latLong)
+                                  const QTweetGeoCoord &latLong)
 {
     if (!isAuthenticationEnabled()) {
         qCritical("Needs authentication to be enabled");

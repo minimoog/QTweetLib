@@ -1,9 +1,6 @@
 QT       += network
 QT       -= gui
 
-CONFIG += mobility
-MOBILITY += location
-
 TEMPLATE = lib
 TARGET = QTweetLib
 DESTDIR = ../lib
@@ -78,7 +75,9 @@ HEADERS += \
     qtweetgeosearch.h \
     qtweetgeosimilarplaces.h \
     qtweetgeoplaceid.h \
-    qtweetgeoplacecreate.h
+    qtweetgeoplacecreate.h \
+    qtweetgeocoord.h \
+    qtweetgeoboundingbox.h
 
 SOURCES += \
     oauth.cpp \
@@ -141,4 +140,6 @@ SOURCES += \
     qtweetgeosearch.cpp \
     qtweetgeosimilarplaces.cpp \
     qtweetgeoplaceid.cpp \
-    qtweetgeoplacecreate.cpp
+    qtweetgeoplacecreate.cpp \
+    qtweetgeocoord.cpp \
+    qtweetgeoboundingbox.cpp

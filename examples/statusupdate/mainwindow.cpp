@@ -95,8 +95,7 @@ void MainWindow::updateButtonClicked()
         QTweetStatusUpdate *statusUpdate = new QTweetStatusUpdate(m_oauthTwitter, this);
         statusUpdate->post(ui->statusTextEdit->toPlainText(),
                            0,
-                           ui->latLineEdit->text().toDouble(),
-                           ui->longLineEdit->text().toDouble(),
+                           QTweetGeoCoord(ui->latLineEdit->text().toDouble(), ui->longLineEdit->text().toDouble()),
                            QString(),
                            true);
         connect(statusUpdate, SIGNAL(postedStatus(QTweetStatus)), SLOT(postStatusFinished(QTweetStatus)));

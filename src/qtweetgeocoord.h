@@ -21,11 +21,13 @@
 #ifndef QTWEETGEOCOORD_H
 #define QTWEETGEOCOORD_H
 
+#include "qtweetlib_global.h"
+
 /**
  *  Stores latitude/longitude coordinates
  *  Does basic checking if latitude/longitude is in valid degrees
  */
-class QTweetGeoCoord
+class QTWEETLIBSHARED_EXPORT QTweetGeoCoord
 {
 public:
     QTweetGeoCoord();

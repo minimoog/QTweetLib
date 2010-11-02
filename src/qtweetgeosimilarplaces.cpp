@@ -49,7 +49,7 @@ QTweetGeoSimilarPlaces::QTweetGeoSimilarPlaces(OAuthTwitter *oauthTwitter, QObje
  *  @param name the name a place is known as
  *  @param containedWithin this is the placeID which you would like to restrict the search results to
  */
-void QTweetGeoSimilarPlaces::get(const QGeoCoordinate &latLong, const QString &name, const QString &containedWithin)
+void QTweetGeoSimilarPlaces::get(const QTweetGeoCoord &latLong, const QString &name, const QString &containedWithin)
 {
     QUrl url("http://api.twitter.com/1/geo/similar_places.json");
 

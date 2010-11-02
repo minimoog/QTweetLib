@@ -19,10 +19,9 @@
  */
 
 #include <QNetworkAccessManager>
-#include <QGeoBoundingBox>
-#include <QGeoCoordinate>
 #include "oauthtwitter.h"
 #include "qtweetplace.h"
+#include "qtweetgeocoord.h"
 #include "qtweetgeoreversegeocode.h"
 #include "georeverse.h"
 #include "ui_georeverse.h"
@@ -70,8 +69,8 @@ void GeoReverse::changeEvent(QEvent *e)
 void GeoReverse::onSearchPushButtonClicked()
 {
     QTweetGeoReverseGeoCode *reverseGeo = new QTweetGeoReverseGeoCode(m_oauthTwitter, this);
-    reverseGeo->getPlaces(ui->latitudeLineEdit->text().toDouble(),
-                          ui->longitudeLineEdit->text().toDouble());
+    reverseGeo->getPlaces(QTweetGeoCoord(ui->latitudeLineEdit->text().toDouble(),
+                          ui->longitudeLineEdit->text().toDouble()));
     connect(reverseGeo, SIGNAL(parsedPlaces(QList<QTweetPlace>)), SLOT(reverseGeoFinished(QList<QTweetPlace>)));
 }
 
@@ -91,15 +90,15 @@ void GeoReverse::reverseGeoFinished(const QList<QTweetPlace> &places)
             QTableWidgetItem *placeid = new QTableWidgetItem(place.id());
             ui->tableWidget->setItem(row, 1, placeid);
 
-            QGeoBoundingBox bb = place.boundingBox();
-            QGeoCoordinate coord = bb.center();
+            //QGeoBoundingBox bb = place.boundingBox();
+            //QGeoCoordinate coord = bb.center();
 
             //approximate, just shows center of the box
-            QTableWidgetItem *lat = new QTableWidgetItem(QString::number(coord.latitude()));
-            ui->tableWidget->setItem(row, 2, lat);
-            QTableWidgetItem *longit = new QTableWidgetItem(QString::number(coord.longitude()));
-            ui->tableWidget->setItem(row, 3, longit);
-            ++row;
+            //QTableWidgetItem *lat = new QTableWidgetItem(QString::number(coord.latitude()));
+            //ui->tableWidget->setItem(row, 2, lat);
+            //QTableWidgetItem *longit = new QTableWidgetItem(QString::number(coord.longitude()));
+            //ui->tableWidget->setItem(row, 3, longit);
+            //++row;
         }
 
         reverseGeo->deleteLater();

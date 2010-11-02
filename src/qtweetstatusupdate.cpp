@@ -23,6 +23,7 @@
 #include <QNetworkReply>
 #include "qtweetstatusupdate.h"
 #include "qtweetstatus.h"
+#include "qtweetgeocoord.h"
 
 QTweetStatusUpdate::QTweetStatusUpdate(QObject *parent) :
     QTweetNetBase(parent)
@@ -44,7 +45,7 @@ QTweetStatusUpdate::QTweetStatusUpdate(OAuthTwitter *oauthTwitter, QObject *pare
  */
 void QTweetStatusUpdate::post(const QString &status,
                               qint64 inReplyToStatus,
-                              const QGeoCoordinate& latLong,
+                              const QTweetGeoCoord& latLong,
                               const QString &placeid,
                               bool displayCoordinates,
                               bool trimUser,

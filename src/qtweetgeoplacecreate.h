@@ -21,12 +21,10 @@
 #ifndef QTWEETGEOPLACECREATE_H
 #define QTWEETGEOPLACECREATE_H
 
-#include <QGeoCoordinate>
 #include "qtweetnetbase.h"
 
-QTM_USE_NAMESPACE
-
 class QTweetPlace;
+class QTweetGeoCoord;
 
 /**
  *  Creates a new place at the given latitude and longitude
@@ -41,7 +39,7 @@ public:
     void create(const QString& name,
                 const QString& containedWithin,
                 const QString& token,
-                const QGeoCoordinate& latLong);
+                const QTweetGeoCoord& latLong);
 
 signals:
     /** Emits geo place */

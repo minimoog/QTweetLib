@@ -21,11 +21,9 @@
 #ifndef QTWEETGEOSEARCH_H
 #define QTWEETGEOSEARCH_H
 
-#include <QGeoCoordinate>
 #include "qtweetplace.h"
 #include "qtweetnetbase.h"
 
-QTM_USE_NAMESPACE
 
 /**
  *  Search for places that can be attached to a statuses/update
@@ -37,7 +35,7 @@ class QTWEETLIBSHARED_EXPORT QTweetGeoSearch : public QTweetNetBase
 public:
     QTweetGeoSearch(QObject *parent = 0);
     QTweetGeoSearch(OAuthTwitter *oauthTwitter, QObject *parent = 0);
-    void search(const QGeoCoordinate& latLong = QGeoCoordinate(),
+    void search(const QTweetGeoCoord& latLong = QTweetGeoCoord(),
                 const QString& query = QString(),
                 const QString& ip = QString(),
                 QTweetPlace::Type granularity = QTweetPlace::Neighborhood,

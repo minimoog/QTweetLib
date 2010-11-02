@@ -24,6 +24,7 @@
 #include "qtweetplace.h"
 #include "qtweetgeosearch.h"
 #include "geosearch.h"
+#include "qtweetgeocoord.h"
 #include "ui_geosearch.h"
 
 GeoSearch::GeoSearch(QWidget *parent) :
@@ -68,9 +69,9 @@ void GeoSearch::changeEvent(QEvent *e)
 void GeoSearch::onSearchPushButtonClicked()
 {
     QTweetGeoSearch *geoSearch = new QTweetGeoSearch(m_oauthTwitter, this);
-    QPointF latLong;
-    latLong.setX(ui->latitudeLineEdit->text().toDouble());
-    latLong.setY(ui->longitudeLineEdit->text().toDouble());
+    QTweetGeoCoord latLong;
+    latLong.setLatitude(ui->latitudeLineEdit->text().toDouble());
+    latLong.setLongitude(ui->longitudeLineEdit->text().toDouble());
 
     geoSearch->search(latLong);
     connect(geoSearch, SIGNAL(parsedPlaces(QList<QTweetPlace>)), SLOT(searchPlacesFinished(QList<QTweetPlace>)));

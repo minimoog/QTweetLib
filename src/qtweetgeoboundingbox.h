@@ -21,13 +21,14 @@
 #ifndef QTWEETGEOBOUNDINGBOX_H
 #define QTWEETGEOBOUNDINGBOX_H
 
+#include "qtweetlib_global.h"
 #include "qtweetgeocoord.h"
 
 /**
  *  Stores geo bounding box
  *  Doesnt' do anything fancy/calculations just stores boundind box info from twitter api
  */
-class QTweetGeoBoundingBox
+class QTWEETLIBSHARED_EXPORT QTweetGeoBoundingBox
 {
 public:
     QTweetGeoBoundingBox();
