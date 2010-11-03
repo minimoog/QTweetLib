@@ -1,2 +1,3 @@
 TEMPLATE = subdirs
-SUBDIRS =  search timelines statusupdate geosearch georeverse followers
+SUBDIRS =   search timelines statusupdate geosearch georeverse \
+            followers userstream

@@ -58,3 +58,5 @@ examples/followers/ui_*.h
 examples/search/ui_*.h
 examples/search/ui_*.h
 examples/search/ui_*.h
+examples/userstream/debug/*
+examples/userstream/ui_*.h
