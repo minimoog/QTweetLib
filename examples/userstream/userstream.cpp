@@ -41,10 +41,11 @@ UserStream::UserStream(QWidget *parent) :
     m_userStream = new QTweetUserStream(this);
     m_userStream->setOAuthTwitter(m_oauthTwitter);
     connect(m_userStream, SIGNAL(stream(QByteArray)), SLOT(stream(QByteArray)));
-    connect(m_userStream, SIGNAL(parsedStatusesStream(QTweetStatus)), SLOT(statusStream(QTweetStatus)));
+    connect(m_userStream, SIGNAL(statusesStream(QTweetStatus)), SLOT(statusStream(QTweetStatus)));
 
     connect(ui->connectButton, SIGNAL(clicked()), SLOT(onConnectButtonClicked()));
 
+    //for internal purposes
     m_file.setFileName("logstream.txt");
     m_file.open(QIODevice::WriteOnly | QIODevice::Text);
 
@@ -94,7 +95,10 @@ void UserStream::onAuthorizeError()
 
 void UserStream::stream(const QByteArray &stream)
 {
+    //for internal purposes
     m_streamlogger << stream << "\n";
+    m_streamlogger << "################################################################" << "\n";
+    m_streamlogger.flush();
 }
 
 void UserStream::statusStream(const QTweetStatus &tweet)

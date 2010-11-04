@@ -51,7 +51,7 @@ signals:
     /**
      *   Emits tweets (parsed) elements
      */
-    void parsedStatusesStream(const QTweetStatus& status);
+    void statusesStream(const QTweetStatus& status);
 
 public slots:
     void startFetching();

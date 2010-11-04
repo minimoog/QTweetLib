@@ -239,6 +239,6 @@ void QTweetUserStream::parsingFinished(const QVariant &json, bool ok, const QStr
             status.setRetweetedStatus(rtStatus);
         }
 
-        emit parsedStatusesStream(status);
+        emit statusesStream(status);
     }
 }
