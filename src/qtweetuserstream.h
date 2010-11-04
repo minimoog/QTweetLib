@@ -52,6 +52,12 @@ signals:
      *   Emits tweets (parsed) elements
      */
     void statusesStream(const QTweetStatus& status);
+    /**
+     *   Emits friends list of id of authenticated user.
+     *   Emited immediately after connecting to the user stream.
+     *   If there is no reconnect it won't be emited again.
+     */
+    void friendsList(const QList<qint64> friends);
 
 public slots:
     void startFetching();
@@ -64,6 +70,7 @@ private slots:
 
 private:
     void parseStream(const QByteArray& );
+    void parseFriendsList(const QVariantMap& streamObject);
 
     OAuthTwitter *m_oauthTwitter;
     QNetworkReply *m_reply;

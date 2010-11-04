@@ -193,7 +193,7 @@ void QTweetUserStream::parsingFinished(const QVariant &json, bool ok, const QStr
 
     //find it what stream element is
     if (result.contains("friends")) {    //friends element
-        // ### TODO: parsing friends id list
+        parseFriendsList(result);
     } else if (result.contains("text")) {  //status element
         QTweetStatus status;
 
@@ -241,4 +241,16 @@ void QTweetUserStream::parsingFinished(const QVariant &json, bool ok, const QStr
 
         emit statusesStream(status);
     }
+}
+
+void QTweetUserStream::parseFriendsList(const QVariantMap& streamObject)
+{
+    QList<qint64> friends;
+
+    QVariantList friendsVarList = streamObject["friends"].toList();
+
+    foreach (const QVariant& idVar, friendsVarList)
+        friends.append(idVar.toLongLong());
+
+    emit friendsList(friends);
 }
