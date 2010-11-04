@@ -61,7 +61,7 @@ signals:
      */
     void friendsList(const QList<qint64> friends);
     /**
-     *   Emits direct messages when is arrived in the stream
+     *   Emits direct message when is arrived in the stream
      */
     void directMessageStream(const QTweetDMStatus& directMessage);
 

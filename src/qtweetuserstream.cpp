@@ -196,52 +196,9 @@ void QTweetUserStream::parsingFinished(const QVariant &json, bool ok, const QStr
     if (result.contains("friends")) {    //friends element
         parseFriendsList(result);
     } else if (result.contains("direct_message")) { //direct message element
-
+        parseDirectMessage(result);
     } else if (result.contains("text")) {  //status element
-        QTweetStatus status;
-
-        status.setId(result["id"].toLongLong());
-        status.setText(result["text"].toString());
-        status.setSource(result["source"].toString());
-        status.setInReplyToStatusId(result["in_reply_to_status_id"].toLongLong());
-        status.setInReplyToUserId(result["in_reply_to_user_id"].toLongLong());
-        status.setInReplyToScreenName(result["in_reply_to_screen_name"].toString());
-
-        QTweetUser user;
-
-        QVariantMap userResult = result["user"].toMap();
-
-        user.setId(userResult["id"].toLongLong());
-        user.setName(userResult["name"].toString());
-        user.setScreenName(userResult["screen_name"].toString());
-        user.setprofileImageUrl(userResult["profile_image_url"].toString());
-
-        status.setUser(user);
-
-        if (result.contains("retweeted_status")) {
-            QTweetStatus rtStatus;
-            QVariantMap rtResult = result["retweeted_status"].toMap();
-
-            rtStatus.setId(rtResult["id"].toLongLong());
-            rtStatus.setText(rtResult["text"].toString());
-            rtStatus.setSource(rtResult["source"].toString());
-            rtStatus.setInReplyToStatusId(rtResult["in_reply_to_status_id"].toLongLong());
-            rtStatus.setInReplyToUserId(rtResult["in_reply_to_user_id"].toLongLong());
-            rtStatus.setInReplyToScreenName(rtResult["in_reply_to_screen_name"].toString());
-
-            QTweetUser rtUser;
-            QVariantMap rtUserResult = rtResult["user"].toMap();
-
-            rtUser.setId(rtUserResult["id"].toLongLong());
-            rtUser.setName(rtUserResult["name"].toString());
-            rtUser.setScreenName(rtUserResult["screen_name"].toString());
-            rtUser.setprofileImageUrl(rtUserResult["profile_image_url"].toString());
-
-            rtStatus.setUser(rtUser);
-
-            status.setRetweetedStatus(rtStatus);
-        }
-
+        QTweetStatus status = QTweetConvert::variantMapToStatus(result);
         emit statusesStream(status);
     }
 }
