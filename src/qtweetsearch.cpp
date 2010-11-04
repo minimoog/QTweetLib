@@ -23,6 +23,7 @@
 #include <QNetworkReply>
 #include "qtweetsearch.h"
 #include "qtweetsearchpageresults.h"
+#include "qtweetconvert.h"
 
 QTweetSearch::QTweetSearch(QObject *parent) :
     QTweetNetBase(parent)
@@ -99,7 +100,7 @@ void QTweetSearch::startWithCustomQuery(const QByteArray &encodedQuery)
 void QTweetSearch::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
 {
     if (ok) {
-        QTweetSearchPageResults pageResults = variantToSearchPageResults(json);
+        QTweetSearchPageResults pageResults = QTweetConvert::variantToSearchPageResults(json);
 
         emit parsedPageResults(pageResults);
     } else {

@@ -23,6 +23,7 @@
 #include <QNetworkRequest>
 #include "qtweetlistdeletelist.h"
 #include "qtweetlist.h"
+#include "qtweetconvert.h"
 
 QTweetListDeleteList::QTweetListDeleteList(QObject *parent) :
         QTweetNetBase(parent)
@@ -61,7 +62,7 @@ void QTweetListDeleteList::parsingJsonFinished(const QVariant &json, bool ok, co
 {
     if (ok) {
         // I hope, Twitter API return list object, did not checked
-        QTweetList list = variantMapToTweetList(json.toMap());
+        QTweetList list = QTweetConvert::variantMapToTweetList(json.toMap());
 
         emit deletedList(list);
     } else {

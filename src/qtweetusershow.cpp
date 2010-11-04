@@ -23,6 +23,7 @@
 #include <QNetworkRequest>
 #include "qtweetusershow.h"
 #include "qtweetuser.h"
+#include "qtweetconvert.h"
 
 QTweetUserShow::QTweetUserShow(QObject *parent) :
     QTweetNetBase(parent)
@@ -87,7 +88,7 @@ void QTweetUserShow::fetch(const QString &screenName, bool includeEntities)
 void QTweetUserShow::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
 {
     if (ok) {
-        QTweetUser userInfo = variantMapToUserInfo(json.toMap());
+        QTweetUser userInfo = QTweetConvert::variantMapToUserInfo(json.toMap());
 
         emit parsedUserInfo(userInfo);
     } else {

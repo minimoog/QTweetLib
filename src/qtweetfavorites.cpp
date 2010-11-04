@@ -23,6 +23,7 @@
 #include <QNetworkReply>
 #include "qtweetfavorites.h"
 #include "qtweetstatus.h"
+#include "qtweetconvert.h"
 
 /**
  *  Constructor
@@ -81,7 +82,7 @@ void QTweetFavorites::fetch(qint64 id, int page, bool includeEntities)
 void QTweetFavorites::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
 {
     if (ok) {
-        QList<QTweetStatus> statuses = variantToStatusList(json);
+        QList<QTweetStatus> statuses = QTweetConvert::variantToStatusList(json);
 
         emit parsedFavorites(statuses);
     } else {

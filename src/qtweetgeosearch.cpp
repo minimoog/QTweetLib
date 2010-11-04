@@ -22,6 +22,7 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include "qtweetgeosearch.h"
+#include "qtweetconvert.h"
 
 /**
  *  Constructor
@@ -117,7 +118,7 @@ void QTweetGeoSearch::search(const QTweetGeoCoord &latLong,
 void QTweetGeoSearch::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
 {
     if (ok) {
-        QList<QTweetPlace> places = variantToPlaceList(json);
+        QList<QTweetPlace> places = QTweetConvert::variantToPlaceList(json);
 
         emit parsedPlaces(places);
     } else {

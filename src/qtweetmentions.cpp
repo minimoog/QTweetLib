@@ -23,6 +23,7 @@
 #include <QNetworkReply>
 #include "qtweetmentions.h"
 #include "qtweetstatus.h"
+#include "qtweetconvert.h"
 
 QTweetMentions::QTweetMentions(QObject *parent) :
     QTweetNetBase(parent)
@@ -92,7 +93,7 @@ void QTweetMentions::fetch(qint64 sinceid,
 void QTweetMentions::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
 {
     if (ok) {
-        QList<QTweetStatus> statuses = variantToStatusList(json);
+        QList<QTweetStatus> statuses = QTweetConvert::variantToStatusList(json);
 
         emit parsedStatuses(statuses);
     } else {

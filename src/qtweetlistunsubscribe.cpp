@@ -23,6 +23,7 @@
 #include <QNetworkReply>
 #include "qtweetlistunsubscribe.h"
 #include "qtweetlist.h"
+#include "qtweetconvert.h"
 
 QTweetListUnsubscribe::QTweetListUnsubscribe(QObject *parent) :
     QTweetNetBase(parent)
@@ -59,7 +60,7 @@ void QTweetListUnsubscribe::unsubscribe(qint64 user, qint64 list)
 void QTweetListUnsubscribe::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
 {
     if (ok) {
-        QTweetList list = variantMapToTweetList(json.toMap());
+        QTweetList list = QTweetConvert::variantMapToTweetList(json.toMap());
 
         emit parsedList(list);
     } else {

@@ -24,6 +24,7 @@
 #include <QNetworkReply>
 #include "qtweetplace.h"
 #include "qtweetgeosimilarplaces.h"
+#include "qtweetconvert.h"
 
 /**
  *  Constructor
@@ -74,7 +75,7 @@ void QTweetGeoSimilarPlaces::get(const QTweetGeoCoord &latLong, const QString &n
 void QTweetGeoSimilarPlaces::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
 {
     if (ok) {
-        QList<QTweetPlace> places = variantToPlaceList(json);
+        QList<QTweetPlace> places = QTweetConvert::variantToPlaceList(json);
 
         //get token
         QVariantMap respMap = json.toMap();

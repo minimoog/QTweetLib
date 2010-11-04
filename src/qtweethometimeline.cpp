@@ -23,6 +23,7 @@
 #include <QNetworkReply>
 #include "qtweethometimeline.h"
 #include "qtweetstatus.h"
+#include "qtweetconvert.h"
 
 /**
  *  Constructor
@@ -96,7 +97,7 @@ void QTweetHomeTimeline::fetch(qint64 sinceid,
 void QTweetHomeTimeline::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
 {
     if (ok) {
-        QList<QTweetStatus> statuses = variantToStatusList(json);
+        QList<QTweetStatus> statuses = QTweetConvert::variantToStatusList(json);
 
         emit parsedStatuses(statuses);
     } else {

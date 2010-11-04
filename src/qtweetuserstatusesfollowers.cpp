@@ -23,6 +23,7 @@
 #include <QNetworkReply>
 #include "qtweetuserstatusesfollowers.h"
 #include "qtweetuser.h"
+#include "qtweetconvert.h"
 
 QTweetUserStatusesFollowers::QTweetUserStatusesFollowers(QObject *parent) :
         QTweetNetBase(parent), m_usesCursoring(false)
@@ -108,14 +109,14 @@ void QTweetUserStatusesFollowers::parsingJsonFinished(const QVariant &json, bool
 
             QVariant userListVar = respMap["users"];
 
-            QList<QTweetUser> userList = variantToUserInfoList(userListVar);
+            QList<QTweetUser> userList = QTweetConvert::variantToUserInfoList(userListVar);
 
             QString nextCursor = respMap["next_cursor_str"].toString();
             QString prevCursor = respMap["previous_cursor_str"].toString();
 
             emit parsedFollowersList(userList, nextCursor, prevCursor);
         } else {
-            QList<QTweetUser> userList = variantToUserInfoList(json);
+            QList<QTweetUser> userList = QTweetConvert::variantToUserInfoList(json);
 
             emit parsedFollowersList(userList);
         }

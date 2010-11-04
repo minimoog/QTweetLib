@@ -23,6 +23,7 @@
 #include <QNetworkReply>
 #include "qtweetdirectmessagedestroy.h"
 #include "qtweetdmstatus.h"
+#include "qtweetconvert.h"
 
 /**
  *  Constructor
@@ -70,7 +71,7 @@ void QTweetDirectMessageDestroy::destroyMessage(qint64 id, bool includeEntities)
 void QTweetDirectMessageDestroy::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
 {
     if (ok) {
-        QTweetDMStatus dm = variantMapToDirectMessage(json.toMap());
+        QTweetDMStatus dm = QTweetConvert::variantMapToDirectMessage(json.toMap());
 
         emit parsedDirectMessage(dm);
     } else {

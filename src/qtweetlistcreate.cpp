@@ -25,6 +25,7 @@
 #include "qjson/parserrunnable.h"
 #include "qtweetlistcreate.h"
 #include "qtweetlist.h"
+#include "qtweetconvert.h"
 
 QTweetListCreate::QTweetListCreate(QObject *parent) :
     QTweetNetBase(parent)
@@ -79,7 +80,7 @@ void QTweetListCreate::create(qint64 user,
 void QTweetListCreate::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
 {
     if (ok) {
-        QTweetList list = variantMapToTweetList(json.toMap());
+        QTweetList list = QTweetConvert::variantMapToTweetList(json.toMap());
 
         emit parsedList(list);
     } else {

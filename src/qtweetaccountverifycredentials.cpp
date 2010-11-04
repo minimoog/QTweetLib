@@ -23,6 +23,7 @@
 #include <QNetworkRequest>
 #include "qtweetaccountverifycredentials.h"
 #include "qtweetuser.h"
+#include "qtweetconvert.h"
 
 /**
  *  Constructor
@@ -70,7 +71,7 @@ void QTweetAccountVerifyCredentials::verify(bool includeEntities)
 void QTweetAccountVerifyCredentials::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
 {
     if (ok) {
-        QTweetUser user = variantMapToUserInfo(json.toMap());
+        QTweetUser user = QTweetConvert::variantMapToUserInfo(json.toMap());
 
         emit parsedUser(user);
     } else {

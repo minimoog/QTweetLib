@@ -23,6 +23,7 @@
 #include <QNetworkRequest>
 #include "qtweetuserlookup.h"
 #include "qtweetuser.h"
+#include "qtweetconvert.h"
 
 QTweetUserLookup::QTweetUserLookup(QObject *parent) :
     QTweetNetBase(parent)
@@ -85,7 +86,7 @@ void QTweetUserLookup::fetch(const QList<qint64> &useridList,
 void QTweetUserLookup::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
 {
     if (ok) {
-        QList<QTweetUser> userInfoList = variantToUserInfoList(json);
+        QList<QTweetUser> userInfoList = QTweetConvert::variantToUserInfoList(json);
 
         emit parsedUserInfoList(userInfoList);
     } else {

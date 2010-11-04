@@ -23,6 +23,7 @@
 #include <QNetworkRequest>
 #include "qtweetstatusretweet.h"
 #include "qtweetstatus.h"
+#include "qtweetconvert.h"
 
 QTweetStatusRetweet::QTweetStatusRetweet(QObject *parent) :
     QTweetNetBase(parent)
@@ -66,7 +67,7 @@ void QTweetStatusRetweet::retweet(qint64 id,
 void QTweetStatusRetweet::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
 {
     if (ok) {
-        QTweetStatus status = variantMapToStatus(json.toMap());
+        QTweetStatus status = QTweetConvert::variantMapToStatus(json.toMap());
 
         emit postedRetweet(status);
     } else {

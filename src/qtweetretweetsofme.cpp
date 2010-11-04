@@ -23,6 +23,7 @@
 #include <QNetworkReply>
 #include "qtweetretweetsofme.h"
 #include "qtweetstatus.h"
+#include "qtweetconvert.h"
 
 QTweetRetweetsOfMe::QTweetRetweetsOfMe(QObject *parent) :
     QTweetNetBase(parent)
@@ -86,7 +87,7 @@ void QTweetRetweetsOfMe::fetch(qint64 sinceid,
 void QTweetRetweetsOfMe::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
 {
     if (ok) {
-        QList<QTweetStatus> statuses = variantToStatusList(json);
+        QList<QTweetStatus> statuses = QTweetConvert::variantToStatusList(json);
 
         emit parsedStatuses(statuses);
     } else {

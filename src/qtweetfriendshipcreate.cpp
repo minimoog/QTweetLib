@@ -23,6 +23,7 @@
 #include <QNetworkReply>
 #include "qtweetfriendshipcreate.h"
 #include "qtweetuser.h"
+#include "qtweetconvert.h"
 
 /**
  *  Constructor
@@ -123,7 +124,7 @@ void QTweetFriendshipCreate::create(const QString &screenName,
 void QTweetFriendshipCreate::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
 {
     if (ok) {
-        QTweetUser user = variantMapToUserInfo(json.toMap());
+        QTweetUser user = QTweetConvert::variantMapToUserInfo(json.toMap());
 
         emit parsedUser(user);
     } else {

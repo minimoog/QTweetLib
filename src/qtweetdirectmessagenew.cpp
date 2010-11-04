@@ -23,6 +23,7 @@
 #include <QNetworkReply>
 #include "qtweetdirectmessagenew.h"
 #include "qtweetdmstatus.h"
+#include "qtweetconvert.h"
 
 /**
  *  Constructor
@@ -117,7 +118,7 @@ void QTweetDirectMessageNew::post(const QString &screenName, const QString &text
 void QTweetDirectMessageNew::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
 {
     if (ok) {
-        QTweetDMStatus dm = variantMapToDirectMessage(json.toMap());
+        QTweetDMStatus dm = QTweetConvert::variantMapToDirectMessage(json.toMap());
 
         emit parsedDirectMessage(dm);
     } else {

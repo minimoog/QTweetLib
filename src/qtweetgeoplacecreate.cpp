@@ -23,6 +23,7 @@
 #include <QNetworkReply>
 #include "qtweetgeoplacecreate.h"
 #include "qtweetplace.h"
+#include "qtweetconvert.h"
 
 /**
  *  Constructor
@@ -84,7 +85,7 @@ void QTweetGeoPlaceCreate::create(const QString &name,
 void QTweetGeoPlaceCreate::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
 {
     if (ok) {
-        QTweetPlace place = variantMapToPlaceRecursive(json.toMap());
+        QTweetPlace place = QTweetConvert::variantMapToPlaceRecursive(json.toMap());
 
         emit parsedPlace(place);
     } else {

@@ -23,6 +23,7 @@
 #include <QNetworkReply>
 #include "qtweetgeoplaceid.h"
 #include "qtweetplace.h"
+#include "qtweetconvert.h"
 
 /**
  *  Constructor
@@ -64,7 +65,7 @@ void QTweetGeoPlaceID::get(const QString &placeid)
 void QTweetGeoPlaceID::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
 {
     if (ok) {
-        QTweetPlace place = variantMapToPlaceRecursive(json.toMap());
+        QTweetPlace place = QTweetConvert::variantMapToPlaceRecursive(json.toMap());
 
         emit parsedPlace(place);
     } else {

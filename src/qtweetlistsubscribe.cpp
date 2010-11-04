@@ -23,6 +23,7 @@
 #include <QNetworkReply>
 #include "qtweetlistsubscribe.h"
 #include "qtweetlist.h"
+#include "qtweetconvert.h"
 
 QTweetListSubscribe::QTweetListSubscribe(QObject *parent) :
     QTweetNetBase(parent)
@@ -59,7 +60,7 @@ void QTweetListSubscribe::follow(qint64 user, qint64 list)
 void QTweetListSubscribe::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
 {
     if (ok) {
-        QTweetList list = variantMapToTweetList(json.toMap());
+        QTweetList list = QTweetConvert::variantMapToTweetList(json.toMap());
 
         emit parsedList(list);
     } else {

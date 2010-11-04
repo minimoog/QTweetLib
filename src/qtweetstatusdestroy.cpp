@@ -23,6 +23,7 @@
 #include <QNetworkRequest>
 #include "qtweetstatusdestroy.h"
 #include "qtweetstatus.h"
+#include "qtweetconvert.h"
 
 QTweetStatusDestroy::QTweetStatusDestroy(QObject *parent) :
     QTweetNetBase(parent)
@@ -76,7 +77,7 @@ void QTweetStatusDestroy::destroy(qint64 id,
 void QTweetStatusDestroy::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
 {
     if (ok) {
-        QTweetStatus status = variantMapToStatus(json.toMap());
+        QTweetStatus status = QTweetConvert::variantMapToStatus(json.toMap());
 
         emit deletedStatus(status);
     } else {

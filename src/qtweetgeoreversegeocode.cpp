@@ -22,6 +22,7 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include "qtweetgeoreversegeocode.h"
+#include "qtweetconvert.h"
 
 /**
  *  Constructor
@@ -98,7 +99,7 @@ void QTweetGeoReverseGeoCode::getPlaces(const QTweetGeoCoord& latLong,
 void QTweetGeoReverseGeoCode::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
 {
     if (ok) {
-        QList<QTweetPlace> places = variantToPlaceList(json);
+        QList<QTweetPlace> places = QTweetConvert::variantToPlaceList(json);
 
         emit parsedPlaces(places);
     } else {

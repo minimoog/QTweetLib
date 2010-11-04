@@ -96,20 +96,6 @@ protected slots:
     virtual void reply();
 
 protected:
-    QList<QTweetStatus> variantToStatusList(const QVariant& fromParser);
-    QList<QTweetDMStatus> variantToDirectMessagesList(const QVariant& fromParser);
-    QTweetDMStatus variantMapToDirectMessage(const QVariantMap& var);
-    QTweetUser variantMapToUserInfo(const QVariantMap& var);
-    QTweetStatus variantMapToStatus(const QVariantMap& var);
-    QTweetList variantMapToTweetList(const QVariantMap& var);
-    QList<QTweetUser> variantToUserInfoList(const QVariant& fromParser);
-    QList<QTweetList> variantToTweetLists(const QVariant& var);
-    QTweetSearchResult variantMapToSearchResult(const QVariantMap& var);
-    QTweetSearchPageResults variantToSearchPageResults(const QVariant& var);
-    QTweetPlace variantMapToPlace(const QVariantMap& var);
-    QTweetPlace variantMapToPlaceRecursive(const QVariantMap& var);
-    QList<QTweetPlace> variantToPlaceList(const QVariant& fromParser);
-
     void parseJson(const QByteArray& jsonData);
     void setLastErrorMessage(const QString& errMsg);
 

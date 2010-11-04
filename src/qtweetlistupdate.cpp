@@ -23,6 +23,7 @@
 #include <QNetworkReply>
 #include "qtweetlistupdate.h"
 #include "qtweetlist.h"
+#include "qtweetconvert.h"
 
 QTweetListUpdate::QTweetListUpdate(QObject *parent) :
         QTweetNetBase(parent)
@@ -80,7 +81,7 @@ void QTweetListUpdate::update(qint64 user,
 void QTweetListUpdate::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
 {
     if (ok) {
-        QTweetList list = variantMapToTweetList(json.toMap());
+        QTweetList list = QTweetConvert::variantMapToTweetList(json.toMap());
 
         emit parsedList(list);
     } else {

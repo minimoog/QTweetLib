@@ -23,6 +23,7 @@
 #include <QNetworkReply>
 #include "qtweetusersearch.h"
 #include "qtweetuser.h"
+#include "qtweetconvert.h"
 
 QTweetUserSearch::QTweetUserSearch(QObject *parent) :
     QTweetNetBase(parent)
@@ -76,7 +77,7 @@ void QTweetUserSearch::search(const QString &query,
 void QTweetUserSearch::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
 {
     if (ok) {
-        QList<QTweetUser> userInfoList = variantToUserInfoList(json);
+        QList<QTweetUser> userInfoList = QTweetConvert::variantToUserInfoList(json);
 
         emit parsedUserInfoList(userInfoList);
     } else {

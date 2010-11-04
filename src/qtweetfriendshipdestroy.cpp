@@ -23,6 +23,7 @@
 #include <QNetworkReply>
 #include "qtweetfriendshipdestroy.h"
 #include "qtweetuser.h"
+#include "qtweetconvert.h"
 
 /**
  *  Constructor
@@ -101,7 +102,7 @@ void QTweetFriendshipDestroy::unfollow(const QString &screenName, bool includeEn
 void QTweetFriendshipDestroy::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
 {
     if (ok) {
-        QTweetUser user = variantMapToUserInfo(json.toMap());
+        QTweetUser user = QTweetConvert::variantMapToUserInfo(json.toMap());
 
         emit parsedUser(user);
     } else {

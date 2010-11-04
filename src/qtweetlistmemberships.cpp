@@ -23,6 +23,7 @@
 #include <QNetworkRequest>
 #include "qtweetlistmemberships.h"
 #include "qtweetlist.h"
+#include "qtweetconvert.h"
 
 QTweetListMemberships::QTweetListMemberships(QObject *parent) :
     QTweetNetBase(parent)
@@ -68,7 +69,7 @@ void QTweetListMemberships::parsingJsonFinished(const QVariant &json, bool ok, c
 
         QVariant listsVar = respMap["lists"];
 
-        QList<QTweetList> lists = variantToTweetLists(listsVar);
+        QList<QTweetList> lists = QTweetConvert::variantToTweetLists(listsVar);
 
         QString nextCursor = respMap["next_cursor_str"].toString();
         QString prevCursor = respMap["previous_cursor_str"].toString();

@@ -23,6 +23,7 @@
 #include <QNetworkReply>
 #include "qtweetdirectmessagessent.h"
 #include "qtweetdmstatus.h"
+#include "qtweetconvert.h"
 
 /**
  *  Constructor
@@ -91,7 +92,7 @@ void QTweetDirectMessagesSent::fetch(qint64 sinceid,
 void QTweetDirectMessagesSent::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
 {
     if (ok) {
-        QList<QTweetDMStatus> directMessages = variantToDirectMessagesList(json);
+        QList<QTweetDMStatus> directMessages = QTweetConvert::variantToDirectMessagesList(json);
 
         emit parsedDirectMessages(directMessages);
     } else {

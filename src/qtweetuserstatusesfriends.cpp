@@ -25,6 +25,7 @@
 #include "qjson/parserrunnable.h"
 #include "qtweetuser.h"
 #include "qtweetuserstatusesfriends.h"
+#include "qtweetconvert.h"
 
 QTweetUserStatusesFriends::QTweetUserStatusesFriends(QObject *parent) :
         QTweetNetBase(parent), m_usesCursoring(false)
@@ -110,14 +111,14 @@ void QTweetUserStatusesFriends::parsingJsonFinished(const QVariant &json, bool o
 
             QVariant userListVar = respMap["users"];
 
-            QList<QTweetUser> userList = variantToUserInfoList(userListVar);
+            QList<QTweetUser> userList = QTweetConvert::variantToUserInfoList(userListVar);
 
             QString nextCursor = respMap["next_cursor_str"].toString();
             QString prevCursor = respMap["previous_cursor_str"].toString();
 
             emit parsedFriendsList(userList, nextCursor, prevCursor);
         } else {
-            QList<QTweetUser> userList = variantToUserInfoList(json);
+            QList<QTweetUser> userList = QTweetConvert::variantToUserInfoList(json);
 
             emit parsedFriendsList(userList);
         }

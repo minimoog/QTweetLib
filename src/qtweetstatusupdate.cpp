@@ -24,6 +24,7 @@
 #include "qtweetstatusupdate.h"
 #include "qtweetstatus.h"
 #include "qtweetgeocoord.h"
+#include "qtweetconvert.h"
 
 QTweetStatusUpdate::QTweetStatusUpdate(QObject *parent) :
     QTweetNetBase(parent)
@@ -99,7 +100,7 @@ void QTweetStatusUpdate::post(const QString &status,
 void QTweetStatusUpdate::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
 {
     if (ok) {
-        QTweetStatus status = variantMapToStatus(json.toMap());
+        QTweetStatus status = QTweetConvert::variantMapToStatus(json.toMap());
 
         emit postedStatus(status);
     } else {

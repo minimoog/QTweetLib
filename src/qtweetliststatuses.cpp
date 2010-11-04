@@ -23,6 +23,7 @@
 #include <QNetworkRequest>
 #include "qtweetliststatuses.h"
 #include "qtweetstatus.h"
+#include "qtweetconvert.h"
 
 QTweetListStatuses::QTweetListStatuses(QObject *parent) :
     QTweetNetBase(parent)
@@ -83,7 +84,7 @@ void QTweetListStatuses::fetch(qint64 user,
 void QTweetListStatuses::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
 {
     if (ok) {
-        QList<QTweetStatus> statuses = variantToStatusList(json);
+        QList<QTweetStatus> statuses = QTweetConvert::variantToStatusList(json);
 
         emit parsedStatuses(statuses);
     } else {

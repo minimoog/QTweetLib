@@ -23,6 +23,7 @@
 #include <QNetworkReply>
 #include "qtweetlistdeletemember.h"
 #include "qtweetlist.h"
+#include "qtweetconvert.h"
 
 QTweetListDeleteMember::QTweetListDeleteMember(QObject *parent) :
     QTweetNetBase(parent)
@@ -62,7 +63,7 @@ void QTweetListDeleteMember::remove(qint64 user, qint64 list, qint64 member)
 void QTweetListDeleteMember::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
 {
     if (ok) {
-        QTweetList list = variantMapToTweetList(json.toMap());
+        QTweetList list = QTweetConvert::variantMapToTweetList(json.toMap());
 
         emit parsedList(list);
     } else {

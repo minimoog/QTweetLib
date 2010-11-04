@@ -23,6 +23,7 @@
 #include <QNetworkReply>
 #include "qtweetusertimeline.h"
 #include "qtweetstatus.h"
+#include "qtweetconvert.h"
 
 QTweetUserTimeline::QTweetUserTimeline(QObject *parent) :
     QTweetNetBase(parent)
@@ -99,7 +100,7 @@ void QTweetUserTimeline::fetch(qint64 userid,
 void QTweetUserTimeline::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
 {
     if (ok) {
-        QList<QTweetStatus> statuses = variantToStatusList(json);
+        QList<QTweetStatus> statuses = QTweetConvert::variantToStatusList(json);
 
         emit parsedStatuses(statuses);
     } else {
