@@ -19,7 +19,6 @@
  */
 
 #include <QtDebug>
-#include <QNetworkReply>
 #include <QNetworkRequest>
 #include <QAuthenticator>
 #include <QTimer>
@@ -27,7 +26,9 @@
 #include "oauthtwitter.h"
 #include "qtweetuserstream.h"
 #include "qtweetstatus.h"
+#include "qtweetdmstatus.h"
 #include "qtweetuser.h"
+#include "qtweetconvert.h"
 #include "qjson/parserrunnable.h"
 
 #define TWITTER_USERSTREAM_URL "https://userstream.twitter.com/2/user.json"
@@ -194,6 +195,8 @@ void QTweetUserStream::parsingFinished(const QVariant &json, bool ok, const QStr
     //find it what stream element is
     if (result.contains("friends")) {    //friends element
         parseFriendsList(result);
+    } else if (result.contains("direct_message")) { //direct message element
+
     } else if (result.contains("text")) {  //status element
         QTweetStatus status;
 
@@ -253,4 +256,13 @@ void QTweetUserStream::parseFriendsList(const QVariantMap& streamObject)
         friends.append(idVar.toLongLong());
 
     emit friendsList(friends);
+}
+
+void QTweetUserStream::parseDirectMessage(const QVariantMap &streamObject)
+{
+    QVariantMap directMessageVarMap = streamObject["direct_message"].toMap();
+
+    QTweetDMStatus directMessage = QTweetConvert::variantMapToDirectMessage(directMessageVarMap);
+
+    emit directMessageStream(directMessage);
 }

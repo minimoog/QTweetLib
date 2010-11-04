@@ -26,10 +26,12 @@
 #include "qtweetlib_global.h"
 
 class QNetworkAccessManager;
+class QNetworkReply;
 class OAuthTwitter;
 class QAuthenticator;
 class QTimer;
 class QTweetStatus;
+class QTweetDMStatus;
 
 /**
  *   Class for fetching user stream
@@ -49,7 +51,7 @@ signals:
     void stream(const QByteArray& );
 
     /**
-     *   Emits tweets (parsed) elements
+     *   Emits tweets (parsed) elements from stream
      */
     void statusesStream(const QTweetStatus& status);
     /**
@@ -58,6 +60,10 @@ signals:
      *   If there is no reconnect it won't be emited again.
      */
     void friendsList(const QList<qint64> friends);
+    /**
+     *   Emits direct messages when is arrived in the stream
+     */
+    void directMessageStream(const QTweetDMStatus& directMessage);
 
 public slots:
     void startFetching();
@@ -71,6 +77,7 @@ private slots:
 private:
     void parseStream(const QByteArray& );
     void parseFriendsList(const QVariantMap& streamObject);
+    void parseDirectMessage(const QVariantMap& streamObject);
 
     OAuthTwitter *m_oauthTwitter;
     QNetworkReply *m_reply;
