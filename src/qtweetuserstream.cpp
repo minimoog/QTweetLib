@@ -200,6 +200,8 @@ void QTweetUserStream::parsingFinished(const QVariant &json, bool ok, const QStr
     } else if (result.contains("text")) {  //status element
         QTweetStatus status = QTweetConvert::variantMapToStatus(result);
         emit statusesStream(status);
+    } else if (result.contains("delete")) {
+        parseDeleteStatus(result);
     }
 }
 
@@ -222,4 +224,15 @@ void QTweetUserStream::parseDirectMessage(const QVariantMap &streamObject)
     QTweetDMStatus directMessage = QTweetConvert::variantMapToDirectMessage(directMessageVarMap);
 
     emit directMessageStream(directMessage);
+}
+
+void QTweetUserStream::parseDeleteStatus(const QVariantMap &streamObject)
+{
+    QVariantMap deleteStatusVarMap = streamObject["delete"].toMap();
+    QVariantMap statusVarMap = deleteStatusVarMap["status"].toMap();
+
+    qint64 id = statusVarMap["id"].toLongLong();
+    qint64 userid = statusVarMap["user_id"].toLongLong();
+
+    emit deleteStatusStream(id, userid);
 }

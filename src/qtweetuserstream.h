@@ -64,6 +64,10 @@ signals:
      *   Emits direct message when is arrived in the stream
      */
     void directMessageStream(const QTweetDMStatus& directMessage);
+    /**
+     *   Emits deletion of status in the stream
+     */
+    void deleteStatusStream(qint64 id, qint64 userid);
 
 public slots:
     void startFetching();
@@ -78,6 +82,7 @@ private:
     void parseStream(const QByteArray& );
     void parseFriendsList(const QVariantMap& streamObject);
     void parseDirectMessage(const QVariantMap& streamObject);
+    void parseDeleteStatus(const QVariantMap& streamObject);
 
     OAuthTwitter *m_oauthTwitter;
     QNetworkReply *m_reply;
