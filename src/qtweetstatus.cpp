@@ -27,7 +27,32 @@
 class QTweetStatusData : public QSharedData
 {
 public:
-    QTweetStatusData() : id(0), inReplyToStatusId(0), containsRetweetStatus(false) {}
+    QTweetStatusData() : id(0), inReplyToStatusId(0), retweetedStatus(0) {}
+
+    QTweetStatusData::QTweetStatusData(const QTweetStatusData& other) : QSharedData(other)
+    {
+        id = other.id;
+        text = other.text;
+        createdAt = other.createdAt;
+        inReplyToUserId = other.inReplyToUserId;
+        inReplyToScreenName = other.inReplyToScreenName;
+        inReplyToStatusId = other.inReplyToStatusId;
+        favorited = other.favorited;
+        source = other.source;
+        user = other.user;
+        place = other.place;
+
+        if (other.retweetedStatus) {
+            retweetedStatus = new QTweetStatus(*other.retweetedStatus);
+        } else {
+            retweetedStatus = 0;
+        }
+    }
+
+    QTweetStatusData::~QTweetStatusData()
+    {
+        delete retweetedStatus;
+    }
 
     qint64 id;
     QString text;
@@ -38,19 +63,8 @@ public:
     bool favorited;
     QString source;
     QTweetUser user;
-    //avoid recursion
-    //QTweetStatus retweetedStatus;
-    qint64 rtsId;
-    QString rtsText;
-    QDateTime rtsCreatedAt;
-    qint64 rtsInReplyToUserId;
-    QString rtsInReplyToScreenName;
-    qint64 rtsInReplyToStatusId;
-    bool rtsFavorited;
-    QString rtsSource;
-    QTweetUser rtsUser;
+    QTweetStatus *retweetedStatus;
     QTweetPlace place;
-    bool containsRetweetStatus;
 };
 
 QTweetStatus::QTweetStatus() :
@@ -176,31 +190,18 @@ qint64 QTweetStatus::userid() const
 
 void QTweetStatus::setRetweetedStatus(const QTweetStatus &status)
 {
-    d->rtsId = status.id();
-    d->rtsText = status.text();
-    d->rtsCreatedAt = status.createdAt();
-    d->rtsInReplyToUserId = status.inReplyToUserId();
-    d->rtsInReplyToStatusId = status.inReplyToUserId();
-    d->rtsFavorited = status.favorited();
-    d->rtsSource = status.source();
-    d->rtsUser = status.user();
-    d->containsRetweetStatus = true;
+    if (!d->retweetedStatus)
+        d->retweetedStatus = new QTweetStatus;
+
+    *d->retweetedStatus = status;
 }
 
 QTweetStatus QTweetStatus::retweetedStatus() const
 {
-    QTweetStatus status;
-    status.setId(d->rtsId);
-    status.setText(d->rtsText);
-    status.setCreatedAt(d->rtsCreatedAt);
-    status.setInReplyToUserId(d->rtsInReplyToUserId);
-    status.setInReplyToScreenName(d->rtsInReplyToScreenName);
-    status.setInReplyToStatusId(d->rtsInReplyToStatusId);
-    status.setFavorited(d->rtsFavorited);
-    status.setSource(d->rtsSource);
-    status.setUser(d->rtsUser);
+    if (!d->retweetedStatus)
+        return QTweetStatus();
 
-    return status;
+    return *d->retweetedStatus;
 }
 
 void QTweetStatus::setPlace(const QTweetPlace &place)
@@ -215,5 +216,8 @@ QTweetPlace QTweetStatus::place() const
 
 bool QTweetStatus::isRetweet() const
 {
-    return d->containsRetweetStatus;
+    if (d->retweetedStatus)
+        return true;
+
+    return false;
 }

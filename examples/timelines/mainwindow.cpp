@@ -130,7 +130,15 @@ void MainWindow::homeTimelineStatuses(const QList<QTweetStatus> &statuses)
                 ui->homeTimelineTextEdit->append("screen name: " + userinfo.screenName());
                 ui->homeTimelineTextEdit->append("user id: " + QString::number(userinfo.id()));
 
+                //is it retweet?
+                QTweetStatus rtStatus = status.retweetedStatus();
+
+                if (rtStatus.id()) {
+                    ui->homeTimelineTextEdit->append("retweet text: " + rtStatus.text());
+                }
+
                 ui->homeTimelineTextEdit->append("----------------------------------------");
+
             }
 
             m_sinceidHomeTimeline = statuses.at(0).id();
@@ -207,9 +215,9 @@ void MainWindow::directMessages(const QList<QTweetDMStatus> &directMessages)
 
                 ui->directMessagesTextEdit->append("----------------------------------------");
             }
-        }
 
-        m_sinceidDirectMessages = directMessages.at(0).id();
+            m_sinceidDirectMessages = directMessages.at(0).id();
+        }
     }
 
     dmTimeline->deleteLater();
