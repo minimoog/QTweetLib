@@ -78,7 +78,8 @@ HEADERS += \
     qtweetgeoplacecreate.h \
     qtweetgeocoord.h \
     qtweetgeoboundingbox.h \
-    qtweetconvert.h
+    qtweetconvert.h \
+    qtweetentityurl.h
 
 SOURCES += \
     oauth.cpp \
@@ -144,4 +145,5 @@ SOURCES += \
     qtweetgeoplacecreate.cpp \
     qtweetgeocoord.cpp \
     qtweetgeoboundingbox.cpp \
-    qtweetconvert.cpp
+    qtweetconvert.cpp \
+    qtweetentityurl.cpp
