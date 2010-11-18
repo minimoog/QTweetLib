@@ -26,6 +26,9 @@
 #include "qtweetplace.h"
 #include "qtweetsearchresult.h"
 #include "qtweetsearchpageresults.h"
+#include "qtweetentityurl.h"
+#include "qtweetentityhashtag.h"
+#include "qtweetentityusermentions.h"
 
 /**
  *  Converts list of statuses
@@ -80,6 +83,41 @@ QTweetStatus QTweetConvert::variantMapToStatus(const QVariantMap &var)
     if (!placeVar.isNull()) {
         QTweetPlace place = variantMapToPlace(placeVar.toMap());
         status.setPlace(place);
+    }
+
+    //check if contains entities
+    if (var.contains("entities")) {
+        QVariantMap entitiesVarMap = var["entities"].toMap();
+
+        //url entities
+        QVariantList urlEntitiesVarList = entitiesVarMap["urls"].toList();
+
+        foreach (const QVariant& urlEntityVar, urlEntitiesVarList) {
+            QVariantMap urlEntityVarMap = urlEntityVar.toMap();
+            QTweetEntityUrl urlEntity = variantMapToEntityUrl(urlEntityVarMap);
+
+            status.addUrlEntity(urlEntity);
+        }
+
+        //hashtag entities
+        QVariantList hashtagEntitiesVarList = entitiesVarMap["hashtags"].toList();
+
+        foreach (const QVariant& hashtagEntityVar, hashtagEntitiesVarList) {
+            QVariantMap hashtagEntityVarMap = hashtagEntityVar.toMap();
+            QTweetEntityHashtag hashtagEntity = variantMapToEntityHashtag(hashtagEntityVarMap);
+
+            status.addHashtagEntity(hashtagEntity);
+        }
+
+        //user mentions
+        QVariantList userMentionsEntitiesVarList = entitiesVarMap["user_mentions"].toList();
+
+        foreach (const QVariant& userMentionsEntityVar, userMentionsEntitiesVarList) {
+            QVariantMap userMentionsEntityVarMap = userMentionsEntityVar.toMap();
+            QTweetEntityUserMentions userMentionsEntity = variantMapToEntityUserMentions(userMentionsEntityVarMap);
+
+            status.addUserMentionsEntity(userMentionsEntity);
+        }
     }
 
     return status;
@@ -448,4 +486,36 @@ QList<QTweetPlace> QTweetConvert::variantToPlaceList(const QVariant& fromParser)
     }
 
     return placeList;
+}
+
+QTweetEntityUrl QTweetConvert::variantMapToEntityUrl(const QVariantMap &var)
+{
+    QString url = var["url"].toString();
+    QString displayUrl = var["display_url"].toString();
+    QString expandedUrl = var["expanded_url"].toString();
+
+    QTweetEntityUrl urlEntity;
+    urlEntity.setUrl(url);
+    urlEntity.setDisplayUrl(displayUrl);
+    urlEntity.setExpandedUrl(expandedUrl);
+
+    return urlEntity;
+}
+
+QTweetEntityHashtag QTweetConvert::variantMapToEntityHashtag(const QVariantMap &var)
+{
+    QTweetEntityHashtag hashtagEntity;
+    hashtagEntity.setText(var["text"].toString());
+
+    return hashtagEntity;
+}
+
+QTweetEntityUserMentions QTweetConvert::variantMapToEntityUserMentions(const QVariantMap &var)
+{
+    QTweetEntityUserMentions userMentionsEntity;
+    userMentionsEntity.setScreenName(var["screen_name"].toString());
+    userMentionsEntity.setName(var["name"].toString());
+    userMentionsEntity.setUserid(var["id"].toLongLong());
+
+    return userMentionsEntity;
 }
