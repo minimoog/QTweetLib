@@ -24,8 +24,13 @@
 #include <QtDebug>
 #include "oauth.h"
 
-#define CONSUMER_KEY ""
-#define CONSUMER_SECRET ""
+#ifndef CONSUMER_KEY
+    #define CONSUMER_KEY ""
+#endif //CONSUMER_KEY
+
+#ifndef CONSUMER_SECRET
+    #define CONSUMER_SECRET ""
+#endif //CONSUMER_SECRET
 
 /**
  * Generates HMAC-SHA1 signature
