@@ -23,6 +23,9 @@
 #include "qtweetstatus.h"
 #include "qtweetuser.h"
 #include "qtweetplace.h"
+#include "qtweetentityurl.h"
+#include "qtweetentityhashtag.h"
+#include "qtweetentityusermentions.h"
 
 class QTweetStatusData : public QSharedData
 {
@@ -65,6 +68,9 @@ public:
     QTweetUser user;
     QTweetStatus *retweetedStatus;
     QTweetPlace place;
+    QList<QTweetEntityUrl> urlEntities;
+    QList<QTweetEntityHashtag> hashtagEntities;
+    QList<QTweetEntityUserMentions> userMentionEntities;
 };
 
 QTweetStatus::QTweetStatus() :
@@ -220,4 +226,19 @@ bool QTweetStatus::isRetweet() const
         return true;
 
     return false;
+}
+
+QList<QTweetEntityUrl> QTweetStatus::urlEntities() const
+{
+    return d->urlEntities;
+}
+
+QList<QTweetEntityHashtag> QTweetStatus::hashtagEntities() const
+{
+    return d->hashtagEntities;
+}
+
+QList<QTweetEntityUserMentions> QTweetStatus::userMentionsEntities() const
+{
+    return d->userMentionEntities;
 }

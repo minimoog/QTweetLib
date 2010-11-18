@@ -29,6 +29,9 @@ class QDateTime;
 class QTweetUser;
 class QTweetStatusData;
 class QTweetPlace;
+class QTweetEntityUrl;
+class QTweetEntityHashtag;
+class QTweetEntityUserMentions;
 
 /**
  *   Stores tweet info
@@ -66,6 +69,9 @@ public:
     void setPlace(const QTweetPlace& place);
     QTweetPlace place() const;
     bool isRetweet() const;
+    QList<QTweetEntityUrl> urlEntities() const;
+    QList<QTweetEntityHashtag> hashtagEntities() const;
+    QList<QTweetEntityUserMentions> userMentionsEntities() const;
 
 private:
     QSharedDataPointer<QTweetStatusData> d;
