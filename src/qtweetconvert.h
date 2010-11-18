@@ -30,6 +30,9 @@ class QTweetList;
 class QTweetSearchResult;
 class QTweetSearchPageResults;
 class QTweetPlace;
+class QTweetEntityUrl;
+class QTweetEntityHashtag;
+class QTweetEntityUserMentions;
 
 /**
  *  Contains static converting functions
@@ -50,6 +53,10 @@ public:
     static QTweetPlace variantMapToPlace(const QVariantMap& var);
     static QTweetPlace variantMapToPlaceRecursive(const QVariantMap& var);
     static QList<QTweetPlace> variantToPlaceList(const QVariant& fromParser);
+    static QTweetEntityUrl variantMapToEntityUrl(const QVariantMap& var);
+    static QTweetEntityHashtag variantMapToEntityHashtag(const QVariantMap& var);
+    static QTweetEntityUserMentions variantMapToEntityUserMentions(const QVariantMap& var);
+
 
 };
 

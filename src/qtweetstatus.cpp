@@ -242,3 +242,18 @@ QList<QTweetEntityUserMentions> QTweetStatus::userMentionsEntities() const
 {
     return d->userMentionEntities;
 }
+
+void QTweetStatus::addUrlEntity(const QTweetEntityUrl &urlEntity)
+{
+    d->urlEntities.append(urlEntity);
+}
+
+void QTweetStatus::addHashtagEntity(const QTweetEntityHashtag &hashtagEntity)
+{
+    d->hashtagEntities.append(hashtagEntity);
+}
+
+void QTweetStatus::addUserMentionsEntity(const QTweetEntityUserMentions &userMentionsEntity)
+{
+    d->userMentionEntities.append(userMentionsEntity);
+}

@@ -72,6 +72,9 @@ public:
     QList<QTweetEntityUrl> urlEntities() const;
     QList<QTweetEntityHashtag> hashtagEntities() const;
     QList<QTweetEntityUserMentions> userMentionsEntities() const;
+    void addUrlEntity(const QTweetEntityUrl& urlEntity);
+    void addHashtagEntity(const QTweetEntityHashtag& hashtagEntity);
+    void addUserMentionsEntity(const QTweetEntityUserMentions& userMentionsEntity);
 
 private:
     QSharedDataPointer<QTweetStatusData> d;
