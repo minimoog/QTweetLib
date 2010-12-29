@@ -117,10 +117,28 @@ static QByteArray generateNonce()
  *   Constructor
  *   @param parent parent QObject
  */
-OAuth::OAuth(QObject *parent) : QObject(parent)
+OAuth::OAuth(QObject *parent)
+    : QObject(parent),
+      m_oauthConsumerKey(CONSUMER_KEY),
+      m_oauthConsumerSecret(CONSUMER_SECRET)
 {
 	QDateTime current = QDateTime::currentDateTime();
 	qsrand(current.toTime_t());
+}
+
+/**
+ *  Constructor
+ *  @param consumerKey oauth consumer key
+ *  @param consumerSecret oauth consumer secret
+ *  @param parent parent QObject
+ */
+OAuth::OAuth(const QByteArray &consumerKey, const QByteArray &consumerSecret, QObject *parent)
+    : QObject(parent),
+      m_oauthConsumerKey(consumerKey),
+      m_oauthConsumerSecret(consumerSecret)
+{
+    QDateTime current = QDateTime::currentDateTime();
+    qsrand(current.toTime_t());
 }
 
 /**
@@ -194,7 +212,7 @@ void OAuth::clearTokens()
 QByteArray OAuth::generateSignatureHMACSHA1(const QByteArray& signatureBase)
 {
 	//OAuth spec. 9.2 http://oauth.net/core/1.0/#anchor16
-	QByteArray key = QByteArray(CONSUMER_SECRET) + '&' + m_oauthTokenSecret;
+    QByteArray key = m_oauthConsumerSecret + '&' + m_oauthTokenSecret;
 
     QByteArray result = hmacSha1(signatureBase, key);
 	QByteArray resultBE64 = result.toBase64();
@@ -226,7 +244,7 @@ QByteArray OAuth::generateSignatureBase(const QUrl& url, HttpMethod method, cons
 	}
 
 	//consumer key
-	normParameters.append(QByteArray("oauth_consumer_key=") + QByteArray(CONSUMER_KEY));
+    normParameters.append(QByteArray("oauth_consumer_key=") + m_oauthConsumerKey);
 
 	//token
 	if(!m_oauthToken.isEmpty()){
@@ -309,7 +327,7 @@ QByteArray OAuth::generateAuthorizationHeader( const QUrl& url, HttpMethod metho
 
 	QByteArray header;
 	header += "OAuth ";
-	header += "oauth_consumer_key=\"" + QByteArray(CONSUMER_KEY) + "\",";
+    header += "oauth_consumer_key=\"" + m_oauthConsumerKey + "\",";
 	if(!m_oauthToken.isEmpty())
 		header += "oauth_token=\"" + m_oauthToken + "\",";
 	header += "oauth_signature_method=\"HMAC-SHA1\",";
