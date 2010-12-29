@@ -40,6 +40,7 @@ public:
 	void setNetworkAccessManager(QNetworkAccessManager* netManager);
 	QNetworkAccessManager* networkAccessManager() const;
     void authorizeXAuth(const QString& username, const QString& password);
+    void authorizePin();
 
 signals:
     /** Emited when XAuth authorization is finished */
@@ -49,8 +50,13 @@ signals:
     // Sigh, bad documentation on errors in twitter api
     void authorizeXAuthError();
 
+protected:
+    virtual int authorizationWidget();
+    virtual void requestAuthorization();
+
 private slots:
     void finishedAuthorization();
+    void requestAccessToken(int pin);
 
 private:
 	QNetworkAccessManager *m_netManager;

@@ -1,5 +1,5 @@
 QT       += network
-QT       -= gui
+QT       += gui
 
 TEMPLATE = lib
 TARGET = QTweetLib

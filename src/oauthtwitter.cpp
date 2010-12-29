@@ -24,6 +24,8 @@
 #include <QNetworkReply>
 #include <QTimer>
 #include <QNetworkAccessManager>
+#include <QEventLoop>
+#include <QDesktopServices>
 
 #define TWITTER_REQUEST_TOKEN_URL "http://twitter.com/oauth/request_token"
 #define TWITTER_ACCESS_TOKEN_URL "http://twitter.com/oauth/access_token"
@@ -106,7 +108,109 @@ void OAuthTwitter::finishedAuthorization()
             emit authorizeXAuthError();
 
         }
-
         reply->deleteLater();
     }
+}
+
+/**
+ *  Starts PIN based OAuth authorization
+ */
+void OAuthTwitter::authorizePin()
+{
+    Q_ASSERT(m_netManager != 0);
+
+    QUrl url(TWITTER_REQUEST_TOKEN_URL);
+
+    QByteArray oauthHeader = generateAuthorizationHeader(url, OAuth::POST);
+
+    QNetworkRequest req(url);
+    req.setRawHeader(AUTH_HEADER, oauthHeader);
+
+    //enters event loop
+    QEventLoop q;
+    QTimer t;
+    t.setSingleShot(true);
+    connect(&t, SIGNAL(timeout()), &q, SLOT(quit()));
+
+    QNetworkReply *reply = m_netManager->post(req, QByteArray());
+    connect(reply, SIGNAL(finished()), &q, SLOT(quit()));
+    connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(error()));
+
+    t.start(5000);
+    q.exec();
+
+    if (t.isActive()) {
+        t.stop();
+        QByteArray response = reply->readAll();
+        parseTokens(response);
+
+        reply->deleteLater();
+        requestAuthorization();
+
+        int pin = authorizationWidget();
+        if (pin) {
+            requestAccessToken(pin);
+        }
+    } else {
+        qDebug() << "Timeout";
+    }
+}
+
+/**
+ *  Opens authorization url
+ *  @remarks Override if you want to show another browser
+ */
+void OAuthTwitter::requestAuthorization()
+{
+    QUrl authorizeUrl(TWITTER_AUTHORIZE_URL);
+    authorizeUrl.addEncodedQueryItem("oauth_token", oauthToken());
+
+    QDesktopServices::openUrl(authorizeUrl);
+}
+
+/**
+ *  Gets access tokens for user entered pin number
+ *  @param pin entered pin number
+ */
+void OAuthTwitter::requestAccessToken(int pin)
+{
+    Q_ASSERT(m_netManager != 0);
+
+    QUrl url(TWITTER_ACCESS_TOKEN_URL);
+    url.addEncodedQueryItem("oauth_verifier", QByteArray::number(pin));
+
+    QByteArray oauthHeader = generateAuthorizationHeader(url, OAuth::POST);
+
+    QEventLoop q;
+    QTimer t;
+    t.setSingleShot(true);
+
+    connect(&t, SIGNAL(timeout()), &q, SLOT(quit()));
+
+    QNetworkRequest req(url);
+    req.setRawHeader(AUTH_HEADER, oauthHeader);
+
+    QNetworkReply *reply = m_netManager->post(req, QByteArray());
+    connect(reply, SIGNAL(finished()), &q, SLOT(quit()));
+    connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(error()));
+
+    t.start(5000);
+    q.exec();
+
+    if(t.isActive()){
+        QByteArray response = reply->readAll();
+        parseTokens(response);
+        reply->deleteLater();
+    } else {
+        qDebug() << "Timeout";
+    }
+}
+
+/**
+ *  Override to show the authorization widget where users enters pin number
+ *  @return entered pin number by the user
+ */
+int OAuthTwitter::authorizationWidget()
+{
+    return 0;
 }
