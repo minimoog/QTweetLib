@@ -32,7 +32,7 @@ class QTweetStatusData : public QSharedData
 public:
     QTweetStatusData() : id(0), inReplyToStatusId(0), retweetedStatus(0) {}
 
-    QTweetStatusData::QTweetStatusData(const QTweetStatusData& other) : QSharedData(other)
+    QTweetStatusData(const QTweetStatusData& other) : QSharedData(other)
     {
         id = other.id;
         text = other.text;
