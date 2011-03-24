@@ -82,7 +82,8 @@ HEADERS += \
     qtweetentityurl.h \
     qtweetentityhashtag.h \
     qtweetentityusermentions.h \
-    qtweetblockscreate.h
+    qtweetblockscreate.h \
+    qtweetblocksdestroy.h
 
 SOURCES += \
     oauth.cpp \
@@ -152,4 +153,5 @@ SOURCES += \
     qtweetentityurl.cpp \
     qtweetentityhashtag.cpp \
     qtweetentityusermentions.cpp \
-    qtweetblockscreate.cpp
+    qtweetblockscreate.cpp \
+    qtweetblocksdestroy.cpp
