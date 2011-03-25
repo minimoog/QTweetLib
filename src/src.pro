@@ -85,7 +85,8 @@ HEADERS += \
     qtweetblockscreate.h \
     qtweetblocksdestroy.h \
     qtweetblocksexists.h \
-    qtweetblocksblocking.h
+    qtweetblocksblocking.h \
+    qtweetblocksblockingids.h
 
 SOURCES += \
     oauth.cpp \
@@ -158,4 +159,5 @@ SOURCES += \
     qtweetblockscreate.cpp \
     qtweetblocksdestroy.cpp \
     qtweetblocksexists.cpp \
-    qtweetblocksblocking.cpp
+    qtweetblocksblocking.cpp \
+    qtweetblocksblockingids.cpp

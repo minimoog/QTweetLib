@@ -18,27 +18,27 @@
  * Contact e-mail: Antonie Jovanoski <minimoog77_at_gmail.com>
  */
 
-#ifndef QTWEETBLOCKSBLOCKING_H
-#define QTWEETBLOCKSBLOCKING_H
+#ifndef QTWEETBLOCKSBLOCKINGIDS_H
+#define QTWEETBLOCKSBLOCKINGIDS_H
 
 #include "qtweetnetbase.h"
 
 /**
- *  Emits the list of users that the authenticating user is blocking.
+ *  Emits a list of numeric user ids the authenticating user is blocking.
  */
-class QTWEETLIBSHARED_EXPORT QTweetBlocksBlocking : public QTweetNetBase
+class QTWEETLIBSHARED_EXPORT QTweetBlocksBlockingIDs : public QTweetNetBase
 {
     Q_OBJECT
 public:
-    explicit QTweetBlocksBlocking(QObject *parent = 0);
-    QTweetBlocksBlocking(OAuthTwitter *oauthTwitter, QObject *parent = 0);
-    void getBlocks(int page = 0, bool includeEntities = false);
+    explicit QTweetBlocksBlockingIDs(QObject *parent = 0);
+    QTweetBlocksBlockingIDs(OAuthTwitter *oauthTwitter, QObject *parent = 0);
+    void getIDs();
 
 signals:
-    void finishedGettingBlocks(const QList<QTweetUser>& users);
+    void finishedGettingIDs(const QList<qint64> useridlist);
 
 protected slots:
     void parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg);
 };
 
-#endif // QTWEETBLOCKSBLOCKING_H
+#endif // QTWEETBLOCKSBLOCKINGIDS_H
