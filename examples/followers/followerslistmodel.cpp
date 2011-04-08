@@ -87,7 +87,7 @@ void FollowersListModel::fetchFollowers(const QString &cursor)
 
     QTweetUserStatusesFollowers *followers = new QTweetUserStatusesFollowers;
     followers->setOAuthTwitter(m_oauthTwitter);
-    followers->fetch(0, cursor, false);
+    followers->fetch(0, cursor);
     connect(followers, SIGNAL(parsedFollowersList(QList<QTweetUser>,QString)),
             this, SLOT(followersFinished(QList<QTweetUser>,QString)));
 

@@ -38,6 +38,7 @@ QTweetUserStatusesFollowers::QTweetUserStatusesFollowers(OAuthTwitter *oauthTwit
 /**
  *   Starts fetching user followers list
  *   @param userid the ID of the user for whom to return results for.
+ *                 Set 0 if you want to fetch followers for authenticaded user
  *   @param cursor breaks the results into pages. Provide a value of "-1" to begin paging.
  *   @param includeEntities when set to true, each tweet will include a node called "entities,".
  */
@@ -47,7 +48,8 @@ void QTweetUserStatusesFollowers::fetch(qint64 userid,
 {
     QUrl url("http://api.twitter.com/1/statuses/followers.json");
 
-    url.addQueryItem("user_id", QString::number(userid));
+    if (userid != 0)
+        url.addQueryItem("user_id", QString::number(userid));
 
     if (!cursor.isEmpty()) {
         m_usesCursoring = true;
@@ -71,6 +73,7 @@ void QTweetUserStatusesFollowers::fetch(qint64 userid,
 /**
  *   Starts fetching user followers list
  *   @param screenName the screen name of the user for whom to return results for.
+ *          Set to empty string if you want to fetch followers for authenticaded user
  *   @param cursor breaks the results into pages. Provide a value of "-1" to begin paging.
  *   @param includeEntities when set to true, each tweet will include a node called "entities,".
  */
@@ -80,7 +83,8 @@ void QTweetUserStatusesFollowers::fetch(const QString &screenName,
 {
     QUrl url("http://api.twitter.com/1/statuses/followers.json");
 
-    url.addQueryItem("screen_name", screenName);
+    if (!screenName.isEmpty())
+        url.addQueryItem("screen_name", screenName);
 
     if (!cursor.isEmpty()) {
         m_usesCursoring = true;
