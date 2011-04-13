@@ -27,9 +27,9 @@
 #include <QEventLoop>
 #include <QDesktopServices>
 
-#define TWITTER_REQUEST_TOKEN_URL "http://twitter.com/oauth/request_token"
-#define TWITTER_ACCESS_TOKEN_URL "http://twitter.com/oauth/access_token"
-#define TWITTER_AUTHORIZE_URL "http://twitter.com/oauth/authorize"
+#define TWITTER_REQUEST_TOKEN_URL "https://twitter.com/oauth/request_token"
+#define TWITTER_ACCESS_TOKEN_URL "https://twitter.com/oauth/access_token"
+#define TWITTER_AUTHORIZE_URL "https://twitter.com/oauth/authorize"
 #define TWITTER_ACCESS_TOKEN_XAUTH_URL "https://api.twitter.com/oauth/access_token"
 
 /**
