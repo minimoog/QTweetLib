@@ -164,6 +164,7 @@ void OAuthTwitter::requestAuthorization()
 {
     QUrl authorizeUrl(TWITTER_AUTHORIZE_URL);
     authorizeUrl.addEncodedQueryItem("oauth_token", oauthToken());
+    authorizeUrl.addEncodedQueryItem("oauth_callback", "oob");
 
     QDesktopServices::openUrl(authorizeUrl);
 }
