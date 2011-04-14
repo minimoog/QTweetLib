@@ -60,3 +60,9 @@ examples/search/ui_*.h
 examples/search/ui_*.h
 examples/userstream/debug/*
 examples/userstream/ui_*.h
+examples/pinauthstatusupdate/debug/*.obj
+examples/pinauthstatusupdate/debug/moc_*.cpp
+examples/pinauthstatusupdate/debug/*.exe
+examples/pinauthstatusupdate/debug/*.ilk
+examples/pinauthstatusupdate/debug/*.intermediate.manifest
+examples/pinauthstatusupdate/ui_*.h

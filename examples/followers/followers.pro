@@ -2,7 +2,7 @@ QT       += core gui network declarative
 
 TARGET = followers
 TEMPLATE = app
-win32:LIBS += ../../lib/QTweetLib.lib
+LIBS += ../../lib/QTweetLib.lib
 INCLUDEPATH += ../../src
 
 SOURCES += \

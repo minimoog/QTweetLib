@@ -30,15 +30,15 @@ class QNetworkAccessManager;
  */
 class QTWEETLIBSHARED_EXPORT OAuthTwitter : public OAuth
 {
-	Q_OBJECT
+    Q_OBJECT
     Q_PROPERTY(QNetworkAccessManager* networkAccessManager
                READ networkAccessManager
                WRITE setNetworkAccessManager)
 public:
-	OAuthTwitter(QObject *parent = 0);
+    OAuthTwitter(QObject *parent = 0);
     OAuthTwitter(QNetworkAccessManager* netManager, QObject *parent = 0);
-	void setNetworkAccessManager(QNetworkAccessManager* netManager);
-	QNetworkAccessManager* networkAccessManager() const;
+    void setNetworkAccessManager(QNetworkAccessManager* netManager);
+    QNetworkAccessManager* networkAccessManager() const;
     void authorizeXAuth(const QString& username, const QString& password);
     void authorizePin();
 
@@ -59,7 +59,7 @@ private slots:
     void requestAccessToken(int pin);
 
 private:
-	QNetworkAccessManager *m_netManager;
+    QNetworkAccessManager *m_netManager;
 };	
 
 #endif //OAUTHTWITTER_H
