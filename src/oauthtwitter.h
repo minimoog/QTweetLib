@@ -37,6 +37,7 @@ class QTWEETLIBSHARED_EXPORT OAuthTwitter : public OAuth
 public:
     OAuthTwitter(QObject *parent = 0);
     OAuthTwitter(QNetworkAccessManager* netManager, QObject *parent = 0);
+    OAuthTwitter(const QByteArray& consumerKey, const QByteArray& consumerSecret, QObject *parent = 0);
     void setNetworkAccessManager(QNetworkAccessManager* netManager);
     QNetworkAccessManager* networkAccessManager() const;
     void authorizeXAuth(const QString& username, const QString& password);

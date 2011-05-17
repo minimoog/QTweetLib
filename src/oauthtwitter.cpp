@@ -49,6 +49,17 @@ OAuthTwitter::OAuthTwitter(QNetworkAccessManager *netManager, QObject *parent) :
 }
 
 /**
+ *  Constructor
+ *  @param consumerKey OAuth consumer key
+ *  @param consumerSecret OAuth consumer secret
+ *  @param parent parent object
+ */
+OAuthTwitter::OAuthTwitter(const QByteArray &consumerKey, const QByteArray &consumerSecret, QObject *parent) :
+    OAuth(consumerKey, consumerSecret, parent), m_netManager(0)
+{
+}
+
+/**
  *   Sets network access manager
  *   @remarks Must be set to work properly
  */
@@ -126,7 +137,7 @@ void OAuthTwitter::authorizePin()
     QNetworkRequest req(url);
     req.setRawHeader(AUTH_HEADER, oauthHeader);
 
-    //enters event loop
+    //enters event loop, simulate blocking io
     QEventLoop q;
     QTimer t;
     t.setSingleShot(true);
