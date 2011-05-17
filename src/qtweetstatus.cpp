@@ -52,7 +52,7 @@ public:
         }
     }
 
-    QTweetStatusData::~QTweetStatusData()
+    ~QTweetStatusData()
     {
         delete retweetedStatus;
     }
