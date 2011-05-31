@@ -4,16 +4,16 @@
   * Copyright (C) 2009 Flavio Castelli <flavio@castelli.name>
   *
   * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Library General Public
-  * License as published by the Free Software Foundation; either
-  * version 2 of the License, or (at your option) any later version.
+  * modify it under the terms of the GNU Lesser General Public
+  * License version 2.1, as published by the Free Software Foundation.
+  * 
   *
   * This library is distributed in the hope that it will be useful,
   * but WITHOUT ANY WARRANTY; without even the implied warranty of
   * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-  * Library General Public License for more details.
+  * Lesser General Public License for more details.
   *
-  * You should have received a copy of the GNU Library General Public License
+  * You should have received a copy of the GNU Lesser General Public License
   * along with this library; see the file COPYING.LIB.  If not, write to
   * the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
   * Boston, MA 02110-1301, USA.
@@ -65,7 +65,7 @@ void QObjectHelper::qvariant2qobject(const QVariantMap& variant, QObject* object
   const QMetaObject *metaobject = object->metaObject();
 
   QVariantMap::const_iterator iter;
-  for (iter = variant.constBegin(); iter != variant.constEnd(); iter++) {
+  for (iter = variant.constBegin(); iter != variant.constEnd(); ++iter) {
     int pIdx = metaobject->indexOfProperty( iter.key().toAscii() );
 
     if ( pIdx < 0 ) {
@@ -75,10 +75,11 @@ void QObjectHelper::qvariant2qobject(const QVariantMap& variant, QObject* object
     QMetaProperty metaproperty = metaobject->property( pIdx );
     QVariant::Type type = metaproperty.type();
     QVariant v( iter.value() );
-
     if ( v.canConvert( type ) ) {
       v.convert( type );
       metaproperty.write( object, v );
+    } else if (QString(QLatin1String("QVariant")).compare(QLatin1String(metaproperty.typeName())) == 0) {
+     metaproperty.write( object, v );
     }
   }
 }
