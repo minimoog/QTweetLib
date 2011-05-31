@@ -2,10 +2,8 @@ QT       += network
 QT       += gui
 
 TEMPLATE = lib
-TARGET = QTweetLib
+TARGET = qtweetlib
 DESTDIR = ../lib
-win32:LIBS += ../lib/qjson.lib
-unix:LIBS += -L../lib -lqjson
 CONFIG += create_prl
 INCLUDEPATH += ..
 
@@ -86,7 +84,20 @@ HEADERS += \
     qtweetblocksdestroy.h \
     qtweetblocksexists.h \
     qtweetblocksblocking.h \
-    qtweetblocksblockingids.h
+    qtweetblocksblockingids.h \
+    qjson/stack.hh \
+    qjson/serializerrunnable.h \
+    qjson/serializer.h \
+    qjson/qobjecthelper.h \
+    qjson/qjson_export.h \
+    qjson/qjson_debug.h \
+    qjson/position.hh \
+    qjson/parserrunnable.h \
+    qjson/parser_p.h \
+    qjson/parser.h \
+    qjson/location.hh \
+    qjson/json_scanner.h \
+    qjson/json_parser.hh
 
 SOURCES += \
     oauth.cpp \
@@ -160,4 +171,14 @@ SOURCES += \
     qtweetblocksdestroy.cpp \
     qtweetblocksexists.cpp \
     qtweetblocksblocking.cpp \
-    qtweetblocksblockingids.cpp
+    qtweetblocksblockingids.cpp \
+    qjson/serializerrunnable.cpp \
+    qjson/serializer.cpp \
+    qjson/qobjecthelper.cpp \
+    qjson/parserrunnable.cpp \
+    qjson/parser.cpp \
+    qjson/json_scanner.cpp \
+    qjson/json_parser.cc
+
+OTHER_FILES += \
+    qjson/json_parser.yy
