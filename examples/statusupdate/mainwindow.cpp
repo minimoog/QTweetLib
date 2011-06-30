@@ -51,8 +51,9 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->udpatePushButton, SIGNAL(clicked()), SLOT(updateButtonClicked()));
 
     m_authorized = true;
-    m_oauthTwitter->setOAuthToken("16290455-CPyk9D9hJoCghpw7zAE73IZ0g0XtbVHU7xbI5RJE2");
-    m_oauthTwitter->setOAuthTokenSecret("NMCzZHio4YAB1ZrTsNP35HLHeN4Ze1GI3qT4zvMCctQ");
+    //Add here proper tokens
+    m_oauthTwitter->setOAuthToken("");
+    m_oauthTwitter->setOAuthTokenSecret("");
 }
 
 MainWindow::~MainWindow()
