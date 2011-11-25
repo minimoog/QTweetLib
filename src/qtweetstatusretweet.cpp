@@ -54,6 +54,7 @@ void QTweetStatusRetweet::retweet(qint64 id,
         url.addQueryItem("include_entities", "true");
 
     QNetworkRequest req(url);
+    req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
 
     if (isAuthenticationEnabled()) {    //Oh, Twitter API docs wrong?
         QByteArray oauthHeader = oauthTwitter()->generateAuthorizationHeader(url, OAuth::POST);

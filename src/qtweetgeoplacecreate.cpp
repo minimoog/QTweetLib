@@ -74,6 +74,7 @@ void QTweetGeoPlaceCreate::create(const QString &name,
 
     QNetworkRequest req(url);
     req.setRawHeader(AUTH_HEADER, oauthHeader);
+    req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
 
     QByteArray statusPost = urlQuery.toEncoded(QUrl::RemoveScheme | QUrl::RemoveAuthority | QUrl::RemovePath);
     statusPost.remove(0, 1);

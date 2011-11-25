@@ -136,6 +136,7 @@ void OAuthTwitter::authorizePin()
 
     QNetworkRequest req(url);
     req.setRawHeader(AUTH_HEADER, oauthHeader);
+    req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
 
     //enters event loop, simulate blocking io
     QEventLoop q;
@@ -201,6 +202,7 @@ void OAuthTwitter::requestAccessToken(int pin)
 
     QNetworkRequest req(url);
     req.setRawHeader(AUTH_HEADER, oauthHeader);
+    req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
 
     QNetworkReply *reply = m_netManager->post(req, QByteArray());
     connect(reply, SIGNAL(finished()), &q, SLOT(quit()));
