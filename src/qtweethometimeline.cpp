@@ -29,7 +29,15 @@
  *  Constructor
  */
 QTweetHomeTimeline::QTweetHomeTimeline(QObject *parent) :
-    QTweetNetBase(parent)
+    QTweetNetBase(parent),
+    m_sinceid(0),
+    m_maxid(0),
+    m_count(0),
+    m_page(0),
+    m_trimUser(false),
+    m_includeEntities(false),
+    m_excludeReplies(false),
+    m_contributorDetails(false)
 {
 }
 
@@ -39,7 +47,15 @@ QTweetHomeTimeline::QTweetHomeTimeline(QObject *parent) :
  *  @param parent parent QObject
  */
 QTweetHomeTimeline::QTweetHomeTimeline(OAuthTwitter *oauthTwitter, QObject *parent) :
-        QTweetNetBase(oauthTwitter, parent)
+    QTweetNetBase(oauthTwitter, parent),
+    m_sinceid(0),
+    m_maxid(0),
+    m_count(0),
+    m_page(0),
+    m_trimUser(false),
+    m_includeEntities(false),
+    m_excludeReplies(false),
+    m_contributorDetails(false)
 {
 }
 
@@ -102,6 +118,11 @@ void QTweetHomeTimeline::fetch(qint64 sinceid,
 
     QNetworkReply *reply = oauthTwitter()->networkAccessManager()->get(req);
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
+}
+
+void QTweetHomeTimeline::get()
+{
+    fetch(m_sinceid, m_maxid, m_count, m_page, m_trimUser, m_includeEntities, m_excludeReplies, m_contributorDetails);
 }
 
 void QTweetHomeTimeline::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
