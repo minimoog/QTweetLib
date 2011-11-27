@@ -51,6 +51,8 @@ QTweetHomeTimeline::QTweetHomeTimeline(OAuthTwitter *oauthTwitter, QObject *pare
  *   @param page page number
  *   @param skipUser true to include only status authors numerical ID
  *   @param includeEntities true to include a node called "entities"
+ *   @param excludeReplies true to prevent replies from appearing in the returned timeline
+ *   @param contributorDetails true to enhance the contributors element of the status response
  *   @remarks Setting parameter to default value will not be put in a querys
  */
 void QTweetHomeTimeline::fetch(qint64 sinceid,
@@ -58,7 +60,9 @@ void QTweetHomeTimeline::fetch(qint64 sinceid,
                                int count,
                                int page,
                                bool trimUser,
-                               bool includeEntities)
+                               bool includeEntities,
+                               bool excludeReplies,
+                               bool contributorDetails)
 {
     if (!isAuthenticationEnabled()) {
         qCritical("Needs authentication to be enabled");
@@ -84,6 +88,12 @@ void QTweetHomeTimeline::fetch(qint64 sinceid,
 
     if (includeEntities)
         url.addQueryItem("include_entities", "true");
+
+    if (excludeReplies)
+        url.addQueryItem("exclude_replies", "true");
+
+    if (contributorDetails)
+        url.addQueryItem("contributor_details", "true");
 
     QNetworkRequest req(url);
 

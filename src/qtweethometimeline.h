@@ -37,7 +37,9 @@ public:
                int count = 0,
                int page = 0,
                bool trimUser = false,
-               bool includeEntities = false);
+               bool includeEntities = false,
+               bool excludeReplies = false,
+               bool contributorDetails = false);
 
 signals:
     /** Emits hometimeline status list */
