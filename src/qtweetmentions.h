@@ -38,7 +38,9 @@ public:
                int page = 0,
                bool trimUser = false,
                bool includeRts = false,
-               bool includeEntities = false);
+               bool includeEntities = false,
+               bool excludeReplies = false,
+               bool contributorDetails = false);
 
 signals:
     /** Emits mentions status list */
