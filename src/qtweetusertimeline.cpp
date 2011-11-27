@@ -46,6 +46,8 @@ QTweetUserTimeline::QTweetUserTimeline(OAuthTwitter *oauthTwitter, QObject *pare
  *   @param skipUser true to include only status authors numerical ID
  *   @param includeRts timeline contains native retweets if true
  *   @param includeEntities each tweet include node "entities"
+ *   @param excludeReplies true to prevent replies from appearing in the returned timeline
+ *   @param contributorDetails true to enhance the contributors element of the status response
  */
 void QTweetUserTimeline::fetch(qint64 userid,
                                const QString &screenName,
@@ -55,7 +57,9 @@ void QTweetUserTimeline::fetch(qint64 userid,
                                int page,
                                bool trimUser,
                                bool includeRts,
-                               bool includeEntities)
+                               bool includeEntities,
+                               bool excludeReplies,
+                               bool contributorDetails)
 {
     QUrl url("http://api.twitter.com/1/statuses/user_timeline.json");
 
@@ -85,6 +89,12 @@ void QTweetUserTimeline::fetch(qint64 userid,
 
     if (includeEntities)
         url.addQueryItem("include_entities", "true");
+
+    if (excludeReplies)
+        url.addQueryItem("exclude_replies", "true");
+
+    if (contributorDetails)
+        url.addQueryItem("contributor_details", "true");
 
     QNetworkRequest req(url);
 
