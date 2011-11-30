@@ -26,12 +26,24 @@
 #include "qtweetconvert.h"
 
 QTweetRetweetToMe::QTweetRetweetToMe(QObject *parent) :
-    QTweetNetBase(parent)
+    QTweetNetBase(parent),
+    m_sinceid(0),
+    m_maxid(0),
+    m_count(0),
+    m_page(0),
+    m_trimUser(false),
+    m_includeEntities(false)
 {
 }
 
 QTweetRetweetToMe::QTweetRetweetToMe(OAuthTwitter *oauthTwitter, QObject *parent) :
-    QTweetNetBase(oauthTwitter, parent)
+    QTweetNetBase(oauthTwitter, parent),
+    m_sinceid(0),
+    m_maxid(0),
+    m_count(0),
+    m_page(0),
+    m_trimUser(false),
+    m_includeEntities(false)
 {
 }
 
@@ -82,6 +94,11 @@ void QTweetRetweetToMe::fetch(qint64 sinceid,
 
     QNetworkReply *reply = oauthTwitter()->networkAccessManager()->get(req);
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
+}
+
+void QTweetRetweetToMe::get()
+{
+    fetch(m_sinceid, m_maxid, m_count, m_page, m_trimUser, m_includeEntities);
 }
 
 void QTweetRetweetToMe::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
