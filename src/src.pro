@@ -97,7 +97,8 @@ HEADERS += \
     qjson/parser.h \
     qjson/location.hh \
     qjson/json_scanner.h \
-    qjson/json_parser.hh
+    qjson/json_parser.hh \
+    qtweetpublictimeline.h
 
 SOURCES += \
     oauth.cpp \
@@ -178,7 +179,10 @@ SOURCES += \
     qjson/parserrunnable.cpp \
     qjson/parser.cpp \
     qjson/json_scanner.cpp \
-    qjson/json_parser.cc
+    qjson/json_parser.cc \
+    qtweetpublictimeline.cpp
 
 OTHER_FILES += \
     qjson/json_parser.yy
+
+
