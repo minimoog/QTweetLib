@@ -26,12 +26,32 @@
 #include "qtweetconvert.h"
 
 QTweetUserTimeline::QTweetUserTimeline(QObject *parent) :
-    QTweetNetBase(parent)
+    QTweetNetBase(parent),
+    m_userid(0),
+    m_sinceid(0),
+    m_maxid(0),
+    m_count(0),
+    m_page(0),
+    m_trimUser(false),
+    m_includeRts(false),
+    m_includeEntities(false),
+    m_excludeReplies(false),
+    m_contributorDetails(false)
 {
 }
 
 QTweetUserTimeline::QTweetUserTimeline(OAuthTwitter *oauthTwitter, QObject *parent) :
-        QTweetNetBase(oauthTwitter, parent)
+    QTweetNetBase(oauthTwitter, parent),
+    m_userid(0),
+    m_sinceid(0),
+    m_maxid(0),
+    m_count(0),
+    m_page(0),
+    m_trimUser(false),
+    m_includeRts(false),
+    m_includeEntities(false),
+    m_excludeReplies(false),
+    m_contributorDetails(false)
 {
 }
 
@@ -105,6 +125,21 @@ void QTweetUserTimeline::fetch(qint64 userid,
 
     QNetworkReply *reply = oauthTwitter()->networkAccessManager()->get(req);
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
+}
+
+void QTweetUserTimeline::get()
+{
+    fetch(m_userid,
+          m_screenName,
+          m_sinceid,
+          m_maxid,
+          m_count,
+          m_page,
+          m_trimUser,
+          m_includeRts,
+          m_includeEntities,
+          m_excludeReplies,
+          m_contributorDetails);
 }
 
 void QTweetUserTimeline::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
