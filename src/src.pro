@@ -100,7 +100,8 @@ HEADERS += \
     qjson/json_parser.hh \
     qtweetpublictimeline.h \
     qtweetretweettouser.h \
-    qtweetretweetbyuser.h
+    qtweetretweetbyuser.h \
+    qtweetstatusretweetedby.h
 
 SOURCES += \
     oauth.cpp \
@@ -184,7 +185,8 @@ SOURCES += \
     qjson/json_parser.cc \
     qtweetpublictimeline.cpp \
     qtweetretweettouser.cpp \
-    qtweetretweetbyuser.cpp
+    qtweetretweetbyuser.cpp \
+    qtweetstatusretweetedby.cpp
 
 OTHER_FILES += \
     qjson/json_parser.yy
