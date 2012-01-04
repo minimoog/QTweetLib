@@ -88,7 +88,8 @@ HEADERS += \
     qtweetpublictimeline.h \
     qtweetretweettouser.h \
     qtweetretweetbyuser.h \
-    qtweetstatusretweetedby.h
+    qtweetstatusretweetedby.h \
+    cJSON.h
 
 SOURCES += \
     oauth.cpp \
@@ -166,7 +167,8 @@ SOURCES += \
     qtweetpublictimeline.cpp \
     qtweetretweettouser.cpp \
     qtweetretweetbyuser.cpp \
-    qtweetstatusretweetedby.cpp
+    qtweetstatusretweetedby.cpp \
+    cJSON.c
 
 OTHER_FILES +=
 
