@@ -34,6 +34,7 @@ class QTweetList;
 class QTweetSearchResult;
 class QTweetSearchPageResults;
 class QTweetPlace;
+struct cJSON;
 
 /**
  *   Base class for Twitter API classes
@@ -97,6 +98,7 @@ protected slots:
 
 protected:
     void parseJson(const QByteArray& jsonData);
+    void parseJsonFinished(cJSON *root);
     void setLastErrorMessage(const QString& errMsg);
 
 private:

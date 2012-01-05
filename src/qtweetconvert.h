@@ -33,6 +33,7 @@ class QTweetPlace;
 class QTweetEntityUrl;
 class QTweetEntityHashtag;
 class QTweetEntityUserMentions;
+struct cJSON;
 
 /**
  *  Contains static converting functions
@@ -57,6 +58,9 @@ public:
     static QTweetEntityHashtag variantMapToEntityHashtag(const QVariantMap& var);
     static QTweetEntityUserMentions variantMapToEntityUserMentions(const QVariantMap& var);
 
+    static QList<QTweetStatus> cJSONToStatusList(cJSON *root);
+    static QTweetStatus cJSONToStatus(cJSON *root);
+    static QTweetUser cJSONToUser(cJSON *root);
 
 };
 

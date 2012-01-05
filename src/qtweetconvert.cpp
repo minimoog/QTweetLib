@@ -29,6 +29,7 @@
 #include "qtweetentityurl.h"
 #include "qtweetentityhashtag.h"
 #include "qtweetentityusermentions.h"
+#include "cJSON.h"
 
 /**
  *  Converts list of statuses
@@ -46,6 +47,21 @@ QList<QTweetStatus> QTweetConvert::variantToStatusList(const QVariant &fromParse
 
         statuses.append(tweetStatus);
     }
+    return statuses;
+}
+
+QList<QTweetStatus> QTweetConvert::cJSONToStatusList(cJSON *root)
+{
+    QList<QTweetStatus> statuses;
+
+    if (root->type == cJSON_Array) {
+        int size = cJSON_GetArraySize(root);
+
+        for (int i = 0; i < size; ++i){
+            // ### TODO
+        }
+    }
+
     return statuses;
 }
 
@@ -124,6 +140,66 @@ QTweetStatus QTweetConvert::variantMapToStatus(const QVariantMap &var)
     return status;
 }
 
+QTweetStatus QTweetConvert::cJSONToStatus(cJSON *root)
+{
+    QTweetStatus status;
+
+    if (root->type == cJSON_Object) {
+        status.setCreatedAt(cJSON_GetObjectItem(root, "created_at")->valuestring);
+        status.setText(cJSON_GetObjectItem(root, "text")->valuestring);
+        status.setId((qint64)cJSON_GetObjectItem(root, "id")->valuedouble);
+        status.setInReplyToUserId((qint64)cJSON_GetObjectItem(root, "in_reply_to_user_id")->valuedouble);
+        status.setInReplyToScreenName(cJSON_GetObjectItem(root, "in_reply_to_screen_name")->valuestring);
+        status.setFavorited(cJSON_GetObjectItem(root, "favorited")->valuestring);   //### TODO
+
+        cJSON *userObject = cJSON_GetObjectItem(root, "user");
+
+        QTweetUser user = cJSONToUser(userObject);
+
+        status.setUser(user);
+        status.setSource(cJSON_GetObjectItem(root, "source")->valuestring);
+        status.setInReplyToStatusId((qint64)cJSON_GetObjectItem(root, "in_reply_to_status_id")->valuedouble);
+
+        cJSON *rtObject = cJSON_GetObjectItem(root, "retweeted_status");
+        if (rtObject) {
+            QTweetStatus rtStatus = cJSONToStatus(rtObject);
+            status.setRetweetedStatus(rtStatus);
+        }
+
+        cJSON *placeObject = cJSON_GetObjectItem(root, "place");
+
+        if (placeObject->type != cJSON_NULL) {
+            // ### TODO Parse place object
+        }
+
+        cJSON *entObject = cJSON_GetObjectItem(root, "entities");
+        if (entObject) {
+            cJSON *urlArray = cJSON_GetObjectItem(entObject, "urls");
+
+            for (int i = 0; i < cJSON_GetArraySize(urlArray); ++i) {
+                cJSON *urlObject = cJSON_GetArrayItem(urlArray, i);
+                // ### TODO url map
+            }
+
+            cJSON *hashtagsArray = cJSON_GetObjectItem(entObject, "hashtags");
+
+            for (int i = 0; i < cJSON_GetArraySize(hashtagsArray); ++i) {
+                cJSON *hashtagObject = cJSON_GetArrayItem(hashtagsArray, i);
+                // ### TODO hashtag map
+            }
+
+            cJSON *userMentionsArray = cJSON_GetObjectItem(entObject, "user_mentions");
+
+            for (int i = 0; i < cJSON_GetArraySize(userMentionsArray); ++i) {
+                cJSON *userMentionObject =cJSON_GetArrayItem(userMentionsArray, i);
+                // ### TODO usermentions map
+            }
+        }
+    }
+
+    return status;
+}
+
 /**
  *  Converts user info
  */
@@ -167,6 +243,43 @@ QTweetUser QTweetConvert::variantMapToUserInfo(const QVariantMap &var)
     }
 
     return userInfo;
+}
+
+QTweetUser QTweetConvert::cJSONToUser(cJSON *root)
+{
+    QTweetUser user;
+
+    user.setId((qint64)cJSON_GetObjectItem(root, "id")->valuedouble);
+
+    cJSON *nameObject = cJSON_GetObjectItem(root, "name");
+
+    if (nameObject) {
+        user.setName(cJSON_GetObjectItem(nameObject, "name")->valuestring);
+        user.setLocation(cJSON_GetObjectItem(nameObject, "location")->valuestring);
+        user.setprofileImageUrl(cJSON_GetObjectItem(nameObject, "profile_image_url")->valuestring);
+        user.setCreatedAt(cJSON_GetObjectItem(nameObject, "created_at")->valuestring);
+        user.setFavouritesCount(cJSON_GetObjectItem(nameObject, "favourites_count")->valueint);
+        user.setUrl(cJSON_GetObjectItem(nameObject, "url")->valuestring);
+        user.setUtcOffset(cJSON_GetObjectItem(nameObject, "utc_offset")->valueint);
+        user.setProtected(cJSON_GetObjectItem(nameObject, "protected")->valuestring);
+        user.setFollowersCount(cJSON_GetObjectItem(nameObject, "followers_count")->valueint);
+        user.setVerified(cJSON_GetObjectItem(nameObject, "verified")->valuestring);
+        user.setGeoEnabled(cJSON_GetObjectItem(nameObject, "geo_enabled")->valuestring);
+        user.setDescription(cJSON_GetObjectItem(nameObject, "description")->valuestring);
+        user.setTimezone(cJSON_GetObjectItem(nameObject, "time_zone")->valuestring);
+        user.setFriendsCount(cJSON_GetObjectItem(nameObject, "friends_count")->valueint);
+        user.setStatusesCount(cJSON_GetObjectItem(nameObject, "statuses_count")->valueint);
+        user.setScreenName(cJSON_GetObjectItem(nameObject, "screen_name")->valuestring);
+        user.setContributorsEnabled(cJSON_GetObjectItem(nameObject, "contributors_enabled")->valuestring);
+        user.setListedCount(cJSON_GetObjectItem(nameObject, "listed_count")->valueint);
+        user.setLang(cJSON_GetObjectItem(nameObject, "lang")->valuestring);
+
+        cJSON *statusObject = cJSON_GetObjectItem(root, "status");
+
+        if (statusObject) {
+            // ### TODO
+        }
+    }
 }
 
 /**

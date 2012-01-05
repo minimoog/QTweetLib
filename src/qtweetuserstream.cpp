@@ -29,7 +29,6 @@
 #include "qtweetdmstatus.h"
 #include "qtweetuser.h"
 #include "qtweetconvert.h"
-#include "qjson/parserrunnable.h"
 
 #define TWITTER_USERSTREAM_URL "https://userstream.twitter.com/2/user.json"
 

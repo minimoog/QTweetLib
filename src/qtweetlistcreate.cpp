@@ -22,7 +22,6 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QThreadPool>
-#include "qjson/parserrunnable.h"
 #include "qtweetlistcreate.h"
 #include "qtweetlist.h"
 #include "qtweetconvert.h"

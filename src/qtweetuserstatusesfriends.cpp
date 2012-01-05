@@ -22,7 +22,6 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QThreadPool>
-#include "qjson/parserrunnable.h"
 #include "qtweetuser.h"
 #include "qtweetuserstatusesfriends.h"
 #include "qtweetconvert.h"
