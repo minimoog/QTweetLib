@@ -562,6 +562,39 @@ QTweetSearchPageResults QTweetConvert::variantToSearchPageResults(const QVariant
     return page;
 }
 
+QTweetSearchPageResults QTweetConvert::cJSONToSearchPageResults(cJSON *root)
+{
+    QTweetSearchPageResults page;
+
+    if (root->type == cJSON_Object) {
+        page.setMaxId((qint64)cJSON_GetObjectItem(root, "max_id")->valuedouble);
+        page.setNextPage(cJSON_GetObjectItem(root, "next_page")->valuestring);  //?
+        page.setPage(cJSON_GetObjectItem(root, "page")->valueint);
+        page.setQuery(cJSON_GetObjectItem(root, "query")->valuestring);
+        page.setRefreshUrl(cJSON_GetObjectItem(root, "refresh_url")->valuestring);
+        page.setResultsPerPage(cJSON_GetObjectItem(root, "results_per_page")->valueint);
+        page.setSinceId((qint64)cJSON_GetObjectItem(root, "since_id")->valuedouble);
+
+        QList<QTweetSearchResult> resultList;
+
+        cJSON *resultListObject = cJSON_GetObjectItem(root, "results");
+
+        if (resultListObject) {
+            int size = cJSON_GetArraySize(resultListObject);
+
+            for (int i = 0; i < size; i++) {
+                cJSON *resultObject = cJSON_GetArrayItem(resultListObject, i);
+                QTweetSearchResult result = cJSONToSearchResult(resultObject);
+                resultList.append(result);
+            }
+        }
+
+        page.setResults(resultList);
+    }
+
+    return page;
+}
+
 /**
  *  Converts place
  */

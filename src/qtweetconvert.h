@@ -49,8 +49,8 @@ public:
     static QTweetList variantMapToTweetList(const QVariantMap& var); //
     static QList<QTweetUser> variantToUserInfoList(const QVariant& fromParser); //
     static QList<QTweetList> variantToTweetLists(const QVariant& var); //
-    static QTweetSearchResult variantMapToSearchResult(const QVariantMap& var);
-    static QTweetSearchPageResults variantToSearchPageResults(const QVariant& var);
+    static QTweetSearchResult variantMapToSearchResult(const QVariantMap& var); //
+    static QTweetSearchPageResults variantToSearchPageResults(const QVariant& var); //
     static QTweetPlace variantMapToPlace(const QVariantMap& var);
     static QTweetPlace variantMapToPlaceRecursive(const QVariantMap& var);
     static QList<QTweetPlace> variantToPlaceList(const QVariant& fromParser);
@@ -67,6 +67,7 @@ public:
     static QList<QTweetUser> cJSONToUserInfoList(cJSON *root);
     static QList<QTweetList> cJSONToTweetLists(cJSON *root);
     static QTweetSearchResult cJSONToSearchResult(cJSON *root);
+    static QTweetSearchPageResults cJSONToSearchPageResults(cJSON *root);
 
 };
 
