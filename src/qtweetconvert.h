@@ -41,11 +41,11 @@ struct cJSON;
 class QTweetConvert
 {
 public:
-    static QList<QTweetStatus> variantToStatusList(const QVariant& fromParser);
-    static QTweetStatus variantMapToStatus(const QVariantMap& var);
-    static QTweetUser variantMapToUserInfo(const QVariantMap& var);
-    static QList<QTweetDMStatus> variantToDirectMessagesList(const QVariant& fromParser);
-    static QTweetDMStatus variantMapToDirectMessage(const QVariantMap& var);
+    static QList<QTweetStatus> variantToStatusList(const QVariant& fromParser); //
+    static QTweetStatus variantMapToStatus(const QVariantMap& var); //
+    static QTweetUser variantMapToUserInfo(const QVariantMap& var); //
+    static QList<QTweetDMStatus> variantToDirectMessagesList(const QVariant& fromParser); //
+    static QTweetDMStatus variantMapToDirectMessage(const QVariantMap& var); //
     static QTweetList variantMapToTweetList(const QVariantMap& var);
     static QList<QTweetUser> variantToUserInfoList(const QVariant& fromParser);
     static QList<QTweetList> variantToTweetLists(const QVariant& var);
@@ -61,6 +61,9 @@ public:
     static QList<QTweetStatus> cJSONToStatusList(cJSON *root);
     static QTweetStatus cJSONToStatus(cJSON *root);
     static QTweetUser cJSONToUser(cJSON *root);
+    static QList<QTweetDMStatus> cJSONToDirectMessagesList(cJSON *root);
+    static QTweetDMStatus cJSONToDirectMessage(cJSON *root);
+    static QTweetList cJSONToTweetList(cJSON *root);
 
 };
 

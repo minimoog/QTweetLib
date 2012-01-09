@@ -299,6 +299,21 @@ QList<QTweetDMStatus> QTweetConvert::variantToDirectMessagesList(const QVariant&
     return directMessages;
 }
 
+QList<QTweetDMStatus> QTweetConvert::cJSONToDirectMessagesList(cJSON *root)
+{
+    QList<QTweetDMStatus> directMessages;
+
+    if (root->type == cJSON_Array) {
+        int size = cJSON_GetArraySize(root);
+
+        for (int i = 0; i < size; i++) {
+            // ### TODO: cJSONtoDirectMessage
+        }
+    }
+
+    return directMessages;
+}
+
 /**
  *  Converts direct message
  */
@@ -329,6 +344,31 @@ QTweetDMStatus QTweetConvert::variantMapToDirectMessage(const QVariantMap& var)
     return directMessage;
 }
 
+QTweetDMStatus QTweetConvert::cJSONToDirectMessage(cJSON *root)
+{
+    QTweetDMStatus directMessage;
+
+    if (root->type == cJSON_Object) {
+        directMessage.setCreatedAt(cJSON_GetObjectItem(root, "created_at")->valuestring);
+        directMessage.setSenderScreenName(cJSON_GetObjectItem(root, "sender_screen_name")->valuestring);
+
+        cJSON *senderObject = cJSON_GetObjectItem(root, "sender");
+        // ### TODO:  cJSONToUser
+
+        directMessage.setText(cJSON_GetObjectItem(root, "text")->valuestring);
+        directMessage.setRecipientScreenName(cJSON_GetObjectItem(root, "recipient_screen_name")->valuestring);
+        directMessage.setId((qint64)cJSON_GetObjectItem(root, "id")->valuedouble);
+
+        cJSON *recipientObject = cJSON_GetObjectItem(root, "recipient");
+        // ### TODO: cJSONToUser
+
+        directMessage.setRecipientId((qint64)cJSON_GetObjectItem(root, "recipient_id")->valuedouble);
+        directMessage.setSenderId((qint64)cJSON_GetObjectItem(root, "sender_id")->valuedouble);
+    }
+
+    return directMessage;
+}
+
 /**
  *  Converts tweet list
  */
@@ -354,6 +394,32 @@ QTweetList QTweetConvert::variantMapToTweetList(const QVariantMap& var)
 
         list.setUser(user);
     }
+    return list;
+}
+
+QTweetList QTweetConvert::cJSONToTweetList(cJSON *root)
+{
+    QTweetList list;
+
+    if (root->type == cJSON_Object) {
+        list.setMode(cJSON_GetObjectItem(root, "mode")->valuestring);
+        list.setDescription(cJSON_GetObjectItem(root, "description")->valuestring);
+        list.setFollowing(cJSON_GetObjectItem(root, "following")->valueint);
+        list.setMemberCount(cJSON_GetObjectItem(root, "member_count")->valueint);
+        list.setFullName(cJSON_GetObjectItem(root, "full_name")->valuestring);
+        list.setSubscriberCount(cJSON_GetObjectItem(root, "subscriber_count")->valueint);
+        list.setSlug(cJSON_GetObjectItem(root, "slug")->valuestring);
+        list.setName(cJSON_GetObjectItem(root, "name")->valuestring);
+        list.setId((qint64)cJSON_GetObjectItem(root, "id")->valuedouble);
+        list.setUri(cJSON_GetObjectItem(root, "uri")->valuestring);
+
+        cJSON *userObject = cJSON_GetObjectItem(root, "user");
+
+        if (userObject) {
+            // ### TODO cJSONToUser
+        }
+    }
+
     return list;
 }
 
