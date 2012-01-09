@@ -657,6 +657,69 @@ QTweetPlace QTweetConvert::variantMapToPlace(const QVariantMap& var)
     return place;
 }
 
+QTweetPlace QTweetConvert::cJSONToPlace(cJSON *root)
+{
+    QTweetPlace place;
+
+    if (root->type == cJSON_Object) {
+        place.setName(cJSON_GetObjectItem(root, "name")->valuestring);
+        place.setCountryCode(cJSON_GetObjectItem(root, "country_code")->valuestring);
+        place.setCountry(cJSON_GetObjectItem(root, "country")->valuestring);
+        place.setID(cJSON_GetObjectItem(root, "id")->valuestring);
+        place.setFullName(cJSON_GetObjectItem(root, "full_name")->valuestring);
+
+        QString placeType = QString(cJSON_GetObjectItem(root, "place_type")->valuestring);
+
+        if (placeType == "poi")
+            place.setType(QTweetPlace::Poi);
+        else if (placeType == "neighborhood")
+            place.setType(QTweetPlace::Neighborhood);
+        else if (placeType == "city")
+            place.setType(QTweetPlace::City);
+        else if (placeType == "admin")
+            place.setType(QTweetPlace::Admin);
+        else if (placeType == "country")
+            place.setType(QTweetPlace::Country);
+        else
+            place.setType(QTweetPlace::Neighborhood);   //twitter default
+
+        cJSON *bboxObject = cJSON_GetObjectItem(root, "bounding_box");
+        if (bboxObject) {
+            QString type = QString(cJSON_GetObjectItem(bboxObject, "type")->valuestring);
+
+            if (type == "Polygon") {
+                cJSON *coordListObject = cJSON_GetObjectItem(bboxObject, "coordinates");
+
+                if (coordListObject) {
+                    cJSON *latLongObject = cJSON_GetArrayItem(coordListObject, 0);
+
+                    if (latLongObject->type == cJSON_Array) {
+                        QTweetGeoBoundingBox box;
+
+                        cJSON *coordsBottomLeftObject = cJSON_GetArrayItem(latLongObject, 0);
+                        cJSON *coordsBottomRightObject = cJSON_GetArrayItem(latLongObject, 1);
+                        cJSON *coordsTopRightObject = cJSON_GetArrayItem(latLongObject, 2);
+                        cJSON *coordsTopLeftObject = cJSON_GetArrayItem(latLongObject, 3);
+
+                        box.setBottomLeft(QTweetGeoCoord(cJSON_GetArrayItem(coordsBottomLeftObject, 1)->valuedouble,
+                                                         cJSON_GetArrayItem(coordsBottomLeftObject, 0)->valuedouble));
+                        box.setBottomRight(QTweetGeoCoord(cJSON_GetArrayItem(coordsBottomRightObject, 1)->valuedouble,
+                                                          cJSON_GetArrayItem(coordsBottomRightObject, 0)->valuedouble));
+                        box.setTopRight(QTweetGeoCoord(cJSON_GetArrayItem(coordsTopRightObject, 1)->valuedouble,
+                                                       cJSON_GetArrayItem(coordsTopRightObject, 0)->valuedouble));
+                        box.setTopLeft(QTweetGeoCoord(cJSON_GetArrayItem(coordsTopLeftObject, 1)->valuedouble,
+                                                      cJSON_GetArrayItem(coordsTopLeftObject, 0)->valuedouble));
+
+                        place.setBoundingBox(box);
+                    }
+                }
+            }
+        }
+    }
+
+    return place;
+}
+
 //not to be used in timelines api, but in geo api, where place contains other places
 //is it recursive responsive?
 QTweetPlace QTweetConvert::variantMapToPlaceRecursive(const QVariantMap& var)
@@ -726,6 +789,85 @@ QTweetPlace QTweetConvert::variantMapToPlaceRecursive(const QVariantMap& var)
 
             QTweetPlace containedPlace = variantMapToPlaceRecursive(containedPlaceMap);
 
+            containedInPlacesList.append(containedPlace);
+        }
+    }
+
+    place.setContainedWithin(containedInPlacesList);
+
+    return place;
+}
+
+QTweetPlace QTweetConvert::cJSONToPlaceRecursive(cJSON *root)
+{
+    QTweetPlace place;
+
+    if (root->type == cJSON_Object) {
+        place.setName(cJSON_GetObjectItem(root, "name")->valuestring);
+        place.setCountryCode(cJSON_GetObjectItem(root, "country_code")->valuestring);
+        place.setCountry(cJSON_GetObjectItem(root, "country")->valuestring);
+        place.setID(cJSON_GetObjectItem(root, "id")->valuestring);
+        place.setFullName(cJSON_GetObjectItem(root, "full_name")->valuestring);
+
+        QString placeType = QString(cJSON_GetObjectItem(root, "place_type")->valuestring);
+
+        if (placeType == "poi")
+            place.setType(QTweetPlace::Poi);
+        else if (placeType == "neighborhood")
+            place.setType(QTweetPlace::Neighborhood);
+        else if (placeType == "city")
+            place.setType(QTweetPlace::City);
+        else if (placeType == "admin")
+            place.setType(QTweetPlace::Admin);
+        else if (placeType == "country")
+            place.setType(QTweetPlace::Country);
+        else
+            place.setType(QTweetPlace::Neighborhood);   //twitter default
+
+        cJSON *bboxObject = cJSON_GetObjectItem(root, "bounding_box");
+        if (bboxObject) {
+            QString type = QString(cJSON_GetObjectItem(bboxObject, "type")->valuestring);
+
+            if (type == "Polygon") {
+                cJSON *coordListObject = cJSON_GetObjectItem(bboxObject, "coordinates");
+
+                if (coordListObject) {
+                    cJSON *latLongObject = cJSON_GetArrayItem(coordListObject, 0);
+
+                    if (latLongObject->type == cJSON_Array) {
+                        QTweetGeoBoundingBox box;
+
+                        cJSON *coordsBottomLeftObject = cJSON_GetArrayItem(latLongObject, 0);
+                        cJSON *coordsBottomRightObject = cJSON_GetArrayItem(latLongObject, 1);
+                        cJSON *coordsTopRightObject = cJSON_GetArrayItem(latLongObject, 2);
+                        cJSON *coordsTopLeftObject = cJSON_GetArrayItem(latLongObject, 3);
+
+                        box.setBottomLeft(QTweetGeoCoord(cJSON_GetArrayItem(coordsBottomLeftObject, 1)->valuedouble,
+                                                         cJSON_GetArrayItem(coordsBottomLeftObject, 0)->valuedouble));
+                        box.setBottomRight(QTweetGeoCoord(cJSON_GetArrayItem(coordsBottomRightObject, 1)->valuedouble,
+                                                          cJSON_GetArrayItem(coordsBottomRightObject, 0)->valuedouble));
+                        box.setTopRight(QTweetGeoCoord(cJSON_GetArrayItem(coordsTopRightObject, 1)->valuedouble,
+                                                       cJSON_GetArrayItem(coordsTopRightObject, 0)->valuedouble));
+                        box.setTopLeft(QTweetGeoCoord(cJSON_GetArrayItem(coordsTopLeftObject, 1)->valuedouble,
+                                                      cJSON_GetArrayItem(coordsTopLeftObject, 0)->valuedouble));
+
+                        place.setBoundingBox(box);
+                    }
+                }
+            }
+        }
+    }
+
+    cJSON *containedObject = cJSON_GetObjectItem(root, "contained_within");
+
+    QList<QTweetPlace> containedInPlacesList;
+
+    if (containedObject) {
+        int size = cJSON_GetArraySize(containedObject);
+
+        for (int i = 0; i < size; i++) {
+            cJSON *containedPlaceObject = cJSON_GetArrayItem(containedObject, i);
+            QTweetPlace containedPlace = cJSONToPlaceRecursive(containedPlaceObject);
             containedInPlacesList.append(containedPlace);
         }
     }

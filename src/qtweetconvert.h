@@ -68,7 +68,8 @@ public:
     static QList<QTweetList> cJSONToTweetLists(cJSON *root);
     static QTweetSearchResult cJSONToSearchResult(cJSON *root);
     static QTweetSearchPageResults cJSONToSearchPageResults(cJSON *root);
-
+    static QTweetPlace cJSONToPlace(cJSON *root);
+    static QTweetPlace cJSONToPlaceRecursive(cJSON *root);
 };
 
 #endif // QTWEETCONVERT_H
