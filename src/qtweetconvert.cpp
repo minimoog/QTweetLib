@@ -441,6 +441,23 @@ QList<QTweetUser> QTweetConvert::variantToUserInfoList(const QVariant& fromParse
     return users;
 }
 
+QList<QTweetUser> QTweetConvert::cJSONToUserInfoList(cJSON *root)
+{
+    QList<QTweetUser> users;
+
+    if (root->type == cJSON_Array) {
+        int size = cJSON_GetArraySize(root);
+
+        for (int i = 0; i < size; i++) {
+            cJSON *userObject = cJSON_GetArrayItem(root, i);
+
+            // ### TODO cJSONToUser
+        }
+    }
+
+    return users;
+}
+
 /**
  *  Converts list of tweet lists
  */
