@@ -48,7 +48,7 @@ public:
     static QTweetDMStatus variantMapToDirectMessage(const QVariantMap& var); //
     static QTweetList variantMapToTweetList(const QVariantMap& var); //
     static QList<QTweetUser> variantToUserInfoList(const QVariant& fromParser); //
-    static QList<QTweetList> variantToTweetLists(const QVariant& var);
+    static QList<QTweetList> variantToTweetLists(const QVariant& var); //
     static QTweetSearchResult variantMapToSearchResult(const QVariantMap& var);
     static QTweetSearchPageResults variantToSearchPageResults(const QVariant& var);
     static QTweetPlace variantMapToPlace(const QVariantMap& var);
@@ -65,6 +65,8 @@ public:
     static QTweetDMStatus cJSONToDirectMessage(cJSON *root);
     static QTweetList cJSONToTweetList(cJSON *root);
     static QList<QTweetUser> cJSONToUserInfoList(cJSON *root);
+    static QList<QTweetList> cJSONToTweetLists(cJSON *root);
+    //static QTweetSearchResult cJSONToSearchResult(cJSON *root);
 
 };
 

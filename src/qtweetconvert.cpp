@@ -476,6 +476,24 @@ QList<QTweetList> QTweetConvert::variantToTweetLists(const QVariant& var)
     return lists;
 }
 
+QList<QTweetList> QTweetConvert::cJSONToTweetLists(cJSON *root)
+{
+    QList<QTweetList> lists;
+
+    if (root->type == cJSON_Array) {
+        int size = cJSON_GetArraySize(root);
+
+        for (int i = 0; i < size; i++) {
+            cJSON *listObject = cJSON_GetArrayItem(root, i);
+
+            QTweetList tweetList = cJSONToTweetList(listObject);
+            lists.append(tweetList);
+        }
+    }
+
+    return lists;
+}
+
 /**
  *  Converts search result
  */
