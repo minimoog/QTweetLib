@@ -66,7 +66,7 @@ public:
     static QTweetList cJSONToTweetList(cJSON *root);
     static QList<QTweetUser> cJSONToUserInfoList(cJSON *root);
     static QList<QTweetList> cJSONToTweetLists(cJSON *root);
-    //static QTweetSearchResult cJSONToSearchResult(cJSON *root);
+    static QTweetSearchResult cJSONToSearchResult(cJSON *root);
 
 };
 

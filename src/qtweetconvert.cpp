@@ -513,6 +513,24 @@ QTweetSearchResult QTweetConvert::variantMapToSearchResult(const QVariantMap& va
     return result;
 }
 
+QTweetSearchResult QTweetConvert::cJSONToSearchResult(cJSON *root)
+{
+    QTweetSearchResult result;
+
+    if (root->type == cJSON_Object) {
+        result.setCreatedAt(cJSON_GetObjectItem(root, "created_at")->valuestring);
+        result.setFromUser(cJSON_GetObjectItem(root, "from_user")->valuestring);
+        result.setId((qint64)cJSON_GetObjectItem(root, "id")->valuedouble);
+        result.setLang(cJSON_GetObjectItem(root, "iso_language_code")->valuestring);
+        result.setProfileImageUrl(cJSON_GetObjectItem(root, "profile_image_url")->valuestring);
+        result.setSource(cJSON_GetObjectItem(root, "source")->valuestring);
+        result.setText(cJSON_GetObjectItem(root, "text")->valuestring);
+        result.setToUser(cJSON_GetObjectItem(root, "to_user")->valuestring);
+    }
+
+    return result;
+}
+
 /**
  *  Converts page results
  */
