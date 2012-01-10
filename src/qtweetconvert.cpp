@@ -57,8 +57,11 @@ QList<QTweetStatus> QTweetConvert::cJSONToStatusList(cJSON *root)
     if (root->type == cJSON_Array) {
         int size = cJSON_GetArraySize(root);
 
-        for (int i = 0; i < size; ++i){
-            // ### TODO
+        for (int i = 0; i < size; ++i) {
+            cJSON *statusObject = cJSON_GetArrayItem(root, i);
+
+            QTweetStatus tweetStatus = cJSONToStatus(statusObject);
+            statuses.append(tweetStatus);
         }
     }
 
@@ -169,7 +172,9 @@ QTweetStatus QTweetConvert::cJSONToStatus(cJSON *root)
         cJSON *placeObject = cJSON_GetObjectItem(root, "place");
 
         if (placeObject->type != cJSON_NULL) {
-            // ### TODO Parse place object
+            QTweetPlace place = cJSONToPlace(placeObject);
+
+            status.setPlace(place);
         }
 
         cJSON *entObject = cJSON_GetObjectItem(root, "entities");
@@ -178,21 +183,27 @@ QTweetStatus QTweetConvert::cJSONToStatus(cJSON *root)
 
             for (int i = 0; i < cJSON_GetArraySize(urlArray); ++i) {
                 cJSON *urlObject = cJSON_GetArrayItem(urlArray, i);
-                // ### TODO url map
+                QTweetEntityUrl urlEntity = cJSONToEntityUrl(urlObject);
+
+                status.addUrlEntity(urlEntity);
             }
 
             cJSON *hashtagsArray = cJSON_GetObjectItem(entObject, "hashtags");
 
             for (int i = 0; i < cJSON_GetArraySize(hashtagsArray); ++i) {
                 cJSON *hashtagObject = cJSON_GetArrayItem(hashtagsArray, i);
-                // ### TODO hashtag map
+                QTweetEntityHashtag hashtagEntity = cJSONToEntityHashtag(hashtagObject);
+
+                status.addHashtagEntity(hashtagEntity);
             }
 
             cJSON *userMentionsArray = cJSON_GetObjectItem(entObject, "user_mentions");
 
             for (int i = 0; i < cJSON_GetArraySize(userMentionsArray); ++i) {
                 cJSON *userMentionObject =cJSON_GetArrayItem(userMentionsArray, i);
-                // ### TODO usermentions map
+                QTweetEntityUserMentions userMentionsEntity = cJSONToEntityUserMentions(userMentionObject);
+
+                status.addUserMentionsEntity(userMentionsEntity);
             }
         }
     }
@@ -277,7 +288,9 @@ QTweetUser QTweetConvert::cJSONToUser(cJSON *root)
         cJSON *statusObject = cJSON_GetObjectItem(root, "status");
 
         if (statusObject) {
-            // ### TODO
+            QTweetStatus status = cJSONToStatus(statusObject);
+
+            user.setStatus(status);
         }
     }
 }
@@ -308,6 +321,9 @@ QList<QTweetDMStatus> QTweetConvert::cJSONToDirectMessagesList(cJSON *root)
 
         for (int i = 0; i < size; i++) {
             // ### TODO: cJSONtoDirectMessage
+            cJSON *dmObject = cJSON_GetArrayItem(root, i);
+            QTweetDMStatus dmStatus = cJSONToDirectMessage(dmObject);
+            directMessages.append(dmStatus);
         }
     }
 
@@ -353,14 +369,18 @@ QTweetDMStatus QTweetConvert::cJSONToDirectMessage(cJSON *root)
         directMessage.setSenderScreenName(cJSON_GetObjectItem(root, "sender_screen_name")->valuestring);
 
         cJSON *senderObject = cJSON_GetObjectItem(root, "sender");
-        // ### TODO:  cJSONToUser
+        QTweetUser sender = cJSONToUser(senderObject);
+
+        directMessage.setSender(sender);
 
         directMessage.setText(cJSON_GetObjectItem(root, "text")->valuestring);
         directMessage.setRecipientScreenName(cJSON_GetObjectItem(root, "recipient_screen_name")->valuestring);
         directMessage.setId((qint64)cJSON_GetObjectItem(root, "id")->valuedouble);
 
         cJSON *recipientObject = cJSON_GetObjectItem(root, "recipient");
-        // ### TODO: cJSONToUser
+        QTweetUser recipient = cJSONToUser(recipientObject);
+
+        directMessage.setRecipient(recipient);
 
         directMessage.setRecipientId((qint64)cJSON_GetObjectItem(root, "recipient_id")->valuedouble);
         directMessage.setSenderId((qint64)cJSON_GetObjectItem(root, "sender_id")->valuedouble);
@@ -416,7 +436,9 @@ QTweetList QTweetConvert::cJSONToTweetList(cJSON *root)
         cJSON *userObject = cJSON_GetObjectItem(root, "user");
 
         if (userObject) {
-            // ### TODO cJSONToUser
+            QTweetUser user = cJSONToUser(userObject);
+
+            list.setUser(user);
         }
     }
 
@@ -451,7 +473,9 @@ QList<QTweetUser> QTweetConvert::cJSONToUserInfoList(cJSON *root)
         for (int i = 0; i < size; i++) {
             cJSON *userObject = cJSON_GetArrayItem(root, i);
 
-            // ### TODO cJSONToUser
+            QTweetUser user = cJSONToUser(userObject);
+
+            users.append(user);
         }
     }
 
