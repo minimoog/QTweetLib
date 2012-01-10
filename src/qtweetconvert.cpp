@@ -930,10 +930,30 @@ QTweetEntityUrl QTweetConvert::variantMapToEntityUrl(const QVariantMap &var)
     return urlEntity;
 }
 
+QTweetEntityUrl QTweetConvert::cJSONToEntityUrl(cJSON *root)
+{
+    QTweetEntityUrl urlEntity;
+
+    urlEntity.setUrl(cJSON_GetObjectItem(root, "url")->valuestring);
+    urlEntity.setDisplayUrl(cJSON_GetObjectItem(root, "display_url")->valuestring);
+    urlEntity.setExpandedUrl(cJSON_GetObjectItem(root, "expanded_url")->valuestring);
+
+    return urlEntity;
+}
+
 QTweetEntityHashtag QTweetConvert::variantMapToEntityHashtag(const QVariantMap &var)
 {
     QTweetEntityHashtag hashtagEntity;
     hashtagEntity.setText(var["text"].toString());
+
+    return hashtagEntity;
+}
+
+QTweetEntityHashtag QTweetConvert::cJSONToEntityHashtag(cJSON *root)
+{
+    QTweetEntityHashtag hashtagEntity;
+
+    hashtagEntity.setText(cJSON_GetObjectItem(root, "text")->valuestring);
 
     return hashtagEntity;
 }
@@ -944,6 +964,17 @@ QTweetEntityUserMentions QTweetConvert::variantMapToEntityUserMentions(const QVa
     userMentionsEntity.setScreenName(var["screen_name"].toString());
     userMentionsEntity.setName(var["name"].toString());
     userMentionsEntity.setUserid(var["id"].toLongLong());
+
+    return userMentionsEntity;
+}
+
+QTweetEntityUserMentions QTweetConvert::cJSONToEntityUserMentions(cJSON *root)
+{
+    QTweetEntityUserMentions userMentionsEntity;
+
+    userMentionsEntity.setScreenName(cJSON_GetObjectItem(root, "screen_name")->valuestring);
+    userMentionsEntity.setName(cJSON_GetObjectItem(root, "name")->valuestring);
+    userMentionsEntity.setUserid((qint64)cJSON_GetObjectItem(root, "id")->valuedouble);
 
     return userMentionsEntity;
 }

@@ -71,6 +71,9 @@ public:
     static QTweetPlace cJSONToPlace(cJSON *root);
     static QTweetPlace cJSONToPlaceRecursive(cJSON *root);
     static QList<QTweetPlace> cJSONToPlaceList(cJSON *root);
+    static QTweetEntityUrl cJSONToEntityUrl(cJSON *root);
+    static QTweetEntityHashtag cJSONToEntityHashtag(cJSON *root);
+    static QTweetEntityUserMentions cJSONToEntityUserMentions(cJSON *root);
 };
 
 #endif // QTWEETCONVERT_H
