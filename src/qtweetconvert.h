@@ -51,9 +51,9 @@ public:
     static QList<QTweetList> variantToTweetLists(const QVariant& var); //
     static QTweetSearchResult variantMapToSearchResult(const QVariantMap& var); //
     static QTweetSearchPageResults variantToSearchPageResults(const QVariant& var); //
-    static QTweetPlace variantMapToPlace(const QVariantMap& var);
-    static QTweetPlace variantMapToPlaceRecursive(const QVariantMap& var);
-    static QList<QTweetPlace> variantToPlaceList(const QVariant& fromParser);
+    static QTweetPlace variantMapToPlace(const QVariantMap& var); //
+    static QTweetPlace variantMapToPlaceRecursive(const QVariantMap& var); //
+    static QList<QTweetPlace> variantToPlaceList(const QVariant& fromParser); //
     static QTweetEntityUrl variantMapToEntityUrl(const QVariantMap& var);
     static QTweetEntityHashtag variantMapToEntityHashtag(const QVariantMap& var);
     static QTweetEntityUserMentions variantMapToEntityUserMentions(const QVariantMap& var);
@@ -70,6 +70,7 @@ public:
     static QTweetSearchPageResults cJSONToSearchPageResults(cJSON *root);
     static QTweetPlace cJSONToPlace(cJSON *root);
     static QTweetPlace cJSONToPlaceRecursive(cJSON *root);
+    static QList<QTweetPlace> cJSONToPlaceList(cJSON *root);
 };
 
 #endif // QTWEETCONVERT_H

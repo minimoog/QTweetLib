@@ -896,6 +896,26 @@ QList<QTweetPlace> QTweetConvert::variantToPlaceList(const QVariant& fromParser)
     return placeList;
 }
 
+QList<QTweetPlace> QTweetConvert::cJSONToPlaceList(cJSON *root)
+{
+    QList<QTweetPlace> placeList;
+
+    cJSON *resultObject = cJSON_GetObjectItem(root, "result");
+    cJSON *placesObject = cJSON_GetObjectItem(resultObject, "places");
+
+    if (placesObject) {
+        int size = cJSON_GetArraySize(placesObject);
+
+        for (int i = 0; i < size; i++) {
+            cJSON *placeObject = cJSON_GetArrayItem(placesObject, i);
+            QTweetPlace place = cJSONToPlaceRecursive(placeObject);
+            placeList.append(place);
+        }
+    }
+
+    return placeList;
+}
+
 QTweetEntityUrl QTweetConvert::variantMapToEntityUrl(const QVariantMap &var)
 {
     QString url = var["url"].toString();
