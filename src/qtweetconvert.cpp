@@ -293,6 +293,7 @@ QTweetUser QTweetConvert::cJSONToUser(cJSON *root)
             user.setStatus(status);
         }
     }
+    return user;
 }
 
 /**

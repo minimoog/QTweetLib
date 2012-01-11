@@ -29,6 +29,7 @@
 #include "qtweetdmstatus.h"
 #include "qtweetuser.h"
 #include "qtweetconvert.h"
+#include "cJSON.h"
 
 #define TWITTER_USERSTREAM_URL "https://userstream.twitter.com/2/user.json"
 
@@ -194,67 +195,67 @@ void QTweetUserStream::replyTimeout()
 
 void QTweetUserStream::parseStream(const QByteArray& data)
 {
-    QJson::ParserRunnable *jsonParser = new QJson::ParserRunnable();
-    jsonParser->setData(data);
-    connect(jsonParser, SIGNAL(parsingFinished(QVariant,bool,QString)),
-        this, SLOT(parsingFinished(QVariant,bool,QString)));
+    cJSON *root = cJSON_Parse(data.constData());
 
-    QThreadPool::globalInstance()->start(jsonParser);
+    if (root)
+        parsingFinished(root);
 }
 
-void QTweetUserStream::parsingFinished(const QVariant &json, bool ok, const QString &errorMsg)
+void QTweetUserStream::parsingFinished(cJSON *root)
 {
-    if (!ok) {
-        qDebug() << "JSON parsing error: " << errorMsg;
-#ifdef STREAM_LOGGER
-        m_streamLog.write("***** JSON parsing error *****\n");
-#endif
-        return;
-    }
+    cJSON *friendsObject = cJSON_GetObjectItem(root, "friends");
 
-    QVariantMap result = json.toMap();
+    if (friendsObject)
+        parseFriendsList(root);
 
-    //find it what stream element is
-    if (result.contains("friends")) {    //friends element
-        parseFriendsList(result);
-    } else if (result.contains("direct_message")) { //direct message element
-        parseDirectMessage(result);
-    } else if (result.contains("text")) {  //status element
-        QTweetStatus status = QTweetConvert::variantMapToStatus(result);
+    cJSON *dmObject = cJSON_GetObjectItem(root, "direct_message");
+
+    if (dmObject)
+        parseDirectMessage(root);
+
+    cJSON *textObject = cJSON_GetObjectItem(root, "text");
+
+    if (textObject) {
+        QTweetStatus status = QTweetConvert::cJSONToStatus(root);
         emit statusesStream(status);
-    } else if (result.contains("delete")) {
-        parseDeleteStatus(result);
     }
+
+    cJSON *deleteObject = cJSON_GetObjectItem(root, "delete");
+
+    if (deleteObject)
+        parseDeleteStatus(root);
 }
 
-void QTweetUserStream::parseFriendsList(const QVariantMap& streamObject)
+void QTweetUserStream::parseFriendsList(cJSON *root)
 {
     QList<qint64> friends;
 
-    QVariantList friendsVarList = streamObject["friends"].toList();
+    if (root->type == cJSON_Array) {
+        int size = cJSON_GetArraySize(root);
 
-    foreach (const QVariant& idVar, friendsVarList)
-        friends.append(idVar.toLongLong());
+        for (int i = 0; i < size; i++) {
+            cJSON *friendIDObject = cJSON_GetArrayItem(root, i);
+            friends.append((qint64)friendIDObject->valuedouble);
+        }
 
-    emit friendsList(friends);
+        emit friendsList(friends);
+    }
 }
 
-void QTweetUserStream::parseDirectMessage(const QVariantMap &streamObject)
+void QTweetUserStream::parseDirectMessage(cJSON *root)
 {
-    QVariantMap directMessageVarMap = streamObject["direct_message"].toMap();
+    QTweetDMStatus dm = QTweetConvert::cJSONToDirectMessage(root);
 
-    QTweetDMStatus directMessage = QTweetConvert::variantMapToDirectMessage(directMessageVarMap);
-
-    emit directMessageStream(directMessage);
+    emit directMessageStream(dm);
 }
 
-void QTweetUserStream::parseDeleteStatus(const QVariantMap &streamObject)
+void QTweetUserStream::parseDeleteStatus(cJSON *root)
 {
-    QVariantMap deleteStatusVarMap = streamObject["delete"].toMap();
-    QVariantMap statusVarMap = deleteStatusVarMap["status"].toMap();
+    cJSON *deleteStatusObject = cJSON_GetObjectItem(root, "delete");
+    cJSON *statusObject = cJSON_GetObjectItem(deleteStatusObject, "status");
 
-    qint64 id = statusVarMap["id"].toLongLong();
-    qint64 userid = statusVarMap["user_id"].toLongLong();
+    qint64 id = (qint64)cJSON_GetObjectItem(statusObject, "id")->valuedouble;
+    qint64 userid = (qint64)cJSON_GetObjectItem(statusObject, "user_id")->valuedouble;
 
     emit deleteStatusStream(id, userid);
 }
