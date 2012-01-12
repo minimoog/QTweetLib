@@ -148,11 +148,11 @@ QTweetStatus QTweetConvert::cJSONToStatus(cJSON *root)
     QTweetStatus status;
 
     if (root->type == cJSON_Object) {
-        status.setCreatedAt(cJSON_GetObjectItem(root, "created_at")->valuestring);
-        status.setText(cJSON_GetObjectItem(root, "text")->valuestring);
+        status.setCreatedAt(QString::fromUtf8(cJSON_GetObjectItem(root, "created_at")->valuestring));
+        status.setText(QString::fromUtf8(cJSON_GetObjectItem(root, "text")->valuestring));
         status.setId((qint64)cJSON_GetObjectItem(root, "id")->valuedouble);
         status.setInReplyToUserId((qint64)cJSON_GetObjectItem(root, "in_reply_to_user_id")->valuedouble);
-        status.setInReplyToScreenName(cJSON_GetObjectItem(root, "in_reply_to_screen_name")->valuestring);
+        status.setInReplyToScreenName(QString::fromUtf8(cJSON_GetObjectItem(root, "in_reply_to_screen_name")->valuestring));
         status.setFavorited(cJSON_GetObjectItem(root, "favorited")->valuestring);   //### TODO
 
         cJSON *userObject = cJSON_GetObjectItem(root, "user");
@@ -160,7 +160,7 @@ QTweetStatus QTweetConvert::cJSONToStatus(cJSON *root)
         QTweetUser user = cJSONToUser(userObject);
 
         status.setUser(user);
-        status.setSource(cJSON_GetObjectItem(root, "source")->valuestring);
+        status.setSource(QString::fromUtf8(cJSON_GetObjectItem(root, "source")->valuestring));
         status.setInReplyToStatusId((qint64)cJSON_GetObjectItem(root, "in_reply_to_status_id")->valuedouble);
 
         cJSON *rtObject = cJSON_GetObjectItem(root, "retweeted_status");
@@ -265,25 +265,25 @@ QTweetUser QTweetConvert::cJSONToUser(cJSON *root)
     cJSON *nameObject = cJSON_GetObjectItem(root, "name");
 
     if (nameObject) { // ### TODO FIX
-        user.setName(cJSON_GetObjectItem(root, "name")->valuestring);
-        user.setLocation(cJSON_GetObjectItem(root, "location")->valuestring);
-        user.setprofileImageUrl(cJSON_GetObjectItem(root, "profile_image_url")->valuestring);
-        user.setCreatedAt(cJSON_GetObjectItem(root, "created_at")->valuestring);
+        user.setName(QString::fromUtf8(cJSON_GetObjectItem(root, "name")->valuestring));
+        user.setLocation(QString::fromUtf8(cJSON_GetObjectItem(root, "location")->valuestring));
+        user.setprofileImageUrl(QString::fromUtf8(cJSON_GetObjectItem(root, "profile_image_url")->valuestring));
+        user.setCreatedAt(QString::fromUtf8(cJSON_GetObjectItem(root, "created_at")->valuestring));
         user.setFavouritesCount(cJSON_GetObjectItem(root, "favourites_count")->valueint);
-        user.setUrl(cJSON_GetObjectItem(root, "url")->valuestring);
+        user.setUrl(QString::fromUtf8(cJSON_GetObjectItem(root, "url")->valuestring));
         user.setUtcOffset(cJSON_GetObjectItem(root, "utc_offset")->valueint);
-        user.setProtected(cJSON_GetObjectItem(root, "protected")->valuestring);
+        //user.setProtected(QString::fromUtf8(cJSON_GetObjectItem(root, "protected")->valuestring)); // ### TODO
         user.setFollowersCount(cJSON_GetObjectItem(root, "followers_count")->valueint);
-        user.setVerified(cJSON_GetObjectItem(root, "verified")->valuestring);
-        user.setGeoEnabled(cJSON_GetObjectItem(root, "geo_enabled")->valuestring);
-        user.setDescription(cJSON_GetObjectItem(root, "description")->valuestring);
-        user.setTimezone(cJSON_GetObjectItem(root, "time_zone")->valuestring);
+        //user.setVerified(QString::fromUtf8(cJSON_GetObjectItem(root, "verified")->valuestring)); // ### TODO
+        //user.setGeoEnabled(QString::fromUtf8(cJSON_GetObjectItem(root, "geo_enabled")->valuestring)); // ### TODO
+        user.setDescription(QString::fromUtf8(cJSON_GetObjectItem(root, "description")->valuestring));
+        user.setTimezone(QString::fromUtf8(cJSON_GetObjectItem(root, "time_zone")->valuestring));
         user.setFriendsCount(cJSON_GetObjectItem(root, "friends_count")->valueint);
         user.setStatusesCount(cJSON_GetObjectItem(root, "statuses_count")->valueint);
-        user.setScreenName(cJSON_GetObjectItem(root, "screen_name")->valuestring);
-        user.setContributorsEnabled(cJSON_GetObjectItem(root, "contributors_enabled")->valuestring);
+        user.setScreenName(QString::fromUtf8(cJSON_GetObjectItem(root, "screen_name")->valuestring));
+        //user.setContributorsEnabled(QString::fromUtf8(cJSON_GetObjectItem(root, "contributors_enabled")->valuestring)); // ### TODO
         user.setListedCount(cJSON_GetObjectItem(root, "listed_count")->valueint);
-        user.setLang(cJSON_GetObjectItem(root, "lang")->valuestring);
+        user.setLang(QString::fromUtf8(cJSON_GetObjectItem(root, "lang")->valuestring));
 
         cJSON *statusObject = cJSON_GetObjectItem(root, "status");
 
@@ -366,16 +366,16 @@ QTweetDMStatus QTweetConvert::cJSONToDirectMessage(cJSON *root)
     QTweetDMStatus directMessage;
 
     if (root->type == cJSON_Object) {
-        directMessage.setCreatedAt(cJSON_GetObjectItem(root, "created_at")->valuestring);
-        directMessage.setSenderScreenName(cJSON_GetObjectItem(root, "sender_screen_name")->valuestring);
+        directMessage.setCreatedAt(QString::fromUtf8(cJSON_GetObjectItem(root, "created_at")->valuestring));
+        directMessage.setSenderScreenName(QString::fromUtf8(cJSON_GetObjectItem(root, "sender_screen_name")->valuestring));
 
         cJSON *senderObject = cJSON_GetObjectItem(root, "sender");
         QTweetUser sender = cJSONToUser(senderObject);
 
         directMessage.setSender(sender);
 
-        directMessage.setText(cJSON_GetObjectItem(root, "text")->valuestring);
-        directMessage.setRecipientScreenName(cJSON_GetObjectItem(root, "recipient_screen_name")->valuestring);
+        directMessage.setText(QString::fromUtf8(cJSON_GetObjectItem(root, "text")->valuestring));
+        directMessage.setRecipientScreenName(QString::fromUtf8(cJSON_GetObjectItem(root, "recipient_screen_name")->valuestring));
         directMessage.setId((qint64)cJSON_GetObjectItem(root, "id")->valuedouble);
 
         cJSON *recipientObject = cJSON_GetObjectItem(root, "recipient");
@@ -423,16 +423,16 @@ QTweetList QTweetConvert::cJSONToTweetList(cJSON *root)
     QTweetList list;
 
     if (root->type == cJSON_Object) {
-        list.setMode(cJSON_GetObjectItem(root, "mode")->valuestring);
-        list.setDescription(cJSON_GetObjectItem(root, "description")->valuestring);
+        list.setMode(QString::fromUtf8(cJSON_GetObjectItem(root, "mode")->valuestring));
+        list.setDescription(QString::fromUtf8(cJSON_GetObjectItem(root, "description")->valuestring));
         list.setFollowing(cJSON_GetObjectItem(root, "following")->valueint);
         list.setMemberCount(cJSON_GetObjectItem(root, "member_count")->valueint);
-        list.setFullName(cJSON_GetObjectItem(root, "full_name")->valuestring);
+        list.setFullName(QString::fromUtf8(cJSON_GetObjectItem(root, "full_name")->valuestring));
         list.setSubscriberCount(cJSON_GetObjectItem(root, "subscriber_count")->valueint);
-        list.setSlug(cJSON_GetObjectItem(root, "slug")->valuestring);
-        list.setName(cJSON_GetObjectItem(root, "name")->valuestring);
+        list.setSlug(QString::fromUtf8(cJSON_GetObjectItem(root, "slug")->valuestring));
+        list.setName(QString::fromUtf8(cJSON_GetObjectItem(root, "name")->valuestring));
         list.setId((qint64)cJSON_GetObjectItem(root, "id")->valuedouble);
-        list.setUri(cJSON_GetObjectItem(root, "uri")->valuestring);
+        list.setUri(QString::fromUtf8(cJSON_GetObjectItem(root, "uri")->valuestring));
 
         cJSON *userObject = cJSON_GetObjectItem(root, "user");
 
@@ -543,14 +543,14 @@ QTweetSearchResult QTweetConvert::cJSONToSearchResult(cJSON *root)
     QTweetSearchResult result;
 
     if (root->type == cJSON_Object) {
-        result.setCreatedAt(cJSON_GetObjectItem(root, "created_at")->valuestring);
-        result.setFromUser(cJSON_GetObjectItem(root, "from_user")->valuestring);
+        result.setCreatedAt(QString::fromUtf8(cJSON_GetObjectItem(root, "created_at")->valuestring));
+        result.setFromUser(QString::fromUtf8(cJSON_GetObjectItem(root, "from_user")->valuestring));
         result.setId((qint64)cJSON_GetObjectItem(root, "id")->valuedouble);
-        result.setLang(cJSON_GetObjectItem(root, "iso_language_code")->valuestring);
-        result.setProfileImageUrl(cJSON_GetObjectItem(root, "profile_image_url")->valuestring);
-        result.setSource(cJSON_GetObjectItem(root, "source")->valuestring);
-        result.setText(cJSON_GetObjectItem(root, "text")->valuestring);
-        result.setToUser(cJSON_GetObjectItem(root, "to_user")->valuestring);
+        result.setLang(QString::fromUtf8(cJSON_GetObjectItem(root, "iso_language_code")->valuestring));
+        result.setProfileImageUrl(QString::fromUtf8(cJSON_GetObjectItem(root, "profile_image_url")->valuestring));
+        result.setSource(QString::fromUtf8(cJSON_GetObjectItem(root, "source")->valuestring));
+        result.setText(QString::fromUtf8(cJSON_GetObjectItem(root, "text")->valuestring));
+        result.setToUser(QString::fromUtf8(cJSON_GetObjectItem(root, "to_user")->valuestring));
     }
 
     return result;
@@ -595,7 +595,7 @@ QTweetSearchPageResults QTweetConvert::cJSONToSearchPageResults(cJSON *root)
         page.setMaxId((qint64)cJSON_GetObjectItem(root, "max_id")->valuedouble);
         page.setNextPage(cJSON_GetObjectItem(root, "next_page")->valuestring);  //?
         page.setPage(cJSON_GetObjectItem(root, "page")->valueint);
-        page.setQuery(cJSON_GetObjectItem(root, "query")->valuestring);
+        page.setQuery(cJSON_GetObjectItem(root, "query")->valuestring);  //?
         page.setRefreshUrl(cJSON_GetObjectItem(root, "refresh_url")->valuestring);
         page.setResultsPerPage(cJSON_GetObjectItem(root, "results_per_page")->valueint);
         page.setSinceId((qint64)cJSON_GetObjectItem(root, "since_id")->valuedouble);
@@ -687,13 +687,13 @@ QTweetPlace QTweetConvert::cJSONToPlace(cJSON *root)
     QTweetPlace place;
 
     if (root->type == cJSON_Object) {
-        place.setName(cJSON_GetObjectItem(root, "name")->valuestring);
-        place.setCountryCode(cJSON_GetObjectItem(root, "country_code")->valuestring);
-        place.setCountry(cJSON_GetObjectItem(root, "country")->valuestring);
-        place.setID(cJSON_GetObjectItem(root, "id")->valuestring);
-        place.setFullName(cJSON_GetObjectItem(root, "full_name")->valuestring);
+        place.setName(QString::fromUtf8(cJSON_GetObjectItem(root, "name")->valuestring));
+        place.setCountryCode(QString::fromUtf8(cJSON_GetObjectItem(root, "country_code")->valuestring));
+        place.setCountry(QString::fromUtf8(cJSON_GetObjectItem(root, "country")->valuestring));
+        place.setID(QString::fromUtf8(cJSON_GetObjectItem(root, "id")->valuestring));
+        place.setFullName(QString::fromUtf8(cJSON_GetObjectItem(root, "full_name")->valuestring));
 
-        QString placeType = QString(cJSON_GetObjectItem(root, "place_type")->valuestring);
+        QString placeType = QString::fromUtf8(cJSON_GetObjectItem(root, "place_type")->valuestring);
 
         if (placeType == "poi")
             place.setType(QTweetPlace::Poi);
@@ -710,7 +710,7 @@ QTweetPlace QTweetConvert::cJSONToPlace(cJSON *root)
 
         cJSON *bboxObject = cJSON_GetObjectItem(root, "bounding_box");
         if (bboxObject) {
-            QString type = QString(cJSON_GetObjectItem(bboxObject, "type")->valuestring);
+            QString type = QString::fromUtf8(cJSON_GetObjectItem(bboxObject, "type")->valuestring);
 
             if (type == "Polygon") {
                 cJSON *coordListObject = cJSON_GetObjectItem(bboxObject, "coordinates");
@@ -828,13 +828,13 @@ QTweetPlace QTweetConvert::cJSONToPlaceRecursive(cJSON *root)
     QTweetPlace place;
 
     if (root->type == cJSON_Object) {
-        place.setName(cJSON_GetObjectItem(root, "name")->valuestring);
-        place.setCountryCode(cJSON_GetObjectItem(root, "country_code")->valuestring);
-        place.setCountry(cJSON_GetObjectItem(root, "country")->valuestring);
-        place.setID(cJSON_GetObjectItem(root, "id")->valuestring);
-        place.setFullName(cJSON_GetObjectItem(root, "full_name")->valuestring);
+        place.setName(QString::fromUtf8(cJSON_GetObjectItem(root, "name")->valuestring));
+        place.setCountryCode(QString::fromUtf8(cJSON_GetObjectItem(root, "country_code")->valuestring));
+        place.setCountry(QString::fromUtf8(cJSON_GetObjectItem(root, "country")->valuestring));
+        place.setID(QString::fromUtf8(cJSON_GetObjectItem(root, "id")->valuestring));
+        place.setFullName(QString::fromUtf8(cJSON_GetObjectItem(root, "full_name")->valuestring));
 
-        QString placeType = QString(cJSON_GetObjectItem(root, "place_type")->valuestring);
+        QString placeType = QString::fromUtf8(cJSON_GetObjectItem(root, "place_type")->valuestring);
 
         if (placeType == "poi")
             place.setType(QTweetPlace::Poi);
@@ -851,7 +851,7 @@ QTweetPlace QTweetConvert::cJSONToPlaceRecursive(cJSON *root)
 
         cJSON *bboxObject = cJSON_GetObjectItem(root, "bounding_box");
         if (bboxObject) {
-            QString type = QString(cJSON_GetObjectItem(bboxObject, "type")->valuestring);
+            QString type = QString::fromUtf8(cJSON_GetObjectItem(bboxObject, "type")->valuestring);
 
             if (type == "Polygon") {
                 cJSON *coordListObject = cJSON_GetObjectItem(bboxObject, "coordinates");
@@ -959,9 +959,9 @@ QTweetEntityUrl QTweetConvert::cJSONToEntityUrl(cJSON *root)
 {
     QTweetEntityUrl urlEntity;
 
-    urlEntity.setUrl(cJSON_GetObjectItem(root, "url")->valuestring);
-    urlEntity.setDisplayUrl(cJSON_GetObjectItem(root, "display_url")->valuestring);
-    urlEntity.setExpandedUrl(cJSON_GetObjectItem(root, "expanded_url")->valuestring);
+    urlEntity.setUrl(QString::fromUtf8(cJSON_GetObjectItem(root, "url")->valuestring));
+    urlEntity.setDisplayUrl(QString::fromUtf8(cJSON_GetObjectItem(root, "display_url")->valuestring));
+    urlEntity.setExpandedUrl(QString::fromUtf8(cJSON_GetObjectItem(root, "expanded_url")->valuestring));
 
     return urlEntity;
 }
@@ -978,7 +978,7 @@ QTweetEntityHashtag QTweetConvert::cJSONToEntityHashtag(cJSON *root)
 {
     QTweetEntityHashtag hashtagEntity;
 
-    hashtagEntity.setText(cJSON_GetObjectItem(root, "text")->valuestring);
+    hashtagEntity.setText(QString::fromUtf8(cJSON_GetObjectItem(root, "text")->valuestring));
 
     return hashtagEntity;
 }
@@ -997,8 +997,8 @@ QTweetEntityUserMentions QTweetConvert::cJSONToEntityUserMentions(cJSON *root)
 {
     QTweetEntityUserMentions userMentionsEntity;
 
-    userMentionsEntity.setScreenName(cJSON_GetObjectItem(root, "screen_name")->valuestring);
-    userMentionsEntity.setName(cJSON_GetObjectItem(root, "name")->valuestring);
+    userMentionsEntity.setScreenName(QString::fromUtf8(cJSON_GetObjectItem(root, "screen_name")->valuestring));
+    userMentionsEntity.setName(QString::fromUtf8(cJSON_GetObjectItem(root, "name")->valuestring));
     userMentionsEntity.setUserid((qint64)cJSON_GetObjectItem(root, "id")->valuedouble);
 
     return userMentionsEntity;
