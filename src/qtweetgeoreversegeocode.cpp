@@ -96,15 +96,9 @@ void QTweetGeoReverseGeoCode::getPlaces(const QTweetGeoCoord& latLong,
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
 }
 
-void QTweetGeoReverseGeoCode::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
+void QTweetGeoReverseGeoCode::parseJsonFinished(cJSON *root)
 {
-    if (ok) {
-        QList<QTweetPlace> places = QTweetConvert::variantToPlaceList(json);
+    QList<QTweetPlace> places = QTweetConvert::cJSONToPlaceList(root);
 
-        emit parsedPlaces(places);
-    } else {
-        qDebug() << "QTweetGeoReverseGeoCode parser error: " << errorMsg;
-        setLastErrorMessage(errorMsg);
-        emit error(JsonParsingError, errorMsg);
-    }
+    emit parsedPlaces(places);
 }

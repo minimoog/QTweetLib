@@ -45,8 +45,8 @@ signals:
     /** Emits posted status */
     void postedStatus(const QTweetStatus& status);
 
-protected slots:
-    void parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg);
+protected:
+    void parseJsonFinished(cJSON *root);
 };
 
 #endif // QTWEETSTATUSUPDATE_H

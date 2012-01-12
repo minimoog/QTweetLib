@@ -97,15 +97,15 @@ void QTweetSearch::startWithCustomQuery(const QByteArray &encodedQuery)
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
 }
 
-void QTweetSearch::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
+void QTweetSearch::parseJsonFinished(cJSON *root)
 {
-    if (ok) {
-        QTweetSearchPageResults pageResults = QTweetConvert::variantToSearchPageResults(json);
+    if (root) {
+        QTweetSearchPageResults pageResults = QTweetConvert::cJSONToSearchPageResults(root);
 
         emit parsedPageResults(pageResults);
     } else {
-        qDebug() << "QTweetSearch parsing error: " << errorMsg;
-        setLastErrorMessage(errorMsg);
-        emit error(JsonParsingError, errorMsg);
+        qDebug() << "QTweetSearch parsing error";
+        setLastErrorMessage("QTweetSearch parsing error");
+        emit error(JsonParsingError, "QTweetSearch parsing error");
     }
 }

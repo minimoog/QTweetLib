@@ -47,8 +47,8 @@ signals:
     /** Emits page of search results */
     void parsedPageResults(const QTweetSearchPageResults& pageResults);
 
-protected slots:
-    void parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg);
+protected:
+    void parseJsonFinished(cJSON *root);
 };
 
 #endif // QTWEETSEARCH_H

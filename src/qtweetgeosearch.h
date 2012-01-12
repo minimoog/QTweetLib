@@ -48,8 +48,8 @@ signals:
     /** Emits list of places */
     void parsedPlaces(const QList<QTweetPlace>& places);
 
-protected slots:
-    void parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg);
+protected:
+    void parseJsonFinished(cJSON *root);
 };
 
 #endif // QTWEETGEOSEARCH_H

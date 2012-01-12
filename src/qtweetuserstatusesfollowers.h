@@ -52,8 +52,8 @@ signals:
                              const QString& nextCursor = QString(),
                              const QString& prevCursor = QString());
 
-protected slots:
-    void parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg);
+protected:
+    void parseJsonFinished(cJSON *root);
 
 private:
     bool m_usesCursoring;

@@ -85,7 +85,7 @@ void QTweetHomeTimeline::fetch(qint64 sinceid,
         return;
     }
 
-    QUrl url("http://api.twitter.com/1/statuses/home_timeline.json");
+    QUrl url("https://api.twitter.com/1/statuses/home_timeline.json");
 
     if (sinceid != 0)
         url.addQueryItem("since_id", QString::number(sinceid));
@@ -125,16 +125,9 @@ void QTweetHomeTimeline::get()
     fetch(m_sinceid, m_maxid, m_count, m_page, m_trimUser, m_includeEntities, m_excludeReplies, m_contributorDetails);
 }
 
-void QTweetHomeTimeline::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
+void QTweetHomeTimeline::parseJsonFinished(cJSON *root)
 {
-    if (ok) {
-        QList<QTweetStatus> statuses = QTweetConvert::variantToStatusList(json);
+    QList<QTweetStatus> statuses = QTweetConvert::cJSONToStatusList(root);
 
-        emit parsedStatuses(statuses);
-    } else {
-        qDebug() << "QTweetHomeTimeline JSON parser error: " << errorMsg;
-        setLastErrorMessage(errorMsg);
-        emit error(JsonParsingError, errorMsg);
-    }
+    emit parsedStatuses(statuses);
 }
-

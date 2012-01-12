@@ -130,14 +130,6 @@ bool QTweetNetBase::isAuthenticationEnabled() const
  */
 void QTweetNetBase::parseJson(const QByteArray &jsonData)
 {
-//    QJson::ParserRunnable *jsonParser = new QJson::ParserRunnable;
-//    jsonParser->setData(jsonData);
-
-//    connect(jsonParser, SIGNAL(parsingFinished(QVariant,bool,QString)),
-//            this, SLOT(parsingJsonFinished(QVariant,bool,QString)));
-
-//    QThreadPool::globalInstance()->start(jsonParser);
-
     cJSON *root = cJSON_Parse(jsonData.constData());
 
     if (root)

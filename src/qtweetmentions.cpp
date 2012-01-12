@@ -124,16 +124,9 @@ void QTweetMentions::get()
           m_excludeReplies, m_contributorDetails);
 }
 
-void QTweetMentions::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
+void QTweetMentions::parseJsonFinished(cJSON *root)
 {
-    if (ok) {
-        QList<QTweetStatus> statuses = QTweetConvert::variantToStatusList(json);
+    QList<QTweetStatus> statuses = QTweetConvert::cJSONToStatusList(root);
 
-        emit parsedStatuses(statuses);
-    } else {
-        qDebug() << "QTweetMentions JSON parser error: " << errorMsg;
-        setLastErrorMessage(errorMsg);
-        emit error(JsonParsingError, errorMsg);
-    }
+    emit parsedStatuses(statuses);
 }
-

@@ -264,26 +264,26 @@ QTweetUser QTweetConvert::cJSONToUser(cJSON *root)
 
     cJSON *nameObject = cJSON_GetObjectItem(root, "name");
 
-    if (nameObject) {
-        user.setName(cJSON_GetObjectItem(nameObject, "name")->valuestring);
-        user.setLocation(cJSON_GetObjectItem(nameObject, "location")->valuestring);
-        user.setprofileImageUrl(cJSON_GetObjectItem(nameObject, "profile_image_url")->valuestring);
-        user.setCreatedAt(cJSON_GetObjectItem(nameObject, "created_at")->valuestring);
-        user.setFavouritesCount(cJSON_GetObjectItem(nameObject, "favourites_count")->valueint);
-        user.setUrl(cJSON_GetObjectItem(nameObject, "url")->valuestring);
-        user.setUtcOffset(cJSON_GetObjectItem(nameObject, "utc_offset")->valueint);
-        user.setProtected(cJSON_GetObjectItem(nameObject, "protected")->valuestring);
-        user.setFollowersCount(cJSON_GetObjectItem(nameObject, "followers_count")->valueint);
-        user.setVerified(cJSON_GetObjectItem(nameObject, "verified")->valuestring);
-        user.setGeoEnabled(cJSON_GetObjectItem(nameObject, "geo_enabled")->valuestring);
-        user.setDescription(cJSON_GetObjectItem(nameObject, "description")->valuestring);
-        user.setTimezone(cJSON_GetObjectItem(nameObject, "time_zone")->valuestring);
-        user.setFriendsCount(cJSON_GetObjectItem(nameObject, "friends_count")->valueint);
-        user.setStatusesCount(cJSON_GetObjectItem(nameObject, "statuses_count")->valueint);
-        user.setScreenName(cJSON_GetObjectItem(nameObject, "screen_name")->valuestring);
-        user.setContributorsEnabled(cJSON_GetObjectItem(nameObject, "contributors_enabled")->valuestring);
-        user.setListedCount(cJSON_GetObjectItem(nameObject, "listed_count")->valueint);
-        user.setLang(cJSON_GetObjectItem(nameObject, "lang")->valuestring);
+    if (nameObject) { // ### TODO FIX
+        user.setName(cJSON_GetObjectItem(root, "name")->valuestring);
+        user.setLocation(cJSON_GetObjectItem(root, "location")->valuestring);
+        user.setprofileImageUrl(cJSON_GetObjectItem(root, "profile_image_url")->valuestring);
+        user.setCreatedAt(cJSON_GetObjectItem(root, "created_at")->valuestring);
+        user.setFavouritesCount(cJSON_GetObjectItem(root, "favourites_count")->valueint);
+        user.setUrl(cJSON_GetObjectItem(root, "url")->valuestring);
+        user.setUtcOffset(cJSON_GetObjectItem(root, "utc_offset")->valueint);
+        user.setProtected(cJSON_GetObjectItem(root, "protected")->valuestring);
+        user.setFollowersCount(cJSON_GetObjectItem(root, "followers_count")->valueint);
+        user.setVerified(cJSON_GetObjectItem(root, "verified")->valuestring);
+        user.setGeoEnabled(cJSON_GetObjectItem(root, "geo_enabled")->valuestring);
+        user.setDescription(cJSON_GetObjectItem(root, "description")->valuestring);
+        user.setTimezone(cJSON_GetObjectItem(root, "time_zone")->valuestring);
+        user.setFriendsCount(cJSON_GetObjectItem(root, "friends_count")->valueint);
+        user.setStatusesCount(cJSON_GetObjectItem(root, "statuses_count")->valueint);
+        user.setScreenName(cJSON_GetObjectItem(root, "screen_name")->valuestring);
+        user.setContributorsEnabled(cJSON_GetObjectItem(root, "contributors_enabled")->valuestring);
+        user.setListedCount(cJSON_GetObjectItem(root, "listed_count")->valueint);
+        user.setLang(cJSON_GetObjectItem(root, "lang")->valuestring);
 
         cJSON *statusObject = cJSON_GetObjectItem(root, "status");
 
