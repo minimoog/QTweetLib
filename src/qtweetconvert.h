@@ -21,8 +21,6 @@
 #ifndef QTWEETCONVERT_H
 #define QTWEETCONVERT_H
 
-#include <QVariant>
-
 class QTweetStatus;
 class QTweetUser;
 class QTweetDMStatus;
@@ -41,23 +39,6 @@ struct cJSON;
 class QTweetConvert
 {
 public:
-    static QList<QTweetStatus> variantToStatusList(const QVariant& fromParser); //
-    static QTweetStatus variantMapToStatus(const QVariantMap& var); //
-    static QTweetUser variantMapToUserInfo(const QVariantMap& var); //
-    static QList<QTweetDMStatus> variantToDirectMessagesList(const QVariant& fromParser); //
-    static QTweetDMStatus variantMapToDirectMessage(const QVariantMap& var); //
-    static QTweetList variantMapToTweetList(const QVariantMap& var); //
-    static QList<QTweetUser> variantToUserInfoList(const QVariant& fromParser); //
-    static QList<QTweetList> variantToTweetLists(const QVariant& var); //
-    static QTweetSearchResult variantMapToSearchResult(const QVariantMap& var); //
-    static QTweetSearchPageResults variantToSearchPageResults(const QVariant& var); //
-    static QTweetPlace variantMapToPlace(const QVariantMap& var); //
-    static QTweetPlace variantMapToPlaceRecursive(const QVariantMap& var); //
-    static QList<QTweetPlace> variantToPlaceList(const QVariant& fromParser); //
-    static QTweetEntityUrl variantMapToEntityUrl(const QVariantMap& var);
-    static QTweetEntityHashtag variantMapToEntityHashtag(const QVariantMap& var);
-    static QTweetEntityUserMentions variantMapToEntityUserMentions(const QVariantMap& var);
-
     static QList<QTweetStatus> cJSONToStatusList(cJSON *root);
     static QTweetStatus cJSONToStatus(cJSON *root);
     static QTweetUser cJSONToUser(cJSON *root);
