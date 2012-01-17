@@ -22,9 +22,9 @@
 #define FOLLOWERSLISTMODEL_H
 
 #include <QAbstractListModel>
+#include "qtweetuser.h"
 
 class OAuthTwitter;
-class QTweetUser;
 
 class FollowersListModel : public QAbstractListModel
 {

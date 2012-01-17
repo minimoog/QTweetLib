@@ -3,7 +3,9 @@ QT       += core gui network
 TARGET = searchexample
 TEMPLATE = app
 win32:LIBS += ../../lib/QTweetLib.lib
-INCLUDEPATH += ../../src
+unix:LIBS += -L$$OUT_PWD/../../lib/ -lqtweetlib
+INCLUDEPATH += $$PWD/../../src
+DEPENDPATH += $$PWD/../../src
 
 SOURCES +=\
     mainwindow.cpp \
