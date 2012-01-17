@@ -55,7 +55,7 @@ void QTweetBlocksBlocking::getBlocks(int page, bool includeEntities)
         return;
     }
 
-    QUrl url("http://api.twitter.com/1/blocks/blocking.json");
+    QUrl url("https://api.twitter.com/1/blocks/blocking.json");
 
     if (page)
         url.addQueryItem("page", QString::number(page));

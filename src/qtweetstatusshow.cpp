@@ -43,7 +43,7 @@ QTweetStatusShow::QTweetStatusShow(OAuthTwitter *oauthTwitter, QObject *parent) 
  */
 void QTweetStatusShow::fetch(qint64 id, bool trimUser, bool includeEntities)
 {
-    QUrl url("http://api.twitter.com/1/statuses/show.json");
+    QUrl url("https://api.twitter.com/1/statuses/show.json");
 
     url.addQueryItem("id", QString::number(id));
 

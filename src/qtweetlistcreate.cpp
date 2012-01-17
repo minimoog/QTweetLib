@@ -52,7 +52,7 @@ void QTweetListCreate::create(qint64 user,
         return;
     }
 
-    QUrl url(QString("http://api.twitter.com/1/%1/lists.json").arg(user));
+    QUrl url(QString("https://api.twitter.com/1/%1/lists.json").arg(user));
 
     QUrl urlQuery(url);
 

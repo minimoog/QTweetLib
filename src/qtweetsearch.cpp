@@ -50,7 +50,7 @@ void QTweetSearch::start(const QString &query,
                          int page,
                          qint64 sinceid)
 {
-    QUrl url("http://search.twitter.com/search.json");
+    QUrl url("https://search.twitter.com/search.json");
 
     url.addEncodedQueryItem("q", QUrl::toPercentEncoding(query));
 

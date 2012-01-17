@@ -53,7 +53,7 @@ void QTweetListStatuses::fetch(qint64 user,
                                int page,
                                bool includeEntities)
 {
-    QUrl url(QString("http://api.twitter.com/1/%1/lists/%2/statuses.json").arg(user).arg(list));
+    QUrl url(QString("https://api.twitter.com/1/%1/lists/%2/statuses.json").arg(user).arg(list));
 
     if (sinceid != 0)
         url.addQueryItem("since_id", QString::number(sinceid));

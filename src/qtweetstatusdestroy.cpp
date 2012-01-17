@@ -50,7 +50,7 @@ void QTweetStatusDestroy::destroy(qint64 id,
         return;
     }
 
-    QUrl url("http://api.twitter.com/1/statuses/destroy.json");
+    QUrl url("https://api.twitter.com/1/statuses/destroy.json");
 
     QUrl urlQuery(url);
 

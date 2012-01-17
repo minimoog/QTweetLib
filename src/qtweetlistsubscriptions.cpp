@@ -49,7 +49,7 @@ void QTweetListSubscriptions::fetch(qint64 user, const QString &cursor)
         return;
     }
 
-    QUrl url(QString("http://api.twitter.com/1/%1/lists/subscriptions.json").arg(user));
+    QUrl url(QString("https://api.twitter.com/1/%1/lists/subscriptions.json").arg(user));
 
     if (!cursor.isEmpty())
         url.addQueryItem("cursor", cursor);

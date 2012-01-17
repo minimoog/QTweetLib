@@ -55,7 +55,7 @@ void QTweetFriendshipDestroy::unfollow(qint64 userid, bool includeEntities)
         return;
     }
 
-    QUrl url("http://api.twitter.com/1/friendships/destroy.json");
+    QUrl url("https://api.twitter.com/1/friendships/destroy.json");
 
     url.addQueryItem("user_id", QString::number(userid));
 

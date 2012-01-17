@@ -61,7 +61,7 @@ void QTweetGeoSearch::search(const QTweetGeoCoord &latLong,
                              int maxResults,
                              const QString &containedWithin)
 {
-    QUrl url("http://api.twitter.com/1/geo/search.json");
+    QUrl url("https://api.twitter.com/1/geo/search.json");
 
     if (latLong.isValid()) {
         url.addQueryItem("lat", QString::number(latLong.latitude()));

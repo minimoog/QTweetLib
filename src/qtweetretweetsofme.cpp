@@ -67,7 +67,7 @@ void QTweetRetweetsOfMe::fetch(qint64 sinceid,
         return;
     }
 
-    QUrl url("http://api.twitter.com/1/statuses/retweets_of_me.json");
+    QUrl url("https://api.twitter.com/1/statuses/retweets_of_me.json");
 
     if (sinceid != 0)
         url.addQueryItem("since_id", QString::number(sinceid));

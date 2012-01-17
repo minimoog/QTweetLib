@@ -51,7 +51,7 @@ void QTweetBlocksBlockingIDs::getIDs()
         return;
     }
 
-    QUrl url("http://api.twitter.com/1/blocks/blocking/ids.json");
+    QUrl url("https://api.twitter.com/1/blocks/blocking/ids.json");
 
     QNetworkRequest req(url);
 

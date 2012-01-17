@@ -55,7 +55,7 @@ void QTweetBlocksExists::isBlocked(qint64 userid, bool includeEntities)
         return;
     }
 
-    QUrl url("http://api.twitter.com/1/blocks/exists.json");
+    QUrl url("https://api.twitter.com/1/blocks/exists.json");
 
     url.addQueryItem("user_id", QString::number(userid));
 

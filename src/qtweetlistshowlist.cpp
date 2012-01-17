@@ -49,7 +49,7 @@ void QTweetListShowList::show(qint64 id, qint64 list)
         return;
     }
 
-    QUrl url(QString("http://api.twitter.com/1/%1/lists/%2.json").arg(id).arg(list));
+    QUrl url(QString("https://api.twitter.com/1/%1/lists/%2.json").arg(id).arg(list));
 
     QNetworkRequest req(url);
 

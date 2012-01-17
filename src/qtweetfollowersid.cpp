@@ -48,7 +48,7 @@ QTweetFollowersID::QTweetFollowersID(OAuthTwitter *oauthTwitter, QObject *parent
  */
 void QTweetFollowersID::fetch(qint64 user, const QString &cursor)
 {
-    QUrl url("http://api.twitter.com/1/followers/ids.json");
+    QUrl url("https://api.twitter.com/1/followers/ids.json");
 
     url.addQueryItem("user_id", QString::number(user));
     url.addQueryItem("cursor", cursor);

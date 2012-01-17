@@ -47,7 +47,7 @@ void QTweetListAddMember::add(qint64 user, qint64 list, qint64 memberid)
         return;
     }
 
-    QUrl url(QString("http://api.twitter.com/1/%1/%2/members.json").arg(user).arg(list));
+    QUrl url(QString("https://api.twitter.com/1/%1/%2/members.json").arg(user).arg(list));
 
     url.addQueryItem("id", QString::number(memberid));
 
