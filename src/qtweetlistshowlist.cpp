@@ -60,15 +60,9 @@ void QTweetListShowList::show(qint64 id, qint64 list)
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
 }
 
-void QTweetListShowList::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
+void QTweetListShowList::parseJsonFinished(cJSON *root)
 {
-    if (ok) {
-        QTweetList list = QTweetConvert::variantMapToTweetList(json.toMap());
+    QTweetList list = QTweetConvert::cJSONToTweetList(root);
 
-        emit parsedList(list);
-    } else {
-        qDebug() << "QTweetListShowList json parser error: " << errorMsg;
-        setLastErrorMessage(errorMsg);
-        emit error(JsonParsingError, errorMsg);
-    }
+    emit parsedList(list);
 }

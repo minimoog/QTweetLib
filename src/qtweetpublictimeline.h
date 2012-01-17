@@ -44,8 +44,8 @@ public:
 signals:
     void parsedStatuses(const QList<QTweetStatus>& statuses);
 
-protected slots:
-    void parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg);
+protected:
+    void parseJsonFinished(cJSON *root);
 
 private:
     // ### TODO: Pimpl

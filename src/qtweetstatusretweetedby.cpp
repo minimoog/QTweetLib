@@ -71,15 +71,9 @@ void QTweetStatusRetweetedBy::get()
     fetch(m_tweetid, m_count, m_page);
 }
 
-void QTweetStatusRetweetedBy::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
+void QTweetStatusRetweetedBy::parseJsonFinished(cJSON *root)
 {
-    if (ok) {
-        QList<QTweetUser> users = QTweetConvert::variantToUserInfoList(json);
+    QList<QTweetUser> users = QTweetConvert::cJSONToUserInfoList(root);
 
-        emit parsedUsers(users);
-    } else {
-        qDebug() << "QTweetStatusRetweetedBy json parser error: " << errorMsg;
-        setLastErrorMessage(errorMsg);
-        emit error(JsonParsingError, errorMsg);
-    }
+    emit parsedUsers(users);
 }

@@ -72,15 +72,9 @@ void QTweetBlocksBlocking::getBlocks(int page, bool includeEntities)
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
 }
 
-void QTweetBlocksBlocking::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
+void QTweetBlocksBlocking::parseJsonFinished(cJSON *root)
 {
-    if (ok) {
-        QList<QTweetUser> userlist = QTweetConvert::variantToUserInfoList(json);
+    QList<QTweetUser> userlist = QTweetConvert::cJSONToUserInfoList(root);
 
-        emit finishedGettingBlocks(userlist);
-    } else {
-        qDebug() << "QTweetBlocksBlocking parser error: " << errorMsg;
-        setLastErrorMessage(errorMsg);
-        emit error(JsonParsingError, errorMsg);
-    }
+    emit finishedGettingBlocks(userlist);
 }

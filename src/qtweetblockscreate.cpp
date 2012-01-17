@@ -111,15 +111,9 @@ void QTweetBlocksCreate::create(const QString& screenName, bool includeEntities)
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
 }
 
-void QTweetBlocksCreate::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
+void QTweetBlocksCreate::parseJsonFinished(cJSON *root)
 {
-    if (ok) {
-        QTweetUser user = QTweetConvert::variantMapToUserInfo(json.toMap());
+    QTweetUser user = QTweetConvert::cJSONToUser(root);
 
-        emit finishedCreatingBlock(user);
-    } else {
-        qDebug() << "QTweetBlocksCreate parser error: " << errorMsg;
-        setLastErrorMessage(errorMsg);
-        emit error(JsonParsingError, errorMsg);
-    }
+    emit finishedCreatingBlock(user);
 }

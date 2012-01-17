@@ -58,16 +58,9 @@ void QTweetListSubscribe::follow(qint64 user, qint64 list)
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
 }
 
-void QTweetListSubscribe::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
+void QTweetListSubscribe::parseJsonFinished(cJSON *root)
 {
-    if (ok) {
-        QTweetList list = QTweetConvert::variantMapToTweetList(json.toMap());
+    QTweetList list = QTweetConvert::cJSONToTweetList(root);
 
-        emit parsedList(list);
-    } else {
-        qDebug() << "QTweetListSubscribe parser error: " << errorMsg;
-        setLastErrorMessage(errorMsg);
-        emit error(JsonParsingError, errorMsg);
-    }
+    emit parsedList(list);
 }
-

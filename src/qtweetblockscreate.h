@@ -41,8 +41,8 @@ signals:
     /** Emits the blocked user */
     void finishedCreatingBlock(const QTweetUser& user);
 
-protected slots:
-    void parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg);
+protected:
+    void parseJsonFinished(cJSON *root);
 };
 
 #endif // QTWEETBLOCKSCREATE_H

@@ -40,8 +40,8 @@ signals:
     /** Emits retweeted tweet */
     void postedRetweet(const QTweetStatus& status);
 
-protected slots:
-    void parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg);
+protected:
+    void parseJsonFinished(cJSON *root);
 };
 
 #endif // QTWEETSTATUSRETWEET_H

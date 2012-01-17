@@ -43,8 +43,8 @@ signals:
     /** Emits the befriended user */
     void parsedUser(const QTweetUser& user);
 
-protected slots:
-    void parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg);
+protected:
+    void parseJsonFinished(cJSON *root);
 };
 
 #endif // QTWEETFRIENDSHIPCREATE_H

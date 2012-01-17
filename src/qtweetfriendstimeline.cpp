@@ -99,15 +99,9 @@ void QTweetFriendsTimeline::fetch(qint64 sinceid,
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
 }
 
-void QTweetFriendsTimeline::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
+void QTweetFriendsTimeline::parseJsonFinished(cJSON *root)
 {
-    if (ok) {
-        QList<QTweetStatus> statuses = QTweetConvert::variantToStatusList(json);
+    QList<QTweetStatus> statuses = QTweetConvert::cJSONToStatusList(root);
 
-        emit parsedStatuses(statuses);
-    } else {
-        qDebug() << "QTweetFriendsTimeline JSON Parser error: " << errorMsg;
-        setLastErrorMessage(errorMsg);
-        emit error(JsonParsingError, errorMsg);
-    }
+    emit parsedStatuses(statuses);
 }

@@ -99,15 +99,9 @@ void QTweetBlocksExists::isBlocked(const QString &screenName, bool includeEntiti
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
 }
 
-void QTweetBlocksExists::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
+void QTweetBlocksExists::parseJsonFinished(cJSON *root)
 {
-    if (ok) {
-        QTweetUser user = QTweetConvert::variantMapToUserInfo(json.toMap());
+    QTweetUser user = QTweetConvert::cJSONToUser(root);
 
-        emit finishedIsBlocked(user);
-    } else {
-        qDebug() << "QTweetBlocksExists parser error: " << errorMsg;
-        setLastErrorMessage(errorMsg);
-        emit error(JsonParsingError, errorMsg);
-    }
+    emit finishedIsBlocked(user);
 }

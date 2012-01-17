@@ -63,15 +63,9 @@ void QTweetPublicTimeline::get()
     fetch(m_trimUser, m_includeEntities);
 }
 
-void QTweetPublicTimeline::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
+void QTweetPublicTimeline::parseJsonFinished(cJSON *root)
 {
-    if (ok) {
-        QList<QTweetStatus> statuses = QTweetConvert::variantToStatusList(json);
+    QList<QTweetStatus> statuses = QTweetConvert::cJSONToStatusList(root);
 
-        emit parsedStatuses(statuses);
-    } else {
-        qDebug() << "QTweetHomePublicTimeline JSON parser error: " << errorMsg;
-        setLastErrorMessage(errorMsg);
-        emit error(JsonParsingError, errorMsg);
-    }
+    emit parsedStatuses(statuses);
 }

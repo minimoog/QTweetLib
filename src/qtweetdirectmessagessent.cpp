@@ -89,16 +89,9 @@ void QTweetDirectMessagesSent::fetch(qint64 sinceid,
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
 }
 
-void QTweetDirectMessagesSent::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
+void QTweetDirectMessagesSent::parseJsonFinished(cJSON *root)
 {
-    if (ok) {
-        QList<QTweetDMStatus> directMessages = QTweetConvert::variantToDirectMessagesList(json);
+    QList<QTweetDMStatus> directMessages = QTweetConvert::cJSONToDirectMessagesList(root);
 
-        emit parsedDirectMessages(directMessages);
-    } else {
-        qDebug() << "QTweetDirectMessagesSent parser error: " << errorMsg;
-        setLastErrorMessage(errorMsg);
-        emit error(JsonParsingError, errorMsg);
-    }
+    emit parsedDirectMessages(directMessages);
 }
-

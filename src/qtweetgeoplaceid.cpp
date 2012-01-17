@@ -62,15 +62,9 @@ void QTweetGeoPlaceID::get(const QString &placeid)
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
 }
 
-void QTweetGeoPlaceID::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
+void QTweetGeoPlaceID::parseJsonFinished(cJSON *root)
 {
-    if (ok) {
-        QTweetPlace place = QTweetConvert::variantMapToPlaceRecursive(json.toMap());
+    QTweetPlace place = QTweetConvert::cJSONToPlaceRecursive(root);
 
-        emit parsedPlace(place);
-    } else {
-        qDebug() << "QTweetGeoPlaceID parser error: " << errorMsg;
-        setLastErrorMessage(errorMsg);
-        emit error(JsonParsingError, errorMsg);
-    }
+    emit parsedPlace(place);
 }

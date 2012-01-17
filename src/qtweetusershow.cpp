@@ -85,15 +85,9 @@ void QTweetUserShow::fetch(const QString &screenName, bool includeEntities)
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
 }
 
-void QTweetUserShow::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
+void QTweetUserShow::parseJsonFinished(cJSON *root)
 {
-    if (ok) {
-        QTweetUser userInfo = QTweetConvert::variantMapToUserInfo(json.toMap());
+    QTweetUser userInfo = QTweetConvert::cJSONToUser(root);
 
-        emit parsedUserInfo(userInfo);
-    } else {
-        qDebug() << "QTweetUserShow Json parser error: " << errorMsg;
-        setLastErrorMessage(errorMsg);
-        emit error(JsonParsingError, errorMsg);
-    }
+    emit parsedUserInfo(userInfo);
 }

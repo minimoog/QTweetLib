@@ -57,16 +57,9 @@ void QTweetListUnsubscribe::unsubscribe(qint64 user, qint64 list)
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
 }
 
-void QTweetListUnsubscribe::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
+void QTweetListUnsubscribe::parseJsonFinished(cJSON *root)
 {
-    if (ok) {
-        QTweetList list = QTweetConvert::variantMapToTweetList(json.toMap());
+    QTweetList list = QTweetConvert::cJSONToTweetList(root);
 
-        emit parsedList(list);
-    } else {
-        qDebug() << "QTweetListUnsubscribe parser error: " << errorMsg;
-        setLastErrorMessage(errorMsg);
-        emit error(JsonParsingError, errorMsg);
-    }
+    emit parsedList(list);
 }
-

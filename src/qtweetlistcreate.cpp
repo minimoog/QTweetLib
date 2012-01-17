@@ -77,15 +77,9 @@ void QTweetListCreate::create(qint64 user,
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
 }
 
-void QTweetListCreate::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
+void QTweetListCreate::parseJsonFinished(cJSON *root)
 {
-    if (ok) {
-        QTweetList list = QTweetConvert::variantMapToTweetList(json.toMap());
+    QTweetList list = QTweetConvert::cJSONToTweetList(root);
 
-        emit parsedList(list);
-    } else {
-        qDebug() << "QTweetListCreate json parser error: " << errorMsg;
-        setLastErrorMessage(errorMsg);
-        emit error(JsonParsingError, errorMsg);
-    }
+    emit parsedList(list);
 }

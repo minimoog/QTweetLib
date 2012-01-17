@@ -37,8 +37,8 @@ public:
 signals:
     void finishedGettingBlocks(const QList<QTweetUser>& users);
 
-protected slots:
-    void parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg);
+protected:
+    void parseJsonFinished(cJSON *root);
 };
 
 #endif // QTWEETBLOCKSBLOCKING_H

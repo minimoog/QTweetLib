@@ -24,6 +24,7 @@
 #include "qtweetlistsubscriptions.h"
 #include "qtweetlist.h"
 #include "qtweetconvert.h"
+#include "cJSON.h"
 
 QTweetListSubscriptions::QTweetListSubscriptions(QObject *parent) :
     QTweetNetBase(parent)
@@ -62,23 +63,13 @@ void QTweetListSubscriptions::fetch(qint64 user, const QString &cursor)
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
 }
 
-void QTweetListSubscriptions::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
+void QTweetListSubscriptions::parseJsonFinished(cJSON *root)
 {
-    if (ok) {
-        QVariantMap respMap = json.toMap();
+    cJSON *listsObject = cJSON_GetObjectItem(root, "lists");
 
-        QVariant listsVar = respMap["lists"];
+    QList<QTweetList> lists = QTweetConvert::cJSONToTweetLists(listsObject);
+    QString nextCursor = cJSON_GetObjectItem(root, "next_cursor_str")->valuestring;
+    QString prevCursor = cJSON_GetObjectItem(root, "previous_cursor_str")->valuestring;
 
-        QList<QTweetList> lists = QTweetConvert::variantToTweetLists(listsVar);
-
-        QString nextCursor = respMap["next_cursor_str"].toString();
-        QString prevCursor = respMap["previous_cursor_str"].toString();
-
-        emit parsedLists(lists, nextCursor, prevCursor);
-    } else {
-        qDebug() << "QTweetListSubscriptions json parser error: " << errorMsg;
-        setLastErrorMessage(errorMsg);
-        emit error(JsonParsingError, errorMsg);
-    }
+    emit parsedLists(lists, nextCursor, prevCursor);
 }
-

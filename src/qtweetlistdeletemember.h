@@ -41,8 +41,8 @@ signals:
     /** Emits list where member was deleted */
     void parsedList(const QTweetList& list);
 
-protected slots:
-    void parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg);
+protected:
+    void parseJsonFinished(cJSON *root);
 };
 
 #endif // QTWEETLISTDELETEMEMBER_H

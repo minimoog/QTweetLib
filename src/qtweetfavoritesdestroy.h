@@ -39,8 +39,8 @@ signals:
     /** Emits the unfavorited status */
     void parsedStatus(const QTweetStatus& status);
 
-protected slots:
-    void parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg);
+protected:
+    void parseJsonFinished(cJSON *root);
 };
 
 #endif // QTWEETFAVORITESDESTROY_H

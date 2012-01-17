@@ -40,8 +40,8 @@ signals:
     /** Emits the ublocked user */
     void finishedUnblocking(const QTweetUser& user);
 
-protected slots:
-    void parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg);
+protected:
+    void parseJsonFinished(cJSON *root);
 };
 
 #endif // QTWEETBLOCKSDESTROY_H

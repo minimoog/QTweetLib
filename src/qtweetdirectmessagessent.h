@@ -42,8 +42,8 @@ signals:
     /** Emits direct messages list */
     void parsedDirectMessages(const QList<QTweetDMStatus>& messages);
 
-protected slots:
-    void parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg);
+protected:
+    void parseJsonFinished(cJSON *root);
 };
 
 #endif // QTWEETDIRECTMESSAGESSENT_H

@@ -40,8 +40,8 @@ signals:
     /** Emits parsed user when credentials are valid */
     void parsedUser(const QTweetUser& user);
 
-protected slots:
-    void parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg);
+protected:
+    void parseJsonFinished(cJSON *root);
 };
 
 #endif // QTWEETACCOUNTVERIFYCREDENTIALS_H

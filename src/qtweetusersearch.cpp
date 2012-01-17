@@ -74,16 +74,9 @@ void QTweetUserSearch::search(const QString &query,
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
 }
 
-void QTweetUserSearch::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
+void QTweetUserSearch::parseJsonFinished(cJSON *root)
 {
-    if (ok) {
-        QList<QTweetUser> userInfoList = QTweetConvert::variantToUserInfoList(json);
+    QList<QTweetUser> userInfoList = QTweetConvert::cJSONToUserInfoList(root);
 
-        emit parsedUserInfoList(userInfoList);
-    } else {
-        qDebug() << "QTweetUserSearch json parser error: " << errorMsg;
-        setLastErrorMessage(errorMsg);
-        emit error(JsonParsingError, errorMsg);
-    }
+    emit parsedUserInfoList(userInfoList);
 }
-

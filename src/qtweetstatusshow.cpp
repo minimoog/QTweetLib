@@ -64,15 +64,9 @@ void QTweetStatusShow::fetch(qint64 id, bool trimUser, bool includeEntities)
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
 }
 
-void QTweetStatusShow::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
+void QTweetStatusShow::parseJsonFinished(cJSON *root)
 {
-    if (ok) {
-        QTweetStatus status = QTweetConvert::variantMapToStatus(json.toMap());
+    QTweetStatus status = QTweetConvert::cJSONToStatus(root);
 
-        emit parsedStatus(status);
-    } else {
-        qDebug() << "QTweetStatusShow JSON parser error: " << errorMsg;
-        setLastErrorMessage(errorMsg);
-        emit error(JsonParsingError, errorMsg);
-    }
+    emit parsedStatus(status);
 }

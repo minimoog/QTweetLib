@@ -45,8 +45,8 @@ signals:
     /** Emits geo place */
     void parsedPlace(const QTweetPlace& place);
 
-protected slots:
-    void parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg);
+protected:
+    void parseJsonFinished(cJSON *root);
 };
 
 #endif // QTWEETGEOPLACECREATE_H

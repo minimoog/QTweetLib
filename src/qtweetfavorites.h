@@ -41,8 +41,8 @@ signals:
     /** Emits list of favorited statuses */
     void parsedFavorites(const QList<QTweetStatus>& favorites);
 
-protected slots:
-    void parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg);
+protected:
+    void parseJsonFinished(cJSON *root);
 };
 
 #endif // QTWEETFAVORITES_H

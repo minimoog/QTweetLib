@@ -81,15 +81,9 @@ void QTweetListStatuses::fetch(qint64 user,
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
 }
 
-void QTweetListStatuses::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
+void QTweetListStatuses::parseJsonFinished(cJSON *root)
 {
-    if (ok) {
-        QList<QTweetStatus> statuses = QTweetConvert::variantToStatusList(json);
+    QList<QTweetStatus> statuses = QTweetConvert::cJSONToStatusList(root);
 
-        emit parsedStatuses(statuses);
-    } else {
-        qDebug() << "QTweetListStatuses json parser error: " << errorMsg;
-        setLastErrorMessage(errorMsg);
-        emit error(JsonParsingError, errorMsg);
-    }
+    emit parsedStatuses(statuses);
 }

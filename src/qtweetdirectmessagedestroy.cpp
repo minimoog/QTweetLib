@@ -68,16 +68,9 @@ void QTweetDirectMessageDestroy::destroyMessage(qint64 id, bool includeEntities)
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
 }
 
-void QTweetDirectMessageDestroy::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
+void QTweetDirectMessageDestroy::parseJsonFinished(cJSON *root)
 {
-    if (ok) {
-        QTweetDMStatus dm = QTweetConvert::variantMapToDirectMessage(json.toMap());
+    QTweetDMStatus dm = QTweetConvert::cJSONToDirectMessage(root);
 
-        emit parsedDirectMessage(dm);
-    } else {
-        qDebug() << "QTweetDirectMessageDestroy parser error: " << errorMsg;
-        setLastErrorMessage(errorMsg);
-        emit error(JsonParsingError, errorMsg);
-    }
+    emit parsedDirectMessage(dm);
 }
-

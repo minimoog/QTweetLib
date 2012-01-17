@@ -25,6 +25,7 @@
 #include "qtweetuser.h"
 #include "qtweetuserstatusesfriends.h"
 #include "qtweetconvert.h"
+#include "cJSON.h"
 
 QTweetUserStatusesFriends::QTweetUserStatusesFriends(QObject *parent) :
         QTweetNetBase(parent), m_usesCursoring(false)
@@ -102,29 +103,20 @@ void QTweetUserStatusesFriends::fetch(const QString &screenName,
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
 }
 
-void QTweetUserStatusesFriends::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
+void QTweetUserStatusesFriends::parseJsonFinished(cJSON *root)
 {
-    if (ok) {
-        if (m_usesCursoring) {
-            QVariantMap respMap = json.toMap();
+    if (m_usesCursoring) {
+        cJSON *userListObject = cJSON_GetObjectItem(root, "users");
 
-            QVariant userListVar = respMap["users"];
+        QList<QTweetUser> userList = QTweetConvert::cJSONToUserInfoList(userListObject);
 
-            QList<QTweetUser> userList = QTweetConvert::variantToUserInfoList(userListVar);
+        QString nextCursor = cJSON_GetObjectItem(root, "next_cursor_str")->valuestring;
+        QString prevCursor = cJSON_GetObjectItem(root, "previous_cursor_str")->valuestring;
 
-            QString nextCursor = respMap["next_cursor_str"].toString();
-            QString prevCursor = respMap["previous_cursor_str"].toString();
-
-            emit parsedFriendsList(userList, nextCursor, prevCursor);
-        } else {
-            QList<QTweetUser> userList = QTweetConvert::variantToUserInfoList(json);
-
-            emit parsedFriendsList(userList);
-        }
+        emit parsedFriendsList(userList, nextCursor, prevCursor);
     } else {
-        qDebug() << "QTweetUserStatusesFriends json parser error: " << errorMsg;
-        setLastErrorMessage(errorMsg);
-        emit error(JsonParsingError, errorMsg);
+        QList<QTweetUser> userList = QTweetConvert::cJSONToUserInfoList(root);
+
+        emit parsedFriendsList(userList);
     }
 }
-

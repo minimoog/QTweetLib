@@ -39,8 +39,8 @@ signals:
     /** emits destroyed direct message */
     void parsedDirectMessage(const QTweetDMStatus& message);
 
-protected slots:
-    void parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg);
+protected:
+    void parseJsonFinished(cJSON *root);
 };
 
 #endif // QTWEETDIRECTMESSAGEDESTROY_H

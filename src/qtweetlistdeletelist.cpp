@@ -58,16 +58,9 @@ void QTweetListDeleteList::deleteList(qint64 user, qint64 list)
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
 }
 
-void QTweetListDeleteList::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
+void QTweetListDeleteList::parseJsonFinished(cJSON *root)
 {
-    if (ok) {
-        // I hope, Twitter API return list object, did not checked
-        QTweetList list = QTweetConvert::variantMapToTweetList(json.toMap());
+    QTweetList list = QTweetConvert::cJSONToTweetList(root);
 
-        emit deletedList(list);
-    } else {
-        qDebug() << "QTweetListDeleteList json parser error: " << errorMsg;
-        setLastErrorMessage(errorMsg);
-        emit error(JsonParsingError, errorMsg);
-    }
+    emit deletedList(list);
 }

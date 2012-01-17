@@ -60,15 +60,9 @@ void QTweetListDeleteMember::remove(qint64 user, qint64 list, qint64 member)
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
 }
 
-void QTweetListDeleteMember::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
+void QTweetListDeleteMember::parseJsonFinished(cJSON *root)
 {
-    if (ok) {
-        QTweetList list = QTweetConvert::variantMapToTweetList(json.toMap());
+    QTweetList list = QTweetConvert::cJSONToTweetList(root);
 
-        emit parsedList(list);
-    } else {
-        qDebug() << "QTweetListDeleteMember parser error: " << errorMsg;
-        setLastErrorMessage(errorMsg);
-        emit error(JsonParsingError, errorMsg);
-    }
+    emit parsedList(list);
 }

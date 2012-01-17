@@ -40,8 +40,8 @@ signals:
     /** Emits specified tweet */
     void parsedStatus(const QTweetStatus& status);
 
-protected slots:
-    void parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg);
+protected:
+    void parseJsonFinished(cJSON *root);
 };
 
 #endif // QTWEETSTATUSSHOW_H

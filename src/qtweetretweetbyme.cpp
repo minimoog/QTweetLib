@@ -101,16 +101,9 @@ void QTweetRetweetByMe::get()
     fetch(m_sinceid, m_maxid, m_count, m_page, m_trimUser, m_includeEntities);
 }
 
-void QTweetRetweetByMe::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
+void QTweetRetweetByMe::parseJsonFinished(cJSON *root)
 {
-    if (ok) {
-        QList<QTweetStatus> statuses = QTweetConvert::variantToStatusList(json);
+    QList<QTweetStatus> statuses = QTweetConvert::cJSONToStatusList(root);
 
-        emit parsedStatuses(statuses);
-    } else {
-        qDebug() << "QTweetRetweetByMe JSON parser error: " << errorMsg;
-        setLastErrorMessage(errorMsg);
-        emit error(JsonParsingError, errorMsg);
-    }
+    emit parsedStatuses(statuses);
 }
-

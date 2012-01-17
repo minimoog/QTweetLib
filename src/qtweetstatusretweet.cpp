@@ -65,16 +65,9 @@ void QTweetStatusRetweet::retweet(qint64 id,
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
 }
 
-void QTweetStatusRetweet::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
+void QTweetStatusRetweet::parseJsonFinished(cJSON *root)
 {
-    if (ok) {
-        QTweetStatus status = QTweetConvert::variantMapToStatus(json.toMap());
+    QTweetStatus status = QTweetConvert::cJSONToStatus(root);
 
-        emit postedRetweet(status);
-    } else {
-        qDebug() << "QTweetStatusRetweet JSON parser error: " << errorMsg;
-        setLastErrorMessage(errorMsg);
-        emit error(JsonParsingError, errorMsg);
-    }
+    emit postedRetweet(status);
 }
-

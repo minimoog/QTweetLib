@@ -79,15 +79,9 @@ void QTweetFavorites::fetch(qint64 id, int page, bool includeEntities)
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
 }
 
-void QTweetFavorites::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
+void QTweetFavorites::parseJsonFinished(cJSON *root)
 {
-    if (ok) {
-        QList<QTweetStatus> statuses = QTweetConvert::variantToStatusList(json);
+    QList<QTweetStatus> statuses = QTweetConvert::cJSONToStatusList(root);
 
-        emit parsedFavorites(statuses);
-    } else {
-        qDebug() << "QTweetFavorites JSON parser error: " << errorMsg;
-        setLastErrorMessage(errorMsg);
-        emit error(JsonParsingError, errorMsg);
-    }
+    emit parsedFavorites(statuses);
 }

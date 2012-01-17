@@ -44,8 +44,8 @@ signals:
     /** Emits the statuses of a specified list */
     void parsedStatuses(const QList<QTweetStatus>& statuses);
 
-protected slots:
-    void parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg);
+protected:
+    void parseJsonFinished(cJSON *root);
 };
 
 #endif // QTWEETLISTSTATUSES_H

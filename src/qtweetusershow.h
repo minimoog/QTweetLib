@@ -41,8 +41,8 @@ signals:
     /** Emits user */
     void parsedUserInfo(const QTweetUser& userInfo);
 
-protected slots:
-    void parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg);
+protected:
+    void parseJsonFinished(cJSON *root);
 };
 
 #endif // QTWEETUSERSHOW_H

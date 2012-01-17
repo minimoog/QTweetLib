@@ -38,8 +38,8 @@ signals:
     /** Emits deleted list */
     void deletedList(const QTweetList& list);
 
-protected slots:
-    void parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg);
+protected:
+    void parseJsonFinished(cJSON *root);
 };
 
 #endif // QTWEETLISTDELETELIST_H
