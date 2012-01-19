@@ -55,7 +55,7 @@ void QTweetBlocksCreate::create(qint64 userid, bool includeEntities)
         return;
     }
 
-    QUrl url("http://api.twitter.com/1/blocks/create.json");
+    QUrl url("https://api.twitter.com/1/blocks/create.json");
 
     QUrl urlQuery(url);
 

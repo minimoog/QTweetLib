@@ -52,7 +52,7 @@ void QTweetUserSearch::search(const QString &query,
         return;
     }
 
-    QUrl url("http://api.twitter.com/1/users/search.json");
+    QUrl url("https://api.twitter.com/1/users/search.json");
 
     url.addQueryItem("q", query);
 

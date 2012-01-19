@@ -47,7 +47,7 @@ void QTweetUserStatusesFriends::fetch(qint64 userid,
                                       const QString &cursor,
                                       bool includeEntities)
 {
-    QUrl url("http://api.twitter.com/1/statuses/friends.json");
+    QUrl url("https://api.twitter.com/1/statuses/friends.json");
 
     url.addQueryItem("user_id", QString::number(userid));
 

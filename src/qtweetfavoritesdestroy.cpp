@@ -55,7 +55,7 @@ void QTweetFavoritesDestroy::unfavorite(qint64 statusid, bool includeEntities)
         return;
     }
 
-    QUrl url(QString("http://api.twitter.com/1/favorites/destroy/%1.json").arg(statusid));
+    QUrl url(QString("https://api.twitter.com/1/favorites/destroy/%1.json").arg(statusid));
 
     if (includeEntities)
         url.addQueryItem("include_entities", "true");

@@ -48,7 +48,7 @@ QTweetFriendsID::QTweetFriendsID(OAuthTwitter *oauthTwitter, QObject *parent) :
  */
 void QTweetFriendsID::fetch(qint64 user, const QString &cursor)
 {
-    QUrl url("http://api.twitter.com/1/friends/ids.json");
+    QUrl url("https://api.twitter.com/1/friends/ids.json");
 
     url.addQueryItem("user_id", QString::number(user));
     url.addQueryItem("cursor", cursor);
@@ -71,7 +71,7 @@ void QTweetFriendsID::fetch(qint64 user, const QString &cursor)
  */
 void QTweetFriendsID::fetch(const QString &screenName, const QString &cursor)
 {
-    QUrl url("http://api.twitter.com/1/friends/ids.json");
+    QUrl url("https://api.twitter.com/1/friends/ids.json");
 
     url.addQueryItem("screen_name", screenName);
     url.addQueryItem("cursor", cursor);

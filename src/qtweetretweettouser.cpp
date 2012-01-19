@@ -57,7 +57,7 @@ void QTweetRetweetToUser::fetch(qint64 userid,
                                 bool trimUser,
                                 bool includeEntities)
 {
-    QUrl url("http://api.twitter.com/1/statuses/retweeted_to_user.json");
+    QUrl url("https://api.twitter.com/1/statuses/retweeted_to_user.json");
 
     url.addQueryItem("user_id", QString::number(userid));
 

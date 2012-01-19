@@ -48,7 +48,7 @@ void QTweetStatusRetweetedBy::fetch(qint64 tweetid, int count, int page)
         return;
     }
 
-    QString urlString = QString("http://api.twitter.com/1/statuses/%1/retweeted_by.json").arg(tweetid);
+    QString urlString = QString("https://api.twitter.com/1/statuses/%1/retweeted_by.json").arg(tweetid);
     QUrl url(urlString);
 
     if (count != 0)

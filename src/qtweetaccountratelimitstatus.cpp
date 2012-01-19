@@ -47,7 +47,7 @@ QTweetAccountRateLimitStatus::QTweetAccountRateLimitStatus(OAuthTwitter *oauthTw
  */
 void QTweetAccountRateLimitStatus::check()
 {
-    QUrl url("http://api.twitter.com/1/account/rate_limit_status.json");
+    QUrl url("https://api.twitter.com/1/account/rate_limit_status.json");
 
     QNetworkRequest req(url);
 

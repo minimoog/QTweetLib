@@ -54,7 +54,7 @@ void QTweetDirectMessageDestroy::destroyMessage(qint64 id, bool includeEntities)
         return;
     }
 
-    QUrl url(QString("http://api.twitter.com/1/direct_messages/destroy/%1.json").arg(id));
+    QUrl url(QString("https://api.twitter.com/1/direct_messages/destroy/%1.json").arg(id));
 
     if (includeEntities)
         url.addQueryItem("include_entities", "true");

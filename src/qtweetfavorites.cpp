@@ -59,9 +59,9 @@ void QTweetFavorites::fetch(qint64 id, int page, bool includeEntities)
     QUrl url;
 
     if (id) {
-        url.setUrl(QString("http://api.twitter.com/1/favorites/%1.json").arg(id));
+        url.setUrl(QString("https://api.twitter.com/1/favorites/%1.json").arg(id));
     } else {
-        url.setUrl("http://api.twitter.com/1/favorites.json");
+        url.setUrl("https://api.twitter.com/1/favorites.json");
     }
 
     if (page)

@@ -41,7 +41,7 @@ void QTweetStatusRetweets::fetch(qint64 id, int count)
 {
     //Q_ASSERT(oauthTwitter() != 0);
 
-    QUrl url("http://api.twitter.com/1/statuses/retweets.json");
+    QUrl url("https://api.twitter.com/1/statuses/retweets.json");
 
     url.addQueryItem("id", QString::number(id));
 

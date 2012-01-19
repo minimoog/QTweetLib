@@ -48,7 +48,7 @@ void QTweetUserLookup::fetch(const QList<qint64> &useridList,
         return;
     }
 
-    QUrl url("http://api.twitter.com/1/users/lookup.json");
+    QUrl url("https://api.twitter.com/1/users/lookup.json");
 
     if (!useridList.isEmpty()) {
         QString idString;

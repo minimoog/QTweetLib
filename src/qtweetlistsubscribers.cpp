@@ -53,7 +53,7 @@ void QTweetListSubscribers::fetch(qint64 user,
         return;
     }
 
-    QUrl url(QString("http://api.twitter.com/1/%1/%2/subscribers.json").arg(user).arg(list));
+    QUrl url(QString("https://api.twitter.com/1/%1/%2/subscribers.json").arg(user).arg(list));
 
     if (!cursor.isEmpty())
         url.addQueryItem("cursor", cursor);

@@ -46,7 +46,7 @@ void QTweetListSubscribe::follow(qint64 user, qint64 list)
         return;
     }
 
-    QUrl url(QString("http://api.twitter.com/1/%1/%2/subscribers.json").arg(user).arg(list));
+    QUrl url(QString("https://api.twitter.com/1/%1/%2/subscribers.json").arg(user).arg(list));
 
     QNetworkRequest req(url);
 

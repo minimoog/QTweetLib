@@ -49,7 +49,7 @@ QTweetGeoPlaceID::QTweetGeoPlaceID(OAuthTwitter *oauthTwitter, QObject *parent) 
  */
 void QTweetGeoPlaceID::get(const QString &placeid)
 {
-    QUrl url(QString("http://api.twitter.com/1/geo/id/%1.json").arg(placeid));
+    QUrl url(QString("https://api.twitter.com/1/geo/id/%1.json").arg(placeid));
 
     QNetworkRequest req(url);
 

@@ -54,7 +54,7 @@ void QTweetGeoReverseGeoCode::getPlaces(const QTweetGeoCoord& latLong,
                                         QTweetPlace::Type granularity,
                                         int maxResults)
 {
-    QUrl url("http://api.twitter.com/1/geo/reverse_geocode.json");
+    QUrl url("https://api.twitter.com/1/geo/reverse_geocode.json");
 
     url.addQueryItem("lat", QString::number(latLong.latitude()));
     url.addQueryItem("long", QString::number(latLong.longitude()));

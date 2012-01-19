@@ -57,7 +57,7 @@ void QTweetStatusUpdate::post(const QString &status,
         return;
     }
 
-    QUrl url("http://api.twitter.com/1/statuses/update.json");
+    QUrl url("https://api.twitter.com/1/statuses/update.json");
 
     QUrl urlQuery("http://api.twitter.com/1/statuses/update.json");
 

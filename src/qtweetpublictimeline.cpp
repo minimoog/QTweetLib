@@ -41,7 +41,7 @@ QTweetPublicTimeline::QTweetPublicTimeline(OAuthTwitter *oauthTwitter, QObject *
 
 void QTweetPublicTimeline::fetch(bool trimUser, bool includeEntities)
 {
-    QUrl url("http://api.twitter.com/1/statuses/public_timeline.json");
+    QUrl url("https://api.twitter.com/1/statuses/public_timeline.json");
 
     if (trimUser)
         url.addQueryItem("trim_user", "true");

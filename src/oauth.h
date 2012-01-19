@@ -57,8 +57,8 @@ private:
 
     QByteArray m_oauthToken;
     QByteArray m_oauthTokenSecret;
-    QByteArray m_oauthConsumerSecret;
     QByteArray m_oauthConsumerKey;
+    QByteArray m_oauthConsumerSecret;
 };
 
 #endif //OAUTH_H

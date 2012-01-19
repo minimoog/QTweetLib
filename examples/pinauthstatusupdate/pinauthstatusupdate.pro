@@ -2,8 +2,10 @@ QT       += core gui network
 
 TARGET = pinauthstatusupdate
 TEMPLATE = app
-LIBS += ../../lib/QTweetLib.lib
-INCLUDEPATH += ../../src
+win32:LIBS += ../../lib/QTweetLib.lib
+unix:LIBS += -L$$OUT_PWD/../../lib/ -lqtweetlib
+INCLUDEPATH += $$PWD/../../src
+DEPENDPATH += $$PWD/../../src
 
 HEADERS += \
     statusupdatewidget.h \

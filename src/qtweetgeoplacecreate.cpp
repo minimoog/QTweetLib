@@ -61,7 +61,7 @@ void QTweetGeoPlaceCreate::create(const QString &name,
         return;
     }
 
-    QUrl url("http://api.twitter.com/1/geo/place.json");
+    QUrl url("https://api.twitter.com/1/geo/place.json");
     QUrl urlQuery(url);
 
     urlQuery.addEncodedQueryItem("name", QUrl::toPercentEncoding(name));

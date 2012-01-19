@@ -58,7 +58,7 @@ void QTweetDirectMessageNew::post(qint64 user,
         return;
     }
 
-    QUrl url("http://api.twitter.com/1/direct_messages/new.json");
+    QUrl url("https://api.twitter.com/1/direct_messages/new.json");
 
     QUrl urlQuery(url);
 

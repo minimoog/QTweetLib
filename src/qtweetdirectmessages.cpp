@@ -63,7 +63,7 @@ void QTweetDirectMessages::fetch(qint64 sinceid,
         return;
     }
 
-    QUrl url("http://api.twitter.com/1/direct_messages.json");
+    QUrl url("https://api.twitter.com/1/direct_messages.json");
 
     if (sinceid != 0)
         url.addQueryItem("since_id", QString::number(sinceid));

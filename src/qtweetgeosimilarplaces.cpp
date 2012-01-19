@@ -53,7 +53,7 @@ QTweetGeoSimilarPlaces::QTweetGeoSimilarPlaces(OAuthTwitter *oauthTwitter, QObje
  */
 void QTweetGeoSimilarPlaces::get(const QTweetGeoCoord &latLong, const QString &name, const QString &containedWithin)
 {
-    QUrl url("http://api.twitter.com/1/geo/similar_places.json");
+    QUrl url("https://api.twitter.com/1/geo/similar_places.json");
 
     url.addQueryItem("lat", QString::number(latLong.latitude()));
     url.addQueryItem("long",QString::number(latLong.longitude()));

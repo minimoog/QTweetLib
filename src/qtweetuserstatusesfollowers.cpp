@@ -47,7 +47,7 @@ void QTweetUserStatusesFollowers::fetch(qint64 userid,
                                       const QString &cursor,
                                       bool includeEntities)
 {
-    QUrl url("http://api.twitter.com/1/statuses/followers.json");
+    QUrl url("https://api.twitter.com/1/statuses/followers.json");
 
     if (userid != 0)
         url.addQueryItem("user_id", QString::number(userid));
