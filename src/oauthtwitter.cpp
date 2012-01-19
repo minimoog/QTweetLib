@@ -26,6 +26,7 @@
 #include <QNetworkAccessManager>
 #include <QEventLoop>
 #include <QDesktopServices>
+#include <QSslError>
 
 #define TWITTER_REQUEST_TOKEN_URL "https://twitter.com/oauth/request_token"
 #define TWITTER_ACCESS_TOKEN_URL "https://twitter.com/oauth/access_token"
@@ -98,6 +99,7 @@ void OAuthTwitter::authorizeXAuth(const QString &username, const QString &passwo
 
     QNetworkReply *reply = m_netManager->post(req, QByteArray());
     connect(reply, SIGNAL(finished()), this, SLOT(finishedAuthorization()));
+    connect(reply, SIGNAL(sslErrors(QList<QSslError>)), this, SLOT(sslErrors(QList<QSslError>)));
 }
 
 /**
@@ -227,4 +229,13 @@ void OAuthTwitter::requestAccessToken(int pin)
 int OAuthTwitter::authorizationWidget()
 {
     return 0;
+}
+
+void OAuthTwitter::sslErrors(const QList<QSslError> &errors)
+{
+    QNetworkReply *reply = qobject_cast<QNetworkReply*>(sender());
+
+    if (reply) {
+        reply->ignoreSslErrors();
+    }
 }
