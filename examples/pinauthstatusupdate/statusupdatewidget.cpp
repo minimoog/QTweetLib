@@ -21,6 +21,7 @@
 #include "statusupdatewidget.h"
 #include <QtDebug>
 #include <QNetworkAccessManager>
+#include "qtweetstatus.h"
 #include "myoauthtwitter.h"
 #include "qtweetstatusupdate.h"
 #include "ui_statusupdatewidget.h"
