@@ -99,6 +99,19 @@ void QTweetUserStream::startFetching()
 }
 
 /**
+ *  Disconnects from stream
+ */
+void QTweetUserStream::streamDisconnect()
+{
+   if (m_reply != 0) {
+       m_reply->disconnect();
+       m_reply->abort();
+       m_reply->deleteLater();
+       m_reply = 0;
+   }
+}
+
+/**
  *  Called when connection is finished. Reconnects.
  */
 void QTweetUserStream::replyFinished()
@@ -129,7 +142,7 @@ void QTweetUserStream::replyFinished()
         int nextInterval = 2 * m_backofftimer->interval();
 
         if (nextInterval > 300000) {
-            m_backofftimer->setInterval(300000);
+            nextInterval = 300000;
             emit failureConnect();
         }
 
@@ -258,4 +271,13 @@ void QTweetUserStream::parseDeleteStatus(cJSON *root)
     qint64 userid = (qint64)cJSON_GetObjectItem(statusObject, "user_id")->valuedouble;
 
     emit deleteStatusStream(id, userid);
+}
+
+void QTweetUserStream::sslErrors(const QList<QSslError> &errors)
+{
+   QNetworkReply *reply = qobject_cast<QNetworkReply*>(sender());
+
+   if (reply) {
+       reply->ignoreSslErrors();
+   }
 }

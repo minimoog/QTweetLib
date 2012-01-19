@@ -85,6 +85,7 @@ signals:
 
 public slots:
     void startFetching();
+    void streamDisconnect();
 
 private slots:
     void replyFinished();
@@ -97,7 +98,7 @@ private:
     void parseFriendsList(cJSON *root);
     void parseDirectMessage(cJSON *root);
     void parseDeleteStatus(cJSON *root);
-
+    void sslErrors(const QList<QSslError>& errors);
 
     QByteArray m_cachedResponse;
     OAuthTwitter *m_oauthTwitter;
