@@ -545,8 +545,12 @@ QTweetEntityUrl QTweetConvert::cJSONToEntityUrl(cJSON *root)
     QTweetEntityUrl urlEntity;
 
     urlEntity.setUrl(cJSONGetString(root, "url"));
-    urlEntity.setDisplayUrl(cJSONGetString(root, "display_url"));
-    urlEntity.setExpandedUrl(cJSONGetString(root, "expanded_url"));
+
+    if (cJSON_GetObjectItem(root, "display_url"))
+        urlEntity.setDisplayUrl(cJSONGetString(root, "display_url"));
+
+    if (cJSON_GetObjectItem(root, "expanded_url"))
+        urlEntity.setExpandedUrl(cJSONGetString(root, "expanded_url"));
 
     return urlEntity;
 }
@@ -565,7 +569,10 @@ QTweetEntityUserMentions QTweetConvert::cJSONToEntityUserMentions(cJSON *root)
     QTweetEntityUserMentions userMentionsEntity;
 
     userMentionsEntity.setScreenName(cJSONGetString(root, "screen_name"));
-    userMentionsEntity.setName(cJSONGetString(root, "name"));
+
+    if (cJSON_GetObjectItem(root, "name"))
+        userMentionsEntity.setName(cJSONGetString(root, "name"));
+
     userMentionsEntity.setUserid(cJSONGetID(root, "id_str"));
 
     return userMentionsEntity;
