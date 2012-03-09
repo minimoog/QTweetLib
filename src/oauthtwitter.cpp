@@ -159,8 +159,8 @@ void OAuthTwitter::authorizePin()
         reply->deleteLater();
         requestAuthorization();
 
-        int pin = authorizationWidget();
-        if (pin) {
+        const QString pin = authorizationWidget();
+        if (!pin.isEmpty()) {
             requestAccessToken(pin);
         }
     } else {
@@ -185,12 +185,12 @@ void OAuthTwitter::requestAuthorization()
  *  Gets access tokens for user entered pin number
  *  @param pin entered pin number
  */
-void OAuthTwitter::requestAccessToken(int pin)
+void OAuthTwitter::requestAccessToken(const QString& pin)
 {
     Q_ASSERT(m_netManager != 0);
 
     QUrl url(TWITTER_ACCESS_TOKEN_URL);
-    url.addEncodedQueryItem("oauth_verifier", QByteArray::number(pin));
+    url.addEncodedQueryItem("oauth_verifier", pin.toAscii()); 
 
     QByteArray oauthHeader = generateAuthorizationHeader(url, OAuth::POST);
 
@@ -224,7 +224,7 @@ void OAuthTwitter::requestAccessToken(int pin)
  *  Override to show the authorization widget where users enters pin number
  *  @return entered pin number by the user
  */
-int OAuthTwitter::authorizationWidget()
+const QString OAuthTwitter::authorizationWidget()
 {
-    return 0;
+    return QString();
 }

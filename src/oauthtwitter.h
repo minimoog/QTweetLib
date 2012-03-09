@@ -52,12 +52,12 @@ signals:
     void authorizeXAuthError();
 
 protected:
-    virtual int authorizationWidget();
+    virtual const QString authorizationWidget();
     virtual void requestAuthorization();
 
 private slots:
     void finishedAuthorization();
-    void requestAccessToken(int pin);
+    void requestAccessToken(const QString& pin);
 
 private:
     QNetworkAccessManager *m_netManager;
