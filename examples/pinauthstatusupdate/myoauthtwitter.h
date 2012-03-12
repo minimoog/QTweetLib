@@ -30,7 +30,7 @@ public:
     explicit MyOAuthTwitter(QObject *parent = 0);
 
 protected:
-    int authorizationWidget();
+    const QString authorizationWidget();
 };
 
 #endif // MYOAUTHTWITTER_H

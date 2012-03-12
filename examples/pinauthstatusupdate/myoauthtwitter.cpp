@@ -26,12 +26,12 @@ MyOAuthTwitter::MyOAuthTwitter(QObject *parent) :
 {
 }
 
-int MyOAuthTwitter::authorizationWidget()
+const QString MyOAuthTwitter::authorizationWidget()
 {
     PinDialog dialog;
 
     if (dialog.exec())
-        return dialog.pin();
+        return QString(dialog.pin());
 
     return 0;
 }

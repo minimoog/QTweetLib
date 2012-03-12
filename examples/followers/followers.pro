@@ -2,7 +2,6 @@ QT       += core gui network declarative
 
 TARGET = followers
 TEMPLATE = app
-LIBS += ../../lib/QTweetLib.lib
 INCLUDEPATH += ../../src
 
 SOURCES += \
@@ -23,3 +22,9 @@ OTHER_FILES += \
 
 RESOURCES += \
     followers.qrc
+
+symbian: LIBS += -lqtweetlib
+else:unix|win32: LIBS += -L$$OUT_PWD/../../lib/ -lqtweetlib
+
+INCLUDEPATH += $$PWD/../../src
+DEPENDPATH += $$PWD/../../lib

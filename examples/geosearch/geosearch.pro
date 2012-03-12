@@ -16,3 +16,9 @@ HEADERS += \
 
 FORMS += \
     geosearch.ui
+
+symbian: LIBS += -lqtweetlib
+else:unix|win32: LIBS += -L$$OUT_PWD/../../lib/ -lqtweetlib
+
+INCLUDEPATH += $$PWD/../../src
+DEPENDPATH += $$PWD/../../lib
