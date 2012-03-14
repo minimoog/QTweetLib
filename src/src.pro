@@ -102,7 +102,15 @@ HEADERS += \
     qtweetretweettouser.h \
     qtweetretweetbyuser.h \
     qtweetstatusretweetedby.h \
-    qtweetstatusretweetbyid.h
+    qtweetstatusretweetbyid.h \
+    json/qjsonwriter_p.h \
+    json/qjsonvalue.h \
+    json/qjsonparser_p.h \
+    json/qjsonobject.h \
+    json/qjsonexport.h \
+    json/qjsondocument.h \
+    json/qjsonarray.h \
+    json/qjson_p.h
 
 SOURCES += \
     oauth.cpp \
@@ -188,7 +196,14 @@ SOURCES += \
     qtweetretweettouser.cpp \
     qtweetretweetbyuser.cpp \
     qtweetstatusretweetedby.cpp \
-    qtweetstatusretweetbyid.cpp
+    qtweetstatusretweetbyid.cpp \
+    json/qjsonwriter.cpp \
+    json/qjsonvalue.cpp \
+    json/qjsonparser.cpp \
+    json/qjsonobject.cpp \
+    json/qjsondocument.cpp \
+    json/qjsonarray.cpp \
+    json/qjson.cpp
 
 OTHER_FILES += \
     qjson/json_parser.yy
