@@ -24,6 +24,8 @@
 #include "qtweethometimeline.h"
 #include "qtweetstatus.h"
 #include "qtweetconvert.h"
+#include "json/qjsondocument.h"
+#include "json/qjsonarray.h"
 
 /**
  *  Constructor
@@ -125,16 +127,12 @@ void QTweetHomeTimeline::get()
     fetch(m_sinceid, m_maxid, m_count, m_page, m_trimUser, m_includeEntities, m_excludeReplies, m_contributorDetails);
 }
 
-void QTweetHomeTimeline::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
+void QTweetHomeTimeline::parseJsonFinished(const QJsonDocument &jsonDoc)
 {
-    if (ok) {
-        QList<QTweetStatus> statuses = QTweetConvert::variantToStatusList(json);
+    if (jsonDoc.isArray()) {
+        QList<QTweetStatus> statuses = QTweetConvert::jsonArrayToStatusList(jsonDoc.array());
 
         emit parsedStatuses(statuses);
-    } else {
-        qDebug() << "QTweetHomeTimeline JSON parser error: " << errorMsg;
-        setLastErrorMessage(errorMsg);
-        emit error(JsonParsingError, errorMsg);
     }
 }
 

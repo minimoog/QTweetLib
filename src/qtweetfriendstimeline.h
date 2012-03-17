@@ -47,7 +47,7 @@ signals:
     void parsedStatuses(const QList<QTweetStatus>& statuses);
 
 protected slots:
-    void parsingJsonFinished(const QJsonDocument& jsonDoc);
+    void parseJsonFinished(const QJsonDocument &jsonDoc);
 };
 
 #endif // QTWEETTERFRIENDSTIMELINE_H

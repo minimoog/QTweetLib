@@ -101,7 +101,7 @@ void QTweetFriendsTimeline::fetch(qint64 sinceid,
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
 }
 
-void QTweetFriendsTimeline::parsingJsonFinished(const QJsonDocument &jsonDoc)
+void QTweetFriendsTimeline::parseJsonFinished(const QJsonDocument &jsonDoc)
 {
     if (jsonDoc.isArray()) {
         QList<QTweetStatus> statuses = QTweetConvert::jsonArrayToStatusList(jsonDoc.array());
