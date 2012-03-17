@@ -24,6 +24,8 @@
 #include "qtweetstatusretweet.h"
 #include "qtweetstatus.h"
 #include "qtweetconvert.h"
+#include "json/qjsondocument.h"
+#include "json/qjsonobject.h"
 
 QTweetStatusRetweet::QTweetStatusRetweet(QObject *parent) :
     QTweetNetBase(parent)
@@ -65,16 +67,12 @@ void QTweetStatusRetweet::retweet(qint64 id,
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
 }
 
-void QTweetStatusRetweet::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
+void QTweetStatusRetweet::parseJsonFinished(const QJsonDocument &jsonDoc)
 {
-    if (ok) {
-        QTweetStatus status = QTweetConvert::variantMapToStatus(json.toMap());
+    if (jsonDoc.isObject()) {
+        QTweetStatus status = QTweetConvert::jsonObjectToStatus(jsonDoc.object());
 
         emit postedRetweet(status);
-    } else {
-        qDebug() << "QTweetStatusRetweet JSON parser error: " << errorMsg;
-        setLastErrorMessage(errorMsg);
-        emit error(JsonParsingError, errorMsg);
     }
 }
 
