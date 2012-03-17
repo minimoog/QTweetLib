@@ -24,6 +24,8 @@
 #include "qtweetmentions.h"
 #include "qtweetstatus.h"
 #include "qtweetconvert.h"
+#include "json/qjsondocument.h"
+#include "json/qjsonarray.h"
 
 QTweetMentions::QTweetMentions(QObject *parent) :
     QTweetNetBase(parent),
@@ -124,16 +126,12 @@ void QTweetMentions::get()
           m_excludeReplies, m_contributorDetails);
 }
 
-void QTweetMentions::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
+void QTweetMentions::parseJsonFinished(const QJsonDocument &jsonDoc)
 {
-    if (ok) {
-        QList<QTweetStatus> statuses = QTweetConvert::variantToStatusList(json);
+    if (jsonDoc.isArray()) {
+        QList<QTweetStatus> statuses = QTweetConvert::jsonArrayToStatusList(jsonDoc.array());
 
         emit parsedStatuses(statuses);
-    } else {
-        qDebug() << "QTweetMentions JSON parser error: " << errorMsg;
-        setLastErrorMessage(errorMsg);
-        emit error(JsonParsingError, errorMsg);
     }
 }
 
