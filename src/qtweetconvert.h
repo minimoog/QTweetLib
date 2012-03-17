@@ -21,8 +21,6 @@
 #ifndef QTWEETCONVERT_H
 #define QTWEETCONVERT_H
 
-#include <QVariant>
-
 class QTweetStatus;
 class QTweetUser;
 class QTweetDMStatus;
@@ -34,30 +32,31 @@ class QTweetEntityUrl;
 class QTweetEntityHashtag;
 class QTweetEntityUserMentions;
 
+class QJsonArray;
+class QJsonObject;
+
 /**
  *  Contains static converting functions
  */
 class QTweetConvert
 {
 public:
-    static QList<QTweetStatus> variantToStatusList(const QVariant& fromParser);
-    static QTweetStatus variantMapToStatus(const QVariantMap& var);
-    static QTweetUser variantMapToUserInfo(const QVariantMap& var);
-    static QList<QTweetDMStatus> variantToDirectMessagesList(const QVariant& fromParser);
-    static QTweetDMStatus variantMapToDirectMessage(const QVariantMap& var);
-    static QTweetList variantMapToTweetList(const QVariantMap& var);
-    static QList<QTweetUser> variantToUserInfoList(const QVariant& fromParser);
-    static QList<QTweetList> variantToTweetLists(const QVariant& var);
-    static QTweetSearchResult variantMapToSearchResult(const QVariantMap& var);
-    static QTweetSearchPageResults variantToSearchPageResults(const QVariant& var);
-    static QTweetPlace variantMapToPlace(const QVariantMap& var);
-    static QTweetPlace variantMapToPlaceRecursive(const QVariantMap& var);
-    static QList<QTweetPlace> variantToPlaceList(const QVariant& fromParser);
-    static QTweetEntityUrl variantMapToEntityUrl(const QVariantMap& var);
-    static QTweetEntityHashtag variantMapToEntityHashtag(const QVariantMap& var);
-    static QTweetEntityUserMentions variantMapToEntityUserMentions(const QVariantMap& var);
-
-
+    static QList<QTweetStatus> jsonArrayToStatusList(const QJsonArray& jsonArray);
+    static QTweetStatus jsonObjectToStatus(const QJsonObject& jsonObject);
+    static QTweetUser jsonObjectToUser(const QJsonObject& jsonObject);
+    static QList<QTweetDMStatus> jsonArrayToDirectMessagesList(const QJsonArray& jsonArray);
+    static QTweetDMStatus jsonObjectToDirectMessage(const QJsonObject& jsonObject);
+    static QTweetList jsonObjectToTweetList(const QJsonObject& jsonObject);
+    static QList<QTweetUser> jsonArrayToUserInfoList(const QJsonArray& jsonArray);
+    static QList<QTweetList> jsonArrayToTweetLists(const QJsonArray& jsonArray);
+    static QTweetSearchResult jsonObjectToSearchResult(const QJsonObject& var);
+    static QTweetSearchPageResults jsonObjectToSearchPageResults(const QJsonObject& jsonObject);
+    static QTweetPlace jsonObjectToPlace(const QJsonObject& var);
+    static QTweetPlace jsonObjectToPlaceRecursive(const QJsonObject& jsonObject);
+    static QList<QTweetPlace> jsonObjectToPlaceList(const QJsonObject& jsonObject);
+    static QTweetEntityUrl jsonObjectToEntityUrl(const QJsonObject& jsonObject);
+    static QTweetEntityHashtag jsonObjectToEntityHashtag(const QJsonObject &jsonObject);
+    static QTweetEntityUserMentions jsonObjectToEntityUserMentions(const QJsonObject& jsonObject);
 };
 
 #endif // QTWEETCONVERT_H
