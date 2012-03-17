@@ -22,10 +22,12 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QThreadPool>
-#include "qjson/parserrunnable.h"
 #include "qtweetuser.h"
 #include "qtweetuserstatusesfriends.h"
 #include "qtweetconvert.h"
+#include "json/qjsondocument.h"
+#include "json/qjsonobject.h"
+#include "json/qjsonarray.h"
 
 QTweetUserStatusesFriends::QTweetUserStatusesFriends(QObject *parent) :
         QTweetNetBase(parent), m_usesCursoring(false)
@@ -103,29 +105,25 @@ void QTweetUserStatusesFriends::fetch(const QString &screenName,
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
 }
 
-void QTweetUserStatusesFriends::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
+void QTweetUserStatusesFriends::parseJsonFinished(const QJsonDocument &jsonDoc)
 {
-    if (ok) {
+    if (jsonDoc.isObject()) {
         if (m_usesCursoring) {
-            QVariantMap respMap = json.toMap();
+            QJsonObject respJsonObject = jsonDoc.object();
 
-            QVariant userListVar = respMap["users"];
+            QJsonArray userListJsonArray = respJsonObject["users"].toArray();
 
-            QList<QTweetUser> userList = QTweetConvert::variantToUserInfoList(userListVar);
+            QList<QTweetUser> userList = QTweetConvert::jsonArrayToUserInfoList(userListJsonArray);
 
-            QString nextCursor = respMap["next_cursor_str"].toString();
-            QString prevCursor = respMap["previous_cursor_str"].toString();
+            QString nextCursor = respJsonObject["next_cursor_str"].toString();
+            QString prevCursor = respJsonObject["previous_cursor_str"].toString();
 
             emit parsedFriendsList(userList, nextCursor, prevCursor);
         } else {
-            QList<QTweetUser> userList = QTweetConvert::variantToUserInfoList(json);
+            QList<QTweetUser> userList = QTweetConvert::jsonArrayToUserInfoList(jsonDoc.array());
 
             emit parsedFriendsList(userList);
         }
-    } else {
-        qDebug() << "QTweetUserStatusesFriends json parser error: " << errorMsg;
-        setLastErrorMessage(errorMsg);
-        emit error(JsonParsingError, errorMsg);
     }
 }
 
