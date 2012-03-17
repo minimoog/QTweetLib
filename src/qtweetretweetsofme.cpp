@@ -24,6 +24,8 @@
 #include "qtweetretweetsofme.h"
 #include "qtweetstatus.h"
 #include "qtweetconvert.h"
+#include "json/qjsonarray.h"
+#include "json/qjsondocument.h"
 
 QTweetRetweetsOfMe::QTweetRetweetsOfMe(QObject *parent) :
     QTweetNetBase(parent),
@@ -101,15 +103,11 @@ void QTweetRetweetsOfMe::get()
     fetch(m_sinceid, m_maxid, m_count, m_page, m_trimUser, m_includeEntities);
 }
 
-void QTweetRetweetsOfMe::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
+void QTweetRetweetsOfMe::parseJsonFinished(const QJsonDocument &jsonDoc)
 {
-    if (ok) {
-        QList<QTweetStatus> statuses = QTweetConvert::variantToStatusList(json);
+    if (jsonDoc.isArray()) {
+        QList<QTweetStatus> statuses = QTweetConvert::jsonArrayToStatusList(jsonDoc.array());
 
         emit parsedStatuses(statuses);
-    } else {
-        qDebug() << "QTweetRetweetsOfMe JSON parser error: " << errorMsg;
-        setLastErrorMessage(errorMsg);
-        emit error(JsonParsingError, errorMsg);
     }
 }
