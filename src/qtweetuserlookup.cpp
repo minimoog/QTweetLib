@@ -24,6 +24,8 @@
 #include "qtweetuserlookup.h"
 #include "qtweetuser.h"
 #include "qtweetconvert.h"
+#include "json/qjsondocument.h"
+#include "json/qjsonarray.h"
 
 QTweetUserLookup::QTweetUserLookup(QObject *parent) :
     QTweetNetBase(parent)
@@ -83,15 +85,11 @@ void QTweetUserLookup::fetch(const QList<qint64> &useridList,
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
 }
 
-void QTweetUserLookup::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
+void QTweetUserLookup::parseJsonFinished(const QJsonDocument &jsonDoc)
 {
-    if (ok) {
-        QList<QTweetUser> userInfoList = QTweetConvert::variantToUserInfoList(json);
+    if (jsonDoc.isArray()) {
+        QList<QTweetUser> userInfoList = QTweetConvert::jsonArrayToUserInfoList(jsonDoc.array());
 
         emit parsedUserInfoList(userInfoList);
-    } else {
-        qDebug() << "QTweetUserLookup json parser error: " << errorMsg;
-        setLastErrorMessage(errorMsg);
-        emit error(JsonParsingError, errorMsg);
     }
 }
