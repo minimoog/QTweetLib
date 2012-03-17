@@ -70,7 +70,7 @@ signals:
     void parsedStatuses(const QList<QTweetStatus>& statuses);
 
 protected slots:
-    void parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg);
+    void parseJsonFinished(const QJsonDocument &jsonDoc);
 
 private:
     qint64 m_sinceid;
