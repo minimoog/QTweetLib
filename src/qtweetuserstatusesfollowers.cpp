@@ -24,6 +24,9 @@
 #include "qtweetuserstatusesfollowers.h"
 #include "qtweetuser.h"
 #include "qtweetconvert.h"
+#include "json/qjsondocument.h"
+#include "json/qjsonarray.h"
+#include "json/qjsonobject.h"
 
 QTweetUserStatusesFollowers::QTweetUserStatusesFollowers(QObject *parent) :
         QTweetNetBase(parent), m_usesCursoring(false)
@@ -105,28 +108,24 @@ void QTweetUserStatusesFollowers::fetch(const QString &screenName,
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
 }
 
-void QTweetUserStatusesFollowers::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
+void QTweetUserStatusesFollowers::parseJsonFinished(const QJsonDocument &jsonDoc)
 {
-    if (ok) {
+    if (jsonDoc.isObject()) {
         if (m_usesCursoring) {
-            QVariantMap respMap = json.toMap();
+            QJsonObject respJsonObject = jsonDoc.object();
 
-            QVariant userListVar = respMap["users"];
+            QJsonArray userListJsonArray = respJsonObject["users"].toArray();
 
-            QList<QTweetUser> userList = QTweetConvert::variantToUserInfoList(userListVar);
+            QList<QTweetUser> userList = QTweetConvert::jsonArrayToUserInfoList(userListJsonArray);
 
-            QString nextCursor = respMap["next_cursor_str"].toString();
-            QString prevCursor = respMap["previous_cursor_str"].toString();
+            QString nextCursor = respJsonObject["next_cursor_str"].toString();
+            QString prevCursor = respJsonObject["previous_cursor_str"].toString();
 
             emit parsedFollowersList(userList, nextCursor, prevCursor);
         } else {
-            QList<QTweetUser> userList = QTweetConvert::variantToUserInfoList(json);
+            QList<QTweetUser> userList = QTweetConvert::jsonArrayToUserInfoList(jsonDoc.array());
 
             emit parsedFollowersList(userList);
         }
-    } else {
-        qDebug() << "QTweetUserStatusesFollowers json parser error: " << errorMsg;
-        setLastErrorMessage(errorMsg);
-        emit error(JsonParsingError, errorMsg);
     }
 }
