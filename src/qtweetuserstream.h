@@ -36,6 +36,7 @@ class QAuthenticator;
 class QTimer;
 class QTweetStatus;
 class QTweetDMStatus;
+class QJsonObject;
 
 /**
  *   Class for fetching user stream
@@ -89,13 +90,12 @@ private slots:
     void replyFinished();
     void replyReadyRead();
     void replyTimeout();
-    void parsingFinished(const QVariant& json, bool ok, const QString& errorMsg);
 
 private:
     void parseStream(const QByteArray& );
-    void parseFriendsList(const QVariantMap& streamObject);
-    void parseDirectMessage(const QVariantMap& streamObject);
-    void parseDeleteStatus(const QVariantMap& streamObject);
+    void parseFriendsList(const QJsonObject& streamObject);
+    void parseDirectMessage(const QJsonObject &json);
+    void parseDeleteStatus(const QJsonObject& json);
 
     QByteArray m_cachedResponse;
     OAuthTwitter *m_oauthTwitter;
