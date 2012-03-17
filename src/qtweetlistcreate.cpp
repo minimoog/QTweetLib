@@ -22,10 +22,11 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QThreadPool>
-#include "qjson/parserrunnable.h"
 #include "qtweetlistcreate.h"
 #include "qtweetlist.h"
 #include "qtweetconvert.h"
+#include "json/qjsondocument.h"
+#include "json/qjsonobject.h"
 
 QTweetListCreate::QTweetListCreate(QObject *parent) :
     QTweetNetBase(parent)
@@ -78,15 +79,11 @@ void QTweetListCreate::create(qint64 user,
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
 }
 
-void QTweetListCreate::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
+void QTweetListCreate::parseJsonFinished(const QJsonDocument &jsonDoc)
 {
-    if (ok) {
-        QTweetList list = QTweetConvert::variantMapToTweetList(json.toMap());
+    if (jsonDoc.isObject()) {
+        QTweetList list = QTweetConvert::jsonObjectToTweetList(jsonDoc.object());
 
         emit parsedList(list);
-    } else {
-        qDebug() << "QTweetListCreate json parser error: " << errorMsg;
-        setLastErrorMessage(errorMsg);
-        emit error(JsonParsingError, errorMsg);
     }
 }
