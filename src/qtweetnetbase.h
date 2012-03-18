@@ -34,6 +34,7 @@ class QTweetList;
 class QTweetSearchResult;
 class QTweetSearchPageResults;
 class QTweetPlace;
+class QJsonDocument;
 
 /**
  *   Base class for Twitter API classes
@@ -92,10 +93,10 @@ signals:
     void error(QTweetNetBase::ErrorCode code, const QString& errorMsg);
 
 protected slots:
-    virtual void parsingJsonFinished(const QVariant& json, bool ok, const QString& errorMsg) = 0;
     virtual void reply();
 
 protected:
+    virtual void parseJsonFinished(const QJsonDocument& jsonDoc) = 0;
     void parseJson(const QByteArray& jsonData);
     void setLastErrorMessage(const QString& errMsg);
 
