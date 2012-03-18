@@ -22,6 +22,8 @@
 #include <QtDebug>
 #include <QNetworkRequest>
 #include <QNetworkReply>
+#include "json/qjsondocument.h"
+#include "json/qjsonarray.h"
 
 /**
  *  Constructor
@@ -62,20 +64,16 @@ void QTweetBlocksBlockingIDs::getIDs()
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
 }
 
-void QTweetBlocksBlockingIDs::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
+void QTweetBlocksBlockingIDs::parseJsonFinished(const QJsonDocument &jsonDoc)
 {
-    if (ok) {
+    if (jsonDoc.isArray()) {
         QList<qint64> useridlist;
 
-        QVariantList varList = json.toList();
+        QJsonArray varJsonArray = jsonDoc.array();
 
-        foreach (const QVariant& idVar, varList)
-            useridlist.append(idVar.toLongLong());
+        for (int i = 0; i < varJsonArray.size(); ++i)
+            useridlist.append(static_cast<qint64>(varJsonArray[i].toDouble()));
 
         emit finishedGettingIDs(useridlist);
-    } else {
-        qDebug() << "QTweetBlocksBlockingIDs parser error: " << errorMsg;
-        setLastErrorMessage(errorMsg);
-        emit error(JsonParsingError, errorMsg);
     }
 }
