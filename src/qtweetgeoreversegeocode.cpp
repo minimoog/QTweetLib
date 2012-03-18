@@ -23,6 +23,8 @@
 #include <QNetworkReply>
 #include "qtweetgeoreversegeocode.h"
 #include "qtweetconvert.h"
+#include "json/qjsondocument.h"
+#include "json/qjsonobject.h"
 
 /**
  *  Constructor
@@ -96,15 +98,11 @@ void QTweetGeoReverseGeoCode::getPlaces(const QTweetGeoCoord& latLong,
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
 }
 
-void QTweetGeoReverseGeoCode::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
+void QTweetGeoReverseGeoCode::parseJsonFinished(const QJsonDocument &jsonDoc)
 {
-    if (ok) {
-        QList<QTweetPlace> places = QTweetConvert::variantToPlaceList(json);
+    if (jsonDoc.isObject()) {
+        QList<QTweetPlace> places = QTweetConvert::jsonObjectToPlaceList(jsonDoc.object());
 
         emit parsedPlaces(places);
-    } else {
-        qDebug() << "QTweetGeoReverseGeoCode parser error: " << errorMsg;
-        setLastErrorMessage(errorMsg);
-        emit error(JsonParsingError, errorMsg);
     }
 }
