@@ -22,6 +22,9 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include "qtweetfollowersid.h"
+#include "json/qjsondocument.h"
+#include "json/qjsonarray.h"
+#include "json/qjsonobject.h"
 
 /**
  *  Constructor
@@ -87,25 +90,21 @@ void QTweetFollowersID::fetch(const QString &screenName, const QString &cursor)
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
 }
 
-void QTweetFollowersID::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
+void QTweetFollowersID::parseJsonFinished(const QJsonDocument &jsonDoc)
 {
-    if (ok) {
+    if (jsonDoc.isObject()) {
         QList<qint64> idList;
 
-        QVariantMap respMap = json.toMap();
+        QJsonObject respJsonObject = jsonDoc.object();
 
-        QVariantList idVarList = respMap["ids"].toList();
+        QJsonArray idJsonArray = respJsonObject["ids"].toArray();
 
-        foreach (const QVariant& idVar, idVarList)
-            idList.append(idVar.toLongLong());
+        for (int i = 0; i < idJsonArray.size(); ++i)
+            idList.append(static_cast<qint64>(idJsonArray[i].toDouble()));
 
-        QString nextCursor = respMap["next_cursor_str"].toString();
-        QString prevCursor = respMap["previous_cursor_str"].toString();
+        QString nextCursor = respJsonObject["next_cursor_str"].toString();
+        QString prevCursor = respJsonObject["previous_cursor_str"].toString();
 
         emit parsedIDs(idList, nextCursor, prevCursor);
-    } else {
-        qDebug() << "QTweetFollowersID parser error: " << errorMsg;
-        setLastErrorMessage(errorMsg);
-        emit error(JsonParsingError, errorMsg);
     }
 }
