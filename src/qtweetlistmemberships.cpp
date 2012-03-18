@@ -24,6 +24,9 @@
 #include "qtweetlistmemberships.h"
 #include "qtweetlist.h"
 #include "qtweetconvert.h"
+#include "json/qjsondocument.h"
+#include "json/qjsonobject.h"
+#include "json/qjsonarray.h"
 
 QTweetListMemberships::QTweetListMemberships(QObject *parent) :
     QTweetNetBase(parent)
@@ -62,23 +65,17 @@ void QTweetListMemberships::fetch(qint64 id, const QString &cursor)
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
 }
 
-void QTweetListMemberships::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
+void QTweetListMemberships::parseJsonFinished(const QJsonDocument &jsonDoc)
 {
-    if (ok) {
-        QVariantMap respMap = json.toMap();
+    if (jsonDoc.isObject()) {
+        QJsonObject respJsonObject = jsonDoc.object();
 
-        QVariant listsVar = respMap["lists"];
+        QList<QTweetList> lists = QTweetConvert::jsonArrayToTweetLists(respJsonObject["lists"].toArray());
 
-        QList<QTweetList> lists = QTweetConvert::variantToTweetLists(listsVar);
-
-        QString nextCursor = respMap["next_cursor_str"].toString();
-        QString prevCursor = respMap["previous_cursor_str"].toString();
+        QString nextCursor = respJsonObject["next_cursor_str"].toString();
+        QString prevCursor = respJsonObject["previous_cursor_str"].toString();
 
         emit parsedList(lists, nextCursor, prevCursor);
-    } else {
-        qDebug() << "QTweetListMemberships json parser error: " << errorMsg;
-        setLastErrorMessage(errorMsg);
-        emit error(JsonParsingError, errorMsg);
     }
 }
 
