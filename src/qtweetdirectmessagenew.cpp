@@ -24,6 +24,8 @@
 #include "qtweetdirectmessagenew.h"
 #include "qtweetdmstatus.h"
 #include "qtweetconvert.h"
+#include "json/qjsondocument.h"
+#include "json/qjsonobject.h"
 
 /**
  *  Constructor
@@ -116,15 +118,11 @@ void QTweetDirectMessageNew::post(const QString &screenName, const QString &text
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
 }
 
-void QTweetDirectMessageNew::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
+void QTweetDirectMessageNew::parseJsonFinished(const QJsonDocument &jsonDoc)
 {
-    if (ok) {
-        QTweetDMStatus dm = QTweetConvert::variantMapToDirectMessage(json.toMap());
+    if (jsonDoc.isObject()) {
+        QTweetDMStatus dm = QTweetConvert::jsonObjectToDirectMessage(jsonDoc.object());
 
         emit parsedDirectMessage(dm);
-    } else {
-        qDebug() << "QTweetDirectMessageNew parser error: " << errorMsg;
-        setLastErrorMessage(errorMsg);
-        emit error(JsonParsingError, errorMsg);
     }
 }
