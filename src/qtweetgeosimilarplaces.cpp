@@ -25,6 +25,8 @@
 #include "qtweetplace.h"
 #include "qtweetgeosimilarplaces.h"
 #include "qtweetconvert.h"
+#include "json/qjsondocument.h"
+#include "json/qjsonobject.h"
 
 /**
  *  Constructor
@@ -72,21 +74,17 @@ void QTweetGeoSimilarPlaces::get(const QTweetGeoCoord &latLong, const QString &n
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
 }
 
-void QTweetGeoSimilarPlaces::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
+void QTweetGeoSimilarPlaces::parseJsonFinished(const QJsonDocument &jsonDoc)
 {
-    if (ok) {
-        QList<QTweetPlace> places = QTweetConvert::variantToPlaceList(json);
+    if (jsonDoc.isObject()) {
+        QList<QTweetPlace> places = QTweetConvert::jsonObjectToPlaceList(jsonDoc.object());
 
         //get token
-        QVariantMap respMap = json.toMap();
-        QVariantMap resultMap = respMap["result"].toMap();
+        QJsonObject respJsonObject = jsonDoc.object();
+        QJsonObject resultJsonObject = respJsonObject["result"].toObject();
 
-        QString token = resultMap["token"].toString();
+        QString token = resultJsonObject["token"].toString();
 
         emit parsedPlaces(places, token);
-    } else {
-        qDebug() << "QTweetGeoSimilarPlaces parser error: " << errorMsg;
-        setLastErrorMessage(errorMsg);
-        emit error(JsonParsingError, errorMsg);
     }
 }
