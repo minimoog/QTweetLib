@@ -24,6 +24,8 @@
 #include "qtweetliststatuses.h"
 #include "qtweetstatus.h"
 #include "qtweetconvert.h"
+#include "json/qjsondocument.h"
+#include "json/qjsonarray.h"
 
 QTweetListStatuses::QTweetListStatuses(QObject *parent) :
     QTweetNetBase(parent)
@@ -81,15 +83,11 @@ void QTweetListStatuses::fetch(qint64 user,
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
 }
 
-void QTweetListStatuses::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
+void QTweetListStatuses::parseJsonFinished(const QJsonDocument &jsonDoc)
 {
-    if (ok) {
-        QList<QTweetStatus> statuses = QTweetConvert::variantToStatusList(json);
+    if (jsonDoc.isArray()) {
+        QList<QTweetStatus> statuses = QTweetConvert::jsonArrayToStatusList(jsonDoc.array());
 
         emit parsedStatuses(statuses);
-    } else {
-        qDebug() << "QTweetListStatuses json parser error: " << errorMsg;
-        setLastErrorMessage(errorMsg);
-        emit error(JsonParsingError, errorMsg);
     }
 }
