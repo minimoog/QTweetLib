@@ -172,13 +172,6 @@ SOURCES += \
     qtweetblocksexists.cpp \
     qtweetblocksblocking.cpp \
     qtweetblocksblockingids.cpp \
-    qjson/serializerrunnable.cpp \
-    qjson/serializer.cpp \
-    qjson/qobjecthelper.cpp \
-    qjson/parserrunnable.cpp \
-    qjson/parser.cpp \
-    qjson/json_scanner.cpp \
-    qjson/json_parser.cc \
     qtweetpublictimeline.cpp \
     qtweetretweettouser.cpp \
     qtweetretweetbyuser.cpp \
