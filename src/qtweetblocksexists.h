@@ -41,7 +41,7 @@ signals:
     void finishedIsBlocked(const QTweetUser& user);
 
 protected slots:
-    void parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg);
+    void parseJsonFinished(const QJsonDocument &jsonDoc);
 };
 
 #endif // QTWEETBLOCKSEXISTS_H
