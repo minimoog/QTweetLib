@@ -24,6 +24,8 @@
 #include "qtweetsearch.h"
 #include "qtweetsearchpageresults.h"
 #include "qtweetconvert.h"
+#include "json/qjsondocument.h"
+#include "json/qjsonobject.h"
 
 QTweetSearch::QTweetSearch(QObject *parent) :
     QTweetNetBase(parent)
@@ -97,15 +99,11 @@ void QTweetSearch::startWithCustomQuery(const QByteArray &encodedQuery)
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
 }
 
-void QTweetSearch::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
+void QTweetSearch::parseJsonFinished(const QJsonDocument &jsonDoc)
 {
-    if (ok) {
-        QTweetSearchPageResults pageResults = QTweetConvert::variantToSearchPageResults(json);
+    if (jsonDoc.isObject()) {
+        QTweetSearchPageResults pageResults = QTweetConvert::jsonObjectToSearchPageResults(jsonDoc.object());
 
         emit parsedPageResults(pageResults);
-    } else {
-        qDebug() << "QTweetSearch parsing error: " << errorMsg;
-        setLastErrorMessage(errorMsg);
-        emit error(JsonParsingError, errorMsg);
     }
 }
