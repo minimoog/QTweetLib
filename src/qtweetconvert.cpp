@@ -30,6 +30,7 @@
 #include "qtweetentityhashtag.h"
 #include "qtweetentityusermentions.h"
 #include "json/qjsonarray.h"
+#include "json/qjsonobject.h"
 
 QList<QTweetStatus> QTweetConvert::jsonArrayToStatusList(const QJsonArray &jsonArray)
 {
@@ -64,7 +65,7 @@ QTweetStatus QTweetConvert::jsonObjectToStatus(const QJsonObject& json)
 
     //check if contains native retweet
     if (json.contains("retweeted_status")) {
-        QJsonObject retweetObject = var["retweeted_status"].toObject();
+        QJsonObject retweetObject = json["retweeted_status"].toObject();
 
         QTweetStatus rtStatus = jsonObjectToStatus(retweetObject);
 
@@ -80,7 +81,7 @@ QTweetStatus QTweetConvert::jsonObjectToStatus(const QJsonObject& json)
 
     //check if contains entities
     if (json.contains("entities")) {
-        QJsonObject entitiesObject = var["entities"].toObject();
+        QJsonObject entitiesObject = json["entities"].toObject();
 
         //url entities
         QJsonArray urlEntitiesList = entitiesObject["urls"].toArray();
@@ -263,7 +264,7 @@ QTweetSearchPageResults QTweetConvert::jsonObjectToSearchPageResults(const QJson
 {
     QTweetSearchPageResults page;
 
-    page.setMaxId(static_cast<qint64>((jsonObject["max_id"].toDouble()));
+    page.setMaxId(static_cast<qint64>(jsonObject["max_id"].toDouble()));
     page.setNextPage(jsonObject["next_page"].toString().toAscii());
     page.setPage(static_cast<int>(jsonObject["page"].toDouble()));
     page.setQuery(jsonObject["query"].toString().toAscii());
@@ -312,7 +313,7 @@ QTweetPlace QTweetConvert::jsonObjectToPlace(const QJsonObject& jsonObject)
 
     QJsonValue bbJsonValue = jsonObject["bounding_box"];
 
-    if (!bbVar.isNull()) {
+    if (!bbJsonValue.isNull()) {
         QJsonObject bbJsonObject = bbJsonValue.toObject();
 
         if (bbJsonObject["type"].toString() == "Polygon") {
@@ -328,7 +329,7 @@ QTweetPlace QTweetConvert::jsonObjectToPlace(const QJsonObject& jsonObject)
                     box.setBottomLeft(QTweetGeoCoord(coordsBottomLeft[1].toDouble(), coordsBottomLeft[0].toDouble()));
 
                     QJsonArray coordsBottomRight = latLongList[1].toArray();
-                    box.setBottomRight(QTweetGeoCoord(coordsBottomRight.[1].toDouble(), coordsBottomRight[0].toDouble()));
+                    box.setBottomRight(QTweetGeoCoord(coordsBottomRight[1].toDouble(), coordsBottomRight[0].toDouble()));
 
                     QJsonArray coordsTopRight = latLongList[2].toArray();
                     box.setTopRight(QTweetGeoCoord(coordsTopRight[1].toDouble(), coordsTopRight[0].toDouble()));
@@ -380,7 +381,7 @@ QTweetPlace QTweetConvert::jsonObjectToPlaceRecursive(const QJsonObject& jsonObj
             QJsonArray coordList = bbObject["coordinates"].toArray();
 
             if (coordList.count() == 1) {
-                QJsonArray latLongList = coordList.[0].toArray();
+                QJsonArray latLongList = coordList[0].toArray();
 
                 if (latLongList.count() == 4) {
                     QTweetGeoBoundingBox box;

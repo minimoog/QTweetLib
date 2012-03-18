@@ -21,6 +21,8 @@
 #ifndef QTWEETCONVERT_H
 #define QTWEETCONVERT_H
 
+#include <QList>
+
 class QTweetStatus;
 class QTweetUser;
 class QTweetDMStatus;
