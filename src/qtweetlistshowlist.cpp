@@ -24,6 +24,9 @@
 #include "qtweetlistshowlist.h"
 #include "qtweetlist.h"
 #include "qtweetconvert.h"
+#include "json/qjsondocument.h"
+#include "json/qjsonarray.h"
+#include "json/qjsonobject.h"
 
 QTweetListShowList::QTweetListShowList(QObject *parent) :
     QTweetNetBase(parent)
@@ -60,15 +63,11 @@ void QTweetListShowList::show(qint64 id, qint64 list)
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
 }
 
-void QTweetListShowList::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
+void QTweetListShowList::parseJsonFinished(const QJsonDocument &jsonDoc)
 {
-    if (ok) {
-        QTweetList list = QTweetConvert::variantMapToTweetList(json.toMap());
+    if (jsonDoc.isObject()) {
+        QTweetList list = QTweetConvert::jsonObjectToTweetList(jsonDoc.object());
 
         emit parsedList(list);
-    } else {
-        qDebug() << "QTweetListShowList json parser error: " << errorMsg;
-        setLastErrorMessage(errorMsg);
-        emit error(JsonParsingError, errorMsg);
     }
 }
