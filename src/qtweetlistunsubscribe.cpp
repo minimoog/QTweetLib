@@ -24,6 +24,8 @@
 #include "qtweetlistunsubscribe.h"
 #include "qtweetlist.h"
 #include "qtweetconvert.h"
+#include "json/qjsondocument.h"
+#include "json/qjsonobject.h"
 
 QTweetListUnsubscribe::QTweetListUnsubscribe(QObject *parent) :
     QTweetNetBase(parent)
@@ -57,16 +59,12 @@ void QTweetListUnsubscribe::unsubscribe(qint64 user, qint64 list)
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
 }
 
-void QTweetListUnsubscribe::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
+void QTweetListUnsubscribe::parseJsonFinished(const QJsonDocument &jsonDoc)
 {
-    if (ok) {
-        QTweetList list = QTweetConvert::variantMapToTweetList(json.toMap());
+    if (jsonDoc.isObject()) {
+        QTweetList list = QTweetConvert::jsonObjectToTweetList(jsonDoc.object());
 
         emit parsedList(list);
-    } else {
-        qDebug() << "QTweetListUnsubscribe parser error: " << errorMsg;
-        setLastErrorMessage(errorMsg);
-        emit error(JsonParsingError, errorMsg);
     }
 }
 
