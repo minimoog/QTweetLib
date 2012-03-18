@@ -24,6 +24,8 @@
 #include "qtweetfavoritesdestroy.h"
 #include "qtweetstatus.h"
 #include "qtweetconvert.h"
+#include "json/qjsondocument.h"
+#include "json/qjsonobject.h"
 
 /**
  *  Constructor
@@ -69,16 +71,12 @@ void QTweetFavoritesDestroy::unfavorite(qint64 statusid, bool includeEntities)
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
 }
 
-void QTweetFavoritesDestroy::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
+void QTweetFavoritesDestroy::parseJsonFinished(const QJsonDocument &jsonDoc)
 {
-    if (ok) {
-        QTweetStatus status = QTweetConvert::variantMapToStatus(json.toMap());
+    if (jsonDoc.isObject()) {
+        QTweetStatus status = QTweetConvert::jsonObjectToStatus(jsonDoc.object());
 
         emit parsedStatus(status);
-    } else {
-        qDebug() << "QTweetFavoritesDestroy parser error: " << errorMsg;
-        setLastErrorMessage(errorMsg);
-        emit error(JsonParsingError, errorMsg);
     }
 }
 
