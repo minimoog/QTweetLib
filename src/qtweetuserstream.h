@@ -85,11 +85,13 @@ signals:
 
 public slots:
     void startFetching();
+    void streamDisconnect();
 
 private slots:
     void replyFinished();
     void replyReadyRead();
     void replyTimeout();
+    void sslErrors(const QList<QSslError>& errors);
 
 private:
     void parseStream(const QByteArray& );
