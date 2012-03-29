@@ -93,9 +93,23 @@ void QTweetUserStream::startFetching()
     m_reply = m_oauthTwitter->networkAccessManager()->get(req);
     connect(m_reply, SIGNAL(finished()), this, SLOT(replyFinished()));
     connect(m_reply, SIGNAL(readyRead()), this, SLOT(replyReadyRead()));
+    connect(m_reply, SIGNAL(sslErrors(QList<QSslError>)), this, SLOT(sslErrors(QList<QSslError>)));
 
     connect(m_reply, SIGNAL(readyRead()), m_timeoutTimer, SLOT(start()));
     connect(m_reply, SIGNAL(finished()), m_timeoutTimer, SLOT(stop()));
+}
+
+/**
+ *  Disconnects from stream
+ */
+void QTweetUserStream::streamDisconnect()
+{
+    if (m_reply != 0) {
+        m_reply->disconnect();
+        m_reply->abort();
+        m_reply->deleteLater();
+        m_reply = 0;
+    }
 }
 
 /**
@@ -129,7 +143,7 @@ void QTweetUserStream::replyFinished()
         int nextInterval = 2 * m_backofftimer->interval();
 
         if (nextInterval > 300000) {
-            m_backofftimer->setInterval(300000);
+            nextInterval = 300000;
             emit failureConnect();
         }
 
@@ -258,4 +272,13 @@ void QTweetUserStream::parseDeleteStatus(const QVariantMap &streamObject)
     qint64 userid = statusVarMap["user_id"].toLongLong();
 
     emit deleteStatusStream(id, userid);
+}
+
+void QTweetUserStream::sslErrors(const QList<QSslError> &errors)
+{
+    QNetworkReply *reply = qobject_cast<QNetworkReply*>(sender());
+
+    if (reply) {
+        reply->ignoreSslErrors();
+    }
 }
