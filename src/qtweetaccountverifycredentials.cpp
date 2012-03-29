@@ -56,7 +56,7 @@ void QTweetAccountVerifyCredentials::verify(bool includeEntities)
         return;
     }
 
-    QUrl url("http://api.twitter.com/1/account/verify_credentials.json");
+    QUrl url("https://api.twitter.com/1/account/verify_credentials.json");
 
     if (includeEntities)
         url.addQueryItem("include_entities", "true");
