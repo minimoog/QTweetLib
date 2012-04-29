@@ -53,7 +53,7 @@ signals:
     void parsedUsersID(const QList<qint64>& listid);
 
 protected slots:
-    void parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg);
+    void parseJsonFinished(const QJsonDocument &jsonDoc);
     
 private:
     qint64 m_tweetid;

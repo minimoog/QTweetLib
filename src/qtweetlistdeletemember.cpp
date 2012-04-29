@@ -24,6 +24,8 @@
 #include "qtweetlistdeletemember.h"
 #include "qtweetlist.h"
 #include "qtweetconvert.h"
+#include "json/qjsondocument.h"
+#include "json/qjsonobject.h"
 
 QTweetListDeleteMember::QTweetListDeleteMember(QObject *parent) :
     QTweetNetBase(parent)
@@ -60,15 +62,11 @@ void QTweetListDeleteMember::remove(qint64 user, qint64 list, qint64 member)
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
 }
 
-void QTweetListDeleteMember::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
+void QTweetListDeleteMember::parseJsonFinished(const QJsonDocument &jsonDoc)
 {
-    if (ok) {
-        QTweetList list = QTweetConvert::variantMapToTweetList(json.toMap());
+    if (jsonDoc.isObject()) {
+        QTweetList list = QTweetConvert::jsonObjectToTweetList(jsonDoc.object());
 
         emit parsedList(list);
-    } else {
-        qDebug() << "QTweetListDeleteMember parser error: " << errorMsg;
-        setLastErrorMessage(errorMsg);
-        emit error(JsonParsingError, errorMsg);
     }
 }

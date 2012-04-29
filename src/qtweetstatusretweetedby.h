@@ -53,7 +53,7 @@ signals:
     void parsedUsers(const QList<QTweetUser>& users);
 
 protected slots:
-    void parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg);
+    void parseJsonFinished(const QJsonDocument &jsonDoc);
     
 public slots:
     

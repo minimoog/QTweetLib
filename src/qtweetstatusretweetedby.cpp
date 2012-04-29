@@ -24,6 +24,8 @@
 #include <QNetworkReply>
 #include "qtweetuser.h"
 #include "qtweetconvert.h"
+#include "json/qjsondocument.h"
+#include "json/qjsonarray.h"
 
 QTweetStatusRetweetedBy::QTweetStatusRetweetedBy(QObject *parent) :
     QTweetNetBase(parent),
@@ -71,15 +73,11 @@ void QTweetStatusRetweetedBy::get()
     fetch(m_tweetid, m_count, m_page);
 }
 
-void QTweetStatusRetweetedBy::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
+void QTweetStatusRetweetedBy::parseJsonFinished(const QJsonDocument &jsonDoc)
 {
-    if (ok) {
-        QList<QTweetUser> users = QTweetConvert::variantToUserInfoList(json);
+    if (jsonDoc.isArray()) {
+        QList<QTweetUser> users = QTweetConvert::jsonArrayToUserInfoList(jsonDoc.array());
 
         emit parsedUsers(users);
-    } else {
-        qDebug() << "QTweetStatusRetweetedBy json parser error: " << errorMsg;
-        setLastErrorMessage(errorMsg);
-        emit error(JsonParsingError, errorMsg);
     }
 }

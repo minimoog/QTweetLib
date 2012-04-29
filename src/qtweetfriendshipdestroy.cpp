@@ -24,6 +24,8 @@
 #include "qtweetfriendshipdestroy.h"
 #include "qtweetuser.h"
 #include "qtweetconvert.h"
+#include "json/qjsondocument.h"
+#include "json/qjsonobject.h"
 
 /**
  *  Constructor
@@ -99,15 +101,11 @@ void QTweetFriendshipDestroy::unfollow(const QString &screenName, bool includeEn
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
 }
 
-void QTweetFriendshipDestroy::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
+void QTweetFriendshipDestroy::parseJsonFinished(const QJsonDocument &jsonDoc)
 {
-    if (ok) {
-        QTweetUser user = QTweetConvert::variantMapToUserInfo(json.toMap());
+    if (jsonDoc.isObject()) {
+        QTweetUser user = QTweetConvert::jsonObjectToUser(jsonDoc.object());
 
         emit parsedUser(user);
-    } else {
-        qDebug() << "QTweetFriendshipCreate parser error: " << errorMsg;
-        setLastErrorMessage(errorMsg);
-        emit error(JsonParsingError, errorMsg);
     }
 }

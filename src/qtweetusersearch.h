@@ -42,7 +42,7 @@ signals:
     void parsedUserInfoList(const QList<QTweetUser>& userInfoList);
 
 protected slots:
-    void parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg);
+    void parseJsonFinished(const QJsonDocument &jsonDoc);
 };
 
 #endif // QTWEETUSERSEARCH_H

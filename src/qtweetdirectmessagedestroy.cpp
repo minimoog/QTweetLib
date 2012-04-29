@@ -24,6 +24,8 @@
 #include "qtweetdirectmessagedestroy.h"
 #include "qtweetdmstatus.h"
 #include "qtweetconvert.h"
+#include "json/qjsondocument.h"
+#include "json/qjsonobject.h"
 
 /**
  *  Constructor
@@ -68,16 +70,12 @@ void QTweetDirectMessageDestroy::destroyMessage(qint64 id, bool includeEntities)
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
 }
 
-void QTweetDirectMessageDestroy::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
+void QTweetDirectMessageDestroy::parseJsonFinished(const QJsonDocument &jsonDoc)
 {
-    if (ok) {
-        QTweetDMStatus dm = QTweetConvert::variantMapToDirectMessage(json.toMap());
+    if (jsonDoc.isObject()) {
+        QTweetDMStatus dm = QTweetConvert::jsonObjectToDirectMessage(jsonDoc.object());
 
         emit parsedDirectMessage(dm);
-    } else {
-        qDebug() << "QTweetDirectMessageDestroy parser error: " << errorMsg;
-        setLastErrorMessage(errorMsg);
-        emit error(JsonParsingError, errorMsg);
     }
 }
 

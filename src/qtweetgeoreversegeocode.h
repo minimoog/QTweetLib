@@ -45,7 +45,7 @@ signals:
     void parsedPlaces(const QList<QTweetPlace>& places);
 
 protected slots:
-    void parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg);
+    void parseJsonFinished(const QJsonDocument &jsonDoc);
 };
 
 #endif // QTWEETGEOREVERSEGEOCODE_H

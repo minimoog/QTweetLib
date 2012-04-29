@@ -38,7 +38,7 @@ signals:
     void finishedGettingIDs(const QList<qint64> useridlist);
 
 protected slots:
-    void parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg);
+    void parseJsonFinished(const QJsonDocument &jsonDoc);
 };
 
 #endif // QTWEETBLOCKSBLOCKINGIDS_H

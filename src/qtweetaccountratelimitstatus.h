@@ -44,7 +44,7 @@ signals:
     void rateLimitInfo(int remainingHits, int resetTime, int hourlyLimit);
 
 protected slots:
-    void parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg);
+    void parseJsonFinished(const QJsonDocument &jsonDoc);
 };
 
 #endif // QTWEETACCOUNTRATELIMITSTATUS_H

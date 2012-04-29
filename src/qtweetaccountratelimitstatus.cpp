@@ -22,6 +22,8 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include "qtweetaccountratelimitstatus.h"
+#include "json/qjsondocument.h"
+#include "json/qjsonobject.h"
 
 /**
  *  Constructor
@@ -60,19 +62,15 @@ void QTweetAccountRateLimitStatus::check()
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
 }
 
-void QTweetAccountRateLimitStatus::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
+void QTweetAccountRateLimitStatus::parseJsonFinished(const QJsonDocument &jsonDoc)
 {
-    if (ok) {
-        QVariantMap respMap = json.toMap();
+    if (jsonDoc.isObject()) {
+        QJsonObject respJsonObject = jsonDoc.object();
 
-        int remainingHits = respMap["remaining_hits"].toInt();
-        int resetTime = respMap["reset_time_in_seconds"].toInt();
-        int hourlyLimit = respMap["hourly_limit"].toInt();
+        int remainingHits = static_cast<int>(respJsonObject["remaining_hits"].toDouble());
+        int resetTime = static_cast<int>(respJsonObject["reset_time_in_seconds"].toDouble());
+        int hourlyLimit = static_cast<int>(respJsonObject["hourly_limit"].toDouble());
 
         emit rateLimitInfo(remainingHits, resetTime, hourlyLimit);
-    } else {
-        qDebug() << "QTweetAccountRateLimitStatus parser error: " << errorMsg;
-        setLastErrorMessage(errorMsg);
-        emit error(JsonParsingError, errorMsg);
     }
 }

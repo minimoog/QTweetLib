@@ -24,6 +24,8 @@
 #include "qtweetstatusshow.h"
 #include "qtweetstatus.h"
 #include "qtweetconvert.h"
+#include "json/qjsondocument.h"
+#include "json/qjsonobject.h"
 
 QTweetStatusShow::QTweetStatusShow(QObject *parent) :
     QTweetNetBase(parent)
@@ -64,15 +66,11 @@ void QTweetStatusShow::fetch(qint64 id, bool trimUser, bool includeEntities)
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
 }
 
-void QTweetStatusShow::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
+void QTweetStatusShow::parseJsonFinished(const QJsonDocument &jsonDoc)
 {
-    if (ok) {
-        QTweetStatus status = QTweetConvert::variantMapToStatus(json.toMap());
+    if (jsonDoc.isObject()) {
+        QTweetStatus status = QTweetConvert::jsonObjectToStatus(jsonDoc.object());
 
         emit parsedStatus(status);
-    } else {
-        qDebug() << "QTweetStatusShow JSON parser error: " << errorMsg;
-        setLastErrorMessage(errorMsg);
-        emit error(JsonParsingError, errorMsg);
     }
 }

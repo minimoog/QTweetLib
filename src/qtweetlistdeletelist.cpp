@@ -24,6 +24,8 @@
 #include "qtweetlistdeletelist.h"
 #include "qtweetlist.h"
 #include "qtweetconvert.h"
+#include "json/qjsondocument.h"
+#include "json/qjsonobject.h"
 
 QTweetListDeleteList::QTweetListDeleteList(QObject *parent) :
         QTweetNetBase(parent)
@@ -58,16 +60,11 @@ void QTweetListDeleteList::deleteList(qint64 user, qint64 list)
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
 }
 
-void QTweetListDeleteList::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
+void QTweetListDeleteList::parseJsonFinished(const QJsonDocument &jsonDoc)
 {
-    if (ok) {
-        // I hope, Twitter API return list object, did not checked
-        QTweetList list = QTweetConvert::variantMapToTweetList(json.toMap());
+    if (jsonDoc.isObject()) {
+        QTweetList list = QTweetConvert::jsonObjectToTweetList(jsonDoc.object());
 
         emit deletedList(list);
-    } else {
-        qDebug() << "QTweetListDeleteList json parser error: " << errorMsg;
-        setLastErrorMessage(errorMsg);
-        emit error(JsonParsingError, errorMsg);
     }
 }

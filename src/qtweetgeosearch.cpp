@@ -23,6 +23,8 @@
 #include <QNetworkReply>
 #include "qtweetgeosearch.h"
 #include "qtweetconvert.h"
+#include "json/qjsondocument.h"
+#include "json/qjsonobject.h"
 
 /**
  *  Constructor
@@ -115,15 +117,11 @@ void QTweetGeoSearch::search(const QTweetGeoCoord &latLong,
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
 }
 
-void QTweetGeoSearch::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
+void QTweetGeoSearch::parseJsonFinished(const QJsonDocument &jsonDoc)
 {
-    if (ok) {
-        QList<QTweetPlace> places = QTweetConvert::variantToPlaceList(json);
+    if (jsonDoc.isObject()) {
+        QList<QTweetPlace> places = QTweetConvert::jsonObjectToPlaceList(jsonDoc.object());
 
         emit parsedPlaces(places);
-    } else {
-        qDebug() << "QTweetGeoSearch parser error: " << errorMsg;
-        setLastErrorMessage(errorMsg);
-        emit error(JsonParsingError, errorMsg);
     }
 }

@@ -24,6 +24,8 @@
 #include "qtweetusershow.h"
 #include "qtweetuser.h"
 #include "qtweetconvert.h"
+#include "json/qjsondocument.h"
+#include "json/qjsonobject.h"
 
 QTweetUserShow::QTweetUserShow(QObject *parent) :
     QTweetNetBase(parent)
@@ -85,15 +87,11 @@ void QTweetUserShow::fetch(const QString &screenName, bool includeEntities)
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
 }
 
-void QTweetUserShow::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
+void QTweetUserShow::parseJsonFinished(const QJsonDocument &jsonDoc)
 {
-    if (ok) {
-        QTweetUser userInfo = QTweetConvert::variantMapToUserInfo(json.toMap());
+    if (jsonDoc.isObject()) {
+        QTweetUser userInfo = QTweetConvert::jsonObjectToUser(jsonDoc.object());
 
         emit parsedUserInfo(userInfo);
-    } else {
-        qDebug() << "QTweetUserShow Json parser error: " << errorMsg;
-        setLastErrorMessage(errorMsg);
-        emit error(JsonParsingError, errorMsg);
     }
 }

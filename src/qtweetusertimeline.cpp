@@ -24,6 +24,8 @@
 #include "qtweetusertimeline.h"
 #include "qtweetstatus.h"
 #include "qtweetconvert.h"
+#include "json/qjsondocument.h"
+#include "json/qjsonarray.h"
 
 QTweetUserTimeline::QTweetUserTimeline(QObject *parent) :
     QTweetNetBase(parent),
@@ -142,15 +144,11 @@ void QTweetUserTimeline::get()
           m_contributorDetails);
 }
 
-void QTweetUserTimeline::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
+void QTweetUserTimeline::parseJsonFinished(const QJsonDocument &jsonDoc)
 {
-    if (ok) {
-        QList<QTweetStatus> statuses = QTweetConvert::variantToStatusList(json);
+    if (jsonDoc.isArray()) {
+        QList<QTweetStatus> statuses = QTweetConvert::jsonArrayToStatusList(jsonDoc.array());
 
         emit parsedStatuses(statuses);
-    } else {
-        qDebug() << "QTweetUserTimeline JSON parser error: " << errorMsg;
-        setLastErrorMessage(errorMsg);
-        emit error(JsonParsingError, errorMsg);
     }
 }

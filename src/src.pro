@@ -85,24 +85,19 @@ HEADERS += \
     qtweetblocksexists.h \
     qtweetblocksblocking.h \
     qtweetblocksblockingids.h \
-    qjson/stack.hh \
-    qjson/serializerrunnable.h \
-    qjson/serializer.h \
-    qjson/qobjecthelper.h \
-    qjson/qjson_export.h \
-    qjson/qjson_debug.h \
-    qjson/position.hh \
-    qjson/parserrunnable.h \
-    qjson/parser_p.h \
-    qjson/parser.h \
-    qjson/location.hh \
-    qjson/json_scanner.h \
-    qjson/json_parser.hh \
     qtweetpublictimeline.h \
     qtweetretweettouser.h \
     qtweetretweetbyuser.h \
     qtweetstatusretweetedby.h \
-    qtweetstatusretweetbyid.h
+    qtweetstatusretweetbyid.h \
+    json/qjsonwriter_p.h \
+    json/qjsonvalue.h \
+    json/qjsonparser_p.h \
+    json/qjsonobject.h \
+    json/qjsonexport.h \
+    json/qjsondocument.h \
+    json/qjsonarray.h \
+    json/qjson_p.h
 
 SOURCES += \
     oauth.cpp \
@@ -177,21 +172,20 @@ SOURCES += \
     qtweetblocksexists.cpp \
     qtweetblocksblocking.cpp \
     qtweetblocksblockingids.cpp \
-    qjson/serializerrunnable.cpp \
-    qjson/serializer.cpp \
-    qjson/qobjecthelper.cpp \
-    qjson/parserrunnable.cpp \
-    qjson/parser.cpp \
-    qjson/json_scanner.cpp \
-    qjson/json_parser.cc \
     qtweetpublictimeline.cpp \
     qtweetretweettouser.cpp \
     qtweetretweetbyuser.cpp \
     qtweetstatusretweetedby.cpp \
-    qtweetstatusretweetbyid.cpp
+    qtweetstatusretweetbyid.cpp \
+    json/qjsonwriter.cpp \
+    json/qjsonvalue.cpp \
+    json/qjsonparser.cpp \
+    json/qjsonobject.cpp \
+    json/qjsondocument.cpp \
+    json/qjsonarray.cpp \
+    json/qjson.cpp
 
-OTHER_FILES += \
-    qjson/json_parser.yy
+OTHER_FILES +=
 
 
 

@@ -25,6 +25,8 @@
 #include "qtweetstatus.h"
 #include "qtweetgeocoord.h"
 #include "qtweetconvert.h"
+#include "json/qjsondocument.h"
+#include "json/qjsonobject.h"
 
 QTweetStatusUpdate::QTweetStatusUpdate(QObject *parent) :
     QTweetNetBase(parent)
@@ -98,16 +100,12 @@ void QTweetStatusUpdate::post(const QString &status,
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
 }
 
-void QTweetStatusUpdate::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
+void QTweetStatusUpdate::parseJsonFinished(const QJsonDocument &jsonDoc)
 {
-    if (ok) {
-        QTweetStatus status = QTweetConvert::variantMapToStatus(json.toMap());
+    if (jsonDoc.isObject()) {
+        QTweetStatus status = QTweetConvert::jsonObjectToStatus(jsonDoc.object());
 
         emit postedStatus(status);
-    } else {
-        qDebug() << "QTweetStatusUpdate JSON parser error: " << errorMsg;
-        setLastErrorMessage(errorMsg);
-        emit error(JsonParsingError, errorMsg);
     }
 }
 

@@ -24,6 +24,8 @@
 #include "qtweetfriendshipcreate.h"
 #include "qtweetuser.h"
 #include "qtweetconvert.h"
+#include "json/qjsondocument.h"
+#include "json/qjsonobject.h"
 
 /**
  *  Constructor
@@ -123,15 +125,11 @@ void QTweetFriendshipCreate::create(const QString &screenName,
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
 }
 
-void QTweetFriendshipCreate::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
+void QTweetFriendshipCreate::parseJsonFinished(const QJsonDocument &jsonDoc)
 {
-    if (ok) {
-        QTweetUser user = QTweetConvert::variantMapToUserInfo(json.toMap());
+    if (jsonDoc.isObject()) {
+        QTweetUser user = QTweetConvert::jsonObjectToUser(jsonDoc.object());
 
         emit parsedUser(user);
-    } else {
-        qDebug() << "QTweetFriendshipCreate parser error: " << errorMsg;
-        setLastErrorMessage(errorMsg);
-        emit error(JsonParsingError, errorMsg);
     }
 }

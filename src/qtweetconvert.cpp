@@ -29,93 +29,83 @@
 #include "qtweetentityurl.h"
 #include "qtweetentityhashtag.h"
 #include "qtweetentityusermentions.h"
+#include "json/qjsonarray.h"
+#include "json/qjsonobject.h"
 
-/**
- *  Converts list of statuses
- */
-QList<QTweetStatus> QTweetConvert::variantToStatusList(const QVariant &fromParser)
+QList<QTweetStatus> QTweetConvert::jsonArrayToStatusList(const QJsonArray &jsonArray)
 {
     QList<QTweetStatus> statuses;
 
-    QList<QVariant> listStatus = fromParser.toList();
-
-    foreach (const QVariant& status, listStatus) {
-        QVariantMap statusMap = status.toMap();
-
-        QTweetStatus tweetStatus = variantMapToStatus(statusMap);
+    for (int i = 0; i < jsonArray.size(); ++ i) {
+        QTweetStatus tweetStatus = jsonObjectToStatus(jsonArray[i].toObject());
 
         statuses.append(tweetStatus);
     }
+
     return statuses;
 }
 
-/**
- *  Converts status
- */
-QTweetStatus QTweetConvert::variantMapToStatus(const QVariantMap &var)
+QTweetStatus QTweetConvert::jsonObjectToStatus(const QJsonObject& json)
 {
     QTweetStatus status;
 
-    status.setCreatedAt(var["created_at"].toString());
-    status.setText(var["text"].toString());
-    status.setId(var["id"].toLongLong());
-    status.setInReplyToUserId(var["in_reply_to_user_id"].toLongLong());
-    status.setInReplyToScreenName(var["in_reply_to_screen_name"].toString());
-    status.setFavorited(var["favorited"].toBool());
+    status.setCreatedAt(json["created_at"].toString());
+    status.setText(json["text"].toString());
+    status.setId(static_cast<qint64>(json["id"].toDouble()));
+    status.setInReplyToUserId(static_cast<qint64>(json["in_reply_to_user_id"].toDouble()));
+    status.setInReplyToScreenName(json["in_reply_to_screen_name"].toString());
+    status.setFavorited(json["favorited"].toBool());
 
-    QVariantMap userMap = var["user"].toMap();
-    QTweetUser user = variantMapToUserInfo(userMap);
-
+    QJsonObject userObject = json["user"].toObject();
+    QTweetUser user = jsonObjectToUser(userObject);
     status.setUser(user);
-    status.setSource(var["source"].toString());
-    status.setInReplyToStatusId(var["in_reply_to_status_id"].toLongLong());
+
+    status.setSource(json["source"].toString());
+    status.setInReplyToStatusId(static_cast<qint64>(json["in_reply_to_status_id"].toDouble()));
 
     //check if contains native retweet
-    if (var.contains("retweeted_status")) {
-        QVariantMap retweetMap = var["retweeted_status"].toMap();
+    if (json.contains("retweeted_status")) {
+        QJsonObject retweetObject = json["retweeted_status"].toObject();
 
-        QTweetStatus rtStatus = variantMapToStatus(retweetMap);
+        QTweetStatus rtStatus = jsonObjectToStatus(retweetObject);
 
         status.setRetweetedStatus(rtStatus);
     }
 
     //parse place id if it's not null
-    QVariant placeVar = var["place"];
-    if (!placeVar.isNull()) {
-        QTweetPlace place = variantMapToPlace(placeVar.toMap());
+    QJsonValue placeValue = json["place"];
+    if (!placeValue.isNull()) {
+        QTweetPlace place = jsonObjectToPlace(placeValue.toObject());
         status.setPlace(place);
     }
 
     //check if contains entities
-    if (var.contains("entities")) {
-        QVariantMap entitiesVarMap = var["entities"].toMap();
+    if (json.contains("entities")) {
+        QJsonObject entitiesObject = json["entities"].toObject();
 
         //url entities
-        QVariantList urlEntitiesVarList = entitiesVarMap["urls"].toList();
+        QJsonArray urlEntitiesList = entitiesObject["urls"].toArray();
 
-        foreach (const QVariant& urlEntityVar, urlEntitiesVarList) {
-            QVariantMap urlEntityVarMap = urlEntityVar.toMap();
-            QTweetEntityUrl urlEntity = variantMapToEntityUrl(urlEntityVarMap);
+        for (int i = 0; i < urlEntitiesList.size(); ++i) {
+            QTweetEntityUrl urlEntity = jsonObjectToEntityUrl(urlEntitiesList[i].toObject());
 
             status.addUrlEntity(urlEntity);
         }
 
         //hashtag entities
-        QVariantList hashtagEntitiesVarList = entitiesVarMap["hashtags"].toList();
+        QJsonArray hashtagEntitiesList = entitiesObject["hashtags"].toArray();
 
-        foreach (const QVariant& hashtagEntityVar, hashtagEntitiesVarList) {
-            QVariantMap hashtagEntityVarMap = hashtagEntityVar.toMap();
-            QTweetEntityHashtag hashtagEntity = variantMapToEntityHashtag(hashtagEntityVarMap);
+        for (int i = 0; i < hashtagEntitiesList.size(); ++i) {
+            QTweetEntityHashtag hashtagEntity = jsonObjectToEntityHashtag(hashtagEntitiesList[i].toObject());
 
             status.addHashtagEntity(hashtagEntity);
         }
 
         //user mentions
-        QVariantList userMentionsEntitiesVarList = entitiesVarMap["user_mentions"].toList();
+        QJsonArray userMentionsEntitiesList = entitiesObject["user_mentions"].toArray();
 
-        foreach (const QVariant& userMentionsEntityVar, userMentionsEntitiesVarList) {
-            QVariantMap userMentionsEntityVarMap = userMentionsEntityVar.toMap();
-            QTweetEntityUserMentions userMentionsEntity = variantMapToEntityUserMentions(userMentionsEntityVarMap);
+        for (int i = 0; i < userMentionsEntitiesList.count(); ++i) {
+            QTweetEntityUserMentions userMentionsEntity = jsonObjectToEntityUserMentions(userMentionsEntitiesList[i].toObject());
 
             status.addUserMentionsEntity(userMentionsEntity);
         }
@@ -124,44 +114,36 @@ QTweetStatus QTweetConvert::variantMapToStatus(const QVariantMap &var)
     return status;
 }
 
-/**
- *  Converts user info
- */
-QTweetUser QTweetConvert::variantMapToUserInfo(const QVariantMap &var)
+QTweetUser QTweetConvert::jsonObjectToUser(const QJsonObject &jsonObject)
 {
     QTweetUser userInfo;
 
-    userInfo.setId(var["id"].toLongLong());
+    userInfo.setId(static_cast<qint64>(jsonObject.value("id").toDouble()));
 
-    //don't fill rest of it, when user info is trimmed
-    if (var.contains("name")) {
+    if (jsonObject.contains("name")) {
+        userInfo.setName(jsonObject.value("name").toString());
+        userInfo.setLocation(jsonObject.value("location").toString());
+        userInfo.setprofileImageUrl(jsonObject.value("profile_image_url").toString());
+        userInfo.setCreatedAt(jsonObject.value("created_at").toString());
+        userInfo.setFavouritesCount(static_cast<int>(jsonObject.value("favourites_count").toDouble()));
+        userInfo.setUrl(jsonObject.value("url").toString());
+        userInfo.setUtcOffset(static_cast<int>(jsonObject.value("utc_offset").toDouble()));
+        userInfo.setProtected(jsonObject.value("protected").toBool());
+        userInfo.setFollowersCount(static_cast<int>(jsonObject.value("followers_count").toDouble()));
+        userInfo.setVerified(jsonObject.value("verified").toBool());
+        userInfo.setGeoEnabled(jsonObject.value("geo_enabled").toBool());
+        userInfo.setDescription(jsonObject.value("description").toString());
+        userInfo.setTimezone(jsonObject.value("time_zone").toString());
+        userInfo.setStatusesCount(static_cast<int>(jsonObject.value("statuses_count").toDouble()));
+        userInfo.setScreenName(jsonObject.value("screen_name").toString());
+        userInfo.setContributorsEnabled(jsonObject.value("contributors_enabled").toBool());
+        userInfo.setListedCount(static_cast<int>(jsonObject.value("listed_count").toDouble()));
+        userInfo.setLang(jsonObject.value("lang").toString());
 
-        userInfo.setName(var["name"].toString());
-        userInfo.setLocation(var["location"].toString());
-        userInfo.setprofileImageUrl(var["profile_image_url"].toString());
-        userInfo.setCreatedAt(var["created_at"].toString());
-        userInfo.setFavouritesCount(var["favourites_count"].toInt());
-        userInfo.setUrl(var["url"].toString());
-        userInfo.setUtcOffset(var["utc_offset"].toInt());
-        userInfo.setProtected(var["protected"].toBool());
-        userInfo.setFollowersCount(var["followers_count"].toInt());
-        userInfo.setVerified(var["verified"].toBool());
-        userInfo.setGeoEnabled(var["geo_enabled"].toBool());
-        userInfo.setDescription(var["description"].toString());
-        userInfo.setTimezone(var["time_zone"].toString());
-        userInfo.setFriendsCount(var["friends_count"].toInt());
-        userInfo.setStatusesCount(var["statuses_count"].toInt());
-        userInfo.setScreenName(var["screen_name"].toString());
-        userInfo.setContributorsEnabled(var["contributors_enabled"].toBool());
-        userInfo.setListedCount(var["listed_count"].toInt());
-        userInfo.setLang(var["lang"].toString());
+        if (jsonObject.contains("status")) {
+            QJsonObject jsonStatusObject = jsonObject.value("status").toObject();
 
-        //check if contains status
-        if (var.contains("status")) {
-            QVariantMap statusMap = var["status"].toMap();
-
-            QTweetStatus status = variantMapToStatus(statusMap);
-
+            QTweetStatus status = jsonObjectToStatus(jsonStatusObject);
             userInfo.setStatus(status);
         }
     }
@@ -169,92 +151,76 @@ QTweetUser QTweetConvert::variantMapToUserInfo(const QVariantMap &var)
     return userInfo;
 }
 
-/**
- *  Converts list of direct messages
- */
-QList<QTweetDMStatus> QTweetConvert::variantToDirectMessagesList(const QVariant& fromParser)
+QList<QTweetDMStatus> QTweetConvert::jsonArrayToDirectMessagesList(const QJsonArray &jsonArray)
 {
     QList<QTweetDMStatus> directMessages;
 
-    QList<QVariant> listMessages = fromParser.toList();
-
-    foreach (const QVariant& message, listMessages) {
-        QTweetDMStatus dmStatus = variantMapToDirectMessage(message.toMap());
+    for (int i = 0; i < jsonArray.size(); ++i) {
+        QJsonObject dmObject = jsonArray[i].toObject();
+        QTweetDMStatus dmStatus = jsonObjectToDirectMessage(dmObject);
         directMessages.append(dmStatus);
     }
 
     return directMessages;
 }
 
-/**
- *  Converts direct message
- */
-QTweetDMStatus QTweetConvert::variantMapToDirectMessage(const QVariantMap& var)
+QTweetDMStatus QTweetConvert::jsonObjectToDirectMessage(const QJsonObject &jsonObject)
 {
     QTweetDMStatus directMessage;
 
-    directMessage.setCreatedAt(var["created_at"].toString());
-    directMessage.setSenderScreenName(var["sender_screen_name"].toString());
+    directMessage.setCreatedAt(jsonObject.value("created_at").toString());
+    directMessage.setSenderScreenName(jsonObject.value("sender_screen_name").toString());
 
-    QVariantMap senderMap = var["sender"].toMap();
-    QTweetUser sender = variantMapToUserInfo(senderMap);
-
+    QJsonObject jsonObjectUser = jsonObject.value("sender").toObject();
+    QTweetUser sender = jsonObjectToUser(jsonObjectUser);
     directMessage.setSender(sender);
 
-    directMessage.setText(var["text"].toString());
-    directMessage.setRecipientScreenName(var["recipient_screen_name"].toString());
-    directMessage.setId(var["id"].toLongLong());
+    directMessage.setText(jsonObject.value("text").toString());
+    directMessage.setRecipientScreenName(jsonObject["recipient_screen_name"].toString());
+    directMessage.setId(static_cast<qint64>(jsonObject["id"].toDouble()));
 
-    QVariantMap recipientMap = var["recipient"].toMap();
-    QTweetUser recipient = variantMapToUserInfo(recipientMap);
-
+    QJsonObject jsonObjectRecipient = jsonObject["recipient"].toObject();
+    QTweetUser recipient = jsonObjectToUser(jsonObjectRecipient);
     directMessage.setRecipient(recipient);
 
-    directMessage.setRecipientId(var["recipient_id"].toLongLong());
-    directMessage.setSenderId(var["sender_id"].toLongLong());
+    directMessage.setRecipientId(static_cast<qint64>(jsonObject["recipient_id"].toDouble()));
+    directMessage.setSenderId(static_cast<qint64>(jsonObject["sender_id"].toDouble()));
 
     return directMessage;
 }
 
-/**
- *  Converts tweet list
- */
-QTweetList QTweetConvert::variantMapToTweetList(const QVariantMap& var)
+QTweetList QTweetConvert::jsonObjectToTweetList(const QJsonObject& jsonObject)
 {
     QTweetList list;
 
-    list.setMode(var["mode"].toString());
-    list.setDescription(var["description"].toString());
-    list.setFollowing(var["following"].toBool());
-    list.setMemberCount(var["member_count"].toInt());
-    list.setFullName(var["full_name"].toString());
-    list.setSubscriberCount(var["subscriber_count"].toInt());
-    list.setSlug(var["slug"].toString());
-    list.setName(var["name"].toString());
-    list.setId(var["id"].toLongLong());
-    list.setUri(var["uri"].toString());
+    list.setMode(jsonObject["mode"].toString());
+    list.setDescription(jsonObject["description"].toString());
+    list.setFollowing(jsonObject["following"].toBool());
+    list.setMemberCount(static_cast<int>(jsonObject["member_count"].toDouble()));
+    list.setFullName(jsonObject["full_name"].toString());
+    list.setSubscriberCount(static_cast<int>(jsonObject["subscriber_count"].toDouble()));
+    list.setSlug(jsonObject["slug"].toString());
+    list.setName(jsonObject["name"].toString());
+    list.setId(static_cast<qint64>(jsonObject["id"].toDouble()));
+    list.setUri(jsonObject["uri"].toString());
 
-    if (var.contains("user")) {
-        QVariantMap userMap = var["user"].toMap();
+    if (jsonObject.contains("user")) {
+        QJsonObject userMap = jsonObject["user"].toObject();
 
-        QTweetUser user = variantMapToUserInfo(userMap);
+        QTweetUser user = jsonObjectToUser(userMap);
 
         list.setUser(user);
     }
+
     return list;
 }
 
-/**
- *  Converts list of user infos
- */
-QList<QTweetUser> QTweetConvert::variantToUserInfoList(const QVariant& fromParser)
+QList<QTweetUser> QTweetConvert::jsonArrayToUserInfoList(const QJsonArray& jsonArray)
 {
     QList<QTweetUser> users;
 
-    QList<QVariant> listUsers = fromParser.toList();
-
-    foreach (const QVariant& user, listUsers) {
-        QTweetUser userInfo = variantMapToUserInfo(user.toMap());
+    for (int i = 0; i < jsonArray.size(); ++i) {
+        QTweetUser userInfo = jsonObjectToUser(jsonArray[i].toObject());
 
         users.append(userInfo);
     }
@@ -262,17 +228,12 @@ QList<QTweetUser> QTweetConvert::variantToUserInfoList(const QVariant& fromParse
     return users;
 }
 
-/**
- *  Converts list of tweet lists
- */
-QList<QTweetList> QTweetConvert::variantToTweetLists(const QVariant& var)
+QList<QTweetList> QTweetConvert::jsonArrayToTweetLists(const QJsonArray& jsonArray)
 {
     QList<QTweetList> lists;
 
-    QList<QVariant> varLists = var.toList();
-
-    foreach (const QVariant& varlist, varLists) {
-        QTweetList tweetlist = variantMapToTweetList(varlist.toMap());
+    for (int i = 0; i < jsonArray.size(); ++i) {
+        QTweetList tweetlist = jsonObjectToTweetList(jsonArray[i].toObject());
 
         lists.append(tweetlist);
     }
@@ -283,45 +244,40 @@ QList<QTweetList> QTweetConvert::variantToTweetLists(const QVariant& var)
 /**
  *  Converts search result
  */
-QTweetSearchResult QTweetConvert::variantMapToSearchResult(const QVariantMap& var)
+QTweetSearchResult QTweetConvert::jsonObjectToSearchResult(const QJsonObject& jsonObject)
 {
     QTweetSearchResult result;
 
-    result.setCreatedAt(var["created_at"].toString());
-    result.setFromUser(var["from_user"].toString());
-    result.setId(var["id"].toLongLong());
-    result.setLang(var["iso_language_code"].toString());
-    result.setProfileImageUrl(var["profile_image_url"].toString());
-    result.setSource(var["source"].toString());
-    result.setText(var["text"].toString());
-    result.setToUser(var["to_user"].toString());
+    result.setCreatedAt(jsonObject["created_at"].toString());
+    result.setFromUser(jsonObject["from_user"].toString());
+    result.setId(static_cast<qint64>(jsonObject["id"].toDouble()));
+    result.setLang(jsonObject["iso_language_code"].toString());
+    result.setProfileImageUrl(jsonObject["profile_image_url"].toString());
+    result.setSource(jsonObject["source"].toString());
+    result.setText(jsonObject["text"].toString());
+    result.setToUser(jsonObject["to_user"].toString());
 
     return result;
 }
 
-/**
- *  Converts page results
- */
-QTweetSearchPageResults QTweetConvert::variantToSearchPageResults(const QVariant& var)
+QTweetSearchPageResults QTweetConvert::jsonObjectToSearchPageResults(const QJsonObject& jsonObject)
 {
     QTweetSearchPageResults page;
 
-    QVariantMap varMap = var.toMap();
-
-    page.setMaxId(varMap["max_id"].toLongLong());
-    page.setNextPage(varMap["next_page"].toByteArray());
-    page.setPage(varMap["page"].toInt());
-    page.setQuery(varMap["query"].toByteArray());
-    page.setRefreshUrl(varMap["refresh_url"].toByteArray());
-    page.setResultsPerPage(varMap["results_per_page"].toInt());
-    page.setSinceId(varMap["since_id"].toLongLong());
-    page.setTotal(varMap["total"].toInt());
+    page.setMaxId(static_cast<qint64>(jsonObject["max_id"].toDouble()));
+    page.setNextPage(jsonObject["next_page"].toString().toAscii());
+    page.setPage(static_cast<int>(jsonObject["page"].toDouble()));
+    page.setQuery(jsonObject["query"].toString().toAscii());
+    page.setRefreshUrl(jsonObject["refresh_url"].toString().toAscii());
+    page.setResultsPerPage(static_cast<int>(jsonObject["results_per_page"].toDouble()));
+    page.setSinceId(static_cast<qint64>(jsonObject["since_id"].toDouble()));
+    page.setTotal(static_cast<int>(jsonObject["total"].toDouble()));
 
     QList<QTweetSearchResult> resultList;
-    QList<QVariant> resultVarList = varMap["results"].toList();
+    QJsonArray resultArray = jsonObject["results"].toArray();
 
-    foreach (const QVariant& resultVar, resultVarList) {
-        QTweetSearchResult result = variantMapToSearchResult(resultVar.toMap());
+    for (int i = 0; i < resultArray.size(); ++i) {
+        QTweetSearchResult result = jsonObjectToSearchResult(resultArray[i].toObject());
         resultList.append(result);
     }
 
@@ -330,20 +286,17 @@ QTweetSearchPageResults QTweetConvert::variantToSearchPageResults(const QVariant
     return page;
 }
 
-/**
- *  Converts place
- */
-QTweetPlace QTweetConvert::variantMapToPlace(const QVariantMap& var)
+QTweetPlace QTweetConvert::jsonObjectToPlace(const QJsonObject& jsonObject)
 {
     QTweetPlace place;
 
-    place.setName(var["name"].toString());
-    place.setCountryCode(var["country_code"].toString());
-    place.setCountry(var["country"].toString());
-    place.setID(var["id"].toString());
-    place.setFullName(var["full_name"].toString());
+    place.setName(jsonObject["name"].toString());
+    place.setCountryCode(jsonObject["country_code"].toString());
+    place.setCountry(jsonObject["country"].toString());
+    place.setID(jsonObject["id"].toString());
+    place.setFullName(jsonObject["full_name"].toString());
 
-    QString placeType = var["place_type"].toString();
+    QString placeType = jsonObject["place_type"].toString();
 
     if (placeType == "poi")
         place.setType(QTweetPlace::Poi);
@@ -358,31 +311,31 @@ QTweetPlace QTweetConvert::variantMapToPlace(const QVariantMap& var)
     else
         place.setType(QTweetPlace::Neighborhood);   //twitter default
 
-    QVariant bbVar = var["bounding_box"];
+    QJsonValue bbJsonValue = jsonObject["bounding_box"];
 
-    if (!bbVar.isNull()) {
-        QVariantMap bbMap = bbVar.toMap();
+    if (!bbJsonValue.isNull()) {
+        QJsonObject bbJsonObject = bbJsonValue.toObject();
 
-        if (bbMap["type"].toString() == "Polygon") {
-            QVariantList coordList = bbMap["coordinates"].toList();
+        if (bbJsonObject["type"].toString() == "Polygon") {
+            QJsonArray coordList = bbJsonObject["coordinates"].toArray();
 
             if (coordList.count() == 1) {
-                QVariantList latLongList = coordList.at(0).toList();
+                QJsonArray latLongList = coordList[0].toArray();
 
                 if (latLongList.count() == 4) {
                     QTweetGeoBoundingBox box;
 
-                    QVariantList coordsBottomLeft = latLongList.at(0).toList();
-                    box.setBottomLeft(QTweetGeoCoord(coordsBottomLeft.at(1).toDouble(), coordsBottomLeft.at(0).toDouble()));
+                    QJsonArray coordsBottomLeft = latLongList[0].toArray();
+                    box.setBottomLeft(QTweetGeoCoord(coordsBottomLeft[1].toDouble(), coordsBottomLeft[0].toDouble()));
 
-                    QVariantList coordsBottomRight = latLongList.at(1).toList();
-                    box.setBottomRight(QTweetGeoCoord(coordsBottomRight.at(1).toDouble(), coordsBottomRight.at(0).toDouble()));
+                    QJsonArray coordsBottomRight = latLongList[1].toArray();
+                    box.setBottomRight(QTweetGeoCoord(coordsBottomRight[1].toDouble(), coordsBottomRight[0].toDouble()));
 
-                    QVariantList coordsTopRight = latLongList.at(2).toList();
-                    box.setTopRight(QTweetGeoCoord(coordsTopRight.at(1).toDouble(), coordsTopRight.at(0).toDouble()));
+                    QJsonArray coordsTopRight = latLongList[2].toArray();
+                    box.setTopRight(QTweetGeoCoord(coordsTopRight[1].toDouble(), coordsTopRight[0].toDouble()));
 
-                    QVariantList coordsTopLeft = latLongList.at(3).toList();
-                    box.setTopLeft(QTweetGeoCoord(coordsTopLeft.at(1).toDouble(), coordsTopLeft.at(0).toDouble()));
+                    QJsonArray coordsTopLeft = latLongList[3].toArray();
+                    box.setTopLeft(QTweetGeoCoord(coordsTopLeft[1].toDouble(), coordsTopLeft[0].toDouble()));
 
                     place.setBoundingBox(box);
                 }
@@ -394,17 +347,17 @@ QTweetPlace QTweetConvert::variantMapToPlace(const QVariantMap& var)
 
 //not to be used in timelines api, but in geo api, where place contains other places
 //is it recursive responsive?
-QTweetPlace QTweetConvert::variantMapToPlaceRecursive(const QVariantMap& var)
+QTweetPlace QTweetConvert::jsonObjectToPlaceRecursive(const QJsonObject& jsonObject)
 {
     QTweetPlace place;
 
-    place.setName(var["name"].toString());
-    place.setCountryCode(var["country_code"].toString());
-    place.setCountry(var["country"].toString());
-    place.setID(var["id"].toString());
-    place.setFullName(var["full_name"].toString());
+    place.setName(jsonObject["name"].toString());
+    place.setCountryCode(jsonObject["country_code"].toString());
+    place.setCountry(jsonObject["country"].toString());
+    place.setID(jsonObject["id"].toString());
+    place.setFullName(jsonObject["full_name"].toString());
 
-    QString placeType = var["place_type"].toString();
+    QString placeType = jsonObject["place_type"].toString();
 
     if (placeType == "poi")
         place.setType(QTweetPlace::Poi);
@@ -419,31 +372,31 @@ QTweetPlace QTweetConvert::variantMapToPlaceRecursive(const QVariantMap& var)
     else
         place.setType(QTweetPlace::Neighborhood);   //twitter default
 
-    QVariant bbVar = var["bounding_box"];
+    QJsonValue bbVar = jsonObject["bounding_box"];
 
     if (!bbVar.isNull()) {
-        QVariantMap bbMap = bbVar.toMap();
+        QJsonObject bbObject = bbVar.toObject();
 
-        if (bbMap["type"].toString() == "Polygon") {
-            QVariantList coordList = bbMap["coordinates"].toList();
+        if (bbObject["type"].toString() == "Polygon") {
+            QJsonArray coordList = bbObject["coordinates"].toArray();
 
             if (coordList.count() == 1) {
-                QVariantList latLongList = coordList.at(0).toList();
+                QJsonArray latLongList = coordList[0].toArray();
 
                 if (latLongList.count() == 4) {
                     QTweetGeoBoundingBox box;
 
-                    QVariantList coordsBottomLeft = latLongList.at(0).toList();
-                    box.setBottomLeft(QTweetGeoCoord(coordsBottomLeft.at(1).toDouble(), coordsBottomLeft.at(0).toDouble()));
+                    QJsonArray coordsBottomLeft = latLongList[0].toArray();
+                    box.setBottomLeft(QTweetGeoCoord(coordsBottomLeft[1].toDouble(), coordsBottomLeft[0].toDouble()));
 
-                    QVariantList coordsBottomRight = latLongList.at(1).toList();
-                    box.setBottomRight(QTweetGeoCoord(coordsBottomRight.at(1).toDouble(), coordsBottomRight.at(0).toDouble()));
+                    QJsonArray coordsBottomRight = latLongList[1].toArray();
+                    box.setBottomRight(QTweetGeoCoord(coordsBottomRight[1].toDouble(), coordsBottomRight[0].toDouble()));
 
-                    QVariantList coordsTopRight = latLongList.at(2).toList();
-                    box.setTopRight(QTweetGeoCoord(coordsTopRight.at(1).toDouble(), coordsTopRight.at(0).toDouble()));
+                    QJsonArray coordsTopRight = latLongList[2].toArray();
+                    box.setTopRight(QTweetGeoCoord(coordsTopRight[1].toDouble(), coordsTopRight[0].toDouble()));
 
-                    QVariantList coordsTopLeft = latLongList.at(3).toList();
-                    box.setTopLeft(QTweetGeoCoord(coordsTopLeft.at(1).toDouble(), coordsTopLeft.at(0).toDouble()));
+                    QJsonArray coordsTopLeft = latLongList[3].toArray();
+                    box.setTopLeft(QTweetGeoCoord(coordsTopLeft[1].toDouble(), coordsTopLeft[0].toDouble()));
 
                     place.setBoundingBox(box);
                 }
@@ -451,15 +404,13 @@ QTweetPlace QTweetConvert::variantMapToPlaceRecursive(const QVariantMap& var)
         }
     }
 
-    QVariantList containedVarList = var["contained_within"].toList();
+    QJsonArray containedArray = jsonObject["contained_within"].toArray();
 
     QList<QTweetPlace> containedInPlacesList;
 
-    if (!containedVarList.isEmpty()) {
-        foreach (const QVariant& containedVar, containedVarList) {
-            QVariantMap containedPlaceMap = containedVar.toMap();
-
-            QTweetPlace containedPlace = variantMapToPlaceRecursive(containedPlaceMap);
+    if (!containedArray.isEmpty()) {
+        for (int i = 0; i < containedArray.size(); ++i) {
+            QTweetPlace containedPlace = jsonObjectToPlaceRecursive(containedArray[i].toObject());
 
             containedInPlacesList.append(containedPlace);
         }
@@ -470,30 +421,26 @@ QTweetPlace QTweetConvert::variantMapToPlaceRecursive(const QVariantMap& var)
     return place;
 }
 
-/**
- *  Convers list of places
- */
-QList<QTweetPlace> QTweetConvert::variantToPlaceList(const QVariant& fromParser)
+QList<QTweetPlace> QTweetConvert::jsonObjectToPlaceList(const QJsonObject& jsonObject)
 {
     QList<QTweetPlace> placeList;
 
-    QVariantMap responseVarMap = fromParser.toMap();
-    QVariantMap resultVarMap = responseVarMap["result"].toMap();
-    QVariantList placesVarList = resultVarMap["places"].toList();
+    QJsonObject resultObject = jsonObject["result"].toObject();
+    QJsonArray placesArray = resultObject["places"].toArray();
 
-    foreach (const QVariant& placeVar, placesVarList) {
-        QTweetPlace place = variantMapToPlaceRecursive(placeVar.toMap());
+    for (int i = 0; i < placesArray.size(); ++i) {
+        QTweetPlace place = jsonObjectToPlaceRecursive(placesArray[i].toObject());
         placeList.append(place);
     }
 
     return placeList;
 }
 
-QTweetEntityUrl QTweetConvert::variantMapToEntityUrl(const QVariantMap &var)
+QTweetEntityUrl QTweetConvert::jsonObjectToEntityUrl(const QJsonObject &jsonObject)
 {
-    QString url = var["url"].toString();
-    QString displayUrl = var["display_url"].toString();
-    QString expandedUrl = var["expanded_url"].toString();
+    QString url = jsonObject["url"].toString();
+    QString displayUrl = jsonObject["display_url"].toString();
+    QString expandedUrl = jsonObject["expanded_url"].toString();
 
     QTweetEntityUrl urlEntity;
     urlEntity.setUrl(url);
@@ -503,20 +450,22 @@ QTweetEntityUrl QTweetConvert::variantMapToEntityUrl(const QVariantMap &var)
     return urlEntity;
 }
 
-QTweetEntityHashtag QTweetConvert::variantMapToEntityHashtag(const QVariantMap &var)
+QTweetEntityHashtag QTweetConvert::jsonObjectToEntityHashtag(const QJsonObject &jsonObject)
 {
     QTweetEntityHashtag hashtagEntity;
-    hashtagEntity.setText(var["text"].toString());
+
+    hashtagEntity.setText(jsonObject["text"].toString());
 
     return hashtagEntity;
 }
 
-QTweetEntityUserMentions QTweetConvert::variantMapToEntityUserMentions(const QVariantMap &var)
+QTweetEntityUserMentions QTweetConvert::jsonObjectToEntityUserMentions(const QJsonObject &jsonObject)
 {
     QTweetEntityUserMentions userMentionsEntity;
-    userMentionsEntity.setScreenName(var["screen_name"].toString());
-    userMentionsEntity.setName(var["name"].toString());
-    userMentionsEntity.setUserid(var["id"].toLongLong());
+
+    userMentionsEntity.setScreenName(jsonObject["screen_name"].toString());
+    userMentionsEntity.setName(jsonObject["name"].toString());
+    userMentionsEntity.setUserid(static_cast<qint64>(jsonObject["id"].toDouble()));
 
     return userMentionsEntity;
 }

@@ -24,6 +24,8 @@
 #include "qtweetstatusdestroy.h"
 #include "qtweetstatus.h"
 #include "qtweetconvert.h"
+#include "json/qjsondocument.h"
+#include "json/qjsonobject.h"
 
 QTweetStatusDestroy::QTweetStatusDestroy(QObject *parent) :
     QTweetNetBase(parent)
@@ -75,16 +77,12 @@ void QTweetStatusDestroy::destroy(qint64 id,
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
 }
 
-void QTweetStatusDestroy::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
+void QTweetStatusDestroy::parseJsonFinished(const QJsonDocument &jsonDoc)
 {
-    if (ok) {
-        QTweetStatus status = QTweetConvert::variantMapToStatus(json.toMap());
+    if (jsonDoc.isObject()) {
+        QTweetStatus status = QTweetConvert::jsonObjectToStatus(jsonDoc.object());
 
         emit deletedStatus(status);
-    } else {
-        qDebug() << "QTweetStatusDestroy parse error: " << errorMsg;
-        setLastErrorMessage(errorMsg);
-        emit error(JsonParsingError, errorMsg);
     }
 }
 

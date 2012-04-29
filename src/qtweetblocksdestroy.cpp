@@ -24,6 +24,8 @@
 #include <QNetworkReply>
 #include "qtweetuser.h"
 #include "qtweetconvert.h"
+#include "json/qjsondocument.h"
+#include "json/qjsonobject.h"
 
 /**
  *  Constructor
@@ -99,15 +101,11 @@ void QTweetBlocksDestroy::unblock(const QString &screenName, bool includeEntitie
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
 }
 
-void QTweetBlocksDestroy::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
+void QTweetBlocksDestroy::parseJsonFinished(const QJsonDocument &jsonDoc)
 {
-    if (ok) {
-        QTweetUser user = QTweetConvert::variantMapToUserInfo(json.toMap());
+    if (jsonDoc.isObject()) {
+        QTweetUser user = QTweetConvert::jsonObjectToUser(jsonDoc.object());
 
         emit finishedUnblocking(user);
-    } else {
-        qDebug() << "QTweetBlocksDestroy parser error: " << errorMsg;
-        setLastErrorMessage(errorMsg);
-        emit error(JsonParsingError, errorMsg);
     }
 }

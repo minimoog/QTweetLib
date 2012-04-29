@@ -29,8 +29,7 @@
 #include "qtweetsearchresult.h"
 #include "qtweetsearchpageresults.h"
 #include "qtweetplace.h"
-#include "qjson/parserrunnable.h"
-#include "qjson/parser.h"
+#include "json/qjsondocument.h"
 
 /**
  *   Constructor
@@ -131,13 +130,10 @@ bool QTweetNetBase::isAuthenticationEnabled() const
  */
 void QTweetNetBase::parseJson(const QByteArray &jsonData)
 {
-    QJson::ParserRunnable *jsonParser = new QJson::ParserRunnable;
-    jsonParser->setData(jsonData);
+    //### TODO error
+    QJsonDocument jsonDoc = QJsonDocument::fromJson(jsonData);
 
-    connect(jsonParser, SIGNAL(parsingFinished(QVariant,bool,QString)),
-            this, SLOT(parsingJsonFinished(QVariant,bool,QString)));
-
-    QThreadPool::globalInstance()->start(jsonParser);
+    parseJsonFinished(jsonDoc);
 }
 
 /**
@@ -165,17 +161,7 @@ void QTweetNetBase::reply()
             //HTTP status code
             int httpStatus = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
 
-            //try to json parse the error response
-            QJson::Parser parser;
-            bool ok;
-
-            QVariantMap errMsgMap = parser.parse(m_response, &ok).toMap();
-            if (!ok) {
-                m_lastErrorMessage.clear();
-            } else {
-                //QString request = errMsgMap["request"].toString();
-                m_lastErrorMessage = errMsgMap["error"].toString();
-            }
+            //### TODO: try to json parse the error response
 
             switch (httpStatus) {
             case NotModified:

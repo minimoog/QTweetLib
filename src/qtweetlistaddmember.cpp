@@ -24,6 +24,8 @@
 #include "qtweetlistaddmember.h"
 #include "qtweetlist.h"
 #include "qtweetconvert.h"
+#include "json/qjsondocument.h"
+#include "json/qjsonobject.h"
 
 QTweetListAddMember::QTweetListAddMember(QObject *parent) :
     QTweetNetBase(parent)
@@ -61,15 +63,11 @@ void QTweetListAddMember::add(qint64 user, qint64 list, qint64 memberid)
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
 }
 
-void QTweetListAddMember::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
+void QTweetListAddMember::parseJsonFinished(const QJsonDocument &jsonDoc)
 {
-    if (ok) {
-        QTweetList list = QTweetConvert::variantMapToTweetList(json.toMap());
+    if (jsonDoc.isObject()) {
+        QTweetList list = QTweetConvert::jsonObjectToTweetList(jsonDoc.object());
 
         emit parsedList(list);
-    } else {
-        qDebug() << "QTweetListAddMember parser error: " << errorMsg;
-        setLastErrorMessage(errorMsg);
-        emit error(JsonParsingError, errorMsg);
     }
 }

@@ -24,6 +24,8 @@
 #include "qtweetgeoplacecreate.h"
 #include "qtweetplace.h"
 #include "qtweetconvert.h"
+#include "json/qjsondocument.h"
+#include "json/qjsonobject.h"
 
 /**
  *  Constructor
@@ -83,15 +85,11 @@ void QTweetGeoPlaceCreate::create(const QString &name,
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
 }
 
-void QTweetGeoPlaceCreate::parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg)
+void QTweetGeoPlaceCreate::parseJsonFinished(const QJsonDocument &jsonDoc)
 {
-    if (ok) {
-        QTweetPlace place = QTweetConvert::variantMapToPlaceRecursive(json.toMap());
+    if (jsonDoc.isObject()) {
+        QTweetPlace place = QTweetConvert::jsonObjectToPlaceRecursive(jsonDoc.object());
 
         emit parsedPlace(place);
-    } else {
-        qDebug() << "QTweetGeoPlaceCreate parser error: " << errorMsg;
-        setLastErrorMessage(errorMsg);
-        emit error(JsonParsingError, errorMsg);
     }
 }

@@ -46,7 +46,7 @@ signals:
                     const QString& prevCursor);
 
 protected slots:
-    void parsingJsonFinished(const QVariant &json, bool ok, const QString &errorMsg);
+    void parseJsonFinished(const QJsonDocument &jsonDoc);
 };
 
 #endif // QTWEETLISTMEMBERSHIPS_H
