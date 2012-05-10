@@ -36,7 +36,6 @@ HEADERS += \
     qtweetuserstream.h \
     qtweetdmstatus.h \
     qtweetusersearch.h \
-    qtweetuserstatusesfriends.h \
     qtweetuserstatusesfollowers.h \
     qtweetlist.h \
     qtweetlistcreate.h \
@@ -115,7 +114,6 @@ SOURCES += \
     qtweetuserstream.cpp \
     qtweetdmstatus.cpp \
     qtweetusersearch.cpp \
-    qtweetuserstatusesfriends.cpp \
     qtweetuserstatusesfollowers.cpp \
     qtweetlist.cpp \
     qtweetlistcreate.cpp \
