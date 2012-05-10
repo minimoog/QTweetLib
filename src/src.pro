@@ -41,7 +41,6 @@ HEADERS += \
     qtweetlist.h \
     qtweetlistcreate.h \
     qtweetlistupdate.h \
-    qtweetlistgetlists.h \
     qtweetlistshowlist.h \
     qtweetliststatuses.h \
     qtweetlistmemberships.h \
@@ -124,7 +123,6 @@ SOURCES += \
     qtweetlist.cpp \
     qtweetlistcreate.cpp \
     qtweetlistupdate.cpp \
-    qtweetlistgetlists.cpp \
     qtweetlistshowlist.cpp \
     qtweetliststatuses.cpp \
     qtweetlistmemberships.cpp \
