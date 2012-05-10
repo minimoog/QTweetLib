@@ -14,7 +14,6 @@ windows: {
 HEADERS += \
     oauth.h \
     oauthtwitter.h \
-    qtweetfriendstimeline.h \
     qtweetlib_global.h \
     qtweethometimeline.h \
     qtweetmentions.h \
@@ -93,7 +92,6 @@ HEADERS += \
 SOURCES += \
     oauth.cpp \
     oauthtwitter.cpp \
-    qtweetfriendstimeline.cpp \
     qtweethometimeline.cpp \
     qtweetmentions.cpp \
     qtweetnetbase.cpp \
