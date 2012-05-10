@@ -442,10 +442,14 @@ QTweetEntityUrl QTweetConvert::jsonObjectToEntityUrl(const QJsonObject &jsonObje
     QString displayUrl = jsonObject["display_url"].toString();
     QString expandedUrl = jsonObject["expanded_url"].toString();
 
+    QJsonArray indices = jsonObject["indices"].toArray();
+
     QTweetEntityUrl urlEntity;
     urlEntity.setUrl(url);
     urlEntity.setDisplayUrl(displayUrl);
     urlEntity.setExpandedUrl(expandedUrl);
+    urlEntity.setLowerIndex((int)indices[0].toDouble());
+    urlEntity.setHigherIndex((int)indices[1].toDouble());
 
     return urlEntity;
 }

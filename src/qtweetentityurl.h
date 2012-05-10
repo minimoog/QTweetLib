@@ -39,6 +39,10 @@ public:
     QString url() const;
     void setExpandedUrl(const QString& url);
     QString expandedUrl() const;
+    void setLowerIndex(int index);
+    int lowerIndex() const;
+    void setHigherIndex(int index);
+    int higherIndex() const;
 
 private:
     QSharedDataPointer<QTweetEntityUrlData> data;

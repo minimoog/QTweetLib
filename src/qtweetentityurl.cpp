@@ -22,21 +22,26 @@
 #include <QString>
 #include <QSharedData>
 
-class QTweetEntityUrlData : public QSharedData {
+class QTweetEntityUrlData : public QSharedData
+{
+
 public:
-    QTweetEntityUrlData() : empty(false) {}
+    QTweetEntityUrlData() : lower_index(0), higher_index(0) { }
 
     QString displayUrl;
     QString url;
     QString expandedUrl;
-    bool empty;
+    int lower_index;
+    int higher_index;
 };
 
-QTweetEntityUrl::QTweetEntityUrl() : data(new QTweetEntityUrlData)
+QTweetEntityUrl::QTweetEntityUrl()
+    : data(new QTweetEntityUrlData)
 {
 }
 
-QTweetEntityUrl::QTweetEntityUrl(const QTweetEntityUrl &rhs) : data(rhs.data)
+QTweetEntityUrl::QTweetEntityUrl(const QTweetEntityUrl &rhs)
+    : data(rhs.data)
 {
 }
 
@@ -79,4 +84,24 @@ void QTweetEntityUrl::setExpandedUrl(const QString &url)
 QString QTweetEntityUrl::expandedUrl() const
 {
     return data->url;
+}
+
+void QTweetEntityUrl::setLowerIndex(int index)
+{
+    data->lower_index = index;
+}
+
+int QTweetEntityUrl::lowerIndex() const
+{
+    return data->lower_index;
+}
+
+void QTweetEntityUrl::setHigherIndex(int index)
+{
+    data->higher_index = index;
+}
+
+int QTweetEntityUrl::higherIndex() const
+{
+    return data->higher_index;
 }
