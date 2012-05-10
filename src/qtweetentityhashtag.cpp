@@ -22,16 +22,21 @@
 #include <QString>
 #include <QSharedData>
 
-class QTweetEntityHashtagData : public QSharedData {
+class QTweetEntityHashtagData : public QSharedData
+{
 public:
     QString hashtag;
+    int lower_index;
+    int higher_index;
 };
 
-QTweetEntityHashtag::QTweetEntityHashtag() : data(new QTweetEntityHashtagData)
+QTweetEntityHashtag::QTweetEntityHashtag()
+    : data(new QTweetEntityHashtagData)
 {
 }
 
-QTweetEntityHashtag::QTweetEntityHashtag(const QTweetEntityHashtag &rhs) : data(rhs.data)
+QTweetEntityHashtag::QTweetEntityHashtag(const QTweetEntityHashtag &rhs)
+    : data(rhs.data)
 {
 }
 
@@ -54,4 +59,24 @@ void QTweetEntityHashtag::setText(const QString &text)
 QString QTweetEntityHashtag::text() const
 {
     return data->hashtag;
+}
+
+void QTweetEntityHashtag::setLowerIndex(int index)
+{
+    data->lower_index = index;
+}
+
+int QTweetEntityHashtag::lowerIndex() const
+{
+    return data->lower_index;
+}
+
+void QTweetEntityHashtag::setHigherIndex(int index)
+{
+    data->higher_index = index;
+}
+
+int QTweetEntityHashtag::higherIndex() const
+{
+    return data->higher_index;
 }

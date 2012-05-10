@@ -460,6 +460,10 @@ QTweetEntityHashtag QTweetConvert::jsonObjectToEntityHashtag(const QJsonObject &
 
     hashtagEntity.setText(jsonObject["text"].toString());
 
+    QJsonArray indices = jsonObject["indices"].toArray();
+    hashtagEntity.setLowerIndex((int)indices[0].toDouble());
+    hashtagEntity.setHigherIndex((int)indices[1].toDouble());
+
     return hashtagEntity;
 }
 

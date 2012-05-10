@@ -35,6 +35,10 @@ public:
 
     void setText(const QString& text);
     QString text() const;
+    void setLowerIndex(int index);
+    int lowerIndex() const;
+    void setHigherIndex(int index);
+    int higherIndex() const;
 
 private:
     QSharedDataPointer<QTweetEntityHashtagData> data;
