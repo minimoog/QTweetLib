@@ -48,7 +48,6 @@ HEADERS += \
     qtweetlistsubscriptions.h \
     qtweetlistaddmember.h \
     qtweetlistdeletemember.h \
-    qtweetlistsubscribers.h \
     qtweetlistsubscribe.h \
     qtweetdirectmessagessent.h \
     qtweetdirectmessagenew.h \
@@ -132,7 +131,6 @@ SOURCES += \
     qtweetlistsubscriptions.cpp \
     qtweetlistaddmember.cpp \
     qtweetlistdeletemember.cpp \
-    qtweetlistsubscribers.cpp \
     qtweetlistsubscribe.cpp \
     qtweetdirectmessagessent.cpp \
     qtweetdirectmessagenew.cpp \
