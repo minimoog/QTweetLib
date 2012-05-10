@@ -471,5 +471,9 @@ QTweetEntityUserMentions QTweetConvert::jsonObjectToEntityUserMentions(const QJs
     userMentionsEntity.setName(jsonObject["name"].toString());
     userMentionsEntity.setUserid(static_cast<qint64>(jsonObject["id"].toDouble()));
 
+    QJsonArray indicesObject = jsonObject["indices"].toArray();
+    userMentionsEntity.setLowerIndex((int)indicesObject[0].toDouble());
+    userMentionsEntity.setHigherIndex((int)indicesObject[1].toDouble());
+
     return userMentionsEntity;
 }

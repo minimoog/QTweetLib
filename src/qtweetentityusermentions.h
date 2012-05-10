@@ -39,6 +39,10 @@ public:
     QString name() const;
     void setUserid(qint64 id);
     qint64 userid() const;
+    void setLowerIndex(int index);
+    int lowerIndex() const;
+    void setHigherIndex(int index);
+    int higherIndex() const;
 
 private:
     QSharedDataPointer<QTweetEntityUserMentionsData> data;

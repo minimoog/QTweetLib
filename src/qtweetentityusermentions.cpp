@@ -22,20 +22,25 @@
 #include <QSharedData>
 #include <QString>
 
-class QTweetEntityUserMentionsData : public QSharedData {
+class QTweetEntityUserMentionsData : public QSharedData
+{
 public:
     QTweetEntityUserMentionsData() : userid(0) {}
 
     QString screenName;
     QString name;
     qint64 userid;
+    int lower_index;
+    int higher_index;
 };
 
-QTweetEntityUserMentions::QTweetEntityUserMentions() : data(new QTweetEntityUserMentionsData)
+QTweetEntityUserMentions::QTweetEntityUserMentions()
+    : data(new QTweetEntityUserMentionsData)
 {
 }
 
-QTweetEntityUserMentions::QTweetEntityUserMentions(const QTweetEntityUserMentions &rhs) : data(rhs.data)
+QTweetEntityUserMentions::QTweetEntityUserMentions(const QTweetEntityUserMentions &rhs)
+    : data(rhs.data)
 {
 }
 
@@ -78,4 +83,24 @@ void QTweetEntityUserMentions::setUserid(qint64 id)
 qint64 QTweetEntityUserMentions::userid() const
 {
     return data->userid;
+}
+
+void QTweetEntityUserMentions::setLowerIndex(int index)
+{
+    data->lower_index = index;
+}
+
+int QTweetEntityUserMentions::lowerIndex() const
+{
+    return data->lower_index;
+}
+
+void QTweetEntityUserMentions::setHigherIndex(int index)
+{
+    data->higher_index = index;
+}
+
+int QTweetEntityUserMentions::higherIndex() const
+{
+    return data->higher_index;
 }
