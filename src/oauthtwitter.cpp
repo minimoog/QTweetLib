@@ -159,18 +159,17 @@ void OAuthTwitter::authorizePin()
         reply->deleteLater();
         requestAuthorization();
 
-        const QString pin = authorizationWidget();
-        if (!pin.isEmpty()) {
-            requestAccessToken(pin);
-        }
     } else {
         qDebug() << "Timeout";
     }
 }
 
 /**
- *  Opens authorization url
+ *  Opens authorization url, this will open browser, Twitter will return PIN number
+ *  Please call with returned PIN to requestAccessToken slot to get access tokens
+ *
  *  @remarks Override if you want to show another browser
+ *
  */
 void OAuthTwitter::requestAuthorization()
 {
@@ -218,13 +217,4 @@ void OAuthTwitter::requestAccessToken(const QString& pin)
     } else {
         qDebug() << "Timeout";
     }
-}
-
-/**
- *  Override to show the authorization widget where users enters pin number
- *  @return entered pin number by the user
- */
-const QString OAuthTwitter::authorizationWidget()
-{
-    return QString();
 }

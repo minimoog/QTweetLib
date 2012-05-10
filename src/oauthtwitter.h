@@ -48,16 +48,16 @@ signals:
     void authorizeXAuthFinished();
     /** Emited when there is error in XAuth authorization */
     // ### TODO Error detection
-    // Sigh, bad documentation on errors in twitter api
     void authorizeXAuthError();
 
+public slots:
+    void requestAccessToken(const QString& pin);
+
 protected:
-    virtual const QString authorizationWidget();
     virtual void requestAuthorization();
 
 private slots:
     void finishedAuthorization();
-    void requestAccessToken(const QString& pin);
 
 private:
     QNetworkAccessManager *m_netManager;
