@@ -32,7 +32,6 @@ class QTWEETLIBSHARED_EXPORT QTweetHomeTimeline : public QTweetNetBase
     Q_PROPERTY(qint64 sinceID READ sinceID WRITE setSinceID)
     Q_PROPERTY(qint64 maxID READ maxID WRITE setMaxID)
     Q_PROPERTY(int count READ count WRITE setCount)
-    Q_PROPERTY(int page READ page WRITE setPage)
     Q_PROPERTY(bool trimUser READ isTrimUser WRITE setTrimUser)
     Q_PROPERTY(bool includeEntities READ isIncludeEntities WRITE setIncludeEntities)
     Q_PROPERTY(bool excludeReplies READ isExcludeReplies WRITE setExcludeReplies)
@@ -44,7 +43,6 @@ public:
     void fetch(qint64 sinceid = 0,
                qint64 maxid = 0,
                int count = 0,
-               int page = 0,
                bool trimUser = false,
                bool includeEntities = false,
                bool excludeReplies = false,
@@ -59,9 +57,6 @@ public:
 
     void setCount(int count) { m_count = count; }
     int count() const { return m_count; }
-
-    void setPage(int page) { m_page = page; }
-    int page() const { return m_page; }
 
     void setTrimUser(bool trimUser) { m_trimUser = trimUser; }
     bool isTrimUser() const { return m_trimUser; }
@@ -87,7 +82,6 @@ private:
     qint64 m_sinceid;
     qint64 m_maxid;
     int m_count;
-    int m_page;
     bool m_trimUser;
     bool m_includeEntities;
     bool m_excludeReplies;

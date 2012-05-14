@@ -35,7 +35,6 @@ QTweetHomeTimeline::QTweetHomeTimeline(QObject *parent) :
     m_sinceid(0),
     m_maxid(0),
     m_count(0),
-    m_page(0),
     m_trimUser(false),
     m_includeEntities(false),
     m_excludeReplies(false),
@@ -53,7 +52,6 @@ QTweetHomeTimeline::QTweetHomeTimeline(OAuthTwitter *oauthTwitter, QObject *pare
     m_sinceid(0),
     m_maxid(0),
     m_count(0),
-    m_page(0),
     m_trimUser(false),
     m_includeEntities(false),
     m_excludeReplies(false),
@@ -76,7 +74,6 @@ QTweetHomeTimeline::QTweetHomeTimeline(OAuthTwitter *oauthTwitter, QObject *pare
 void QTweetHomeTimeline::fetch(qint64 sinceid,
                                qint64 maxid,
                                int count,
-                               int page,
                                bool trimUser,
                                bool includeEntities,
                                bool excludeReplies,
@@ -97,9 +94,6 @@ void QTweetHomeTimeline::fetch(qint64 sinceid,
 
     if (count != 0)
         url.addQueryItem("count", QString::number(count));
-
-    if (page != 0)
-        url.addQueryItem("page", QString::number(page));
 
     if (trimUser)
         url.addQueryItem("trim_user", "true");
@@ -124,7 +118,7 @@ void QTweetHomeTimeline::fetch(qint64 sinceid,
 
 void QTweetHomeTimeline::get()
 {
-    fetch(m_sinceid, m_maxid, m_count, m_page, m_trimUser, m_includeEntities, m_excludeReplies, m_contributorDetails);
+    fetch(m_sinceid, m_maxid, m_count, m_trimUser, m_includeEntities, m_excludeReplies, m_contributorDetails);
 }
 
 void QTweetHomeTimeline::parseJsonFinished(const QJsonDocument &jsonDoc)
