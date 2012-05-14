@@ -86,7 +86,8 @@ HEADERS += \
     json/qjsonexport.h \
     json/qjsondocument.h \
     json/qjsonarray.h \
-    json/qjson_p.h
+    json/qjson_p.h \
+    qtweetentitymedia.h
 
 SOURCES += \
     oauth.cpp \
@@ -161,7 +162,8 @@ SOURCES += \
     json/qjsonobject.cpp \
     json/qjsondocument.cpp \
     json/qjsonarray.cpp \
-    json/qjson.cpp
+    json/qjson.cpp \
+    qtweetentitymedia.cpp
 
 OTHER_FILES +=
 
