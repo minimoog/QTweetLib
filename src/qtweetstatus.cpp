@@ -26,6 +26,7 @@
 #include "qtweetentityurl.h"
 #include "qtweetentityhashtag.h"
 #include "qtweetentityusermentions.h"
+#include "qtweetentitymedia.h"
 
 class QTweetStatusData : public QSharedData
 {
@@ -71,6 +72,7 @@ public:
     QList<QTweetEntityUrl> urlEntities;
     QList<QTweetEntityHashtag> hashtagEntities;
     QList<QTweetEntityUserMentions> userMentionEntities;
+    QList<QTweetEntityMedia> mediaEntities;
 };
 
 QTweetStatus::QTweetStatus() :
@@ -243,6 +245,11 @@ QList<QTweetEntityUserMentions> QTweetStatus::userMentionsEntities() const
     return d->userMentionEntities;
 }
 
+QList<QTweetEntityMedia> QTweetStatus::mediaEntities() const
+{
+    return d->mediaEntities;
+}
+
 void QTweetStatus::addUrlEntity(const QTweetEntityUrl &urlEntity)
 {
     d->urlEntities.append(urlEntity);
@@ -256,4 +263,9 @@ void QTweetStatus::addHashtagEntity(const QTweetEntityHashtag &hashtagEntity)
 void QTweetStatus::addUserMentionsEntity(const QTweetEntityUserMentions &userMentionsEntity)
 {
     d->userMentionEntities.append(userMentionsEntity);
+}
+
+void QTweetStatus::addMediaEntity(const QTweetEntityMedia &mediaEntity)
+{
+    d->mediaEntities.append(mediaEntity);
 }

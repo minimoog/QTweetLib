@@ -32,6 +32,7 @@ class QTweetPlace;
 class QTweetEntityUrl;
 class QTweetEntityHashtag;
 class QTweetEntityUserMentions;
+class QTweetEntityMedia;
 
 /**
  *   Stores tweet info
@@ -72,9 +73,11 @@ public:
     QList<QTweetEntityUrl> urlEntities() const;
     QList<QTweetEntityHashtag> hashtagEntities() const;
     QList<QTweetEntityUserMentions> userMentionsEntities() const;
+    QList<QTweetEntityMedia> mediaEntities() const;
     void addUrlEntity(const QTweetEntityUrl& urlEntity);
     void addHashtagEntity(const QTweetEntityHashtag& hashtagEntity);
     void addUserMentionsEntity(const QTweetEntityUserMentions& userMentionsEntity);
+    void addMediaEntity(const QTweetEntityMedia& mediaEntity);
 
 private:
     QSharedDataPointer<QTweetStatusData> d;

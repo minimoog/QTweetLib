@@ -19,6 +19,7 @@
  */
 
 #include "qtweetconvert.h"
+#include <QSize>
 #include "qtweetstatus.h"
 #include "qtweetdmstatus.h"
 #include "qtweetuser.h"
@@ -29,6 +30,7 @@
 #include "qtweetentityurl.h"
 #include "qtweetentityhashtag.h"
 #include "qtweetentityusermentions.h"
+#include "qtweetentitymedia.h"
 #include "json/qjsonarray.h"
 #include "json/qjsonobject.h"
 
@@ -108,6 +110,15 @@ QTweetStatus QTweetConvert::jsonObjectToStatus(const QJsonObject& json)
             QTweetEntityUserMentions userMentionsEntity = jsonObjectToEntityUserMentions(userMentionsEntitiesList[i].toObject());
 
             status.addUserMentionsEntity(userMentionsEntity);
+        }
+
+        //media
+        QJsonArray mediaEntitiesList = entitiesObject["media"].toArray();
+
+        for (int i = 0; i < mediaEntitiesList.count(); ++i) {
+            QTweetEntityMedia mediaEntity = jsonObjectToEntityMedia(mediaEntitiesList[i].toObject());
+
+            status.addMediaEntity(mediaEntity);
         }
     }
 
@@ -480,4 +491,52 @@ QTweetEntityUserMentions QTweetConvert::jsonObjectToEntityUserMentions(const QJs
     userMentionsEntity.setHigherIndex((int)indicesObject[1].toDouble());
 
     return userMentionsEntity;
+}
+
+QTweetEntityMedia QTweetConvert::jsonObjectToEntityMedia(const QJsonObject &jsonObject)
+{
+    QTweetEntityMedia entityMedia;
+
+    entityMedia.setID(jsonObject["id_str"].toString());
+    entityMedia.setMediaUrl(jsonObject["media_url"].toString());
+    entityMedia.setMediaUrlHttps(jsonObject["media_url_https"].toString());
+    entityMedia.setUrl(jsonObject["url"].toString());
+    entityMedia.setDisplayUrl(jsonObject["display_url"].toString());
+    entityMedia.setExpandedUrl(jsonObject["expanded_url"].toString());
+
+    QJsonObject sizesObject = jsonObject["sizes"].toObject();
+
+    QJsonObject largeObject = sizesObject["large"].toObject();
+    QSize large;
+    large.setWidth(static_cast<int>(largeObject["w"].toDouble()));
+    large.setHeight(static_cast<int>(largeObject["h"].toDouble()));
+
+    entityMedia.setSize(large, QTweetEntityMedia::LARGE);
+
+    QJsonObject mediumObject = sizesObject["medium"].toObject();
+    QSize medium;
+    medium.setWidth(static_cast<int>(mediumObject["w"].toDouble()));
+    medium.setHeight(static_cast<int>(mediumObject["h"].toDouble()));
+
+    entityMedia.setSize(medium, QTweetEntityMedia::MEDIUM);
+
+    QJsonObject smallObject = sizesObject["small"].toObject();
+    QSize small;
+    small.setWidth(static_cast<int>(smallObject["w"].toDouble()));
+    small.setHeight(static_cast<int>(smallObject["h"].toDouble()));
+
+    entityMedia.setSize(small, QTweetEntityMedia::SMALL);
+
+    QJsonObject thumbObject = sizesObject["thumb"].toObject();
+    QSize thumb;
+    thumb.setWidth(static_cast<int>(thumbObject["w"].toDouble()));
+    thumb.setHeight(static_cast<int>(thumbObject["h"].toDouble()));
+
+    entityMedia.setSize(thumb, QTweetEntityMedia::THUMB);
+
+    QJsonArray indicesObject = jsonObject["indices"].toArray();
+    entityMedia.setLowerIndex(static_cast<int>(indicesObject[0].toDouble()));
+    entityMedia.setHigherIndex(static_cast<int>(indicesObject[1].toDouble()));
+
+    return entityMedia;
 }

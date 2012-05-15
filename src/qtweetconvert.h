@@ -33,6 +33,7 @@ class QTweetPlace;
 class QTweetEntityUrl;
 class QTweetEntityHashtag;
 class QTweetEntityUserMentions;
+class QTweetEntityMedia;
 
 class QJsonArray;
 class QJsonObject;
@@ -59,6 +60,7 @@ public:
     static QTweetEntityUrl jsonObjectToEntityUrl(const QJsonObject& jsonObject);
     static QTweetEntityHashtag jsonObjectToEntityHashtag(const QJsonObject &jsonObject);
     static QTweetEntityUserMentions jsonObjectToEntityUserMentions(const QJsonObject& jsonObject);
+    static QTweetEntityMedia jsonObjectToEntityMedia(const QJsonObject& jsonObject);
 };
 
 #endif // QTWEETCONVERT_H
