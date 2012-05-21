@@ -1,156 +1,146 @@
 SET(QTWEETLIB_SOURCES
     oauth.cpp
     oauthtwitter.cpp
-    qtweetfriendstimeline.cpp
-    qtweethometimeline.cpp
-    qtweetmentions.cpp
-    qtweetnetbase.cpp
-    qtweetretweetbyme.cpp
-    qtweetretweetsofme.cpp
-    qtweetretweettome.cpp
-    qtweetstatus.cpp
-    qtweetstatusshow.cpp
-    qtweetstatusupdate.cpp
-    qtweetuser.cpp
-    qtweetusertimeline.cpp
-    qtweetstatusdestroy.cpp
-    qtweetstatusretweet.cpp
-    qtweetstatusretweets.cpp
-    qtweetusershow.cpp
-    qtweetuserlookup.cpp
-    qtweetdirectmessages.cpp
-    qtweetuserstream.cpp
-    qtweetdmstatus.cpp
-    qtweetusersearch.cpp
-    qtweetuserstatusesfriends.cpp
-    qtweetuserstatusesfollowers.cpp
-    qtweetlist.cpp
-    qtweetlistcreate.cpp
-    qtweetlistupdate.cpp
-    qtweetlistgetlists.cpp
-    qtweetlistshowlist.cpp
-    qtweetlistdeletelist.cpp
-    qtweetliststatuses.cpp
-    qtweetlistmemberships.cpp
-    qtweetlistsubscriptions.cpp
-    qtweetlistgetmembers.cpp
-    qtweetlistaddmember.cpp
-    qtweetlistdeletemember.cpp
-    qtweetlistsubscribers.cpp
-    qtweetlistsubscribe.cpp
-    qtweetlistunsubscribe.cpp
-    qtweetdirectmessagessent.cpp
-    qtweetdirectmessagenew.cpp
-    qtweetdirectmessagedestroy.cpp
-    qtweetfriendshipcreate.cpp
-    qtweetfriendshipdestroy.cpp
-    qtweetfriendsid.cpp
-    qtweetfollowersid.cpp
-    qtweetaccountverifycredentials.cpp
     qtweetaccountratelimitstatus.cpp
-    qtweetfavorites.cpp
-    qtweetfavoritescreate.cpp
-    qtweetfavoritesdestroy.cpp
-    qtweetsearch.cpp
-    qtweetsearchresult.cpp
-    qtweetsearchpageresults.cpp
-    qtweetplace.cpp
-    qtweetgeoreversegeocode.cpp
-    qtweetgeosearch.cpp
-    qtweetgeosimilarplaces.cpp
-    qtweetgeoplaceid.cpp
-    qtweetgeoplacecreate.cpp
-    qtweetgeocoord.cpp
-    qtweetgeoboundingbox.cpp
-    qtweetconvert.cpp
-    qtweetentityurl.cpp
-    qtweetentityhashtag.cpp
-    qtweetentityusermentions.cpp
+    qtweetaccountverifycredentials.cpp
     qtweetblocksblocking.cpp
     qtweetblocksblockingids.cpp
     qtweetblockscreate.cpp
     qtweetblocksdestroy.cpp
     qtweetblocksexists.cpp
+    qtweetconvert.cpp
+    qtweetdirectmessagedestroy.cpp
+    qtweetdirectmessagenew.cpp
+    qtweetdirectmessages.cpp
+    qtweetdirectmessagessent.cpp
+    qtweetdmstatus.cpp
+    qtweetentityhashtag.cpp
+    qtweetentitymedia.cpp
+    qtweetentityurl.cpp
+    qtweetentityusermentions.cpp
+    qtweetfavorites.cpp
+    qtweetfavoritescreate.cpp
+    qtweetfavoritesdestroy.cpp
+    qtweetfollowersid.cpp
+    qtweetfriendshipcreate.cpp
+    qtweetfriendshipdestroy.cpp
+    qtweetfriendsid.cpp
+    qtweetgeoboundingbox.cpp
+    qtweetgeocoord.cpp
+    qtweetgeoplacecreate.cpp
+    qtweetgeoplaceid.cpp
+    qtweetgeoreversegeocode.cpp
+    qtweetgeosearch.cpp
+    qtweetgeosimilarplaces.cpp
+    qtweethometimeline.cpp
+    qtweetlistaddmember.cpp
+    qtweetlist.cpp
+    qtweetlistcreate.cpp
+    qtweetlistdeletemember.cpp
+    qtweetlistshowlist.cpp
+    qtweetlistsubscribe.cpp
+    qtweetlistupdate.cpp
+    qtweetmentions.cpp
+    qtweetnetbase.cpp
+    qtweetplace.cpp
+    qtweetretweetbyme.cpp
+    qtweetretweetbyuser.cpp
+    qtweetretweetsofme.cpp
+    qtweetretweettome.cpp
+    qtweetretweettouser.cpp
+    qtweetsearch.cpp
+    qtweetsearchpageresults.cpp
+    qtweetsearchresult.cpp
+    qtweetstatus.cpp
+    qtweetstatusdestroy.cpp
+    qtweetstatusretweetbyid.cpp
+    qtweetstatusretweet.cpp
+    qtweetstatusretweetedby.cpp
+    qtweetstatusretweets.cpp
+    qtweetstatusshow.cpp
+    qtweetstatusupdate.cpp
+    qtweetuser.cpp
+    qtweetuserlookup.cpp
+    qtweetusersearch.cpp
+    qtweetusershow.cpp
+    qtweetuserstatusesfollowers.cpp
+    qtweetuserstream.cpp
+    qtweetusertimeline.cpp
 )
 
 SET(QTWEETLIB_MOC_HEADERS
     oauth.h
     oauthtwitter.h
-    qtweetfriendstimeline.h
-    qtweethometimeline.h
-    qtweetmentions.h
-    qtweetnetbase.h
-    qtweetretweetbyme.h
-    qtweetretweetsofme.h
-    qtweetretweettome.h
-    qtweetstatusshow.h
-    qtweetstatusupdate.h
-    qtweetusertimeline.h
-    qtweetstatusdestroy.h
-    qtweetstatusretweet.h
-    qtweetstatusretweets.h
-    qtweetusershow.h
-    qtweetuserlookup.h
-    qtweetdirectmessages.h
-    qtweetuserstream.h
-    qtweetusersearch.h
-    qtweetuserstatusesfriends.h
-    qtweetuserstatusesfollowers.h
-    qtweetlistcreate.h
-    qtweetlistupdate.h
-    qtweetlistgetlists.h
-    qtweetlistshowlist.h
-    qtweetlistdeletelist.h
-    qtweetliststatuses.h
-    qtweetlistmemberships.h
-    qtweetlistsubscriptions.h
-    qtweetlistgetmembers.h
-    qtweetlistaddmember.h
-    qtweetlistdeletemember.h
-    qtweetlistsubscribers.h
-    qtweetlistsubscribe.h
-    qtweetlistunsubscribe.h
-    qtweetdirectmessagessent.h
-    qtweetdirectmessagenew.h
-    qtweetdirectmessagedestroy.h
-    qtweetfriendshipcreate.h
-    qtweetfriendshipdestroy.h
-    qtweetfriendsid.h
-    qtweetfollowersid.h
-    qtweetaccountverifycredentials.h
     qtweetaccountratelimitstatus.h
-    qtweetfavorites.h
-    qtweetfavoritescreate.h
-    qtweetfavoritesdestroy.h
-    qtweetsearch.h
-    qtweetgeoreversegeocode.h
-    qtweetgeosearch.h
-    qtweetgeosimilarplaces.h
-    qtweetgeoplaceid.h
-    qtweetgeoplacecreate.h
+    qtweetaccountverifycredentials.h
     qtweetblocksblocking.h
     qtweetblocksblockingids.h
     qtweetblockscreate.h
     qtweetblocksdestroy.h
     qtweetblocksexists.h
+    qtweetdirectmessagedestroy.h
+    qtweetdirectmessagenew.h
+    qtweetdirectmessages.h
+    qtweetdirectmessagessent.h
+    qtweetfavorites.h
+    qtweetfavoritescreate.h
+    qtweetfavoritesdestroy.h
+    qtweetfollowersid.h
+    qtweetfriendshipcreate.h
+    qtweetfriendshipdestroy.h
+    qtweetfriendsid.h
+    qtweetgeoplacecreate.h
+    qtweetgeoplaceid.h
+    qtweetgeoreversegeocode.h
+    qtweetgeosearch.h
+    qtweetgeosimilarplaces.h
+    qtweethometimeline.h
+    qtweetlistaddmember.h
+    qtweetlistcreate.h
+    qtweetlistdeletemember.h
+    qtweetlistshowlist.h
+    qtweetlistsubscribe.h
+    qtweetlistupdate.h
+    qtweetmentions.h
+    qtweetnetbase.h
+    qtweetretweetbyme.h
+    qtweetretweetbyuser.h
+    qtweetretweetsofme.h
+    qtweetretweettome.h
+    qtweetretweettouser.h
+    qtweetsearch.h
+    qtweetstatusdestroy.h
+    qtweetstatusretweetbyid.h
+    qtweetstatusretweet.h
+    qtweetstatusretweetedby.h
+    qtweetstatusretweets.h
+    qtweetstatusshow.h
+    qtweetstatusupdate.h
+    qtweetuserlookup.h
+    qtweetusersearch.h
+    qtweetusershow.h
+    qtweetuserstatusesfollowers.h
+    qtweetuserstream.h
+    qtweetusertimeline.h
 )
 
 SET(QTWEETLIB_HEADERS
     ${QTWEETLIB_MOC_HEADERS}
     qtweetlib_global.h
+    qtweetconvert.h
+    qtweetdmstatus.h
+    qtweetentityhashtag.h
+    qtweetentitymedia.h
+    qtweetentityurl.h
+    qtweetentityusermentions.h
+    qtweetgeocord.h
+    qtweetgeoboundingbox.h
+    qtweetlist.h
+    qtweetplace.h
+    qtweetsearchpageresults.h
+    qtweetsearchresult.h
     qtweetstatus.h
     qtweetuser.h
-    qtweetdmstatus.h
-    qtweetlist.h
-    qtweetsearchresult.h
-    qtweetsearchpageresults.h
-    qtweetplace.h
-    qtweetgeocoord.h
-    qtweetgeoboundingbox.h
-    qtweetconvert.h
-    qtweetentityurl.h
-    qtweetentityhashtag.h
-    qtweetentityusermentions.h
 )
 
 INCLUDE_DIRECTORIES(
