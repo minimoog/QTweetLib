@@ -134,6 +134,7 @@ SET(QTWEETLIB_HEADERS
     qtweetentityurl.h
     qtweetentityusermentions.h
     qtweetgeoboundingbox.h
+    qtweetgeocoord.h
     qtweetlist.h
     qtweetplace.h
     qtweetsearchpageresults.h
