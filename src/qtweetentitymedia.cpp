@@ -99,6 +99,11 @@ void QTweetEntityMedia::setUrl(const QString &url)
     data->url = url;
 }
 
+void QTweetEntityMedia::setDisplayUrl(const QString& url)
+{
+    data->displayUrl = url;
+}
+
 QString QTweetEntityMedia::url() const
 {
     return data->url;
