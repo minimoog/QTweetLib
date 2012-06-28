@@ -21,7 +21,7 @@
 #include "statusupdatewidget.h"
 #include <QtDebug>
 #include <QNetworkAccessManager>
-#include "myoauthtwitter.h"
+#include "oauthtwitter.h"
 #include "qtweetstatusupdate.h"
 #include "ui_statusupdatewidget.h"
 
@@ -31,8 +31,11 @@ StatusUpdateWidget::StatusUpdateWidget(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    m_oauthTwitter = new MyOAuthTwitter(this);
+    m_oauthTwitter = new OAuthTwitter(this);
     m_oauthTwitter->setNetworkAccessManager(new QNetworkAccessManager(this));
+
+    connect(m_oauthTwitter, SIGNAL(authorizePinFinished()), this, SLOT(authorizationFinished()));
+    connect(m_oauthTwitter, SIGNAL(accessTokenGranted()), this, SLOT(grantedAccess()));
 }
 
 void StatusUpdateWidget::on_authorizeButton_clicked()
@@ -41,11 +44,11 @@ void StatusUpdateWidget::on_authorizeButton_clicked()
     m_oauthTwitter->clearTokens();
     ui->infoLabel->setText("Pin Authorization started");
     m_oauthTwitter->authorizePin();
+}
 
-    if (!m_oauthTwitter->oauthToken().isEmpty() && !m_oauthTwitter->oauthTokenSecret().isEmpty()) {
-        ui->infoLabel->setText("Pin Auth success!");
-        ui->updateButton->setEnabled(true);
-    }
+void StatusUpdateWidget::authorizationFinished()
+{
+    ui->infoLabel->setText("Please enter pin!");
 }
 
 void StatusUpdateWidget::on_updateButton_clicked()
@@ -54,6 +57,19 @@ void StatusUpdateWidget::on_updateButton_clicked()
     statusUpdate->post(ui->updateTextEdit->toPlainText());
     connect(statusUpdate, SIGNAL(postedStatus(QTweetStatus)), this, SLOT(finishedPostedStatus(QTweetStatus)));
     connect(statusUpdate, SIGNAL(error(ErrorCode,QString)), this, SLOT(error()));
+}
+
+void StatusUpdateWidget::on_pinPushButton_clicked()
+{
+    if (!ui->pinLineEdit->text().isEmpty()) {
+        m_oauthTwitter->requestAccessToken(ui->pinLineEdit->text());
+    }
+}
+
+void StatusUpdateWidget::grantedAccess()
+{
+    ui->infoLabel->setText("Access granted");
+    ui->updateButton->setEnabled(true);
 }
 
 void StatusUpdateWidget::finishedPostedStatus(const QTweetStatus &status)

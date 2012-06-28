@@ -27,7 +27,7 @@ namespace Ui {
     class StatusUpdateWidget;
 }
 
-class MyOAuthTwitter;
+class OAuthTwitter;
 class QTweetStatus;
 
 class StatusUpdateWidget : public QWidget
@@ -41,12 +41,15 @@ public:
 private slots:
     void on_authorizeButton_clicked();
     void on_updateButton_clicked();
+    void on_pinPushButton_clicked();
     void finishedPostedStatus(const QTweetStatus& status);
+    void authorizationFinished();
+    void grantedAccess();
     void error();
 
 private:
     Ui::StatusUpdateWidget *ui;
-    MyOAuthTwitter *m_oauthTwitter;
+    OAuthTwitter *m_oauthTwitter;
 };
 
 #endif // STATUSUPDATEWIDGET_H
