@@ -46,6 +46,10 @@ public:
 signals:
     /** Emited when XAuth authorization is finished */
     void authorizeXAuthFinished();
+    /** Emited when pin authorization is finished. This is where user should enter PIN number */
+    void authorizePinFinished();
+    /** Emited when access token is taken after entering PIN. This means that we can use Twitter services */
+    void accessTokenGranted();
     /** Emited when there is error in XAuth authorization */
     // ### TODO Error detection
     void authorizeXAuthError();

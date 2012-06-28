@@ -25,11 +25,11 @@
 #include "oauth.h"
 
 #ifndef CONSUMER_KEY
-    #define CONSUMER_KEY "YImPrR11sLxv0ZjjKAskA"
+    #define CONSUMER_KEY ""
 #endif //CONSUMER_KEY
 
 #ifndef CONSUMER_SECRET
-    #define CONSUMER_SECRET "4c2wjwQ6v1YMvWeZDkz10vuG8enR5k8BKidhTZJz6c"
+    #define CONSUMER_SECRET ""
 #endif //CONSUMER_SECRET
 
 /**

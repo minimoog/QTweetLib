@@ -177,6 +177,8 @@ void OAuthTwitter::requestAuthorization()
     authorizeUrl.addEncodedQueryItem("oauth_token", oauthToken());
     authorizeUrl.addEncodedQueryItem("oauth_callback", "oob");
 
+    emit authorizePinFinished();
+
     QDesktopServices::openUrl(authorizeUrl);
 }
 
@@ -214,6 +216,8 @@ void OAuthTwitter::requestAccessToken(const QString& pin)
         QByteArray response = reply->readAll();
         parseTokens(response);
         reply->deleteLater();
+
+        emit accessTokenGranted();
     } else {
         qDebug() << "Timeout";
     }
