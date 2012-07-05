@@ -74,6 +74,8 @@ void StatusUpdateWidget::grantedAccess()
 
 void StatusUpdateWidget::finishedPostedStatus(const QTweetStatus &status)
 {
+    Q_UNUSED(status);
+
     QTweetStatusUpdate *statusUpdate = qobject_cast<QTweetStatusUpdate*>(sender());
 
     if (statusUpdate) {

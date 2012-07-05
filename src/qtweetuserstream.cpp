@@ -266,6 +266,8 @@ void QTweetUserStream::parseDeleteStatus(const QJsonObject &json)
 
 void QTweetUserStream::sslErrors(const QList<QSslError> &errors)
 {
+    Q_UNUSED(errors);
+
     QNetworkReply *reply = qobject_cast<QNetworkReply*>(sender());
 
     if (reply) {

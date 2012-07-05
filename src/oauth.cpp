@@ -119,8 +119,8 @@ static QByteArray generateNonce()
  */
 OAuth::OAuth(QObject *parent)
     : QObject(parent),
-      m_oauthConsumerKey(CONSUMER_KEY),
-      m_oauthConsumerSecret(CONSUMER_SECRET)
+      m_oauthConsumerSecret(CONSUMER_SECRET),
+      m_oauthConsumerKey(CONSUMER_KEY)
 {
     QDateTime current = QDateTime::currentDateTime();
     qsrand(current.toTime_t());
@@ -134,8 +134,8 @@ OAuth::OAuth(QObject *parent)
  */
 OAuth::OAuth(const QByteArray &consumerKey, const QByteArray &consumerSecret, QObject *parent)
     : QObject(parent),
-      m_oauthConsumerKey(consumerKey),
-      m_oauthConsumerSecret(consumerSecret)
+      m_oauthConsumerSecret(consumerSecret),
+      m_oauthConsumerKey(consumerKey)
 {
     QDateTime current = QDateTime::currentDateTime();
     qsrand(current.toTime_t());
