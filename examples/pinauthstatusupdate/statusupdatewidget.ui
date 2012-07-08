@@ -6,18 +6,18 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>397</width>
-    <height>260</height>
+    <width>405</width>
+    <height>322</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="0">
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
     <widget class="QPlainTextEdit" name="updateTextEdit"/>
    </item>
-   <item row="1" column="0">
+   <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="QPushButton" name="authorizeButton">
@@ -51,7 +51,7 @@
      </item>
     </layout>
    </item>
-   <item row="2" column="0">
+   <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
       <widget class="QLabel" name="label">
@@ -85,7 +85,21 @@
      </item>
     </layout>
    </item>
-   <item row="3" column="0">
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_3">
+     <item>
+      <widget class="QPushButton" name="addImagePushButton">
+       <property name="text">
+        <string>Add Image</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="imageFilenameLineEdit"/>
+     </item>
+    </layout>
+   </item>
+   <item>
     <widget class="QLabel" name="infoLabel">
      <property name="text">
       <string/>

@@ -43,9 +43,12 @@ private slots:
     void on_updateButton_clicked();
     void on_pinPushButton_clicked();
     void finishedPostedStatus(const QTweetStatus& status);
+    void finishedPostedStatusWithMedia(const QTweetStatus& status);
     void authorizationFinished();
     void grantedAccess();
     void error();
+
+    void on_addImagePushButton_clicked();
 
 private:
     Ui::StatusUpdateWidget *ui;

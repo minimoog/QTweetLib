@@ -21,8 +21,10 @@
 #include "statusupdatewidget.h"
 #include <QtDebug>
 #include <QNetworkAccessManager>
+#include <QFileDialog>
 #include "oauthtwitter.h"
 #include "qtweetstatusupdate.h"
+#include "qtweetstatusupdatewithmedia.h"
 #include "ui_statusupdatewidget.h"
 
 StatusUpdateWidget::StatusUpdateWidget(QWidget *parent) :
@@ -53,10 +55,22 @@ void StatusUpdateWidget::authorizationFinished()
 
 void StatusUpdateWidget::on_updateButton_clicked()
 {
-    QTweetStatusUpdate *statusUpdate = new QTweetStatusUpdate(m_oauthTwitter, this);
-    statusUpdate->post(ui->updateTextEdit->toPlainText());
-    connect(statusUpdate, SIGNAL(postedStatus(QTweetStatus)), this, SLOT(finishedPostedStatus(QTweetStatus)));
-    connect(statusUpdate, SIGNAL(error(ErrorCode,QString)), this, SLOT(error()));
+    if (ui->imageFilenameLineEdit->text().isEmpty()) {
+        QTweetStatusUpdate *statusUpdate = new QTweetStatusUpdate(m_oauthTwitter, this);
+        statusUpdate->post(ui->updateTextEdit->toPlainText());
+        connect(statusUpdate, SIGNAL(postedStatus(QTweetStatus)), this, SLOT(finishedPostedStatus(QTweetStatus)));
+        connect(statusUpdate, SIGNAL(error(ErrorCode,QString)), this, SLOT(error()));
+    } else {
+        QTweetStatusUpdateWithMedia *statusMediaUpdate = new QTweetStatusUpdateWithMedia(m_oauthTwitter, this);
+        statusMediaUpdate->setStatus(ui->updateTextEdit->toPlainText());
+        statusMediaUpdate->setImageFilename(ui->imageFilenameLineEdit->text());
+        statusMediaUpdate->post();
+
+        connect(statusMediaUpdate, SIGNAL(postedUpdate(QTweetStatus)),
+                this, SLOT(finishedPostedStatusWithMedia(QTweetStatus)));
+        connect(statusMediaUpdate, SIGNAL(error(QTweetNetBase::ErrorCode, QString)),
+                this, SLOT(error()));
+    }
 }
 
 void StatusUpdateWidget::on_pinPushButton_clicked()
@@ -84,6 +98,18 @@ void StatusUpdateWidget::finishedPostedStatus(const QTweetStatus &status)
     }
 }
 
+void StatusUpdateWidget::finishedPostedStatusWithMedia(const QTweetStatus &status)
+{
+    Q_UNUSED(status);
+
+    QTweetStatusUpdateWithMedia *statusMediaUpdate = qobject_cast<QTweetStatusUpdateWithMedia *>(sender());
+
+    if (statusMediaUpdate) {
+        ui->infoLabel->setText("Status with media posted successfull!");
+        statusMediaUpdate->deleteLater();
+    }
+}
+
 void StatusUpdateWidget::error()
 {
     QTweetStatusUpdate *statusUpdate = qobject_cast<QTweetStatusUpdate*>(sender());
@@ -97,4 +123,13 @@ void StatusUpdateWidget::error()
 StatusUpdateWidget::~StatusUpdateWidget()
 {
     delete ui;
+}
+
+void StatusUpdateWidget::on_addImagePushButton_clicked()
+{
+    QString filename = QFileDialog::getOpenFileName(this, tr("Open image"));
+
+    if (!filename.isEmpty()) {
+        ui->imageFilenameLineEdit->setText(filename);
+    }
 }

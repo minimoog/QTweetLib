@@ -66,3 +66,4 @@ examples/pinauthstatusupdate/debug/*.exe
 examples/pinauthstatusupdate/debug/*.ilk
 examples/pinauthstatusupdate/debug/*.intermediate.manifest
 examples/pinauthstatusupdate/ui_*.h
+*.o
