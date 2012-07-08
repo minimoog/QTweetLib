@@ -81,14 +81,14 @@ void QTweetStatusUpdateWithMedia::post()
         multiPart->append(inReplyToStatusIDPart);
     }
 
-    if (m_latitude < 90.0f || m_latitude > -90.0f) {
+    if (m_latitude < 90.0f && m_latitude > -90.0f) {
         QHttpPart latitudePart;
         latitudePart.setHeader(QNetworkRequest::ContentDispositionHeader, QVariant("form-data; name=\"lat\""));
         latitudePart.setBody(QString::number(m_latitude).toUtf8());
         multiPart->append(latitudePart);
     }
 
-    if (m_longitude < 181.0f || m_longitude > -180.0f) {
+    if (m_longitude < 181.0f && m_longitude > -180.0f) {
         QHttpPart longitudePart;
         longitudePart.setHeader(QNetworkRequest::ContentDispositionHeader, QVariant("form-data; name=\"long\""));
         longitudePart.setBody(QString::number(m_longitude).toUtf8());
