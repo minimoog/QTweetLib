@@ -23,6 +23,7 @@
 #include <QNetworkAccessManager>
 #include <QFileDialog>
 #include "oauthtwitter.h"
+#include "qtweetstatus.h"
 #include "qtweetstatusupdate.h"
 #include "qtweetstatusupdatewithmedia.h"
 #include "ui_statusupdatewidget.h"
