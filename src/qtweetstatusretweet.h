@@ -29,12 +29,26 @@
 class QTWEETLIBSHARED_EXPORT QTweetStatusRetweet : public QTweetNetBase
 {
     Q_OBJECT
+    Q_PROPERTY(qint64 id READ id WRITE setID)
+    Q_PROPERTY(bool trimUser READ trimUser WRITE setTrimUser)
+    Q_PROPERTY(bool includeEntities READ includeEntities WRITE setIncludeEntities)
+
 public:
     QTweetStatusRetweet(QObject *parent = 0);
     QTweetStatusRetweet(OAuthTwitter *oauthTwitter, QObject *parent = 0);
     void retweet(qint64 id,
                  bool trimUser = false,
                  bool includeEntities = false);
+    void retweet();
+
+    void setID(qint64 id) { m_id = id; }
+    qint64 id() const { return m_id; }
+
+    void setTrimUser(bool trimUser) { m_trimUser = trimUser; }
+    bool trimUser() const { return m_trimUser; }
+
+    void setIncludeEntities(bool includeEntities) { m_includeEntities = includeEntities; }
+    bool includeEntities() const { return m_includeEntities; }
 
 signals:
     /** Emits retweeted tweet */
@@ -42,6 +56,11 @@ signals:
 
 protected slots:
     void parseJsonFinished(const QJsonDocument &jsonDoc);
+
+private:
+    qint64 m_id;
+    bool m_trimUser;
+    bool m_includeEntities;
 };
 
 #endif // QTWEETSTATUSRETWEET_H

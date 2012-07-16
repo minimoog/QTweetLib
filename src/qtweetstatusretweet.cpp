@@ -47,7 +47,7 @@ void QTweetStatusRetweet::retweet(qint64 id,
                                   bool trimUser,
                                   bool includeEntities)
 {
-    QUrl url(QString("http://api.twitter.com/1/statuses/retweet/%1.json").arg(id));
+    QUrl url(QString("https://api.twitter.com/1/statuses/retweet/%1.json").arg(id));
 
     if (trimUser)
         url.addQueryItem("trim_user", "true");
@@ -65,6 +65,11 @@ void QTweetStatusRetweet::retweet(qint64 id,
 
     QNetworkReply *reply = oauthTwitter()->networkAccessManager()->post(req, QByteArray());
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
+}
+
+void QTweetStatusRetweet::retweet()
+{
+    retweet(m_id, m_trimUser, m_includeEntities);
 }
 
 void QTweetStatusRetweet::parseJsonFinished(const QJsonDocument &jsonDoc)
