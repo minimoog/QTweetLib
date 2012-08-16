@@ -177,6 +177,24 @@ void OAuth::setOAuthTokenSecret(const QByteArray& tokenSecret)
 }
 
 /**
+ *  Sets OAuth consumer key
+ *  @param key OAuth consumer key
+ */
+void OAuth::setConsumerKey(const QByteArray &key)
+{
+    m_oauthConsumerKey = key;
+}
+
+/**
+ *  Sets OAuth consumer secret
+ *  @param secret OAuth consumer secret
+ */
+void OAuth::setConsumerSecret(const QByteArray &secret)
+{
+    m_oauthConsumerSecret = secret;
+}
+
+/**
  *   Gets oauth_token
  *   @return OAuth token
  */
@@ -194,6 +212,23 @@ QByteArray OAuth::oauthTokenSecret() const
     return m_oauthTokenSecret;
 }
 
+/**
+ *   Gets oauth consumer key
+ *   @return OAuth consumer key
+ */
+QByteArray OAuth::consumerKey() const
+{
+    return m_oauthConsumerKey;
+}
+
+/**
+ *   Gets oauth consumer secret
+ *   @return OAuth consumer secret
+ */
+QByteArray OAuth::consumerSecret() const
+{
+    return m_oauthConsumerSecret;
+}
 
 /**
  *  Clears the oauth tokens
