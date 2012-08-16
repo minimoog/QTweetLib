@@ -166,9 +166,9 @@ void OAuthTwitter::authorizePin()
 
 /**
  *  Opens authorization url, this will open browser, Twitter will return PIN number
- *  Please call with returned PIN to requestAccessToken slot to get access tokens
  *
- *  @remarks Override if you want to show another browser
+ *  @remarks Override if you want to show another browser.
+ *  Please call with returned PIN requestAccessToken slot to get access tokens
  *
  */
 void OAuthTwitter::requestAuthorization()
@@ -177,7 +177,7 @@ void OAuthTwitter::requestAuthorization()
     authorizeUrl.addEncodedQueryItem("oauth_token", oauthToken());
     authorizeUrl.addEncodedQueryItem("oauth_callback", "oob");
 
-    emit authorizePinFinished();
+    emit authorizePinAuthenticate();
 
     QDesktopServices::openUrl(authorizeUrl);
 }
@@ -217,7 +217,7 @@ void OAuthTwitter::requestAccessToken(const QString& pin)
         parseTokens(response);
         reply->deleteLater();
 
-        emit accessTokenGranted();
+        emit authorizePinFinished();
     } else {
         qDebug() << "Timeout";
     }
