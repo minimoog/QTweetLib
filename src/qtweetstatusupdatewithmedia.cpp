@@ -24,8 +24,8 @@
 #include <QFile>
 #include <QNetworkReply>
 #include <QNetworkRequest>
-#include "json/qjsondocument.h"
-#include "json/qjsonobject.h"
+#include <QJsonDocument>
+#include <QJsonObject>
 #include "qtweetconvert.h"
 #include "qtweetstatus.h"
 

@@ -24,8 +24,8 @@
 #include "qtweetretweettome.h"
 #include "qtweetstatus.h"
 #include "qtweetconvert.h"
-#include "json/qjsonarray.h"
-#include "json/qjsondocument.h"
+#include <QJsonDocument>
+#include <QJsonArray>
 
 QTweetRetweetToMe::QTweetRetweetToMe(QObject *parent) :
     QTweetNetBase(parent),

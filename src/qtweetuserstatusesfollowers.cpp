@@ -24,9 +24,9 @@
 #include "qtweetuserstatusesfollowers.h"
 #include "qtweetuser.h"
 #include "qtweetconvert.h"
-#include "json/qjsondocument.h"
-#include "json/qjsonarray.h"
-#include "json/qjsonobject.h"
+#include <QJsonDocument>
+#include <QJsonArray>
+#include <QJsonObject>
 
 QTweetUserStatusesFollowers::QTweetUserStatusesFollowers(QObject *parent) :
         QTweetNetBase(parent), m_usesCursoring(false)

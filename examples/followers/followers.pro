@@ -1,4 +1,4 @@
-QT       += core gui network declarative
+QT       += core gui network widgets quick qml
 
 TARGET = followers
 TEMPLATE = app

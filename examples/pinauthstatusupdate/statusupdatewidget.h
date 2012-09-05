@@ -21,7 +21,7 @@
 #ifndef STATUSUPDATEWIDGET_H
 #define STATUSUPDATEWIDGET_H
 
-#include <QWidget>
+#include <QtWidgets/QWidget>
 
 namespace Ui {
     class StatusUpdateWidget;

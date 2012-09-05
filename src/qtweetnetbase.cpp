@@ -21,6 +21,7 @@
 #include <QtDebug>
 #include <QThreadPool>
 #include <QNetworkReply>
+#include <QJsonDocument>
 #include "qtweetnetbase.h"
 #include "qtweetstatus.h"
 #include "qtweetdmstatus.h"
@@ -29,7 +30,6 @@
 #include "qtweetsearchresult.h"
 #include "qtweetsearchpageresults.h"
 #include "qtweetplace.h"
-#include "json/qjsondocument.h"
 
 /**
  *   Constructor

@@ -19,7 +19,7 @@
  */
 
 
-#include <QtGui/QApplication>
+#include <QApplication>
 #include "georeverse.h"
 
 int main(int argc, char *argv[])

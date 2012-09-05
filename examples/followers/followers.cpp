@@ -20,7 +20,7 @@
 
 #include "followers.h"
 #include "ui_followers.h"
-#include <QDeclarativeContext>
+#include <QQmlContext>
 #include <QNetworkAccessManager>
 #include "followerslistmodel.h"
 #include "oauthtwitter.h"

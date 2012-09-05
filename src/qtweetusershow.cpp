@@ -24,8 +24,8 @@
 #include "qtweetusershow.h"
 #include "qtweetuser.h"
 #include "qtweetconvert.h"
-#include "json/qjsondocument.h"
-#include "json/qjsonobject.h"
+#include <QJsonDocument>
+#include <QJsonObject>
 
 QTweetUserShow::QTweetUserShow(QObject *parent) :
     QTweetNetBase(parent)

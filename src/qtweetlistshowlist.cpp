@@ -24,9 +24,9 @@
 #include "qtweetlistshowlist.h"
 #include "qtweetlist.h"
 #include "qtweetconvert.h"
-#include "json/qjsondocument.h"
-#include "json/qjsonarray.h"
-#include "json/qjsonobject.h"
+#include <QJsonDocument>
+#include <QJsonArray>
+#include <QJsonObject>
 
 QTweetListShowList::QTweetListShowList(QObject *parent) :
     QTweetNetBase(parent)

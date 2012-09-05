@@ -21,11 +21,11 @@
 #include <QtDebug>
 #include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QJsonDocument>
+#include <QJsonArray>
 #include "qtweethometimeline.h"
 #include "qtweetstatus.h"
 #include "qtweetconvert.h"
-#include "json/qjsondocument.h"
-#include "json/qjsonarray.h"
 
 /**
  *  Constructor

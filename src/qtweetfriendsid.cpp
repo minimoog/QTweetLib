@@ -22,9 +22,9 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include "qtweetfriendsid.h"
-#include "json/qjsondocument.h"
-#include "json/qjsonarray.h"
-#include "json/qjsonobject.h"
+#include <QJsonDocument>
+#include <QJsonArray>
+#include <QJsonObject>
 
 /**
  *  Constructor

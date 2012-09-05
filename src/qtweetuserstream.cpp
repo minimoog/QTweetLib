@@ -23,9 +23,9 @@
 #include <QAuthenticator>
 #include <QTimer>
 #include <QThreadPool>
-#include "json/qjsondocument.h"
-#include "json/qjsonobject.h"
-#include "json/qjsonarray.h"
+#include <QJsonDocument>
+#include <QJsonArray>
+#include <QJsonObject>
 #include "oauthtwitter.h"
 #include "qtweetuserstream.h"
 #include "qtweetstatus.h"

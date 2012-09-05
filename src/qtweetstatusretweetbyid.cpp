@@ -23,8 +23,8 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include "qtweetconvert.h"
-#include "json/qjsondocument.h"
-#include "json/qjsonarray.h"
+#include <QJsonDocument>
+#include <QJsonArray>
 
 QTweetStatusRetweetByID::QTweetStatusRetweetByID(QObject *parent) :
     QTweetNetBase(parent),

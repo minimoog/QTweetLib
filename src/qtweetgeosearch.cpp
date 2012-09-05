@@ -23,8 +23,8 @@
 #include <QNetworkReply>
 #include "qtweetgeosearch.h"
 #include "qtweetconvert.h"
-#include "json/qjsondocument.h"
-#include "json/qjsonobject.h"
+#include <QJsonDocument>
+#include <QJsonObject>
 
 /**
  *  Constructor

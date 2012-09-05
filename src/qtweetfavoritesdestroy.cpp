@@ -24,8 +24,8 @@
 #include "qtweetfavoritesdestroy.h"
 #include "qtweetstatus.h"
 #include "qtweetconvert.h"
-#include "json/qjsondocument.h"
-#include "json/qjsonobject.h"
+#include <QJsonDocument>
+#include <QJsonObject>
 
 /**
  *  Constructor

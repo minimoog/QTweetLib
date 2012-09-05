@@ -24,8 +24,8 @@
 #include "qtweetdirectmessagenew.h"
 #include "qtweetdmstatus.h"
 #include "qtweetconvert.h"
-#include "json/qjsondocument.h"
-#include "json/qjsonobject.h"
+#include <QJsonDocument>
+#include <QJsonObject>
 
 /**
  *  Constructor

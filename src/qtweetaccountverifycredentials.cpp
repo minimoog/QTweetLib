@@ -24,8 +24,8 @@
 #include "qtweetaccountverifycredentials.h"
 #include "qtweetuser.h"
 #include "qtweetconvert.h"
-#include "json/qjsondocument.h"
-#include "json/qjsonobject.h"
+#include <QJsonDocument>
+#include <QJsonObject>
 
 /**
  *  Constructor

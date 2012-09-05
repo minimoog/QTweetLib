@@ -24,8 +24,8 @@
 #include "qtweetmentions.h"
 #include "qtweetstatus.h"
 #include "qtweetconvert.h"
-#include "json/qjsondocument.h"
-#include "json/qjsonarray.h"
+#include <QJsonDocument>
+#include <QJsonArray>
 
 QTweetMentions::QTweetMentions(QObject *parent) :
     QTweetNetBase(parent),

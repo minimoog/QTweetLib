@@ -19,7 +19,7 @@
  */
 
 
-#include <QtGui/QApplication>
+#include <QApplication>
 #include "geosearch.h"
 
 int main(int argc, char *argv[])

@@ -31,8 +31,8 @@
 #include "qtweetentityhashtag.h"
 #include "qtweetentityusermentions.h"
 #include "qtweetentitymedia.h"
-#include "json/qjsonarray.h"
-#include "json/qjsonobject.h"
+#include <QJsonArray>
+#include <QJsonObject>
 
 QList<QTweetStatus> QTweetConvert::jsonArrayToStatusList(const QJsonArray &jsonArray)
 {

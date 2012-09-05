@@ -22,8 +22,8 @@
 #include <QtDebug>
 #include <QNetworkRequest>
 #include <QNetworkReply>
-#include "json/qjsondocument.h"
-#include "json/qjsonarray.h"
+#include <QJsonDocument>
+#include <QJsonArray>
 
 /**
  *  Constructor
