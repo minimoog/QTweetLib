@@ -83,7 +83,7 @@ void QTweetUserTimeline::fetch(qint64 userid,
                                bool excludeReplies,
                                bool contributorDetails)
 {
-    QUrl url("http://api.twitter.com/1/statuses/user_timeline.json");
+    QUrl url("https://api.twitter.com/1.1/statuses/user_timeline.json");
 
     if (userid != 0)
         url.addQueryItem("user_id", QString::number(userid));
