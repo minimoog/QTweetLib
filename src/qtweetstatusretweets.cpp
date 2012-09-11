@@ -20,15 +20,25 @@
 
 #include <QNetworkReply>
 #include <QNetworkRequest>
+#include <QJsonDocument>
+#include <QJsonArray>
 #include "qtweetstatusretweets.h"
+#include "qtweetstatus.h"
+#include "qtweetconvert.h"
 
 QTweetStatusRetweets::QTweetStatusRetweets(QObject *parent) :
-    QTweetNetBase(parent)
+    QTweetNetBase(parent),
+    m_tweetid(0),
+    m_count(0),
+    m_trimUser(false)
 {
 }
 
 QTweetStatusRetweets::QTweetStatusRetweets(OAuthTwitter *oauthTwitter, QObject *parent) :
-        QTweetNetBase(oauthTwitter, parent)
+    QTweetNetBase(oauthTwitter, parent),
+    m_tweetid(0),
+    m_count(0),
+    m_trimUser(false)
 {
 }
 
@@ -37,19 +47,16 @@ QTweetStatusRetweets::QTweetStatusRetweets(OAuthTwitter *oauthTwitter, QObject *
  *   @param id tweet ID
  *   @param count numbers of retweets to fetch
  */
-void QTweetStatusRetweets::fetch(qint64 id, int count)
+void QTweetStatusRetweets::fetch(qint64 id, int count, bool trimUser)
 {
-    //Q_ASSERT(oauthTwitter() != 0);
-
-    QUrl url("http://api.twitter.com/1/statuses/retweets.json");
-
-    url.addQueryItem("id", QString::number(id));
+    QString urlString = QString("https://api.twitter.com/1.1/statuses/retweets/%1.json").arg(id);
+    QUrl url(urlString);
 
     if (count != 0)
         url.addQueryItem("count", QString::number(count));
 
-    // ### TODO: Add trim_user parameter
-    // ### TODO: Add include_entities parameter
+    if (trimUser)
+        url.addQueryItem("trim_user", "true");
 
     QNetworkRequest req(url);
 
@@ -60,5 +67,17 @@ void QTweetStatusRetweets::fetch(qint64 id, int count)
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
 }
 
-// ### TODO json parsing, emiting signal
+void QTweetStatusRetweets::get()
+{
+    fetch(m_tweetid, m_count, m_trimUser);
+}
+
+void QTweetStatusRetweets::parseJsonFinished(const QJsonDocument &jsonDoc)
+{
+    if (jsonDoc.isArray()) {
+        QList<QTweetStatus> statuses = QTweetConvert::jsonArrayToStatusList(jsonDoc.array());
+
+        emit parsedStatuses(statuses);
+    }
+}
 
