@@ -23,18 +23,43 @@
 
 #include "qtweetnetbase.h"
 
-// ### TODO
-
 /**
- *   Class to fetch up to 100 first retweets of a given tweet
+ *   Class to fetch up to 100 of the first retweets of a given tweet.
  */
 class QTWEETLIBSHARED_EXPORT QTweetStatusRetweets : public QTweetNetBase
 {
     Q_OBJECT
+    Q_PROPERTY(qint64 tweetid READ tweetid WRITE setTweetid)
+    Q_PROPERTY(int count READ count WRITE setCount)
+    Q_PROPERTY(bool trimUser READ isTrimUser WRITE setTrimUser)
+
 public:
-    QTweetStatusRetweets(QObject *parent = 0);
+    explicit QTweetStatusRetweets(QObject *parent = 0);
     QTweetStatusRetweets(OAuthTwitter *oauthTwitter, QObject *parent = 0);
-    void fetch(qint64 id, int count = 0);
+    void fetch(qint64 id, int count = 0, bool trimUser = false);
+    void get();
+
+    void setTweetid(qint64 id) { m_tweetid = id; }
+    qint64 tweetid() const { return m_tweetid; }
+
+    void setCount(int count) { m_count = count; }
+    int count() const { return m_count; }
+
+    void setTrimUser(bool trimUser) { m_trimUser = trimUser; }
+    bool isTrimUser() const { return m_trimUser; }
+
+signals:
+    /** Emits retweet status list */
+    void parsedStatuses(const QList<QTweetStatus>& statuses);
+
+protected slots:
+    void parseJsonFinished(const QJsonDocument &jsonDoc);
+
+private:
+    // ### TODO: Use pimpl
+    qint64 m_tweetid;
+    int m_count;
+    bool m_trimUser;
 };
 
 #endif // QTWEETSTATUSRETWEETS_H
