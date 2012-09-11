@@ -36,6 +36,8 @@ class QTWEETLIBSHARED_EXPORT OAuth : public QObject
     Q_ENUMS(HttpMethod)
     Q_PROPERTY(QByteArray oauthToken READ oauthToken WRITE setOAuthToken)
     Q_PROPERTY(QByteArray oauthTokenSecret READ oauthTokenSecret WRITE setOAuthTokenSecret)
+    Q_PROPERTY(QByteArray consumerKey READ consumerKey WRITE setConsumerKey)
+    Q_PROPERTY(QByteArray consumerSecret READ consumerSecret WRITE setConsumerSecret)
 
 public:
     OAuth(QObject *parent = 0);
@@ -47,9 +49,13 @@ public:
     QByteArray generateAuthorizationHeader(const QUrl& url, HttpMethod method);
     void setOAuthToken(const QByteArray& token);
     void setOAuthTokenSecret(const QByteArray& tokenSecret);
+    void setConsumerKey(const QByteArray& key);
+    void setConsumerSecret(const QByteArray& secret);
     void clearTokens();
     QByteArray oauthToken() const;
     QByteArray oauthTokenSecret() const;
+    QByteArray consumerKey() const;
+    QByteArray consumerSecret() const;
 	
 private:
     QByteArray generateSignatureHMACSHA1(const QByteArray& signatureBase);

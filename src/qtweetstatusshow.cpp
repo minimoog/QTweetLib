@@ -43,7 +43,7 @@ QTweetStatusShow::QTweetStatusShow(OAuthTwitter *oauthTwitter, QObject *parent) 
  *   @param trimUser set to true to trim user info in response
  *   @param includeEntities set to true to include node entities in response
  */
-void QTweetStatusShow::fetch(qint64 id, bool trimUser, bool includeEntities)
+void QTweetStatusShow::fetch(qint64 id, bool trimUser, bool includeEntities, bool includeMyRetweet)
 {
     QUrl url("http://api.twitter.com/1/statuses/show.json");
 
@@ -55,6 +55,9 @@ void QTweetStatusShow::fetch(qint64 id, bool trimUser, bool includeEntities)
     if (includeEntities)
         url.addQueryItem("include_entities", "true");
 
+    if (includeMyRetweet)
+        url.addQueryItem("include_my_retweet ", "true");
+
     QNetworkRequest req(url);
 
     if (isAuthenticationEnabled()) {
@@ -64,6 +67,11 @@ void QTweetStatusShow::fetch(qint64 id, bool trimUser, bool includeEntities)
 
     QNetworkReply *reply = oauthTwitter()->networkAccessManager()->get(req);
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
+}
+
+void QTweetStatusShow::get()
+{
+    fetch(m_id, m_trimUser, m_includeEntities, m_includeMyRetweet);
 }
 
 void QTweetStatusShow::parseJsonFinished(const QJsonDocument &jsonDoc)

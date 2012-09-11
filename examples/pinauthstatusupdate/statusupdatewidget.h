@@ -44,7 +44,7 @@ private slots:
     void on_pinPushButton_clicked();
     void finishedPostedStatus(const QTweetStatus& status);
     void finishedPostedStatusWithMedia(const QTweetStatus& status);
-    void authorizationFinished();
+    void authenticateFinished();
     void grantedAccess();
     void error();
 

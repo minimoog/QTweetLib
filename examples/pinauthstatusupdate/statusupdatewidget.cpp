@@ -23,6 +23,7 @@
 #include <QNetworkAccessManager>
 #include <QFileDialog>
 #include "oauthtwitter.h"
+#include "qtweetstatus.h"
 #include "qtweetstatusupdate.h"
 #include "qtweetstatusupdatewithmedia.h"
 #include "ui_statusupdatewidget.h"
@@ -36,8 +37,8 @@ StatusUpdateWidget::StatusUpdateWidget(QWidget *parent) :
     m_oauthTwitter = new OAuthTwitter(this);
     m_oauthTwitter->setNetworkAccessManager(new QNetworkAccessManager(this));
 
-    connect(m_oauthTwitter, SIGNAL(authorizePinFinished()), this, SLOT(authorizationFinished()));
-    connect(m_oauthTwitter, SIGNAL(accessTokenGranted()), this, SLOT(grantedAccess()));
+    connect(m_oauthTwitter, SIGNAL(authorizePinAuthenticate()), this, SLOT(authenticateFinished()));
+    connect(m_oauthTwitter, SIGNAL(authorizePinFinished()), this, SLOT(grantedAccess()));
 }
 
 void StatusUpdateWidget::on_authorizeButton_clicked()
@@ -48,7 +49,7 @@ void StatusUpdateWidget::on_authorizeButton_clicked()
     m_oauthTwitter->authorizePin();
 }
 
-void StatusUpdateWidget::authorizationFinished()
+void StatusUpdateWidget::authenticateFinished()
 {
     ui->infoLabel->setText("Please enter pin!");
 }

@@ -29,12 +29,31 @@
 class QTWEETLIBSHARED_EXPORT QTweetStatusShow : public QTweetNetBase
 {
     Q_OBJECT
+    Q_PROPERTY(qint64 id READ id WRITE setID)
+    Q_PROPERTY(bool trimUser READ trimUser WRITE setTrimUser)
+    Q_PROPERTY(bool includeEntities READ includeEntities WRITE setIncludeEntities)
+    Q_PROPERTY(bool includeMyRetweet READ includeMyRetweet WRITE setIncludeMyRetweet)
+
 public:
     QTweetStatusShow(QObject *parent = 0);
     QTweetStatusShow(OAuthTwitter *oauthTwitter, QObject *parent = 0);
     void fetch(qint64 id,
                bool trimUser = false,
-               bool includeEntities = false);
+               bool includeEntities = false,
+               bool includeMyRetweet = false);
+    void get();
+
+    void setID(qint64 id) { m_id = id; }
+    qint64 id() const { return m_id; }
+
+    void setTrimUser(bool trimUser) { m_trimUser = trimUser; }
+    bool trimUser() const { return m_trimUser; }
+
+    void setIncludeEntities(bool includeEntities) { m_includeEntities = includeEntities; }
+    bool includeEntities() const { return m_includeEntities; }
+
+    void setIncludeMyRetweet(bool includeMyRetweet) { m_includeMyRetweet = includeMyRetweet; }
+    bool includeMyRetweet() const { return m_includeMyRetweet; }
 
 signals:
     /** Emits specified tweet */
@@ -42,6 +61,12 @@ signals:
 
 protected slots:
     void parseJsonFinished(const QJsonDocument &jsonDoc);
+
+private:
+    qint64 m_id;
+    bool m_trimUser;
+    bool m_includeEntities;
+    bool m_includeMyRetweet;
 };
 
 #endif // QTWEETSTATUSSHOW_H
