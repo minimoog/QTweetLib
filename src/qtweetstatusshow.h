@@ -29,31 +29,31 @@
 class QTWEETLIBSHARED_EXPORT QTweetStatusShow : public QTweetNetBase
 {
     Q_OBJECT
-    Q_PROPERTY(qint64 id READ id WRITE setID)
-    Q_PROPERTY(bool trimUser READ trimUser WRITE setTrimUser)
-    Q_PROPERTY(bool includeEntities READ includeEntities WRITE setIncludeEntities)
+    Q_PROPERTY(qint64 tweetid READ tweetid WRITE setTweetid)
+    Q_PROPERTY(bool trimUser READ isTrimUser WRITE setTrimUser)
     Q_PROPERTY(bool includeMyRetweet READ includeMyRetweet WRITE setIncludeMyRetweet)
+    Q_PROPERTY(bool includeEntities READ includeEntities WRITE setIncludeEntities)
 
 public:
     QTweetStatusShow(QObject *parent = 0);
     QTweetStatusShow(OAuthTwitter *oauthTwitter, QObject *parent = 0);
     void fetch(qint64 id,
                bool trimUser = false,
-               bool includeEntities = false,
+               bool includeMyRetweet = false,
                bool includeMyRetweet = false);
     void get();
 
-    void setID(qint64 id) { m_id = id; }
-    qint64 id() const { return m_id; }
+    qint64 tweetid() const { return m_tweetid; }
+    void setTweetid(qint64 id) { m_tweetid = id; }
 
     void setTrimUser(bool trimUser) { m_trimUser = trimUser; }
-    bool trimUser() const { return m_trimUser; }
-
-    void setIncludeEntities(bool includeEntities) { m_includeEntities = includeEntities; }
-    bool includeEntities() const { return m_includeEntities; }
+    bool isTrimUser() const { return m_trimUser; }
 
     void setIncludeMyRetweet(bool includeMyRetweet) { m_includeMyRetweet = includeMyRetweet; }
     bool includeMyRetweet() const { return m_includeMyRetweet; }
+
+    void setIncludeEntities(bool includeEntities) { m_includeEntities = includeEntities; }
+    bool includeEntities() const { return m_includeEntities; }
 
 signals:
     /** Emits specified tweet */
@@ -63,10 +63,11 @@ protected slots:
     void parseJsonFinished(const QJsonDocument &jsonDoc);
 
 private:
-    qint64 m_id;
+    // ### TODO: Use pimpl
+    qint64 m_tweetid;
     bool m_trimUser;
-    bool m_includeEntities;
     bool m_includeMyRetweet;
+    bool m_includeEntities;
 };
 
 #endif // QTWEETSTATUSSHOW_H
