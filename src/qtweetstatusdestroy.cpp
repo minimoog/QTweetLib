@@ -44,15 +44,14 @@ QTweetStatusDestroy::QTweetStatusDestroy(OAuthTwitter *oauthTwitter, QObject *pa
  *   @param includeEntities true to include node entities in response
  */
 void QTweetStatusDestroy::destroy(qint64 id,
-                                  bool trimUser,
-                                  bool includeEntities)
+                                  bool trimUser)
 {
     if (!isAuthenticationEnabled()) {
         qCritical("Needs authentication to be enabled");
         return;
     }
 
-    QUrl url("http://api.twitter.com/1/statuses/destroy.json");
+    QUrl url("https://api.twitter.com/1.1/statuses/destroy.json");
 
     QUrl urlQuery(url);
 
@@ -60,9 +59,6 @@ void QTweetStatusDestroy::destroy(qint64 id,
 
     if (trimUser)
         urlQuery.addQueryItem("trim_user", "true");
-
-    if (includeEntities)
-        urlQuery.addQueryItem("include_entities", "true");
 
     QNetworkRequest req(url);
 
