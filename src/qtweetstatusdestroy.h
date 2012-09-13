@@ -33,8 +33,7 @@ public:
     QTweetStatusDestroy(QObject *parent = 0);
     QTweetStatusDestroy(OAuthTwitter* oauthTwitter, QObject *parent = 0);
     void destroy(qint64 id,
-                 bool trimUser = false,
-                 bool includeEntities = false);
+                 bool trimUser = false);
 
 signals:
     /** Emits deleted status */
