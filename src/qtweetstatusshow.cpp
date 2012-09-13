@@ -77,7 +77,7 @@ void QTweetStatusShow::fetch(qint64 id, bool trimUser, bool includeMyRetweet, bo
 
 void QTweetStatusShow::get()
 {
-    fetch(m_id, m_trimUser, m_includeEntities, m_includeMyRetweet);
+    fetch(m_tweetid, m_trimUser, m_includeMyRetweet, m_includeEntities);
 }
 
 void QTweetStatusShow::parseJsonFinished(const QJsonDocument &jsonDoc)

@@ -40,7 +40,7 @@ public:
     void fetch(qint64 id,
                bool trimUser = false,
                bool includeMyRetweet = false,
-               bool includeMyRetweet = false);
+               bool includeEntities = false);
     void get();
 
     qint64 tweetid() const { return m_tweetid; }
