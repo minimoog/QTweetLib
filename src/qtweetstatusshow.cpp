@@ -28,12 +28,18 @@
 #include <QJsonObject>
 
 QTweetStatusShow::QTweetStatusShow(QObject *parent) :
-    QTweetNetBase(parent)
+    QTweetNetBase(parent),
+    m_tweetid(0),
+    m_includeMyRetweet(false),
+    m_includeEntities(false)
 {
 }
 
 QTweetStatusShow::QTweetStatusShow(OAuthTwitter *oauthTwitter, QObject *parent) :
-        QTweetNetBase(oauthTwitter, parent)
+    QTweetNetBase(oauthTwitter, parent),
+    m_tweetid(0),
+    m_includeMyRetweet(false),
+    m_includeEntities(false)
 {
 }
 
@@ -43,14 +49,17 @@ QTweetStatusShow::QTweetStatusShow(OAuthTwitter *oauthTwitter, QObject *parent) 
  *   @param trimUser set to true to trim user info in response
  *   @param includeEntities set to true to include node entities in response
  */
-void QTweetStatusShow::fetch(qint64 id, bool trimUser, bool includeEntities)
+void QTweetStatusShow::fetch(qint64 id, bool trimUser, bool includeMyRetweet, bool includeEntities)
 {
-    QUrl url("http://api.twitter.com/1/statuses/show.json");
+    QUrl url("https://api.twitter.com/1.1/statuses/show.json");
 
     url.addQueryItem("id", QString::number(id));
 
     if (trimUser)
         url.addQueryItem("trim_user", "true");
+
+    if (includeMyRetweet)
+        url.addQueryItem("include_my_retweet", "true");
 
     if (includeEntities)
         url.addQueryItem("include_entities", "true");
