@@ -48,7 +48,7 @@ void QTweetStatusUpdateWithMedia::post()
         return;
     }
 
-    QUrl url("https://upload.twitter.com/1/statuses/update_with_media.json");
+    QUrl url("https://api.twitter.com/1.1/statuses/update_with_media.json");
 
     QByteArray oauthHeader = oauthTwitter()->generateAuthorizationHeader(url, OAuth::POST);
 
