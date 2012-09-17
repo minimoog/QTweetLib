@@ -47,7 +47,7 @@ void QTweetStatusRetweet::retweet(qint64 id,
                                   bool trimUser,
                                   bool includeEntities)
 {
-    QUrl url(QString("http://api.twitter.com/1/statuses/retweet/%1.json").arg(id));
+    QUrl url(QString("https://api.twitter.com/1.1/statuses/retweet/%1.json").arg(id));
 
     if (trimUser)
         url.addQueryItem("trim_user", "true");
