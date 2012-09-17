@@ -75,7 +75,6 @@ HEADERS += \
     qtweetblocksblocking.h \
     qtweetblocksblockingids.h \
     qtweetretweettouser.h \
-    qtweetretweetbyuser.h \
     qtweetstatusretweetedby.h \
     qtweetstatusretweetbyid.h \
     qtweetentitymedia.h \
@@ -144,7 +143,6 @@ SOURCES += \
     qtweetblocksblocking.cpp \
     qtweetblocksblockingids.cpp \
     qtweetretweettouser.cpp \
-    qtweetretweetbyuser.cpp \
     qtweetstatusretweetedby.cpp \
     qtweetstatusretweetbyid.cpp \
     qtweetentitymedia.cpp \
