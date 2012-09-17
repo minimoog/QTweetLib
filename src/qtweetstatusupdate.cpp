@@ -59,9 +59,9 @@ void QTweetStatusUpdate::post(const QString &status,
         return;
     }
 
-    QUrl url("https://api.twitter.com/1/statuses/update.json");
+    QUrl url("https://api.twitter.com/1.1/statuses/update.json");
 
-    QUrl urlQuery("https://api.twitter.com/1/statuses/update.json");
+    QUrl urlQuery("https://api.twitter.com/1.1/statuses/update.json");
 
     urlQuery.addEncodedQueryItem("status", QUrl::toPercentEncoding(status));
 
