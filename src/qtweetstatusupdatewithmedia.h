@@ -24,6 +24,11 @@
 #include "qtweetnetbase.h"
 #include "qtweetgeocoord.h"
 
+/**
+ * @brief The QTweetStatusUpdateWithMedia class
+ *
+ * Updates the authenticating user's current status and attaches media for upload.
+ */
 class QTWEETLIBSHARED_EXPORT QTweetStatusUpdateWithMedia : public QTweetNetBase
 {
     Q_OBJECT
@@ -67,6 +72,7 @@ public:
     void setDisplayCoordinates(bool enable) { m_displayCoordinates = enable; }
 
 signals:
+    /** Emits posted update */
     void postedUpdate(const QTweetStatus& status);
 
 protected slots:
