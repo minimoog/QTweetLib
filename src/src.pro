@@ -72,7 +72,6 @@ HEADERS += \
     qtweetblocksexists.h \
     qtweetblocksblocking.h \
     qtweetblocksblockingids.h \
-    qtweetretweettouser.h \
     qtweetstatusretweetedby.h \
     qtweetstatusretweetbyid.h \
     json/qjsonwriter_p.h \
@@ -146,7 +145,6 @@ SOURCES += \
     qtweetblocksexists.cpp \
     qtweetblocksblocking.cpp \
     qtweetblocksblockingids.cpp \
-    qtweetretweettouser.cpp \
     qtweetstatusretweetedby.cpp \
     qtweetstatusretweetbyid.cpp \
     json/qjsonwriter.cpp \
