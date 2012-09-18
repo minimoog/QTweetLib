@@ -18,7 +18,6 @@ HEADERS += \
     qtweethometimeline.h \
     qtweetmentions.h \
     qtweetnetbase.h \
-    qtweetretweetsofme.h \
     qtweetretweettome.h \
     qtweetstatus.h \
     qtweetstatusshow.h \
@@ -94,7 +93,6 @@ SOURCES += \
     qtweethometimeline.cpp \
     qtweetmentions.cpp \
     qtweetnetbase.cpp \
-    qtweetretweetsofme.cpp \
     qtweetretweettome.cpp \
     qtweetstatus.cpp \
     qtweetstatusshow.cpp \
