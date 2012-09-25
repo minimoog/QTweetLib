@@ -21,6 +21,7 @@
 #include <QtDebug>
 #include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QUrlQuery>
 #include "qtweetfollowersid.h"
 #include <QJsonDocument>
 #include <QJsonArray>
@@ -52,9 +53,12 @@ QTweetFollowersID::QTweetFollowersID(OAuthTwitter *oauthTwitter, QObject *parent
 void QTweetFollowersID::fetch(qint64 user, const QString &cursor)
 {
     QUrl url("http://api.twitter.com/1/followers/ids.json");
+    QUrlQuery urlQuery;
 
-    url.addQueryItem("user_id", QString::number(user));
-    url.addQueryItem("cursor", cursor);
+    urlQuery.addQueryItem("user_id", QString::number(user));
+    urlQuery.addQueryItem("cursor", cursor);
+
+    url.setQuery(urlQuery);
 
     QNetworkRequest req(url);
 
@@ -75,9 +79,12 @@ void QTweetFollowersID::fetch(qint64 user, const QString &cursor)
 void QTweetFollowersID::fetch(const QString &screenName, const QString &cursor)
 {
     QUrl url("http://api.twitter.com/1/followers/ids.json");
+    QUrlQuery urlQuery;
 
-    url.addQueryItem("screen_name", screenName);
-    url.addQueryItem("cursor", cursor);
+    urlQuery.addQueryItem("screen_name", screenName);
+    urlQuery.addQueryItem("cursor", cursor);
+
+    url.setQuery(urlQuery);
 
     QNetworkRequest req(url);
 

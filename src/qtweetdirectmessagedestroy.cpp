@@ -21,6 +21,7 @@
 #include <QtDebug>
 #include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QUrlQuery>
 #include "qtweetdirectmessagedestroy.h"
 #include "qtweetdmstatus.h"
 #include "qtweetconvert.h"
@@ -57,9 +58,12 @@ void QTweetDirectMessageDestroy::destroyMessage(qint64 id, bool includeEntities)
     }
 
     QUrl url(QString("http://api.twitter.com/1/direct_messages/destroy/%1.json").arg(id));
+    QUrlQuery urlQuery;
 
     if (includeEntities)
-        url.addQueryItem("include_entities", "true");
+        urlQuery.addQueryItem("include_entities", "true");
+
+    url.setQuery(urlQuery);
 
     QNetworkRequest req(url);
 

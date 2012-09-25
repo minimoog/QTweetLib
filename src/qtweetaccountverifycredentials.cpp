@@ -21,6 +21,7 @@
 #include <QtDebug>
 #include <QNetworkReply>
 #include <QNetworkRequest>
+#include <QUrlQuery>
 #include "qtweetaccountverifycredentials.h"
 #include "qtweetuser.h"
 #include "qtweetconvert.h"
@@ -57,9 +58,12 @@ void QTweetAccountVerifyCredentials::verify(bool includeEntities)
     }
 
     QUrl url("https://api.twitter.com/1/account/verify_credentials.json");
+    QUrlQuery urlQuery;
 
     if (includeEntities)
-        url.addQueryItem("include_entities", "true");
+        urlQuery.addQueryItem("include_entities", "true");
+
+    url.setQuery(urlQuery);
 
     QNetworkRequest req(url);
 

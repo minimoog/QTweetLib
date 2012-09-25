@@ -21,6 +21,7 @@
 #include <QtDebug>
 #include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QUrlQuery>
 #include "qtweetfavorites.h"
 #include "qtweetstatus.h"
 #include "qtweetconvert.h"
@@ -59,6 +60,7 @@ void QTweetFavorites::fetch(qint64 id, int page, bool includeEntities)
     }
 
     QUrl url;
+    QUrlQuery urlQuery;
 
     if (id) {
         url.setUrl(QString("http://api.twitter.com/1/favorites/%1.json").arg(id));
@@ -67,10 +69,12 @@ void QTweetFavorites::fetch(qint64 id, int page, bool includeEntities)
     }
 
     if (page)
-        url.addQueryItem("page", QString::number(page));
+        urlQuery.addQueryItem("page", QString::number(page));
 
     if (includeEntities)
-        url.addQueryItem("include_entities", "true");
+        urlQuery.addQueryItem("include_entities", "true");
+
+    url.setQuery(urlQuery);
 
     QNetworkRequest req(url);
 

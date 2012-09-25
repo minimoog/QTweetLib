@@ -21,6 +21,7 @@
 #include <QtDebug>
 #include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QUrlQuery>
 #include "qtweetsearch.h"
 #include "qtweetsearchpageresults.h"
 #include "qtweetconvert.h"
@@ -53,23 +54,26 @@ void QTweetSearch::start(const QString &query,
                          qint64 sinceid)
 {
     QUrl url("http://search.twitter.com/search.json");
+    QUrlQuery urlQuery;
 
-    url.addEncodedQueryItem("q", QUrl::toPercentEncoding(query));
+    urlQuery.addQueryItem("q", query);
 
     if (!lang.isEmpty())
-        url.addQueryItem("lang", lang);
+        urlQuery.addQueryItem("lang", lang);
 
     // if (!locale.isEmpty())
     //     url.addQueryItem("locale", locale);
 
     if (rpp)
-        url.addQueryItem("rpp", QString::number(rpp));
+        urlQuery.addQueryItem("rpp", QString::number(rpp));
 
     if (page)
-        url.addQueryItem("page", QString::number(page));
+        urlQuery.addQueryItem("page", QString::number(page));
 
     if (sinceid)
-        url.addQueryItem("since_id", QString::number(sinceid));
+        urlQuery.addQueryItem("since_id", QString::number(sinceid));
+
+    url.setQuery(urlQuery);
 
     QNetworkRequest req(url);
 
@@ -85,10 +89,9 @@ void QTweetSearch::start(const QString &query,
 void QTweetSearch::startWithCustomQuery(const QByteArray &encodedQuery)
 {
     QUrl url("http://search.twitter.com/search.json");
+    QUrlQuery urlQuery(encodedQuery);
 
-    //remove ?
-    QByteArray query(encodedQuery);
-    url.setEncodedQuery(query.remove(0, 1));
+    url.setQuery(urlQuery);
 
     QNetworkRequest req(url);
 

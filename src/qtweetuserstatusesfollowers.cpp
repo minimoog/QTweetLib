@@ -21,6 +21,7 @@
 #include <QtDebug>
 #include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QUrlQuery>
 #include "qtweetuserstatusesfollowers.h"
 #include "qtweetuser.h"
 #include "qtweetconvert.h"
@@ -50,17 +51,20 @@ void QTweetUserStatusesFollowers::fetch(qint64 userid,
                                       bool includeEntities)
 {
     QUrl url("http://api.twitter.com/1/statuses/followers.json");
+    QUrlQuery urlQuery;
 
     if (userid != 0)
-        url.addQueryItem("user_id", QString::number(userid));
+        urlQuery.addQueryItem("user_id", QString::number(userid));
 
     if (!cursor.isEmpty()) {
         m_usesCursoring = true;
-        url.addQueryItem("cursor", cursor);
+        urlQuery.addQueryItem("cursor", cursor);
     }
 
     if (includeEntities)
-        url.addQueryItem("include_entities", "true");
+        urlQuery.addQueryItem("include_entities", "true");
+
+    url.setQuery(urlQuery);
 
     QNetworkRequest req(url);
 
@@ -85,17 +89,20 @@ void QTweetUserStatusesFollowers::fetch(const QString &screenName,
                                         bool includeEntities)
 {
     QUrl url("http://api.twitter.com/1/statuses/followers.json");
+    QUrlQuery urlQuery;
 
     if (!screenName.isEmpty())
-        url.addQueryItem("screen_name", screenName);
+        urlQuery.addQueryItem("screen_name", screenName);
 
     if (!cursor.isEmpty()) {
         m_usesCursoring = true;
-        url.addQueryItem("cursor", cursor);
+        urlQuery.addQueryItem("cursor", cursor);
     }
 
     if (includeEntities)
-        url.addQueryItem("include_entities", "true");
+        urlQuery.addQueryItem("include_entities", "true");
+
+    url.setQuery(urlQuery);
 
     QNetworkRequest req(url);
 

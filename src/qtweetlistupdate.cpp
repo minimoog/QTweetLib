@@ -21,6 +21,7 @@
 #include <QtDebug>
 #include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QUrlQuery>
 #include "qtweetlistupdate.h"
 #include "qtweetlist.h"
 #include "qtweetconvert.h"
@@ -56,25 +57,27 @@ void QTweetListUpdate::update(qint64 user,
     }
 
     QUrl url(QString("http://api.twitter.com/1/%1/lists/%2.json").arg(user).arg(list));
-
-    QUrl urlQuery(url);
+    QUrl urlPost(url);
+    QUrlQuery urlQuery;
 
     if (!name.isEmpty())
-        urlQuery.addEncodedQueryItem("name", QUrl::toPercentEncoding(name));
+        urlQuery.addQueryItem("name", name);
 
     if (!mode)
         urlQuery.addQueryItem("mode", "private");
 
     if (!description.isEmpty())
-        urlQuery.addEncodedQueryItem("description", QUrl::toPercentEncoding(description));
+        urlQuery.addQueryItem("description", description);
+
+    urlPost.setQuery(urlQuery);
 
     QNetworkRequest req(url);
 
-    QByteArray oauthHeader = oauthTwitter()->generateAuthorizationHeader(urlQuery, OAuth::POST);
+    QByteArray oauthHeader = oauthTwitter()->generateAuthorizationHeader(urlPost, OAuth::POST);
     req.setRawHeader(AUTH_HEADER, oauthHeader);
     req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
 
-    QByteArray postBody = urlQuery.toEncoded(QUrl::RemoveScheme | QUrl::RemoveAuthority | QUrl::RemovePath);
+    QByteArray postBody = urlPost.toEncoded(QUrl::RemoveScheme | QUrl::RemoveAuthority | QUrl::RemovePath);
     postBody.remove(0, 1);
 
     QNetworkReply *reply = oauthTwitter()->networkAccessManager()->post(req, postBody);

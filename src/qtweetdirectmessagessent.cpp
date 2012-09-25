@@ -21,6 +21,7 @@
 #include <QtDebug>
 #include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QUrlQuery>
 #include "qtweetdirectmessagessent.h"
 #include "qtweetdmstatus.h"
 #include "qtweetconvert.h"
@@ -67,21 +68,24 @@ void QTweetDirectMessagesSent::fetch(qint64 sinceid,
     }
 
     QUrl url("http://api.twitter.com/1/direct_messages/sent.json");
+    QUrlQuery urlQuery;
 
     if (sinceid)
-        url.addQueryItem("since_id", QString::number(sinceid));
+        urlQuery.addQueryItem("since_id", QString::number(sinceid));
 
     if (maxid)
-        url.addQueryItem("max_id", QString::number(maxid));
+        urlQuery.addQueryItem("max_id", QString::number(maxid));
 
     if (count)
-        url.addQueryItem("count", QString::number(count));
+        urlQuery.addQueryItem("count", QString::number(count));
 
     if (page)
-        url.addQueryItem("page", QString::number(page));
+        urlQuery.addQueryItem("page", QString::number(page));
 
     if (includeEntities)
-        url.addQueryItem("include_entities", "true");
+        urlQuery.addQueryItem("include_entities", "true");
+
+    url.setQuery(urlQuery);
 
     QNetworkRequest req(url);
 

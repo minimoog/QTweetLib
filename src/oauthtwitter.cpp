@@ -21,6 +21,7 @@
 #include "oauthtwitter.h"
 #include <QtDebug>
 #include <QUrl>
+#include <QUrlQuery>
 #include <QNetworkReply>
 #include <QTimer>
 #include <QNetworkAccessManager>
@@ -87,9 +88,12 @@ void OAuthTwitter::authorizeXAuth(const QString &username, const QString &passwo
     Q_ASSERT(m_netManager != 0);
 
     QUrl url(TWITTER_ACCESS_TOKEN_XAUTH_URL);
-    url.addEncodedQueryItem("x_auth_username", username.toUtf8().toPercentEncoding());
-    url.addEncodedQueryItem("x_auth_password", password.toUtf8().toPercentEncoding());
-    url.addQueryItem("x_auth_mode", "client_auth");
+
+    QUrlQuery urlQuery;
+    urlQuery.addQueryItem("x_auth_username", username);
+    urlQuery.addQueryItem("x_auth_password", password);
+    urlQuery.addQueryItem("x_auth_mode", "client_auth");
+    url.setQuery(urlQuery);
 
     QByteArray oauthHeader = generateAuthorizationHeader(url, OAuth::POST);
 
@@ -174,8 +178,11 @@ void OAuthTwitter::authorizePin()
 void OAuthTwitter::requestAuthorization()
 {
     QUrl authorizeUrl(TWITTER_AUTHORIZE_URL);
-    authorizeUrl.addEncodedQueryItem("oauth_token", oauthToken());
-    authorizeUrl.addEncodedQueryItem("oauth_callback", "oob");
+
+    QUrlQuery urlQuery;
+    urlQuery.addQueryItem("oauth_token", oauthToken());
+    urlQuery.addQueryItem("oauth_callback", "oob");
+    authorizeUrl.setQuery(urlQuery);
 
     emit authorizePinFinished();
 
@@ -191,7 +198,10 @@ void OAuthTwitter::requestAccessToken(const QString& pin)
     Q_ASSERT(m_netManager != 0);
 
     QUrl url(TWITTER_ACCESS_TOKEN_URL);
-    url.addEncodedQueryItem("oauth_verifier", pin.toAscii()); 
+
+    QUrlQuery urlQuery;
+    urlQuery.addQueryItem("oauth_verifier", pin);
+    url.setQuery(urlQuery);
 
     QByteArray oauthHeader = generateAuthorizationHeader(url, OAuth::POST);
 

@@ -21,6 +21,7 @@
 #include <QtDebug>
 #include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QUrlQuery>
 #include "qtweetgeoreversegeocode.h"
 #include "qtweetconvert.h"
 #include <QJsonDocument>
@@ -57,35 +58,38 @@ void QTweetGeoReverseGeoCode::getPlaces(const QTweetGeoCoord& latLong,
                                         int maxResults)
 {
     QUrl url("http://api.twitter.com/1/geo/reverse_geocode.json");
+    QUrlQuery urlQuery;
 
-    url.addQueryItem("lat", QString::number(latLong.latitude()));
-    url.addQueryItem("long", QString::number(latLong.longitude()));
+    urlQuery.addQueryItem("lat", QString::number(latLong.latitude()));
+    urlQuery.addQueryItem("long", QString::number(latLong.longitude()));
 
     if (accuracy != 0)
-        url.addQueryItem("accuracy", QString::number(accuracy));
+        urlQuery.addQueryItem("accuracy", QString::number(accuracy));
 
     switch (granularity) {
     case QTweetPlace::Poi:
-        url.addQueryItem("granularity", "poi");
+        urlQuery.addQueryItem("granularity", "poi");
         break;
     case QTweetPlace::Neighborhood:
-        url.addQueryItem("granularity", "neighborhood");
+        urlQuery.addQueryItem("granularity", "neighborhood");
         break;
     case QTweetPlace::City:
-        url.addQueryItem("granularity", "city");
+        urlQuery.addQueryItem("granularity", "city");
         break;
     case QTweetPlace::Admin:
-        url.addQueryItem("granularity", "admin");
+        urlQuery.addQueryItem("granularity", "admin");
         break;
     case QTweetPlace::Country:
-        url.addQueryItem("granularity", "country");
+        urlQuery.addQueryItem("granularity", "country");
         break;
     default:
         ;
     }
 
     if (maxResults != 0)
-        url.addQueryItem("max_results", QString::number(maxResults));
+        urlQuery.addQueryItem("max_results", QString::number(maxResults));
+
+    url.setQuery(urlQuery);
 
     QNetworkRequest req(url);
 

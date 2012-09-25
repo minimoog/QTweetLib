@@ -21,6 +21,7 @@
 #include <QtDebug>
 #include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QUrlQuery>
 #include "qtweetgeosearch.h"
 #include "qtweetconvert.h"
 #include <QJsonDocument>
@@ -64,47 +65,50 @@ void QTweetGeoSearch::search(const QTweetGeoCoord &latLong,
                              const QString &containedWithin)
 {
     QUrl url("http://api.twitter.com/1/geo/search.json");
+    QUrlQuery urlQuery;
 
     if (latLong.isValid()) {
-        url.addQueryItem("lat", QString::number(latLong.latitude()));
-        url.addQueryItem("long", QString::number(latLong.longitude()));
+        urlQuery.addQueryItem("lat", QString::number(latLong.latitude()));
+        urlQuery.addQueryItem("long", QString::number(latLong.longitude()));
     }
 
     if (!query.isEmpty())
-        url.addEncodedQueryItem("query", QUrl::toPercentEncoding(query));
+        urlQuery.addQueryItem("query", query);
 
     if (!ip.isEmpty())
         //doesn't do ip format address checking
-        url.addQueryItem("ip", ip);
+        urlQuery.addQueryItem("ip", ip);
 
     switch (granularity) {
     case QTweetPlace::Poi:
-        url.addQueryItem("granularity", "poi");
+        urlQuery.addQueryItem("granularity", "poi");
         break;
     case QTweetPlace::Neighborhood:
-        url.addQueryItem("granularity", "neighborhood");
+        urlQuery.addQueryItem("granularity", "neighborhood");
         break;
     case QTweetPlace::City:
-        url.addQueryItem("granularity", "city");
+        urlQuery.addQueryItem("granularity", "city");
         break;
     case QTweetPlace::Admin:
-        url.addQueryItem("granularity", "admin");
+        urlQuery.addQueryItem("granularity", "admin");
         break;
     case QTweetPlace::Country:
-        url.addQueryItem("granularity", "country");
+        urlQuery.addQueryItem("granularity", "country");
         break;
     default:
         ;
     }
 
     if (accuracy != 0)
-        url.addQueryItem("accuracy", QString::number(accuracy));
+        urlQuery.addQueryItem("accuracy", QString::number(accuracy));
 
     if (maxResults != 0)
-        url.addQueryItem("max_results", QString::number(maxResults));
+        urlQuery.addQueryItem("max_results", QString::number(maxResults));
 
     if (!containedWithin.isEmpty())
-        url.addQueryItem("contained_within", containedWithin);
+        urlQuery.addQueryItem("contained_within", containedWithin);
+
+    url.setQuery(urlQuery);
 
     QNetworkRequest req(url);
 

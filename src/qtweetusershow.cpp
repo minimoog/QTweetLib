@@ -21,6 +21,7 @@
 #include <QtDebug>
 #include <QNetworkReply>
 #include <QNetworkRequest>
+#include <QUrlQuery>
 #include "qtweetusershow.h"
 #include "qtweetuser.h"
 #include "qtweetconvert.h"
@@ -45,11 +46,14 @@ QTweetUserShow::QTweetUserShow(OAuthTwitter *oauthTwitter, QObject *parent) :
 void QTweetUserShow::fetch(qint64 userid, bool includeEntities)
 {
     QUrl url("http://api.twitter.com/1/users/show.json");
+    QUrlQuery urlQuery;
 
-    url.addQueryItem("user_id", QString::number(userid));
+    urlQuery.addQueryItem("user_id", QString::number(userid));
 
     if (includeEntities)
-        url.addQueryItem("include_entities", "true");
+        urlQuery.addQueryItem("include_entities", "true");
+
+    url.setQuery(urlQuery);
 
     QNetworkRequest req(url);
 
@@ -70,11 +74,14 @@ void QTweetUserShow::fetch(qint64 userid, bool includeEntities)
 void QTweetUserShow::fetch(const QString &screenName, bool includeEntities)
 {
     QUrl url("http://api.twitter.com/1/users/show.json");
+    QUrlQuery urlQuery;
 
-    url.addQueryItem("screen_name", screenName);
+    urlQuery.addQueryItem("screen_name", screenName);
 
     if (includeEntities)
-        url.addQueryItem("include_entities", "true");
+        urlQuery.addQueryItem("include_entities", "true");
+
+    url.setQuery(urlQuery);
 
     QNetworkRequest req(url);
 

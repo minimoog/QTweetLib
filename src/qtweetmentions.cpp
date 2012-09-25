@@ -21,6 +21,7 @@
 #include <QtDebug>
 #include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QUrlQuery>
 #include "qtweetmentions.h"
 #include "qtweetstatus.h"
 #include "qtweetconvert.h"
@@ -83,33 +84,36 @@ void QTweetMentions::fetch(qint64 sinceid,
     }
 
     QUrl url("https://api.twitter.com/1.1/statuses/mentions.json");
+    QUrlQuery urlQuery;
 
     if (sinceid != 0)
-        url.addQueryItem("since_id", QString::number(sinceid));
+        urlQuery.addQueryItem("since_id", QString::number(sinceid));
 
     if (maxid != 0)
-        url.addQueryItem("max_id", QString::number(maxid));
+        urlQuery.addQueryItem("max_id", QString::number(maxid));
 
     if (count != 0)
-        url.addQueryItem("count", QString::number(count));
+        urlQuery.addQueryItem("count", QString::number(count));
 
     if (page != 0)
-        url.addQueryItem("page", QString::number(page));
+        urlQuery.addQueryItem("page", QString::number(page));
 
     if (trimUser)
-        url.addQueryItem("trim_user", "true");
+        urlQuery.addQueryItem("trim_user", "true");
 
     if (includeRts)
-        url.addQueryItem("include_rts", "true");
+        urlQuery.addQueryItem("include_rts", "true");
 
     if (includeEntities)
-        url.addQueryItem("include_entities", "true");
+        urlQuery.addQueryItem("include_entities", "true");
 
     if (excludeReplies)
-        url.addQueryItem("exclude_replies", "true");
+        urlQuery.addQueryItem("exclude_replies", "true");
 
     if (contributorDetails)
-        url.addQueryItem("contributor_details", "true");
+        urlQuery.addQueryItem("contributor_details", "true");
+
+    url.setQuery(urlQuery);
 
     QNetworkRequest req(url);
 

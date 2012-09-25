@@ -22,6 +22,7 @@
 #include "qtweetblockscreate.h"
 #include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QUrlQuery>
 #include "qtweetuser.h"
 #include "qtweetconvert.h"
 #include <QJsonDocument>
@@ -58,21 +59,23 @@ void QTweetBlocksCreate::create(qint64 userid, bool includeEntities)
     }
 
     QUrl url("http://api.twitter.com/1/blocks/create.json");
-
-    QUrl urlQuery(url);
+    QUrl urlPost(url);
+    QUrlQuery urlQuery;
 
     urlQuery.addQueryItem("user_id", QString::number(userid));
 
     if (includeEntities)
         urlQuery.addQueryItem("include_entities", "true");
 
+    urlPost.setQuery(urlQuery);
+
     QNetworkRequest req(url);
 
-    QByteArray oauthHeader = oauthTwitter()->generateAuthorizationHeader(urlQuery, OAuth::POST);
+    QByteArray oauthHeader = oauthTwitter()->generateAuthorizationHeader(urlPost, OAuth::POST);
     req.setRawHeader(AUTH_HEADER, oauthHeader);
     req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
 
-    QByteArray postBody = urlQuery.toEncoded(QUrl::RemoveScheme | QUrl::RemoveAuthority | QUrl::RemovePath);
+    QByteArray postBody = urlPost.toEncoded(QUrl::RemoveScheme | QUrl::RemoveAuthority | QUrl::RemovePath);
     postBody.remove(0, 1);
 
     QNetworkReply *reply = oauthTwitter()->networkAccessManager()->post(req, postBody);
@@ -92,21 +95,23 @@ void QTweetBlocksCreate::create(const QString& screenName, bool includeEntities)
     }
 
     QUrl url("http://api.twitter.com/1/blocks/create.json");
-
-    QUrl urlQuery(url);
+    QUrl urlPost(url);
+    QUrlQuery urlQuery;
 
     urlQuery.addQueryItem("screen_name", screenName);
 
     if (includeEntities)
         urlQuery.addQueryItem("include_entities", "true");
 
+    urlPost.setQuery(urlQuery);
+
     QNetworkRequest req(url);
 
-    QByteArray oauthHeader = oauthTwitter()->generateAuthorizationHeader(urlQuery, OAuth::POST);
+    QByteArray oauthHeader = oauthTwitter()->generateAuthorizationHeader(urlPost, OAuth::POST);
     req.setRawHeader(AUTH_HEADER, oauthHeader);
     req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
 
-    QByteArray postBody = urlQuery.toEncoded(QUrl::RemoveScheme | QUrl::RemoveAuthority | QUrl::RemovePath);
+    QByteArray postBody = urlPost.toEncoded(QUrl::RemoveScheme | QUrl::RemoveAuthority | QUrl::RemovePath);
     postBody.remove(0, 1);
 
     QNetworkReply *reply = oauthTwitter()->networkAccessManager()->post(req, postBody);

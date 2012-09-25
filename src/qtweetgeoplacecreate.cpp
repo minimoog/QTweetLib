@@ -21,6 +21,7 @@
 #include <QtDebug>
 #include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QUrlQuery>
 #include "qtweetgeoplacecreate.h"
 #include "qtweetplace.h"
 #include "qtweetconvert.h"
@@ -64,21 +65,24 @@ void QTweetGeoPlaceCreate::create(const QString &name,
     }
 
     QUrl url("http://api.twitter.com/1/geo/place.json");
-    QUrl urlQuery(url);
+    QUrl urlPost(url);
+    QUrlQuery urlQuery;
 
-    urlQuery.addEncodedQueryItem("name", QUrl::toPercentEncoding(name));
+    urlQuery.addQueryItem("name", name);
     urlQuery.addQueryItem("contained_within", containedWithin);
     urlQuery.addQueryItem("token", token);
     urlQuery.addQueryItem("lat", QString::number(latLong.latitude()));
     urlQuery.addQueryItem("long", QString::number(latLong.longitude()));
 
-    QByteArray oauthHeader = oauthTwitter()->generateAuthorizationHeader(urlQuery, OAuth::POST);
+    urlPost.setQuery(urlQuery);
+
+    QByteArray oauthHeader = oauthTwitter()->generateAuthorizationHeader(urlPost, OAuth::POST);
 
     QNetworkRequest req(url);
     req.setRawHeader(AUTH_HEADER, oauthHeader);
     req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
 
-    QByteArray statusPost = urlQuery.toEncoded(QUrl::RemoveScheme | QUrl::RemoveAuthority | QUrl::RemovePath);
+    QByteArray statusPost = urlPost.toEncoded(QUrl::RemoveScheme | QUrl::RemoveAuthority | QUrl::RemovePath);
     statusPost.remove(0, 1);
 
     QNetworkReply *reply = oauthTwitter()->networkAccessManager()->post(req, statusPost);

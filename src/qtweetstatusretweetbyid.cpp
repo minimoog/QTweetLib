@@ -22,6 +22,7 @@
 #include <QtDebug>
 #include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QUrlQuery>
 #include "qtweetconvert.h"
 #include <QJsonDocument>
 #include <QJsonArray>
@@ -51,12 +52,15 @@ void QTweetStatusRetweetByID::fetch(qint64 tweetid, int count, int page)
 
     QString urlString = QString("https://api.twitter.com/1/statuses/%1/retweeted_by/ids.json").arg(tweetid);
     QUrl url(urlString);
+    QUrlQuery urlQuery;
 
     if (count != 0)
-        url.addQueryItem("count", QString::number(count));
+        urlQuery.addQueryItem("count", QString::number(count));
 
     if (page != 0)
-        url.addQueryItem("page", QString::number(page));
+        urlQuery.addQueryItem("page", QString::number(page));
+
+    url.setQuery(urlQuery);
 
     QNetworkRequest req(url);
 

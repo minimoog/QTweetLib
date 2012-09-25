@@ -21,6 +21,7 @@
 #include <QtDebug>
 #include <QNetworkReply>
 #include <QNetworkRequest>
+#include <QUrlQuery>
 #include "qtweetstatusshow.h"
 #include "qtweetstatus.h"
 #include "qtweetconvert.h"
@@ -52,17 +53,20 @@ QTweetStatusShow::QTweetStatusShow(OAuthTwitter *oauthTwitter, QObject *parent) 
 void QTweetStatusShow::fetch(qint64 id, bool trimUser, bool includeMyRetweet, bool includeEntities)
 {
     QUrl url("https://api.twitter.com/1.1/statuses/show.json");
+    QUrlQuery urlQuery;
 
-    url.addQueryItem("id", QString::number(id));
+    urlQuery.addQueryItem("id", QString::number(id));
 
     if (trimUser)
-        url.addQueryItem("trim_user", "true");
+        urlQuery.addQueryItem("trim_user", "true");
 
     if (includeMyRetweet)
-        url.addQueryItem("include_my_retweet", "true");
+        urlQuery.addQueryItem("include_my_retweet", "true");
 
     if (includeEntities)
-        url.addQueryItem("include_entities", "true");
+        urlQuery.addQueryItem("include_entities", "true");
+
+    url.setQuery(urlQuery);
 
     QNetworkRequest req(url);
 

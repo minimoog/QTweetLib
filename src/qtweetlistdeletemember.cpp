@@ -21,6 +21,7 @@
 #include <QtDebug>
 #include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QUrlQuery>
 #include "qtweetlistdeletemember.h"
 #include "qtweetlist.h"
 #include "qtweetconvert.h"
@@ -50,8 +51,10 @@ void QTweetListDeleteMember::remove(qint64 user, qint64 list, qint64 member)
     }
 
     QUrl url(QString("http://api.twitter.com/1/%1/%2/members.json").arg(user).arg(list));
+    QUrlQuery urlQuery;
 
-    url.addQueryItem("id", QString::number(member));
+    urlQuery.addQueryItem("id", QString::number(member));
+    url.setQuery(urlQuery);
 
     QNetworkRequest req(url);
 

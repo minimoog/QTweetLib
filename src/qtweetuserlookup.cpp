@@ -21,6 +21,7 @@
 #include <QtDebug>
 #include <QNetworkReply>
 #include <QNetworkRequest>
+#include <QUrlQuery>
 #include "qtweetuserlookup.h"
 #include "qtweetuser.h"
 #include "qtweetconvert.h"
@@ -51,6 +52,7 @@ void QTweetUserLookup::fetch(const QList<qint64> &useridList,
     }
 
     QUrl url("http://api.twitter.com/1/users/lookup.json");
+    QUrlQuery urlQuery;
 
     if (!useridList.isEmpty()) {
         QString idString;
@@ -60,7 +62,7 @@ void QTweetUserLookup::fetch(const QList<qint64> &useridList,
 
         idString.chop(1);
 
-        url.addQueryItem("user_id", idString);
+        urlQuery.addQueryItem("user_id", idString);
     }
 
     if (!screenNameList.isEmpty()) {
@@ -71,8 +73,10 @@ void QTweetUserLookup::fetch(const QList<qint64> &useridList,
 
         scrnString.chop(1);
 
-        url.addQueryItem("screen_name", scrnString);
+        urlQuery.addQueryItem("screen_name", scrnString);
     }
+
+    url.setQuery(urlQuery);
 
     // ### TODO: Add include_entities parameter
 

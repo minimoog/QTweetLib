@@ -21,6 +21,7 @@
 #include <QtDebug>
 #include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QUrlQuery>
 #include "qtweetstatusupdate.h"
 #include "qtweetstatus.h"
 #include "qtweetgeocoord.h"
@@ -60,10 +61,10 @@ void QTweetStatusUpdate::post(const QString &status,
     }
 
     QUrl url("https://api.twitter.com/1.1/statuses/update.json");
+    QUrl urlPost("https://api.twitter.com/1.1/statuses/update.json");
+    QUrlQuery urlQuery;
 
-    QUrl urlQuery("https://api.twitter.com/1.1/statuses/update.json");
-
-    urlQuery.addEncodedQueryItem("status", QUrl::toPercentEncoding(status));
+    urlQuery.addQueryItem("status", status);
 
     if (inReplyToStatus != 0)
         urlQuery.addQueryItem("in_reply_to_status_id", QString::number(inReplyToStatus));
@@ -85,13 +86,15 @@ void QTweetStatusUpdate::post(const QString &status,
     if (includeEntities)
         urlQuery.addQueryItem("include_entities", "true");
 
-    QByteArray oauthHeader = oauthTwitter()->generateAuthorizationHeader(urlQuery, OAuth::POST);
+    urlPost.setQuery(urlQuery);
+
+    QByteArray oauthHeader = oauthTwitter()->generateAuthorizationHeader(urlPost, OAuth::POST);
     QNetworkRequest req(url);
     req.setRawHeader(AUTH_HEADER, oauthHeader);
     req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
 
     //build status post array
-    QByteArray statusPost = urlQuery.toEncoded(QUrl::RemoveScheme | QUrl::RemoveAuthority | QUrl::RemovePath);
+    QByteArray statusPost = urlPost.toEncoded(QUrl::RemoveScheme | QUrl::RemoveAuthority | QUrl::RemovePath);
 
     //remove '?'
     statusPost.remove(0, 1);

@@ -22,6 +22,7 @@
 #include <QtDebug>
 #include <QNetworkReply>
 #include <QNetworkRequest>
+#include <QUrlQuery>
 #include "qtweetuser.h"
 #include "qtweetconvert.h"
 #include <QJsonDocument>
@@ -58,12 +59,15 @@ void QTweetBlocksBlocking::getBlocks(int page, bool includeEntities)
     }
 
     QUrl url("http://api.twitter.com/1/blocks/blocking.json");
+    QUrlQuery urlQuery;
 
     if (page)
-        url.addQueryItem("page", QString::number(page));
+        urlQuery.addQueryItem("page", QString::number(page));
 
     if (includeEntities)
-        url.addQueryItem("include_entities", "true");
+        urlQuery.addQueryItem("include_entities", "true");
+
+    url.setQuery(urlQuery);
 
     QNetworkRequest req(url);
 

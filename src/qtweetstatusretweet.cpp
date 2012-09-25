@@ -21,6 +21,7 @@
 #include <QtDebug>
 #include <QNetworkReply>
 #include <QNetworkRequest>
+#include <QUrlQuery>
 #include "qtweetstatusretweet.h"
 #include "qtweetstatus.h"
 #include "qtweetconvert.h"
@@ -48,12 +49,15 @@ void QTweetStatusRetweet::retweet(qint64 id,
                                   bool includeEntities)
 {
     QUrl url(QString("https://api.twitter.com/1.1/statuses/retweet/%1.json").arg(id));
+    QUrlQuery urlQuery;
 
     if (trimUser)
-        url.addQueryItem("trim_user", "true");
+        urlQuery.addQueryItem("trim_user", "true");
 
     if (includeEntities)
-        url.addQueryItem("include_entities", "true");
+        urlQuery.addQueryItem("include_entities", "true");
+
+    url.setQuery(urlQuery);
 
     QNetworkRequest req(url);
     req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");

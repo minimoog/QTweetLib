@@ -21,6 +21,7 @@
 #include <QtDebug>
 #include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QUrlQuery>
 #include "qtweetusersearch.h"
 #include "qtweetuser.h"
 #include "qtweetconvert.h"
@@ -55,17 +56,20 @@ void QTweetUserSearch::search(const QString &query,
     }
 
     QUrl url("http://api.twitter.com/1/users/search.json");
+    QUrlQuery urlQuery;
 
-    url.addQueryItem("q", query);
+    urlQuery.addQueryItem("q", query);
 
     if (perPage)
-        url.addQueryItem("per_page", QString::number(perPage));
+        urlQuery.addQueryItem("per_page", QString::number(perPage));
 
     if (page)
-        url.addQueryItem("page", QString::number(page));
+        urlQuery.addQueryItem("page", QString::number(page));
 
     if (includeEntities)
-        url.addQueryItem("include_entities", "true");
+        urlQuery.addQueryItem("include_entities", "true");
+
+    url.setQuery(urlQuery);
 
     QNetworkRequest req(url);
 

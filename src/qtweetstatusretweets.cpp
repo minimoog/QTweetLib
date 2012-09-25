@@ -20,6 +20,7 @@
 
 #include <QNetworkReply>
 #include <QNetworkRequest>
+#include <QUrlQuery>
 #include <QJsonDocument>
 #include <QJsonArray>
 #include "qtweetstatusretweets.h"
@@ -51,12 +52,15 @@ void QTweetStatusRetweets::fetch(qint64 id, int count, bool trimUser)
 {
     QString urlString = QString("https://api.twitter.com/1.1/statuses/retweets/%1.json").arg(id);
     QUrl url(urlString);
+    QUrlQuery urlQuery;
 
     if (count != 0)
-        url.addQueryItem("count", QString::number(count));
+        urlQuery.addQueryItem("count", QString::number(count));
 
     if (trimUser)
-        url.addQueryItem("trim_user", "true");
+        urlQuery.addQueryItem("trim_user", "true");
+
+    url.setQuery(urlQuery);
 
     QNetworkRequest req(url);
 

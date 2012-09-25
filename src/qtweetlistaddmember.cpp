@@ -21,6 +21,7 @@
 #include <QtDebug>
 #include <QNetworkReply>
 #include <QNetworkRequest>
+#include <QUrlQuery>
 #include "qtweetlistaddmember.h"
 #include "qtweetlist.h"
 #include "qtweetconvert.h"
@@ -50,8 +51,11 @@ void QTweetListAddMember::add(qint64 user, qint64 list, qint64 memberid)
     }
 
     QUrl url(QString("http://api.twitter.com/1/%1/%2/members.json").arg(user).arg(list));
+    QUrlQuery urlQuery;
 
-    url.addQueryItem("id", QString::number(memberid));
+    urlQuery.addQueryItem("id", QString::number(memberid));
+
+    url.setQuery(urlQuery);
 
     QNetworkRequest req(url);
 

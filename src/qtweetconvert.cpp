@@ -276,10 +276,10 @@ QTweetSearchPageResults QTweetConvert::jsonObjectToSearchPageResults(const QJson
     QTweetSearchPageResults page;
 
     page.setMaxId(static_cast<qint64>(jsonObject["max_id"].toDouble()));
-    page.setNextPage(jsonObject["next_page"].toString().toAscii());
+    page.setNextPage(jsonObject["next_page"].toString().toLatin1());
     page.setPage(static_cast<int>(jsonObject["page"].toDouble()));
-    page.setQuery(jsonObject["query"].toString().toAscii());
-    page.setRefreshUrl(jsonObject["refresh_url"].toString().toAscii());
+    page.setQuery(jsonObject["query"].toString().toLatin1());
+    page.setRefreshUrl(jsonObject["refresh_url"].toString().toLatin1());
     page.setResultsPerPage(static_cast<int>(jsonObject["results_per_page"].toDouble()));
     page.setSinceId(static_cast<qint64>(jsonObject["since_id"].toDouble()));
     page.setTotal(static_cast<int>(jsonObject["total"].toDouble()));

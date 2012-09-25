@@ -21,6 +21,7 @@
 #include <QtDebug>
 #include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QUrlQuery>
 #include "qtweetfavoritescreate.h"
 #include "qtweetstatus.h"
 #include "qtweetconvert.h"
@@ -58,9 +59,12 @@ void QTweetFavoritesCreate::create(qint64 statusid, bool includeEntities)
     }
 
     QUrl url(QString("http://api.twitter.com/1/favorites/create/%1.json").arg(statusid));
+    QUrlQuery urlQuery;
 
     if (includeEntities)
-        url.addQueryItem("include_entities", "true");
+        urlQuery.addQueryItem("include_entities", "true");
+
+    url.setQuery(urlQuery);
 
     QNetworkRequest req(url);
 

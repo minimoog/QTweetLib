@@ -22,6 +22,7 @@
 #include <QPointF>
 #include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QUrlQuery>
 #include "qtweetplace.h"
 #include "qtweetgeosimilarplaces.h"
 #include "qtweetconvert.h"
@@ -55,13 +56,16 @@ QTweetGeoSimilarPlaces::QTweetGeoSimilarPlaces(OAuthTwitter *oauthTwitter, QObje
 void QTweetGeoSimilarPlaces::get(const QTweetGeoCoord &latLong, const QString &name, const QString &containedWithin)
 {
     QUrl url("http://api.twitter.com/1/geo/similar_places.json");
+    QUrlQuery urlQuery;
 
-    url.addQueryItem("lat", QString::number(latLong.latitude()));
-    url.addQueryItem("long",QString::number(latLong.longitude()));
-    url.addEncodedQueryItem("name", QUrl::toPercentEncoding(name));
+    urlQuery.addQueryItem("lat", QString::number(latLong.latitude()));
+    urlQuery.addQueryItem("long",QString::number(latLong.longitude()));
+    urlQuery.addQueryItem("name", name);
 
     if (!containedWithin.isEmpty())
-        url.addQueryItem("contained_within", containedWithin);
+        urlQuery.addQueryItem("contained_within", containedWithin);
+
+    url.setQuery(urlQuery);
 
     QNetworkRequest req(url);
 

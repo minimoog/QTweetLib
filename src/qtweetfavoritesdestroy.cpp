@@ -21,6 +21,7 @@
 #include <QtDebug>
 #include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QUrlQuery>
 #include "qtweetfavoritesdestroy.h"
 #include "qtweetstatus.h"
 #include "qtweetconvert.h"
@@ -58,9 +59,12 @@ void QTweetFavoritesDestroy::unfavorite(qint64 statusid, bool includeEntities)
     }
 
     QUrl url(QString("http://api.twitter.com/1/favorites/destroy/%1.json").arg(statusid));
+    QUrlQuery urlQuery;
 
     if (includeEntities)
-        url.addQueryItem("include_entities", "true");
+        urlQuery.addQueryItem("include_entities", "true");
+
+    url.setQuery(urlQuery);
 
     QNetworkRequest req(url);
 

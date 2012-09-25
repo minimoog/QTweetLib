@@ -22,6 +22,7 @@
 #include <QtDebug>
 #include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QUrlQuery>
 #include "qtweetuser.h"
 #include "qtweetconvert.h"
 #include <QJsonDocument>
@@ -58,11 +59,14 @@ void QTweetBlocksDestroy::unblock(qint64 userid, bool includeEntities)
     }
 
     QUrl url("http://api.twitter.com/1/blocks/destroy.json");
+    QUrlQuery urlQuery;
 
-    url.addQueryItem("user_id", QString::number(userid));
+    urlQuery.addQueryItem("user_id", QString::number(userid));
 
     if (includeEntities)
-        url.addQueryItem("include_entities", "true");
+        urlQuery.addQueryItem("include_entities", "true");
+
+    url.setQuery(urlQuery);
 
     QNetworkRequest req(url);
 
@@ -86,11 +90,14 @@ void QTweetBlocksDestroy::unblock(const QString &screenName, bool includeEntitie
     }
 
     QUrl url("http://api.twitter.com/1/blocks/destroy.json");
+    QUrlQuery urlQuery;
 
-    url.addQueryItem("screen_name", screenName);
+    urlQuery.addQueryItem("screen_name", screenName);
 
     if (includeEntities)
-        url.addQueryItem("include_entities", "true");
+        urlQuery.addQueryItem("include_entities", "true");
+
+    url.setQuery(urlQuery);
 
     QNetworkRequest req(url);
 
