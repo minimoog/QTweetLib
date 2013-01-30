@@ -40,8 +40,6 @@ public:
     OAuthTwitter(const QByteArray& consumerKey, const QByteArray& consumerSecret, QObject *parent = 0);
     void setNetworkAccessManager(QNetworkAccessManager* netManager);
     QNetworkAccessManager* networkAccessManager() const;
-    void authorizeXAuth(const QString& username, const QString& password);
-    void authorizePin();
 
 signals:
     /** Emited when XAuth authorization is finished */
@@ -56,6 +54,8 @@ signals:
 
 public slots:
     void requestAccessToken(const QString& pin);
+    void authorizeXAuth(const QString& username, const QString& password);
+    void authorizePin();
 
 protected:
     virtual void requestAuthorization();
