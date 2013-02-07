@@ -43,11 +43,6 @@ SET(QTWEETLIB_SOURCES
     qtweetmentions.cpp
     qtweetnetbase.cpp
     qtweetplace.cpp
-    qtweetretweetbyme.cpp
-    qtweetretweetbyuser.cpp
-    qtweetretweetsofme.cpp
-    qtweetretweettome.cpp
-    qtweetretweettouser.cpp
     qtweetsearch.cpp
     qtweetsearchpageresults.cpp
     qtweetsearchresult.cpp
@@ -103,11 +98,6 @@ SET(QTWEETLIB_MOC_HEADERS
     qtweetlistupdate.h
     qtweetmentions.h
     qtweetnetbase.h
-    qtweetretweetbyme.h
-    qtweetretweetbyuser.h
-    qtweetretweetsofme.h
-    qtweetretweettome.h
-    qtweetretweettouser.h
     qtweetsearch.h
     qtweetstatusdestroy.h
     qtweetstatusretweetbyid.h
