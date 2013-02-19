@@ -48,14 +48,12 @@ QTweetDirectMessages::QTweetDirectMessages(OAuthTwitter *oauthTwitter, QObject *
  *   @param sinceid Fetch DM newer then sinceid
  *   @param maxid Fetch DM older then maxid
  *   @param count Number of DM to fetch (up to 200)
- *   @param page Page number
  *   @param includeEntities When true each tweet will include a node called "entities"
  *   @remarks Setting parameter to default value will not be put in query
  */
 void QTweetDirectMessages::fetch(qint64 sinceid,
                                  qint64 maxid,
                                  int count,
-                                 int page,
                                  bool includeEntities)
 {
     if (!isAuthenticationEnabled()) {
@@ -63,7 +61,7 @@ void QTweetDirectMessages::fetch(qint64 sinceid,
         return;
     }
 
-    QUrl url("http://api.twitter.com/1/direct_messages.json");
+    QUrl url("https://api.twitter.com/1.1/direct_messages.json");
     QUrlQuery urlQuery;
 
     if (sinceid != 0)
@@ -74,9 +72,6 @@ void QTweetDirectMessages::fetch(qint64 sinceid,
 
     if (count != 0)
         urlQuery.addQueryItem("count", QString::number(count));
-
-    if (page != 0)
-        urlQuery.addQueryItem("page", QString::number(page));
 
     if (includeEntities)
         urlQuery.addQueryItem("include_entities", "true");
