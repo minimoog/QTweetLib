@@ -19,6 +19,7 @@
 #include <QtDebug>
 #include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QUrlQuery>
 #include "qtweetdmstatus.h"
 #include "qtweetconvert.h"
 #include <QJsonDocument>
