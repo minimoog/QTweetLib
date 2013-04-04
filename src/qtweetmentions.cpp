@@ -80,7 +80,7 @@ void QTweetMentions::fetch(qint64 sinceid,
         return;
     }
 
-    QUrl url("https://api.twitter.com/1.1/statuses/mentions.json");
+    QUrl url("https://api.twitter.com/1.1/statuses/mentions_timeline.json");
     QUrlQuery urlQuery;
 
     if (sinceid != 0)
