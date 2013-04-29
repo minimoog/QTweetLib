@@ -76,7 +76,8 @@ HEADERS += \
     qtweetstatusretweetbyid.h \
     qtweetentitymedia.h \
     qtweetstatusupdatewithmedia.h \
-    qtweetdirectmessagesshow.h
+    qtweetdirectmessagesshow.h \
+    qtweetretweetsofme.h
 
 SOURCES += \
     oauth.cpp \
@@ -142,7 +143,8 @@ SOURCES += \
     qtweetstatusretweetbyid.cpp \
     qtweetentitymedia.cpp \
     qtweetstatusupdatewithmedia.cpp \
-    qtweetdirectmessagesshow.cpp
+    qtweetdirectmessagesshow.cpp \
+    qtweetretweetsofme.cpp
 
 OTHER_FILES +=
 
