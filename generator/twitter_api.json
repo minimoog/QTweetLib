@@ -12,5 +12,22 @@
             { "include_entities" : "bool" }
          ],
         "response" : "QTweetStatus"
+    },
+    {
+        "class": "UserTimeline",
+        "method": "GET",
+        "url": "https://api.twitter.com/1.1/statuses/user_timeline.json",
+        "parameters": [
+            { "user_id" : "qint64" },
+            { "screen_name" : "string" },
+            { "since_id" : "qint64" },
+            { "count" : "int" },
+            { "max_id" : "qint64" },
+            { "trim_user" : "bool" },
+            { "exclude_replies" : "bool" },
+            { "contributor_details" : "bool" },
+            { "include_rts" : "bool" }
+        ],
+        "response" : "QTweetStatus"
     }
 ]

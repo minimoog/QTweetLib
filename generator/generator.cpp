@@ -6,13 +6,13 @@ const char * paramString[] = {
     "int",
     "qint64",
     "bool",
-    "QString" };
+    "const QString&" };
 
 const char * paramComparison[] = {
     " != 0",
     " != 0",
     "",
-    "",
+    ".isEmpty()",
 };
 
 const char * defaultValueString[] = {
@@ -143,7 +143,14 @@ void Generator::generateCppFile()
         out << "\n";
 
         foreach (const Parameter& parameter, m_params) {
-            out << "    if (" << parameter.name << paramComparison[parameter.type] << ")\n";
+            out << "    if (";
+
+            if (parameter.type == STRING)
+                out << "!";
+
+            out << parameter.name;
+            out << paramComparison[parameter.type] << ")\n";
+
             out << "        urlQuery.addQueryItem(\"" << parameter.name << "\", ";
 
             if (parameter.type == INT || parameter.type == QINT64) {
@@ -151,7 +158,7 @@ void Generator::generateCppFile()
             } else if (parameter.type == BOOL) {
                 out << "\"true\"";
             } else if (parameter.type == STRING) {
-                // ### TODO:
+                out << parameter.name;
             }
 
             out << ");\n";
