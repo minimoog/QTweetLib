@@ -29,5 +29,20 @@
             { "include_rts" : "bool" }
         ],
         "response" : "QTweetStatus"
+    },
+    {
+        "class": "HomeTimeline",
+        "method": "GET",
+        "url": "https://api.twitter.com/1.1/statuses/home_timeline.json",
+        "parameters": [
+            { "since_id": "qint64" },
+            { "max_id": "qint64" },
+            { "count": "int" },
+            { "trim_user": "bool" },
+            { "exclude_replies": "bool" },
+            { "contributor_details": "bool" },
+            { "include_entities": "bool" }
+        ],
+        "response": "QTweetStatus"
     }
 ]
