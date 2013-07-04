@@ -19,7 +19,6 @@ HEADERS += \
     qtweetmentions.h \
     qtweetnetbase.h \
     qtweetstatus.h \
-    qtweetstatusshow.h \
     qtweetstatusupdate.h \
     qtweetuser.h \
     qtweetusertimeline.h \
@@ -76,7 +75,8 @@ HEADERS += \
     qtweetstatusupdatewithmedia.h \
     qtweetdirectmessagesshow.h \
     qtweetretweetsofme.h \
-    qtweetstatusesretweetsid.h
+    qtweetstatusesretweetsid.h \
+    qtweetstatusesshowid.h
 
 SOURCES += \
     oauth.cpp \
@@ -85,7 +85,6 @@ SOURCES += \
     qtweetmentions.cpp \
     qtweetnetbase.cpp \
     qtweetstatus.cpp \
-    qtweetstatusshow.cpp \
     qtweetstatusupdate.cpp \
     qtweetuser.cpp \
     qtweetusertimeline.cpp \
@@ -142,7 +141,8 @@ SOURCES += \
     qtweetstatusupdatewithmedia.cpp \
     qtweetdirectmessagesshow.cpp \
     qtweetretweetsofme.cpp \
-    qtweetstatusesretweetsid.cpp
+    qtweetstatusesretweetsid.cpp \
+    qtweetstatusesshowid.cpp
 
 OTHER_FILES +=
 

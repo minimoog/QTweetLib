@@ -69,5 +69,17 @@
             { "trim_user": "bool" }
         ],
         "response": "ListStatus"
+    },
+    {
+        "class": "StatusesShowId",
+        "method": "GET",
+        "url": "https://api.twitter.com/1.1/statuses/show.json",
+        "required": { "id": "qint64" },
+        "parameters": [
+            { "trim_user": "bool" },
+            { "include_my_retweet": "bool" },
+            { "include_entities": "bool" }
+        ],
+        "response": "Status"
     }
 ]

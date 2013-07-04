@@ -89,6 +89,8 @@ void Generator::generateHeaderFile()
 
         if (m_responseType == ListStatus)
             out << "    void statusList(const QList<QTweetStatus>& statuses);\n";
+        else if (m_responseType == Status)
+            out << "    void status(const QTweetStatus& status);\n";
 
         out << "\n";
 
@@ -115,7 +117,8 @@ void Generator::generateCppFile()
         out << "#include \"qtweetstatus.h\"\n";
         out << "#include \"qtweetconvert.h\"\n";
         out << "#include <QJsonDocument>\n";
-        out << "#include <QJsonArray>\n\n";
+        out << "#include <QJsonArray>\n";
+        out << "#include <QJsonObject>\n\n";
 
         QString className = "QTweet" + m_className;
 
@@ -161,6 +164,21 @@ void Generator::generateCppFile()
             out << "    QUrl url(\"" << m_url << "\");\n";
             out << "    QUrlQuery urlQuery;\n";
             out << "\n";
+
+            if (m_requiredParam.type != NONE) {
+                out << "    urlQuery.addQueryItem(\"" << m_requiredParam.name << "\", ";
+
+                if (m_requiredParam.type == INT || m_requiredParam.type == QINT64) {
+                    out << "QString::number(" << m_requiredParam.name << ")";
+                } else if (m_requiredParam.type == BOOL) {
+                    out << "\"true\"";
+                } else if (m_requiredParam.type == STRING) {
+                    out << m_requiredParam.name;
+                }
+
+                out << ");\n";
+                out << "\n";
+            }
         }
 
         foreach (const Parameter& parameter, m_params) {
@@ -211,6 +229,12 @@ void Generator::generateCppFile()
             out << "    if (jsonDoc.isArray()) {\n";
             out << "        QList<QTweetStatus> statuses = QTweetConvert::jsonArrayToStatusList(jsonDoc.array());\n\n";
             out << "        emit statusList(statuses);\n";
+            out << "    }\n";
+        } else if (m_responseType == Status) {
+            out << "    if (jsonDoc.isObject()) {\n";
+            out << "        QTweetStatus parsedStatus = QTweetConvert::jsonObjectToStatus(jsonDoc.object());\n";
+            out << "\n";
+            out << "        emit status(parsedStatus);\n";
             out << "    }\n";
         }
 

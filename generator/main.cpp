@@ -40,6 +40,8 @@ int main(int argc, char *argv[])
 
                 if (details["response"].toString() == "ListStatus")
                     gen.setResponseType(Generator::ListStatus);
+                else if (details["response"].toString() == "Status")
+                    gen.setResponseType(Generator::Status);
 
                 if (details["required"].isObject()) {
                     QJsonObject required = details["required"].toObject();
