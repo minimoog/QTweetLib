@@ -44,5 +44,19 @@
             { "include_entities": "bool" }
         ],
         "response": "QTweetStatus"
+    },
+    {
+        "class": "RetweetsOfMe",
+        "method": "GET",
+        "url": "https://api.twitter.com/1.1/statuses/retweets_of_me.json",
+        "parameters": [
+            { "since_id": "qint64" },
+            { "max_id": "qint64" },
+            { "count": "int" },
+            { "trim_user": "bool" },
+            { "include_entities": "bool" },
+            { "include_user_entities": "bool" }
+        ],
+        "response": "QTweetStatus"
     }
 ]

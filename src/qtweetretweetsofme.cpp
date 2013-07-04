@@ -1,58 +1,21 @@
-/* Copyright 2013 Antonie Jovanoski
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- * Contact e-mail: Antonie Jovanoski <minimoog77_at_gmail.com>
- */
-
 #include "qtweetretweetsofme.h"
-#include <QUrl>
-#include <QUrlQuery>
-#include <QNetworkReply>
 #include <QNetworkRequest>
-#include <QJsonDocument>
-#include <QJsonArray>
+#include <QNetworkReply>
+#include <QUrlQuery>
 #include "qtweetstatus.h"
 #include "qtweetconvert.h"
+#include <QJsonDocument>
+#include <QJsonArray>
 
-QTweetRetweetsOfMe::QTweetRetweetsOfMe(QObject *parent) :
-    QTweetNetBase(parent),
-    m_sinceId(0),
-    m_maxId(0),
-    m_count(0),
-    m_trimUser(false),
-    m_includeEntities(false),
-    m_includeUserEntities(false)
+QTweetRetweetsOfMe::QTweetRetweetsOfMe(QObject *parent) : QTweetNetBase(parent)
 {
 }
 
-QTweetRetweetsOfMe::QTweetRetweetsOfMe(OAuthTwitter *oauthTwitter, QObject *parent) :
-    QTweetNetBase(oauthTwitter, parent),
-    m_sinceId(0),
-    m_maxId(0),
-    m_count(0),
-    m_trimUser(false),
-    m_includeEntities(false),
-    m_includeUserEntities(false)
+QTweetRetweetsOfMe::QTweetRetweetsOfMe(OAuthTwitter *oauthTwitter, QObject *parent) : QTweetNetBase(oauthTwitter, parent)
 {
 }
 
-void QTweetRetweetsOfMe::fetch(qint64 sinceId,
-                               qint64 maxId,
-                               int count,
-                               bool trimUser,
-                               bool includeEntities,
-                               bool includeUserEntities)
+void QTweetRetweetsOfMe::fetch(qint64 since_id, qint64 max_id, int count, bool trim_user, bool include_entities, bool include_user_entities)
 {
     if (!isAuthenticationEnabled()) {
         qCritical("Needs authentication to be enabled");
@@ -62,22 +25,22 @@ void QTweetRetweetsOfMe::fetch(qint64 sinceId,
     QUrl url("https://api.twitter.com/1.1/statuses/retweets_of_me.json");
     QUrlQuery urlQuery;
 
-    if (sinceId != 0)
-        urlQuery.addQueryItem("since_id", QString::number(sinceId));
+    if (since_id != 0)
+        urlQuery.addQueryItem("since_id", QString::number(since_id));
 
-    if (maxId != 0)
-        urlQuery.addQueryItem("max_id", QString::number(maxId));
+    if (max_id != 0)
+        urlQuery.addQueryItem("max_id", QString::number(max_id));
 
     if (count != 0)
         urlQuery.addQueryItem("count", QString::number(count));
 
-    if (trimUser)
+    if (trim_user)
         urlQuery.addQueryItem("trim_user", "true");
 
-    if (includeEntities)
+    if (include_entities)
         urlQuery.addQueryItem("include_entities", "true");
 
-    if (includeUserEntities)
+    if (include_user_entities)
         urlQuery.addQueryItem("include_user_entities", "true");
 
     url.setQuery(urlQuery);
@@ -91,17 +54,11 @@ void QTweetRetweetsOfMe::fetch(qint64 sinceId,
     connect(reply, SIGNAL(finished()), this, SLOT(reply()));
 }
 
-void QTweetRetweetsOfMe::get()
-{
-    fetch(m_sinceId, m_maxId, m_count, m_trimUser, m_includeEntities, m_includeUserEntities);
-}
-
 void QTweetRetweetsOfMe::parseJsonFinished(const QJsonDocument &jsonDoc)
 {
     if (jsonDoc.isArray()) {
         QList<QTweetStatus> statuses = QTweetConvert::jsonArrayToStatusList(jsonDoc.array());
 
-        emit parsedStatuses(statuses);
+        emit statusList(statuses);
     }
 }
-
