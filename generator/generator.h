@@ -17,7 +17,8 @@ public:
         INT = 0,
         QINT64 = 1,
         BOOL = 2 ,
-        STRING = 3
+        STRING = 3,
+        NONE
     };
 
     enum ResponseType {
@@ -31,6 +32,7 @@ public:
     void setHttpMethod(HttpMethod method) { m_method = method; }
     void setResponseType(ResponseType type) { m_responseType = type; }
     void addParam(const QString& name, ParamType type);
+    void setRequiredParam(const QString& name, ParamType type);
 
     void generate()
     {
@@ -53,6 +55,7 @@ private:
     HttpMethod m_method;
     ResponseType m_responseType;
     QList<Parameter> m_params;
+    Parameter m_requiredParam;
 };
 
 #endif // GENERATOR_H

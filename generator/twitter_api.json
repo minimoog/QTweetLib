@@ -58,5 +58,16 @@
             { "include_user_entities": "bool" }
         ],
         "response": "QTweetStatus"
+    },
+    {
+        "class": "StatusesRetweetsId",
+        "method": "GET",
+        "url": "https://api.twitter.com/1.1/statuses/retweets/%1.json",
+        "required": { "id": "qint64" },
+        "parameters": [
+            { "count": "int" },
+            { "trim_user": "bool" }
+        ],
+        "response": "QTweetStatus"
     }
 ]

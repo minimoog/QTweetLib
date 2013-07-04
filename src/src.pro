@@ -72,12 +72,11 @@ HEADERS += \
     qtweetblocksexists.h \
     qtweetblocksblocking.h \
     qtweetblocksblockingids.h \
-    qtweetstatusretweetedby.h \
-    qtweetstatusretweetbyid.h \
     qtweetentitymedia.h \
     qtweetstatusupdatewithmedia.h \
     qtweetdirectmessagesshow.h \
-    qtweetretweetsofme.h
+    qtweetretweetsofme.h \
+    qtweetstatusesretweetsid.h
 
 SOURCES += \
     oauth.cpp \
@@ -139,12 +138,11 @@ SOURCES += \
     qtweetblocksexists.cpp \
     qtweetblocksblocking.cpp \
     qtweetblocksblockingids.cpp \
-    qtweetstatusretweetedby.cpp \
-    qtweetstatusretweetbyid.cpp \
     qtweetentitymedia.cpp \
     qtweetstatusupdatewithmedia.cpp \
     qtweetdirectmessagesshow.cpp \
-    qtweetretweetsofme.cpp
+    qtweetretweetsofme.cpp \
+    qtweetstatusesretweetsid.cpp
 
 OTHER_FILES +=
 

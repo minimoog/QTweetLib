@@ -41,6 +41,21 @@ int main(int argc, char *argv[])
                 if (details["response"].toString() == "QTweetStatus")
                     gen.setResponseType(Generator::Status);
 
+                if (details["required"].isObject()) {
+                    QJsonObject required = details["required"].toObject();
+                    QString paramName = required.keys().at(0);
+                    QString paramType = required.value(paramName).toString();
+
+                    if (paramType == "int")
+                        gen.setRequiredParam(paramName, Generator::INT);
+                    else if (paramType == "qint64")
+                        gen.setRequiredParam(paramName, Generator::QINT64);
+                    else if (paramType == "bool")
+                        gen.setRequiredParam(paramName, Generator::BOOL);
+                    else if (paramType == "string")
+                        gen.setRequiredParam(paramName, Generator::STRING);
+                }
+
                 QJsonArray params = details["parameters"].toArray();
 
                 for (QJsonArray::const_iterator it = params.constBegin(); it != params.constEnd(); ++it) {

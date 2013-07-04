@@ -25,6 +25,7 @@ const char * defaultValueString[] = {
 Generator::Generator(QObject *parent) :
     QObject(parent)
 {
+    m_requiredParam.type = NONE;
 }
 
 void Generator::addParam(const QString &name, ParamType type)
@@ -34,6 +35,12 @@ void Generator::addParam(const QString &name, ParamType type)
     parameter.type = type;
 
     m_params.push_back(parameter);
+}
+
+void Generator::setRequiredParam(const QString &name, ParamType type)
+{
+    m_requiredParam.name = name;
+    m_requiredParam.type = type;
 }
 
 void Generator::generateHeaderFile()
@@ -64,6 +71,10 @@ void Generator::generateHeaderFile()
 
         QString methodParams;
         QTextStream paramsStream(&methodParams);
+
+        if (m_requiredParam.type != NONE) {
+            paramsStream << paramString[m_requiredParam.type] << " " << m_requiredParam.name << ", ";
+        }
 
         foreach (const Parameter& parameter, m_params) {
             paramsStream << paramString[parameter.type] << " " << parameter.name;
@@ -123,6 +134,9 @@ void Generator::generateCppFile()
         QString methodParams;
         QTextStream paramsStream(&methodParams);
 
+        if (m_requiredParam.type != NONE)
+            paramsStream << paramString[m_requiredParam.type] << " " << m_requiredParam.name << ", ";
+
         foreach (const Parameter& parameter, m_params) {
             paramsStream << paramString[parameter.type] << " " << parameter.name << ", ";
         }
@@ -138,9 +152,16 @@ void Generator::generateCppFile()
         out << "    }\n";
         out << "\n";
 
-        out << "    QUrl url(\"" << m_url << "\");\n";
-        out << "    QUrlQuery urlQuery;\n";
-        out << "\n";
+        if (m_requiredParam.type != NONE && m_url.contains("%")) {
+            out << "    QString urlString = QString(\"" << m_url << "\").arg(" << m_requiredParam.name << ");\n";
+            out << "    QUrl url(urlString);\n";
+            out << "    QUrlQuery urlQuery;\n";
+            out << "\n";
+        } else {
+            out << "    QUrl url(\"" << m_url << "\");\n";
+            out << "    QUrlQuery urlQuery;\n";
+            out << "\n";
+        }
 
         foreach (const Parameter& parameter, m_params) {
             out << "    if (";
