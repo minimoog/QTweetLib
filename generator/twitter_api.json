@@ -11,7 +11,7 @@
             { "contributor_details" : "bool" },
             { "include_entities" : "bool" }
          ],
-        "response" : "QTweetStatus"
+        "response" : "ListStatus"
     },
     {
         "class": "UserTimeline",
@@ -28,7 +28,7 @@
             { "contributor_details" : "bool" },
             { "include_rts" : "bool" }
         ],
-        "response" : "QTweetStatus"
+        "response" : "ListStatus"
     },
     {
         "class": "HomeTimeline",
@@ -43,7 +43,7 @@
             { "contributor_details": "bool" },
             { "include_entities": "bool" }
         ],
-        "response": "QTweetStatus"
+        "response": "ListStatus"
     },
     {
         "class": "RetweetsOfMe",
@@ -57,7 +57,7 @@
             { "include_entities": "bool" },
             { "include_user_entities": "bool" }
         ],
-        "response": "QTweetStatus"
+        "response": "ListStatus"
     },
     {
         "class": "StatusesRetweetsId",
@@ -68,6 +68,6 @@
             { "count": "int" },
             { "trim_user": "bool" }
         ],
-        "response": "QTweetStatus"
+        "response": "ListStatus"
     }
 ]

@@ -22,7 +22,7 @@ public:
     };
 
     enum ResponseType {
-        Status
+        ListStatus
     };
 
     explicit Generator(QObject *parent = 0);

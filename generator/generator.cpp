@@ -87,7 +87,7 @@ void Generator::generateHeaderFile()
         out << ");\n\n";
         out << "signals:\n";
 
-        if (m_responseType == Status)
+        if (m_responseType == ListStatus)
             out << "    void statusList(const QList<QTweetStatus>& statuses);\n";
 
         out << "\n";
@@ -207,7 +207,7 @@ void Generator::generateCppFile()
         out << "void QTweet" << m_className << "::parseJsonFinished(const QJsonDocument &jsonDoc)\n";
         out << "{\n";
 
-        if (m_responseType == Status) {
+        if (m_responseType == ListStatus) {
             out << "    if (jsonDoc.isArray()) {\n";
             out << "        QList<QTweetStatus> statuses = QTweetConvert::jsonArrayToStatusList(jsonDoc.array());\n\n";
             out << "        emit statusList(statuses);\n";

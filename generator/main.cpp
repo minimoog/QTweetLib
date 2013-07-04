@@ -38,8 +38,8 @@ int main(int argc, char *argv[])
                 else if (details["method"].toString() == "POST")
                     gen.setHttpMethod(Generator::POST);
 
-                if (details["response"].toString() == "QTweetStatus")
-                    gen.setResponseType(Generator::Status);
+                if (details["response"].toString() == "ListStatus")
+                    gen.setResponseType(Generator::ListStatus);
 
                 if (details["required"].isObject()) {
                     QJsonObject required = details["required"].toObject();
