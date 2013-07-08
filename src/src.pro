@@ -22,7 +22,7 @@ HEADERS += \
     qtweetstatusupdate.h \
     qtweetuser.h \
     qtweetusertimeline.h \
-    qtweetstatusdestroy.h \
+    qtweetstatusesdestroy.h \
     qtweetstatusretweet.h \
     qtweetstatusretweets.h \
     qtweetusershow.h \
@@ -88,7 +88,7 @@ SOURCES += \
     qtweetstatusupdate.cpp \
     qtweetuser.cpp \
     qtweetusertimeline.cpp \
-    qtweetstatusdestroy.cpp \
+    qtweetstatusesdestroy.cpp \
     qtweetstatusretweet.cpp \
     qtweetstatusretweets.cpp \
     qtweetusershow.cpp \

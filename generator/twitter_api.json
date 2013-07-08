@@ -81,5 +81,15 @@
             { "include_entities": "bool" }
         ],
         "response": "Status"
+    },
+    {
+        "class": "StatusesDestroy",
+        "method": "POST",
+        "url": "https://api.twitter.com/1.1/statuses/destroy/%1.json",
+        "required": { "id": "qint64" },
+        "parameters": [
+            { "trim_user": "bool" }
+        ],
+        "response": "Status"
     }
 ]

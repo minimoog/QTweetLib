@@ -216,7 +216,12 @@ void Generator::generateCppFile()
             out << "    QNetworkReply *reply = oauthTwitter()->networkAccessManager()->get(req);\n";
             out << "    connect(reply, SIGNAL(finished()), this, SLOT(reply()));\n";
         } else if (m_method == POST) {
-            // ### TODO:
+            out << "    QByteArray oauthHeader = oauthTwitter()->generateAuthorizationHeader(url, OAuth::POST);\n";
+            out << "    req.setRawHeader(AUTH_HEADER, oauthHeader);\n";
+            out << "    req.setHeader(QNetworkRequest::ContentTypeHeader, \"application/x-www-form-urlencoded\");\n";
+            out << "\n";
+            out << "    QNetworkReply *reply = oauthTwitter()->networkAccessManager()->post(req, QByteArray());\n";
+            out << "    connect(reply, SIGNAL(finished()), this, SLOT(reply()));\n";
         }
 
         out << "}\n";
