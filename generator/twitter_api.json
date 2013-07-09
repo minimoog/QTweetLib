@@ -91,5 +91,15 @@
             { "trim_user": "bool" }
         ],
         "response": "Status"
+    },
+    {
+        "class": "StatusesRetweetId",
+        "method": "POST",
+        "url": "https://api.twitter.com/1.1/statuses/retweet/%1.json",
+        "required": { "id": "qint64" },
+        "parameters": [
+            { "trim_user": "bool" }
+        ],
+        "response": "Status"
     }
 ]

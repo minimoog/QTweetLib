@@ -23,8 +23,6 @@ HEADERS += \
     qtweetuser.h \
     qtweetusertimeline.h \
     qtweetstatusesdestroy.h \
-    qtweetstatusretweet.h \
-    qtweetstatusretweets.h \
     qtweetusershow.h \
     qtweetuserlookup.h \
     qtweetdirectmessages.h \
@@ -76,7 +74,8 @@ HEADERS += \
     qtweetdirectmessagesshow.h \
     qtweetretweetsofme.h \
     qtweetstatusesretweetsid.h \
-    qtweetstatusesshowid.h
+    qtweetstatusesshowid.h \
+    qtweetstatusesretweetid.h
 
 SOURCES += \
     oauth.cpp \
@@ -89,8 +88,6 @@ SOURCES += \
     qtweetuser.cpp \
     qtweetusertimeline.cpp \
     qtweetstatusesdestroy.cpp \
-    qtweetstatusretweet.cpp \
-    qtweetstatusretweets.cpp \
     qtweetusershow.cpp \
     qtweetuserlookup.cpp \
     qtweetdirectmessages.cpp \
@@ -142,7 +139,8 @@ SOURCES += \
     qtweetdirectmessagesshow.cpp \
     qtweetretweetsofme.cpp \
     qtweetstatusesretweetsid.cpp \
-    qtweetstatusesshowid.cpp
+    qtweetstatusesshowid.cpp \
+    qtweetstatusesretweetid.cpp
 
 OTHER_FILES +=
 
