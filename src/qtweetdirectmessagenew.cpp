@@ -57,7 +57,7 @@ void QTweetDirectMessageNew::post(qint64 user,
         return;
     }
 
-    QUrl url("http://api.twitter.com/1/direct_messages/new.json");
+    QUrl url("http://api.twitter.com/1.1/direct_messages/new.json");
 
     QUrl urlQuery(url);
 
@@ -92,7 +92,7 @@ void QTweetDirectMessageNew::post(const QString &screenName, const QString &text
         return;
     }
 
-    QUrl url("http://api.twitter.com/1/direct_messages/new.json");
+    QUrl url("http://api.twitter.com/1.1/direct_messages/new.json");
 
     QUrl urlQuery(url);
 
