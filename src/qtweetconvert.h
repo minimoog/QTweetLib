@@ -19,6 +19,7 @@
 #define QTWEETCONVERT_H
 
 #include <QList>
+#include <QString>
 
 class QTweetStatus;
 class QTweetUser;
@@ -34,6 +35,16 @@ class QTweetEntityMedia;
 
 class QJsonArray;
 class QJsonObject;
+
+/**
+ * Contains info to navigate collections (pages)
+ */
+struct PageIdCollection
+{
+    QList<qint64> ids;
+    QString nextCursor;
+    QString prevCursor;
+};
 
 /**
  *  Contains static converting functions
@@ -58,6 +69,7 @@ public:
     static QTweetEntityHashtag jsonObjectToEntityHashtag(const QJsonObject &jsonObject);
     static QTweetEntityUserMentions jsonObjectToEntityUserMentions(const QJsonObject& jsonObject);
     static QTweetEntityMedia jsonObjectToEntityMedia(const QJsonObject& jsonObject);
+    static PageIdCollection jsonToPageIdCollection(const QJsonObject& jsonObject);
 };
 
 #endif // QTWEETCONVERT_H

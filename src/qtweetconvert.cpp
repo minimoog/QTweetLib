@@ -537,3 +537,17 @@ QTweetEntityMedia QTweetConvert::jsonObjectToEntityMedia(const QJsonObject &json
 
     return entityMedia;
 }
+
+PageIdCollection QTweetConvert::jsonToPageIdCollection(const QJsonObject &jsonObject)
+{
+    PageIdCollection page;
+    QJsonArray idJsonArray = jsonObject["ids"].toArray();
+
+    for (int i = 0; i < idJsonArray.size(); ++i)
+        page.ids.append(static_cast<qint64>(idJsonArray[i].toDouble()));
+
+    page.nextCursor = jsonObject["next_cursor_str"].toString();
+    page.prevCursor = jsonObject["previous_cursor_str"].toString();
+
+    return page;
+}
