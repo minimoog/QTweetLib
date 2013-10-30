@@ -91,6 +91,8 @@ void Generator::generateHeaderFile()
             out << "    void statusList(const QList<QTweetStatus>& statuses);\n";
         else if (m_responseType == Status)
             out << "    void status(const QTweetStatus& status);\n";
+        else if (m_responseType == ListDM)
+            out << "    void messagesList(const QList<QTweetDMStatus>& messages);\n";
 
         out << "\n";
 
@@ -115,6 +117,7 @@ void Generator::generateCppFile()
         out << "#include <QNetworkReply>\n";
         out << "#include <QUrlQuery>\n";
         out << "#include \"qtweetstatus.h\"\n";
+        out << "#include \"qtweetdmstatus.h\"\n";
         out << "#include \"qtweetconvert.h\"\n";
         out << "#include <QJsonDocument>\n";
         out << "#include <QJsonArray>\n";
@@ -240,6 +243,12 @@ void Generator::generateCppFile()
             out << "        QTweetStatus parsedStatus = QTweetConvert::jsonObjectToStatus(jsonDoc.object());\n";
             out << "\n";
             out << "        emit status(parsedStatus);\n";
+            out << "    }\n";
+        } else if (m_responseType == ListDM) {
+            out << "    if (jsonDoc.isArray()) {\n";
+            out << "        QList<QTweetDMStatus> directMessages = QTweetConvert::jsonArrayToDirectMessagesList(jsonDoc.array());\n";
+            out << "\n";
+            out << "        emit messagesList(directMessages);\n";
             out << "    }\n";
         }
 
