@@ -3,9 +3,11 @@
 #include <QNetworkReply>
 #include <QUrlQuery>
 #include "qtweetstatus.h"
+#include "qtweetdmstatus.h"
 #include "qtweetconvert.h"
 #include <QJsonDocument>
 #include <QJsonArray>
+#include <QJsonObject>
 
 QTweetStatusesRetweetsId::QTweetStatusesRetweetsId(QObject *parent) : QTweetNetBase(parent)
 {

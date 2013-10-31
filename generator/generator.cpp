@@ -91,8 +91,10 @@ void Generator::generateHeaderFile()
             out << "    void statusList(const QList<QTweetStatus>& statuses);\n";
         else if (m_responseType == Status)
             out << "    void status(const QTweetStatus& status);\n";
-        else if (m_responseType == ListDM)
+        else if (m_responseType == ListDirectMessage)
             out << "    void messagesList(const QList<QTweetDMStatus>& messages);\n";
+        else if (m_responseType == DirectMessage)
+            out << "    void message(const QTweetDMStatus& message);\n";
 
         out << "\n";
 
@@ -244,11 +246,18 @@ void Generator::generateCppFile()
             out << "\n";
             out << "        emit status(parsedStatus);\n";
             out << "    }\n";
-        } else if (m_responseType == ListDM) {
+        } else if (m_responseType == ListDirectMessage) {
             out << "    if (jsonDoc.isArray()) {\n";
             out << "        QList<QTweetDMStatus> directMessages = QTweetConvert::jsonArrayToDirectMessagesList(jsonDoc.array());\n";
             out << "\n";
             out << "        emit messagesList(directMessages);\n";
+            out << "    }\n";
+        } else if (m_responseType == DirectMessage) {
+            out << "    if (jsonDoc.isArray()) {\n";
+            out << "       QList<QTweetDMStatus> directMessages = QTweetConvert::jsonArrayToDirectMessagesList(jsonDoc.array());\n";
+            out << "\n";
+            out << "        if (directMessages.size())\n";
+            out << "            emit message(directMessages.at(0));\n";
             out << "    }\n";
         }
 

@@ -24,7 +24,8 @@ public:
     enum ResponseType {
         ListStatus,
         Status,
-        ListDM
+        DirectMessage,
+        ListDirectMessage
     };
 
     explicit Generator(QObject *parent = 0);
