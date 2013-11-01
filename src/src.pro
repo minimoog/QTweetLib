@@ -39,7 +39,6 @@ HEADERS += \
     qtweetlistsubscribe.h \
     qtweetdirectmessagessent.h \
     qtweetdirectmessagenew.h \
-    qtweetdirectmessagedestroy.h \
     qtweetfriendshipcreate.h \
     qtweetfriendshipdestroy.h \
     qtweetfriendsid.h \
@@ -75,7 +74,8 @@ HEADERS += \
     qtweetretweetsofme.h \
     qtweetstatusesretweetsid.h \
     qtweetstatusesshowid.h \
-    qtweetstatusesretweetid.h
+    qtweetstatusesretweetid.h \
+    qtweetdirectmessagesdestroy.h
 
 SOURCES += \
     oauth.cpp \
@@ -104,7 +104,6 @@ SOURCES += \
     qtweetlistsubscribe.cpp \
     qtweetdirectmessagessent.cpp \
     qtweetdirectmessagenew.cpp \
-    qtweetdirectmessagedestroy.cpp \
     qtweetfriendshipcreate.cpp \
     qtweetfriendshipdestroy.cpp \
     qtweetfriendsid.cpp \
@@ -140,7 +139,8 @@ SOURCES += \
     qtweetretweetsofme.cpp \
     qtweetstatusesretweetsid.cpp \
     qtweetstatusesshowid.cpp \
-    qtweetstatusesretweetid.cpp
+    qtweetstatusesretweetid.cpp \
+    qtweetdirectmessagesdestroy.cpp
 
 OTHER_FILES +=
 
