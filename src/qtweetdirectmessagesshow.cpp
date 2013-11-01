@@ -48,4 +48,10 @@ void QTweetDirectMessagesShow::parseJsonFinished(const QJsonDocument &jsonDoc)
         if (directMessages.size())
             emit message(directMessages.at(0));
     }
+
+    if (jsonDoc.isObject()) {
+        QTweetDMStatus dm = QTweetConvert::jsonObjectToDirectMessage(jsonDoc.object());
+
+        emit message(dm);
+    }
 }

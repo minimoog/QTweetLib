@@ -167,6 +167,11 @@ void Generator::generateCppFile()
             out << "\n";
         } else {
             out << "    QUrl url(\"" << m_url << "\");\n";
+
+            if (m_method == POST) {
+                out << "    QUrl urlPost(\"" << m_url << "\");\n";
+            }
+
             out << "    QUrlQuery urlQuery;\n";
             out << "\n";
 
@@ -209,7 +214,11 @@ void Generator::generateCppFile()
             out << "\n";
         }
 
-        out << "    url.setQuery(urlQuery);\n";
+        if (m_method == POST && !m_url.contains("%"))
+            out << "    urlPost.setQuery(urlQuery);\n";
+        else
+            out << "    url.setQuery(urlQuery);\n";
+
         out << "\n";
         out << "    QNetworkRequest req(url);\n";
         out << "\n";
@@ -220,12 +229,22 @@ void Generator::generateCppFile()
             out << "\n";
             out << "    QNetworkReply *reply = oauthTwitter()->networkAccessManager()->get(req);\n";
             out << "    connect(reply, SIGNAL(finished()), this, SLOT(reply()));\n";
-        } else if (m_method == POST) {
+        } else if (m_method == POST && m_url.contains("%")) {
             out << "    QByteArray oauthHeader = oauthTwitter()->generateAuthorizationHeader(url, OAuth::POST);\n";
             out << "    req.setRawHeader(AUTH_HEADER, oauthHeader);\n";
             out << "    req.setHeader(QNetworkRequest::ContentTypeHeader, \"application/x-www-form-urlencoded\");\n";
             out << "\n";
             out << "    QNetworkReply *reply = oauthTwitter()->networkAccessManager()->post(req, QByteArray());\n";
+            out << "    connect(reply, SIGNAL(finished()), this, SLOT(reply()));\n";
+        } else if (m_method == POST) {
+            out << "    QByteArray oauthHeader = oauthTwitter()->generateAuthorizationHeader(url, OAuth::POST);\n";
+            out << "    req.setRawHeader(AUTH_HEADER, oauthHeader);\n";
+            out << "    req.setHeader(QNetworkRequest::ContentTypeHeader, \"application/x-www-form-urlencoded\");\n";
+            out << "\n";
+            out << "    QByteArray statusPost = urlPost.toEncoded(QUrl::RemoveScheme | QUrl::RemoveAuthority | QUrl::RemovePath);\n";
+            out << "    statusPost.remove(0, 1);\n";
+            out << "\n";
+            out << "    QNetworkReply *reply = oauthTwitter()->networkAccessManager()->post(req, statusPost);\n";
             out << "    connect(reply, SIGNAL(finished()), this, SLOT(reply()));\n";
         }
 
@@ -258,6 +277,12 @@ void Generator::generateCppFile()
             out << "\n";
             out << "        if (directMessages.size())\n";
             out << "            emit message(directMessages.at(0));\n";
+            out << "    }\n";
+            out << "\n";
+            out << "    if (jsonDoc.isObject()) {\n";
+            out << "        QTweetDMStatus dm = QTweetConvert::jsonObjectToDirectMessage(jsonDoc.object());\n";
+            out << "\n";
+            out << "        emit message(dm);\n";
             out << "    }\n";
         }
 
