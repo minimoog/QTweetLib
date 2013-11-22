@@ -57,7 +57,7 @@ void QTweetFriendshipCreate::create(qint64 userid,
         return;
     }
 
-    QUrl url("http://api.twitter.com/1/friendships/create.json");
+    QUrl url("http://api.twitter.com/1.1/friendships/create.json");
 
     QUrl urlQuery(url);
 
