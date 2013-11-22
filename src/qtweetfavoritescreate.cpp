@@ -54,7 +54,8 @@ void QTweetFavoritesCreate::create(qint64 statusid, bool includeEntities)
         return;
     }
 
-    QUrl url(QString("http://api.twitter.com/1/favorites/create/%1.json").arg(statusid));
+    QUrl url(QString("http://api.twitter.com/1.1/favorites/create.json"));
+    url.addQueryItem("id", QString::number(statusid));
 
     if (includeEntities)
         url.addQueryItem("include_entities", "true");

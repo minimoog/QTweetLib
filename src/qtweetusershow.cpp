@@ -41,7 +41,7 @@ QTweetUserShow::QTweetUserShow(OAuthTwitter *oauthTwitter, QObject *parent) :
  */
 void QTweetUserShow::fetch(qint64 userid, bool includeEntities)
 {
-    QUrl url("http://api.twitter.com/1/users/show.json");
+    QUrl url("http://api.twitter.com/1.1/users/show.json");
 
     url.addQueryItem("user_id", QString::number(userid));
 
@@ -66,7 +66,7 @@ void QTweetUserShow::fetch(qint64 userid, bool includeEntities)
  */
 void QTweetUserShow::fetch(const QString &screenName, bool includeEntities)
 {
-    QUrl url("http://api.twitter.com/1/users/show.json");
+    QUrl url("http://api.twitter.com/1.1/users/show.json");
 
     url.addQueryItem("screen_name", screenName);
 
