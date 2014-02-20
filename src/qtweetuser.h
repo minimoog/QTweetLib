@@ -77,6 +77,8 @@ public:
     bool isVerified() const;
     void setStatusesCount(int count);
     int statusesCount() const;
+    void setFollowing(bool following);
+    bool getFollowing() const;
     void setStatus(const QTweetStatus& lastStatus);
     QTweetStatus status() const;
 

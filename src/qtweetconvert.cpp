@@ -147,6 +147,7 @@ QTweetUser QTweetConvert::jsonObjectToUser(const QJsonObject &jsonObject)
         userInfo.setContributorsEnabled(jsonObject.value("contributors_enabled").toBool());
         userInfo.setListedCount(static_cast<int>(jsonObject.value("listed_count").toDouble()));
         userInfo.setLang(jsonObject.value("lang").toString());
+	userInfo.setFollowing(jsonObject.value("following").toBool());
 
         if (jsonObject.contains("status")) {
             QJsonObject jsonStatusObject = jsonObject.value("status").toObject();
