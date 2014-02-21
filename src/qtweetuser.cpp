@@ -64,6 +64,7 @@ public:
     qint64 statusInReplyToStatusId;
     bool statusFavorited;
     QString statusSource;
+    bool following;
     //QTweetUser user
     //QTweetStatus retweetedStatus; //check if there is retweeted status in user response
     //bool containsRetweetStatus;
@@ -306,6 +307,16 @@ void QTweetUser::setStatusesCount(int count)
 int QTweetUser::statusesCount() const
 {
     return d->statusesCount;
+}
+
+void QTweetUser::setFollowing(bool following)
+{
+    d->following = following;
+}
+
+bool QTweetUser::getFollowing() const
+{
+    return d->following;
 }
 
 void QTweetUser::setStatus(const QTweetStatus &lastStatus)

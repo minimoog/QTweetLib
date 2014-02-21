@@ -50,8 +50,8 @@ QTweetStatus QTweetConvert::jsonObjectToStatus(const QJsonObject& json)
 
     status.setCreatedAt(json["created_at"].toString());
     status.setText(json["text"].toString());
-    status.setId(static_cast<qint64>(json["id"].toDouble()));
-    status.setInReplyToUserId(static_cast<qint64>(json["in_reply_to_user_id"].toDouble()));
+    status.setId(static_cast<qint64>(json["id_str"].toString().toLong()));
+    status.setInReplyToUserId(static_cast<qint64>(json["in_reply_to_user_id_str"].toString().toLong()));
     status.setInReplyToScreenName(json["in_reply_to_screen_name"].toString());
     status.setFavorited(json["favorited"].toBool());
 
@@ -60,7 +60,7 @@ QTweetStatus QTweetConvert::jsonObjectToStatus(const QJsonObject& json)
     status.setUser(user);
 
     status.setSource(json["source"].toString());
-    status.setInReplyToStatusId(static_cast<qint64>(json["in_reply_to_status_id"].toDouble()));
+    status.setInReplyToStatusId(static_cast<qint64>(json["in_reply_to_status_id_str"].toString().toLong()));
 
     //check if contains native retweet
     if (json.contains("retweeted_status")) {
@@ -126,7 +126,7 @@ QTweetUser QTweetConvert::jsonObjectToUser(const QJsonObject &jsonObject)
 {
     QTweetUser userInfo;
 
-    userInfo.setId(static_cast<qint64>(jsonObject.value("id").toDouble()));
+    userInfo.setId(static_cast<qint64>(jsonObject.value("id_str").toString().toLong()));
 
     if (jsonObject.contains("name")) {
         userInfo.setName(jsonObject.value("name").toString());
@@ -147,6 +147,7 @@ QTweetUser QTweetConvert::jsonObjectToUser(const QJsonObject &jsonObject)
         userInfo.setContributorsEnabled(jsonObject.value("contributors_enabled").toBool());
         userInfo.setListedCount(static_cast<int>(jsonObject.value("listed_count").toDouble()));
         userInfo.setLang(jsonObject.value("lang").toString());
+	userInfo.setFollowing(jsonObject.value("following").toBool());
 
         if (jsonObject.contains("status")) {
             QJsonObject jsonStatusObject = jsonObject.value("status").toObject();
@@ -185,14 +186,14 @@ QTweetDMStatus QTweetConvert::jsonObjectToDirectMessage(const QJsonObject &jsonO
 
     directMessage.setText(jsonObject.value("text").toString());
     directMessage.setRecipientScreenName(jsonObject["recipient_screen_name"].toString());
-    directMessage.setId(static_cast<qint64>(jsonObject["id"].toDouble()));
+    directMessage.setId(static_cast<qint64>(jsonObject["id_str"].toString().toLong()));
 
     QJsonObject jsonObjectRecipient = jsonObject["recipient"].toObject();
     QTweetUser recipient = jsonObjectToUser(jsonObjectRecipient);
     directMessage.setRecipient(recipient);
 
-    directMessage.setRecipientId(static_cast<qint64>(jsonObject["recipient_id"].toDouble()));
-    directMessage.setSenderId(static_cast<qint64>(jsonObject["sender_id"].toDouble()));
+    directMessage.setRecipientId(static_cast<qint64>(jsonObject["recipient_id_str"].toString().toLong()));
+    directMessage.setSenderId(static_cast<qint64>(jsonObject["sender_id_str"].toString().toLong()));
 
     return directMessage;
 }
@@ -209,7 +210,7 @@ QTweetList QTweetConvert::jsonObjectToTweetList(const QJsonObject& jsonObject)
     list.setSubscriberCount(static_cast<int>(jsonObject["subscriber_count"].toDouble()));
     list.setSlug(jsonObject["slug"].toString());
     list.setName(jsonObject["name"].toString());
-    list.setId(static_cast<qint64>(jsonObject["id"].toDouble()));
+    list.setId(static_cast<qint64>(jsonObject["id_str"].toString().toLong()));
     list.setUri(jsonObject["uri"].toString());
 
     if (jsonObject.contains("user")) {
@@ -258,7 +259,7 @@ QTweetSearchResult QTweetConvert::jsonObjectToSearchResult(const QJsonObject& js
 
     result.setCreatedAt(jsonObject["created_at"].toString());
     result.setFromUser(jsonObject["from_user"].toString());
-    result.setId(static_cast<qint64>(jsonObject["id"].toDouble()));
+    result.setId(static_cast<qint64>(jsonObject["id_str"].toString().toLong()));
     result.setLang(jsonObject["iso_language_code"].toString());
     result.setProfileImageUrl(jsonObject["profile_image_url"].toString());
     result.setSource(jsonObject["source"].toString());
